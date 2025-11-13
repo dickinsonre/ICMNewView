@@ -400,6 +400,79 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.8",
+    version: "2021.8",
+    releaseDate: "2021-10-01",
+    features: [
+      {
+        id: "2021.8-swmm-2d-boundary",
+        title: "2D Boundary Objects for SWMM Networks",
+        description: "2D Boundary objects define alternative boundary line conditions along 2D Zone boundary sections. Overrides 2D Zone boundary type where lines coincide. All boundary types available (Vertical wall, Critical, Supercritical, Dry, Normal) plus additional types for boundary lines. Inflow/Level hydrographs via events. Level & Head/discharge type uses head unit flow association.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.8-swmm-head-unit-flow",
+        title: "Head Unit Flow Objects for SWMM Networks",
+        description: "New Head unit flow object for SWMM networks. Associates with 2D Boundary objects (Level & Head/discharge type). Level event profile provides water depth at boundary. Head calculated from depth difference. Unit flow or flow per unit length determined by head unit flow table.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.8-xpx-2d-boundary-roughness-import",
+        title: "2D Boundary and Roughness Zone Import from XPSWMM/XPStorm",
+        description: "Import 2D boundary and Roughness zone objects from XPSWMM/XPStorm xpx files to InfoWorks or SWMM networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.8-xpx-ic-zone-import",
+        title: "InfoWorks IC Zone - Hydraulic (2D) Import from XPSWMM/XPStorm",
+        description: "Import IC zone - hydraulic (2D) objects from XPSWMM/XPStorm xpx files to InfoWorks networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.8-xpx-events-import",
+        title: "Inflow and Level Event Import from XPSWMM/XPStorm",
+        description: "Import data from XPSWMM/XPStorm xpx files to Inflow and Level events for InfoWorks and SWMM networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.8-asset-property-sheets",
+        title: "Asset Network Object Property Sheet Display Change",
+        description: "Asset network object property sheets now display by default in Property Editor in Object Properties Window (previously tabbed modal sheet). Configurable via Use property editor for asset network objects option in General Page of Options dialog.",
+        category: "Usability"
+      },
+      {
+        id: "2021.8-help-menu-reorder",
+        title: "Help Menu Option Reordering",
+        description: "Help option moved to first position in Help menu (previously Desktop analytics was first).",
+        category: "Usability"
+      },
+      {
+        id: "2021.8-swmm-job-progress",
+        title: "Job Progress Details for SWMM 2D Simulations",
+        description: "Job progress window displays details for jobs with SWMM 2D network objects: Minimum 2D timestep, 2D Zone ID, Element ID, Wet area, Inundated area, Max wet/inundated area, 2D volume, volume error, rainfall, average inflow/outflow. Timestep details shown for SWMM networks.",
+        category: "Results"
+      },
+      {
+        id: "2021.8-prn-file-changes",
+        title: "PRN File Format Updates",
+        description: "PRN results text report Start of run date/time now in ISO 8601 format with UTC time zone offset (simulations still use local time). Licence number removed from report title and header.",
+        category: "Results"
+      },
+      {
+        id: "2021.8-icm-exchange-tcp",
+        title: "TCP/IP Connection for Local Agent via ICM Exchange",
+        description: "TCP/IP connection now available for connecting to local agent using ICM Exchange.",
+        category: "Development"
+      },
+      {
+        id: "2021.8-workgroup-authentication",
+        title: "Workgroup Data Server Authentication Requirement",
+        description: "Workgroup data server now requires user authentication by default.",
+        category: "Administration"
+      }
+    ]
+  },
+  {
     id: "2023.0",
     version: "2023.0",
     releaseDate: "2022-03-01",
