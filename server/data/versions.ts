@@ -465,6 +465,157 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "8.5",
+    version: "8.5",
+    releaseDate: "2017-11-01",
+    features: [
+      {
+        id: "8.5-rainfall-profile-increase",
+        title: "Massive Rainfall Profile Capacity Increase",
+        description: "User-created rainfall events support 999,999,999 profiles. TSDB-generated events support 2,147,483,647 profiles with binary format for efficiency and faster run times. Enables finer resolution spatial rainfall over greater areas.",
+        category: "Performance"
+      },
+      {
+        id: "8.5-tsdb-enhancements",
+        title: "TSDB Description Fields and User Edit Options",
+        description: "New Description field in Observed/Forecast pages for organizational information. Enhanced User Edits context menu: set/adjust cell values, insert timestep(s), add multiple timesteps via dialogs.",
+        category: "Data Management"
+      },
+      {
+        id: "8.5-object-per-page-observed",
+        title: "Multiple Observed Data Streams in Custom Graphs",
+        description: "Object Per Page custom graphs display multiple observed data streams (previously only first stream shown).",
+        category: "Visualization"
+      },
+      {
+        id: "8.5-initial-conditions-2d-import-export",
+        title: "Initial Conditions 2D Import/Export",
+        description: "Import initial conditions from CSV files into new/existing Initial Conditions 2D objects. Export from existing objects to CSV files.",
+        category: "Data Management"
+      },
+      {
+        id: "8.5-sim-id-statistical-reports",
+        title: "Sim ID in Statistical Reports",
+        description: "New Sim ID field containing unique database identifier for simulations included in statistical reports and CSV exports.",
+        category: "Results"
+      },
+      {
+        id: "8.5-icm-exchange-meshing",
+        title: "ICM Exchange Meshing and Subcatchment Methods",
+        description: "Perform meshing using ICM Exchange. New 'contains?', 'objects_in_polygons', and 'inside' methods available for subcatchments.",
+        category: "Development"
+      },
+      {
+        id: "8.5-rtc-editor-improvements",
+        title: "RTC Editor Regulator Addition Performance",
+        description: "Significantly improved process for adding regulators in RTC window and grid editors, especially noticeable with large RTCs.",
+        category: "Performance"
+      },
+      {
+        id: "8.5-block-spillage-method",
+        title: "UK Environment Agency Block Spillage Method",
+        description: "UK 12/24 hour block spillage method for flow discharge statistics. New UK 12/24 block spill counting option in Statistic Template with results in Statistical Report View grid.",
+        category: "Results"
+      },
+      {
+        id: "8.5-flood-sections",
+        title: "Flood Sections for 2D Mesh Interrogation",
+        description: "Extended 2D results interrogation to include flood sections. Results Section (formerly 2D Result Line) analysis object with Section Pick tool displaying flood sections on GeoPlan.",
+        category: "Visualization"
+      },
+      {
+        id: "8.5-custom-graph-performance",
+        title: "Faster Observed/Predicted Custom Graph Opening",
+        description: "Quicker opening of complex observed/predicted custom graphs with monitored progress and cancellation option.",
+        category: "Performance"
+      },
+      {
+        id: "8.5-infworks-rs-confluences",
+        title: "InfoWorks RS River Confluence Import",
+        description: "Import river confluences (RS junction nodes) from InfoWorks RS as break nodes with connectivity link-based river reach connections.",
+        category: "Integration"
+      },
+      {
+        id: "8.5-hec-ras-enhancements",
+        title: "HEC-RAS 2D Geometry Import/Export Extensions",
+        description: "Extended HEC-RAS geometry for 2D modeling and shaped lateral banks. Import: Storage Area (2D), Land Cover Regions, BC Lines, Break Lines, Connections. Export: 2D Zones, Roughness Zones, 2D Boundaries, General Lines, Base Linear Structures. X,Y coordinates for lateral structures enabling curved lines.",
+        category: "Integration"
+      },
+      {
+        id: "8.5-swmm-5-1-012",
+        title: "SWMM v5.1.012 Engine Update",
+        description: "Simulation engine SWMM5 components updated to v5.1.0.12. EPA SWMM v5.1.012 file import support via SWMM5 importer.",
+        category: "Integration"
+      },
+      {
+        id: "8.5-blockages",
+        title: "Time-Varying Blockages with Loss Coefficients",
+        description: "Model time-varying obstructions with user-defined contraction/expansion loss coefficients in channels, conduits, river reaches, or bridge openings. Blockages/bridge blockages usable in RTCs like other regulatory structures.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-2d-bank-boundary-overlap",
+        title: "1D/2D Banks Overlapping 2D Boundaries Support",
+        description: "CPU and GPU 2D engines support overlapping banks. Flow through faces on both bank and 2D boundary calculated as sum (bank flow + boundary flow). Previously banks ignored when overlapped.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-head-unit-flows-2d",
+        title: "Head Unit Flows for 2D Boundaries",
+        description: "Level & Head/discharge boundary type combining level boundary condition with head/discharge relationship. Head unit flow table association with depth-based head calculation for flow at boundary elements.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-permeable-zones",
+        title: "Permeable Zone (2D) for Infiltrated Volume Transfer",
+        description: "Transfer infiltrated volume from 2D surface into 1D network via Permeable Zone (2D) objects (e.g., SUDS permeable surfaces). Visual GeoPlan arrow representation with time varying/maxima/minima infiltration results.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-multi-barrel-links",
+        title: "Multi-Barrel Links for Parallel Conduits/Channels",
+        description: "Specify number of identical parallel channels/conduits between same nodes via Number of barrels parameter. Improves efficiency and accuracy vs. defining multiple identical links. Affects simulation, storage, pruning, and numerical correction calculations.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-2d-linear-structure-headloss",
+        title: "Enhanced Headloss Coefficients for 2D Linear Structures",
+        description: "Separate upstream/downstream or uniform headloss coefficients for base/bridge/sluice linear structures (2D). Choose fixed (mesh dependent) or per unit length (mesh independent) calculation. New Unit Headloss Coefficient (UHC) unit. Multiple new headloss fields.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-swmm5-rdii",
+        title: "SWMM5 RDII Implementation Option",
+        description: "Choose SWMM5 RDII (Rainfall Derived Infiltration/Inflow) or pre-SWMM5 implementation. New Use SWMM5 RDII simulation parameter (checked default for new networks, unchecked for existing). Required for Monthly RTK Hydrographs but incompatible with multiple RTK subcatchments draining to same node.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-user-defined-modular-limits",
+        title: "Modular Limits for User-Defined Controls",
+        description: "Modular limits using upstream depth for free/drowned flow conditions from head discharge tables. Drowning factor applied when downstream/upstream depth ratio exceeds modular limit.",
+        category: "Modeling"
+      },
+      {
+        id: "8.5-alternative-flow-units",
+        title: "Alternative Flow Display Units",
+        description: "Four new flow display units: mega litres per day (Ml/day), mega litres per hour (Ml/hour), cubic meters per day (m3/day), cubic meters per hour (m3/hour).",
+        category: "Usability"
+      },
+      {
+        id: "8.5-resizable-sql-dialog",
+        title: "Resizable SQL Dialog",
+        description: "SQL dialog now resizable with expanding edit area. Applies to main SQL dialog (not TVD connector/theme expressions with fixed size).",
+        category: "Usability"
+      },
+      {
+        id: "8.5-australian-rainfall-2016",
+        title: "Australian Rainfall (2016) Design Generator",
+        description: "New design rainfall generator using ARR Storm Generator for ensemble design rainfall based on ARR (2016) guidance. Obtains data from ARR website and BOM website. Select individual events or construct AEP/duration ensembles. Previous option renamed to Australian Rainfall (1987).",
+        category: "Hydrology"
+      }
+    ]
+  },
+  {
     id: "8.0",
     version: "8.0",
     releaseDate: "2017-05-01",
