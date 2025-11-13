@@ -400,6 +400,91 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.2",
+    version: "2021.2",
+    releaseDate: "2021-02-01",
+    features: [
+      {
+        id: "2021.2-feh2013-custom-timesteps",
+        title: "FEH2013 Rainfall Generator Custom Timesteps",
+        description: "FEH2013 design rainfall generator now allows custom timesteps in seconds (not just default 60 seconds). New Timestep field controls event data entry spacing in resulting rainfall time series. TSD functionality requires TSD licence option.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.2-canadian-grib2-radar",
+        title: "Canadian GRIB 2 Format Radar Data Support",
+        description: "Forecast radar data in GRIB2 format from Canadian Meteorological Centre (CMC) now supported. Use Grib 1 (forecast) option in Data file format field in Spatial Time Series Database Configuration dialog.",
+        category: "Data Management"
+      },
+      {
+        id: "2021.2-geotiff-ground-models",
+        title: "Importing Gridded Ground Models from GeoTIFF",
+        description: "Gridded ground models can now be imported from GeoTIFF tagged image file format (.tiff) or tagged image format (.tif) files.",
+        category: "Data Management"
+      },
+      {
+        id: "2021.2-infodrainage-import",
+        title: "Importing InfoDrainage Network Data",
+        description: "InfoDrainage network data can now be imported from IDDX format files. Hydrograph Inflows also importable as Inflow event from IDDX. Ruby script import supported via ICM Exchange.",
+        category: "Integration"
+      },
+      {
+        id: "2021.2-multi-coliforms",
+        title: "Multi-Coliforms Modelling",
+        description: "Support for multiple coliform pollutants (CF1-CF4) in water quality simulations. Diffusion coefficients include CF1-CF4 options. Extended determinants for Decaying pollutants and User defined processes (CF1DIS-CF4DIS dissolved, CF1SF1-CF4SF1/CF1SF2-CF4SF2 attached to sediment fractions). Updated Pollutograph with C1D-C4D tabs for dissolved coliform concentrations. QM Parameter dialog includes CF1-CF4 pollutants. New units: Coliform concentration, exponential decay, maximum decay rate, Coliforms (EC/IE), Coliform potency (CP).",
+        category: "Water Quality"
+      },
+      {
+        id: "2021.2-xprafts-retarding-basin",
+        title: "Importing Retarding Basin Data from XPRAFTS",
+        description: "Retarding basin data can now be imported from XPRAFTS XPX files to storage type nodes in InfoWorks networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.2-statistics-templates-network-type",
+        title: "Statistics Templates Network Type Selection",
+        description: "Statistics template updated with Network type dropdown (InfoWorks or SWMM). Location type items limited to applicable network type. SWMM networks can now include TVD Connector attributes in statistical reports.",
+        category: "Results"
+      },
+      {
+        id: "2021.2-swmm-mass-unit-factor",
+        title: "Mass Unit Factor for SWMM Node Pollutant Inflows",
+        description: "New Mass units factor for each SWMM node's pollutant inflow replaces deprecated Units factor in profile properties (retained for backwards compatibility). Converts pollutant mass from TSDB or event units to model units. SWMM5 INP import/export now uses Mass units factor for 'Mfactor' in [INFLOWS] section. Warning logged if both Units factor and Mass units factor applied (double application).",
+        category: "SWMM"
+      },
+      {
+        id: "2021.2-swmm-rain-gage-boundaries",
+        title: "Rain Gage Boundaries for SWMM Networks",
+        description: "Rain gage boundaries can now be specified for SWMM networks to define areas for spatially varying rainfall.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.2-swmm-export-infiltration",
+        title: "SWMM Network Export to SWMM5 File Updates",
+        description: "Subcatchment Infiltration model, Soils properties, and soil properties now exported to [INFILTRATION] section of SWMM5 INP file (previously [Innovyze_Supplementary_Infiltration] section).",
+        category: "Integration"
+      },
+      {
+        id: "2021.2-swmm-engine-update",
+        title: "SWMM Engine Update to v5.1.015",
+        description: "SWMM5 components in SWMM simulation engine updated to SWMM 5.1.015.",
+        category: "Development"
+      },
+      {
+        id: "2021.2-swmm-general-lines",
+        title: "General Lines for SWMM Networks",
+        description: "General Line objects can now be added to SWMM networks. Used in mesh generation process for 2D modelling (when available) to model features acting as break lines or walls in 2D Zones.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.2-swmm-flood-type",
+        title: "Flood Type Property for SWMM Nodes",
+        description: "New Flood type property for Junction nodes determines flooding handling when 2D simulations available for SWMM networks.",
+        category: "SWMM"
+      }
+    ]
+  },
+  {
     id: "2021.3",
     version: "2021.3",
     releaseDate: "2021-03-01",
