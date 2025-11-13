@@ -465,6 +465,127 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "3.0",
+    version: "3.0",
+    releaseDate: "2012-08-01",
+    features: [
+      {
+        id: "3.0-hecras-import",
+        title: "HEC-RAS File Import",
+        description: "New ability to import network objects from HEC-RAS geometry files including cross sections, interpolate sections, river reaches, storage areas, lateral structures, and partial bridge import.",
+        category: "Data Management"
+      },
+      {
+        id: "3.0-cross-section-window",
+        title: "Cross Section Window",
+        description: "New modeless Cross Section Window with toolbar button allowing real-time visualization of water level changes for river sections, banks, bridges, and inline banks during simulation replay without blocking software control.",
+        category: "Visualization"
+      },
+      {
+        id: "3.0-multiple-catchments",
+        title: "Multiple ReFH/FEH Catchments",
+        description: "ReFH and FEH design rainfall generators updated to support multiple catchments in single rainfall event with profile viewing and rain gauge boundary association for each catchment.",
+        category: "Hydrology"
+      },
+      {
+        id: "3.0-network-results",
+        title: "Network Results Objects",
+        description: "New network results point/line/polygon objects for interrogating 1D and 2D results with simulation engine-generated data providing more accurate results than previous Results Analysis Objects.",
+        category: "Results"
+      },
+      {
+        id: "3.0-resample-elevations",
+        title: "Resample 2D Zone Elevations Without Re-meshing",
+        description: "New functionality to recalculate ground levels of 2D mesh elements by sampling ground models without requiring complete zone re-meshing.",
+        category: "Meshing"
+      },
+      {
+        id: "3.0-mesh-zone-modifications",
+        title: "Mesh Zone Ground Level Modifications at Meshing Time",
+        description: "Ground level adjustments in mesh zones now performed during meshing instead of simulation time, allowing visualization in 3D Network Window and properties dialogs for both models and results.",
+        category: "Meshing"
+      },
+      {
+        id: "3.0-2d-structures",
+        title: "Enhanced 2D Linear Structures",
+        description: "New Blockage field for 2D linear weir structures to specify blocked proportions, plus new Sluice Linear Structure (2D) objects for defining sluice gates with dimensions, coefficients, and positioning.",
+        category: "Modeling"
+      },
+      {
+        id: "3.0-water-quality",
+        title: "Advanced Water Quality Modeling",
+        description: "Comprehensive water quality enhancements including algae (dissolved/attached), macrophytes, silicate, adsorbed phosphorus, solar radiation, and detrital pollutants modeling with performance improvements for dissolved oxygen calculations.",
+        category: "Water Quality"
+      },
+      {
+        id: "3.0-pollutograph-csv",
+        title: "Pollutograph CSV Export/Import",
+        description: "New ability to export/import pollutograph data to/from InfoWorks format CSV files for each determinant, enabling data exchange and pollutograph creation/updates.",
+        category: "Data Management"
+      },
+      {
+        id: "3.0-autocad-annotations",
+        title: "AutoCAD Annotation and Distance Tools",
+        description: "Import AutoCAD text annotations via general lines with custom autolabels for display, new Make Measured Length tool for geometry adjustment, arrow style property for line objects, and AutoCAD 2013 format support.",
+        category: "Integration"
+      },
+      {
+        id: "3.0-simulation-enhancements",
+        title: "Simulation State and Control Enhancements",
+        description: "Save simulation states at specified time/date (not just end state), optional rainfall smoothing control, and Message Log Window for tracking all popup messages since application start.",
+        category: "Modeling"
+      },
+      {
+        id: "3.0-gpu-improvements",
+        title: "GPU Functionality Improvements",
+        description: "Enhanced GPU support with improved feedback in simulation logs and progress window, GPU engine support for 2D infiltration, and detailed 2D timestep feedback including minimum timestep location and element ID.",
+        category: "Performance"
+      },
+      {
+        id: "3.0-2d-compression",
+        title: "2D Zone Mesh Data Compression",
+        description: "2D zone mesh data now compressed when stored in networks, significantly reducing storage space for large 2D zones and speeding up version control operations.",
+        category: "Performance"
+      },
+      {
+        id: "3.0-workflow-improvements",
+        title: "Workflow and Usability Improvements",
+        description: "Drag and drop model groups to networks, scenario/version selection when exporting networks, append to existing data option in Open Data Export Centre, and system theme fonts option.",
+        category: "Usability"
+      },
+      {
+        id: "3.0-sql-enhancements",
+        title: "SQL Enhancements",
+        description: "New GAMMALN function, date/time processing functions (NUMTOMONTHNAME, TODATE, TODATETIME), boolean support in prompt grids, and display precision control for SQL values in labels.",
+        category: "Development"
+      },
+      {
+        id: "3.0-long-section",
+        title: "Long Section Enhancements",
+        description: "Horizontal grid lines display option, new chainage type options (Specified/Geographical/Schematic), improved null elevation handling, enhanced flood section display with path visualization, and improved AutoCAD DWG export.",
+        category: "Visualization"
+      },
+      {
+        id: "3.0-graphing",
+        title: "Comprehensive Graphing Enhancements",
+        description: "Persistent page orientation, customizable time axis labels, Y-axis decimal precision control, axis scaling in defaults, interpolated values in tooltips, auto-label traces at simulation time, custom font/size for graph keys, and custom graph properties dialog.",
+        category: "Visualization"
+      },
+      {
+        id: "3.0-navigation",
+        title: "Navigation and Display Improvements",
+        description: "Show all in grid navigation option for connected/related objects, increased coordinate precision in status bar (up to 6 decimal places), improved graph printing with point/pixel unit selection.",
+        category: "Usability"
+      },
+      {
+        id: "3.0-database-compatibility",
+        title: "Database Version Compatibility",
+        description: "Ability to open version 2.0 and 2.5 databases read-only without updating, allowing objects to be copied to current master database while maintaining backward compatibility.",
+        category: "Data Management"
+      }
+    ]
+  },
+  {
     id: "2.5",
     version: "2.5",
     releaseDate: "2012-02-01",
