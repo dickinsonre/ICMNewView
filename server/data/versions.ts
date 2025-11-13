@@ -400,6 +400,187 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.1",
+    version: "2021.1",
+    releaseDate: "2020-11-01",
+    features: [
+      {
+        id: "2021.1-version-numbering",
+        title: "Version Numbering Change to 2021.x",
+        description: "Version numbering changed to align with other Innovyze products. This version is 2021.1 (would have been 11.5 under previous system).",
+        category: "Administration"
+      },
+      {
+        id: "2021.1-clip-meshing-default",
+        title: "Clip Meshing as Default Mesh Generation",
+        description: "Clip meshing now default for all new 2D Zones. Excels with highly complex geometry, averages 4x faster than classic method. Switchable between Clip and Classic in 2D Zone properties. User-defined defaults configurable per network.",
+        category: "Meshing"
+      },
+      {
+        id: "2021.1-thales-licence",
+        title: "Thales Licence Support for Workgroup Agents",
+        description: "Thales licence type now available for remote workgroup agents. Engine size field allows selection of appropriate size (nodes/elements processed). Code displayed in read-only field.",
+        category: "Administration"
+      },
+      {
+        id: "2021.1-workgroup-database-groups",
+        title: "Workgroup Master Database Groups",
+        description: "Workgroup master databases can now be assigned to groups. New Master Database dialog allows group selection/creation and database naming. Group field in Open Master Database dialog filters databases by group.",
+        category: "Administration"
+      },
+      {
+        id: "2021.1-excluded-object-tools",
+        title: "Excluded Object Selection and Restoration for Scenarios",
+        description: "New Excluded object select tool selects excluded objects (present in base network, not in current scenario) from GeoPlan. Works with Polygon select, Trace/select links, Select all objects, Refine selection, Select isolated nodes. Restore selected excluded objects function restores chosen excluded objects to current scenario.",
+        category: "Usability"
+      },
+      {
+        id: "2021.1-extend-cross-sections",
+        title: "Extending Cross Sections",
+        description: "Selected cross sections can be automatically extended using Geometry > Extend cross sections option. Extend Selected Cross Section Dialog allows choosing which sections (left, right, both) and extension distance. Optional extension to bank line intersections. Ground model integration for vertex spacing and elevation setting (useful for combining surveyed channel data with floodplain ground model).",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-straighten-lines",
+        title: "Straightening Lines",
+        description: "Selected InfoWorks network lines can be straightened between start/end points or perpendicular to selected link using Geometry > Straighten selected lines option.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-manning-roughness-weighting",
+        title: "Weighting Choice for Manning's Roughness",
+        description: "New Weight Manning roughness by n checkbox in simulation parameters allows choosing whether Manning's roughness weighted by n (HEC-RAS method) or 1/n (default for backward compatibility). Ensures same calculations as HEC-RAS when modelling in ICM.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-tin-ground-models",
+        title: "TIN Ground Model Import from Multiple Formats",
+        description: "TIN ground models can now be imported from 12D, XPTIN, and LandXML formatted files. LandXML files can create new TIN ground models. Two new External Data Source types: LandXML (Breakline, Definition) and LandXML (Contour, Datapoints).",
+        category: "Data Management"
+      },
+      {
+        id: "2021.1-subcatchment-2d-point-source",
+        title: "Subcatchment Drainage to 2D Point Source",
+        description: "New 2D point source option in subcatchment Drains to property allows outflows directly to 2D elements (previously required indirect application via 1D objects). Represented on GeoPlan as large arrows.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-2d-flood-mapping-performance",
+        title: "Improved Performance for 2D Flood Mapping",
+        description: "Flood contour performance improvement exceeding order of magnitude faster in some cases, especially with large TIN surfaces.",
+        category: "Performance"
+      },
+      {
+        id: "2021.1-minimum-flood-depth",
+        title: "Minimum Depth for Displaying Flood Extents",
+        description: "New Minimum calculated depth field in Layer Theme Editor for Flood object layer. Specifies minimum 2D depth for flood theme consideration. Elements not exceeding specified value excluded from flood theme generation.",
+        category: "Visualization"
+      },
+      {
+        id: "2021.1-2d-zone-3d-rendering",
+        title: "Rendering Options for 2D Zones in 3D Network Window",
+        description: "Three rendering options for 2D zone mesh triangles: Original (angular profile), Smoothed (smoothed profile across elements), Do not show. Smoothed option includes Translucent water and Graded water level transition options. Optional wireframe overlay for smoothed zones.",
+        category: "Visualization"
+      },
+      {
+        id: "2021.1-rectangular-flap-valve",
+        title: "Rectangular Flap Valve Type",
+        description: "New Valve type field for InfoWorks flap valves: Circular (default) or Rectangular. Rectangular type uses Width and Height fields. Circular uses Diameter field. Existing flap valves default to Circular.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-water-quality-sweep-parameters",
+        title: "Water Quality SWMM Build-up/Washoff Sweep Parameters",
+        description: "SWMM build-up/washoff model now supports water quality simulations where Sweep end month/day earlier than Sweep start month/day.",
+        category: "Water Quality"
+      },
+      {
+        id: "2021.1-day-night-coliform-decay",
+        title: "Day and Night Coliform Decay",
+        description: "Different coliform decay values for day and night. T90 field specifies day value, new T90 night field specifies night value. Requires solar radiation profile in rainfall event. Models increased mortality due to light intensity during day.",
+        category: "Water Quality"
+      },
+      {
+        id: "2021.1-diffusion-defaults",
+        title: "Default Values for Diffusion in Conduits",
+        description: "Default values for 1D diffusion changed to River, 0, 0, 0 (previously Estuary, 19.0, 10.0, 0.0001) for accuracy in water quality simulations. Existing networks retain old values. New networks use new defaults.",
+        category: "Water Quality"
+      },
+      {
+        id: "2021.1-defconloss-impervious",
+        title: "Deficit and Constant Loss Model for Impervious Surfaces",
+        description: "Defconloss (Deficit and Constant Loss Model) restriction removed - now usable with Impervious surface type (previously pervious/unknown only). Validation warning issued as may not be most appropriate model.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-gutter-spread-results",
+        title: "Maxima Gutter Spread Results for InfoWorks Nodes",
+        description: "Maxima gutter spread results now available for InfoWorks nodes.",
+        category: "Results"
+      },
+      {
+        id: "2021.1-hong-kong-rainfall",
+        title: "Hong Kong Rainfall (Historic) Return Period Rounding",
+        description: "User-specified return periods in User Defined Parameters a, b, c field now rounded to 3 decimal places when design rainfall hyetograph generated.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.1-icm-exchange-pollutograph",
+        title: "ICM Exchange Pollutograph Data Import from CSV",
+        description: "Pollutograph data can now be imported from CSV files using ICM Exchange.",
+        category: "Integration"
+      },
+      {
+        id: "2021.1-flow-efficiency-tables",
+        title: "Flow Efficiency Tables for InfoWorks Manhole Sag Inlets",
+        description: "Flow efficiency tables now available for InfoWorks manhole sag inlets.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-green-ampt-improvements",
+        title: "Green-Ampt Model Improvements",
+        description: "Improvements to Green-Ampt infiltration model.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-scs-runoff-routing-fix",
+        title: "InfoWorks Runoff Surfaces with SCS Runoff Volume Models",
+        description: "Runoff routing value field no longer included for runoff surfaces using SCS volume model (not required). Previously incorrectly returned validation message if no value specified.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.1-hydx-network-import",
+        title: "HYDX Network Import",
+        description: "HYDX network import capabilities added.",
+        category: "Integration"
+      },
+      {
+        id: "2021.1-xprafts-data-import",
+        title: "Importing XPRAFTS Data to InfoWorks Networks",
+        description: "Network data from XPRAFTS XPX files can now be imported into InfoWorks networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.1-xpx-rainfall-events",
+        title: "Importing Rainfall Events from XPRAFTS XPX Files",
+        description: "Rainfall events can now be imported from XPRAFTS XPX files.",
+        category: "Integration"
+      },
+      {
+        id: "2021.1-xpswmm-rainfall-events",
+        title: "Importing Rainfall Events from XPSWMM/XPStorm Files",
+        description: "Rainfall events can now be imported from XPSWMM/XPStorm files.",
+        category: "Integration"
+      },
+      {
+        id: "2021.1-swmm5-time-series-import",
+        title: "Importing Events from External SWMM5 Time Series Files",
+        description: "Events can now be imported from external SWMM5 time series files.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "2021.2",
     version: "2021.2",
     releaseDate: "2021-02-01",
