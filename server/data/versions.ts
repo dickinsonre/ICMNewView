@@ -465,6 +465,163 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "5.5",
+    version: "5.5",
+    releaseDate: "2014-11-01",
+    features: [
+      {
+        id: "5.5-wq-defaults",
+        title: "Water Quality Simulation Parameter Defaults Updated",
+        description: "Default QM Parameters changed to reflect recommended usage: 'Erosion/deposition affects hydraulics' and 'Native washoff routing' now checked by default for new runs, feeding variable sediment depth to hydraulic model and using hydraulic runoff routing for washoff calculations.",
+        category: "Water Quality"
+      },
+      {
+        id: "5.5-ascii-flood-contours",
+        title: "Export Flood Contours to ASCII Grid Format",
+        description: "Flood contours now exportable to ESRI ASCII grid (.ASC) format in addition to ESRI .SHP and MapInfo .MIF/.TAB formats via Results menu.",
+        category: "Integration"
+      },
+      {
+        id: "5.5-mesh-level-zones",
+        title: "Mesh Level Zones",
+        description: "New 2D modeling object for dividing 2D Zones into regions with modified mesh element elevations based on ground model or user-defined values, providing greater flexibility than Mesh Zones for detailed representation of roads and embankments.",
+        category: "Modeling"
+      },
+      {
+        id: "5.5-risk-impact-zones",
+        title: "Risk Impact Zones",
+        description: "New network object aggregating risk results from damage receptors into geographical areas for area-based risk analysis. Includes annual damage results, CSV export, and grid view reports for Risk Analysis Results objects.",
+        category: "Modeling"
+      },
+      {
+        id: "5.5-2d-node-flooding",
+        title: "2D Node Flooding and Flow Limiting Results",
+        description: "New results fields for 2D nodes: flooding onto 2D zone (time varying, max, cumulative), duration of flow limiting, and flow limited indicator for identifying 2D/1D exchange capping locations at inlets.",
+        category: "Results"
+      },
+      {
+        id: "5.5-inundation-area",
+        title: "Flood Inundation Area Results for Polygons",
+        description: "New Network Results Polygon (2D) fields: 'Area flooded to inundation depth' (time varying, max, min) and 'Total area flooded' calculated from mesh elements exceeding inundation threshold. Available for Results Analysis Polygons.",
+        category: "Results"
+      },
+      {
+        id: "5.5-sediment-results",
+        title: "Enhanced 2D Suspended Sediment Results",
+        description: "New 2D zone results fields: sediment depth, volumetric erosion rate, dimensionless concentration, and deposited sediment depth (per fraction and total). Flooding Section Window now displays time-varying active layer level instead of fixed ground level.",
+        category: "Water Quality"
+      },
+      {
+        id: "5.5-bedload-transport",
+        title: "2D Bed Load Sediment Transport",
+        description: "New bed load sediment transport modeling in 2D networks via 'Model 2D bed load' option in QM Parameters Dialog with water quality and sediment parameters for erosion-deposition calculations.",
+        category: "Water Quality"
+      },
+      {
+        id: "5.5-chinese-rainfall",
+        title: "Chinese Rainfall Generator",
+        description: "New design rainfall generator for Chinese catchments based on Keifer and Chu (1957) approach, producing rainfall profiles suitable for Chinese design standards.",
+        category: "Hydrology"
+      },
+      {
+        id: "5.5-refh-graph-improvement",
+        title: "ReFH/FEH Rainfall Generator Multi-Catchment Graphing",
+        description: "ReFH/FEH design rainfall now supports graphing multiple catchments with user selection, extending beyond previous single-catchment limitation.",
+        category: "Hydrology"
+      },
+      {
+        id: "5.5-custom-graphs-observed",
+        title: "Custom Graphs Show Observed Data Option",
+        description: "New 'Show observed' checkbox on Custom Graph View Layout page for Object per page graphs, displaying TVD connector comparison results when viewing TSDB simulations.",
+        category: "Visualization"
+      },
+      {
+        id: "5.5-2d-zone-themes",
+        title: "2D Zone Themes Enhancement",
+        description: "GeoPlan Themes enhanced to theme 2D mesh elements without simulation results, with new fields for element area, level, roughness zone, and roughness value in Layer Theme Editor.",
+        category: "Visualization"
+      },
+      {
+        id: "5.5-swmm5-update",
+        title: "SWMM5 Importer Support for v5.1.007",
+        description: "SWMM5 importer updated to support EPA SWMM v5.1.007 files including Modified_Horton infiltration (imported as Horton) and conduit seepage rate (imported as infiltration loss coefficient).",
+        category: "Integration"
+      },
+      {
+        id: "5.5-gis-export-enhancements",
+        title: "Comprehensive GIS Export Enhancements",
+        description: "Export selected tables only option. 2D mesh export now uses elements (not triangles) with SQL expression support. Batch export of results maxima from multiple simulations. Min/Max results export to CSV format.",
+        category: "Integration"
+      },
+      {
+        id: "5.5-bank-engine-performance",
+        title: "Simulation Engine Performance for Networks with Banks",
+        description: "Significant efficiency improvements reducing simulation times for networks including banks, with minor numerical sensitivity differences from previous versions.",
+        category: "Performance"
+      },
+      {
+        id: "5.5-tsdb-nimrod",
+        title: "Spatial TSDB NIMROD Forecast Radar Format",
+        description: "NIMROD now available as forecast data file format option when configuring Spatial Time Series Databases.",
+        category: "Data Management"
+      },
+      {
+        id: "5.5-prn-housekeeping",
+        title: "Improved Results Housekeeping",
+        description: "PRN summary results files now automatically deleted when deleting time-varying results files for better results management.",
+        category: "Data Management"
+      },
+      {
+        id: "5.5-asset-network-selection",
+        title: "Asset Network Selection Usability",
+        description: "Asset groups can be dropped onto Run Query Dialog droptarget, automatically replaced by contained networks. 'Asset networks' droptarget renamed to 'Asset networks and groups'.",
+        category: "Usability"
+      },
+      {
+        id: "5.5-commit-prompting",
+        title: "Commit Prompting for Version Control",
+        description: "New per-user 'Prompt for commit before closing version controlled items' option encouraging regular commits to Master Database when closing modified items or InfoWorks ICM.",
+        category: "Version Control"
+      },
+      {
+        id: "5.5-bulk-delete",
+        title: "Bulk Delete Database Items",
+        description: "Multiple database items can be deleted simultaneously via selection in Explorer Window with right-click Delete or DELETE key (master databases only, excluding top-level database and Recycle Bin).",
+        category: "Administration"
+      },
+      {
+        id: "5.5-sql-otype",
+        title: "SQL Object Type Field",
+        description: "Read-only OTYPE variable and otype field option in SQL Dialog Field list for returning object types in SQL queries.",
+        category: "Development"
+      },
+      {
+        id: "5.5-icmlive-permissions",
+        title: "ICMLive User Permissions Improvements",
+        description: "User permissions rationalized with new Live Control Room Manager role grouping Change Manifest Mode, Set/Reset Alert Trigger, Create Manual Run, and Change Action State. Edit Manifest and Deploy Manifest roles obsoleted.",
+        category: "Administration"
+      },
+      {
+        id: "5.5-property-window-layouts",
+        title: "Shared Object Property Window Layouts",
+        description: "Object Properties Window layout settings now shareable across Workgroup database via 'Update all from master database' and 'Push all to master database' options with timestamps in About Box.",
+        category: "Administration"
+      },
+      {
+        id: "5.5-usability-improvements",
+        title: "General Usability Improvements",
+        description: "F6/Shift+F6 shortcuts for grid navigation. Optional in-place renaming toggle for tree objects. Network Object Grid Window column header tooltips. CTRL+Page Up/Down for tab switching.",
+        category: "Usability"
+      },
+      {
+        id: "5.5-integration-updates",
+        title: "Integration Platform Updates",
+        description: "MapXtreme 7.2 support. ArcGIS 10.3 support for ArcObjects/ArcEngine map control.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "5.0",
     version: "5.0",
     releaseDate: "2014-05-01",
