@@ -1,0 +1,33 @@
+What's New in Version 2025.1 - May 2024
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2025.1 which were not available in previous versions.
+
+Any feature marked with an asterisk (*) requires a database update to database version 2025.1 in order to access the feature.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+CNSWMM infiltration model for 2D simulations *
+A new infiltration model, CNSWMM, is now available for InfoWorks networks. This model essentially combines the CNSWMM curve number model with initial losses.
+
+In order to use the model, a new CNSWMM option has been added to the Infiltration type property for Infiltration Surface (2D) objects. In addition, an Initial abstraction factor, which defines the initial loss, and the Curve number and Drying time, used by CNSWMM infiltration, have also been added as Infiltration Surface (2D) properties.
+
+Initial conditions 2D has also been modified to enable the modelling of CNSWMM infiltration. A new property, CNSWMM antecedent moisture condition, which represents the initial soil moisture condition before a rainfall event, has been added to the grid window.
+
+See 2D Infiltration Models for further information about the new model.
+
+Downloading data from the cloud
+The software is now more robust when data, transferred from the cloud, is not fully downloaded correctly.
+
+Job type - Download from cloud
+A new type of job, Download from cloud, is now created for each simulation that you have selected to download results for. The status for each job can be viewed in the Job Control window.
+
+SWMM5 Groundwater import and export enhancements
+Previously when you imported data from a GROUNDWATER section of a SWMM5 file to a SWMM network in ICM, and the Egwt, Ebot, Egw and Umc fields were either blank or had a value of *, these were imported to ICM with a value of 0 in the Groundwater threshold (Egwt), Aquifer elevation (Ebot), Aquifer initial ground water elevation (Egw) and Aquifer initial ground water moisture content (Umc) fields in a subcatchment. This has been changed so that these are now imported with no value (the fields are blank in ICM), which means that during a simulation, these fields will be assigned the values for the Aquifer that they are associated with. See Subcatchment Data Fields (SWMM) for details.
+
+When you now export the Groundwater threshold, Aquifer elevation, Aquifer initial ground water elevation and Aquifer initial ground water moisture content, which do not have a value set in a SWMM subcatchment, a value of * is assigned to the Egwt, Ebot, Egw and Umc fields in the SWMM5 file.
+
+Validation message for Groundwater threshold
+A new warning message - W22219 - is now displayed when the Groundwater threshold is set to 0 in a SWMM subcatchment.
+
+Validation message for Roughness definitions
+A new warning message - W2504 - is now displayed when you specify that a Roughness definition object is to be associated with an InfoWorks or SWMM 2D zone but the specified Roughness definition object does not exist in the current network.

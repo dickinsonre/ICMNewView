@@ -1,0 +1,171 @@
+What's New in Version 2025.0 - April 2024
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2025.0 which were not available in previous versions.
+
+Any feature marked with an asterisk (*) requires a database update to database version 2025.0 in order to access the feature.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+Time Series Data (TSD)
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Scalar and Spatial time series data (TSD) objects are now available in cloud databases with some known limitations. These objects provide an intermediate store between external data sources, such as SCADA/telemetry or RADAR, and a InfoWorks or SWMM run. See Time Series Data Objects for further information.
+
+Note that TSD objects were previously known as TSDB objects in InfoWorks ICM. See the Name change for Time Series Database (TSDB) objects section below for more information.
+
+TVD connectors
+As Scalar and Spatial TSD objects are now available in cloud databases, TVD connectors, which required input from a TSD object, can now be used in cloud simulations.
+
+Spatial rain sources and zones
+Spatial rain sources and spatial rain zones, which required input from a Spatial TSD or a TVD connector that is set up as a rain gauge polygon, can now be used in cloud simulations.
+
+Run view
+When setting up simulations for cloud databases, the Use TSD check box in the InfoWorks or SWMM Schedule Hydraulic Run View is now enabled, which lets you switch between using standard events and time series data. When one or more TSD objects are selected for a run, the TSD option button is now enabled which, when selected, displays the TSD Options dialog where you can select user edits to use in the run.
+
+Copying of simulation results, ground models and time series data objects dialog
+When copying data to a cloud database, the Copying of simulation results, ground models and time series data objects dialog is now displayed. If you are copying TSD objects from a cloud database, the Copy time series data options are disabled in the dialog because TSD objects in a cloud database cannot currently be copied to another cloud, on-premise or transportable database.
+
+Downloading results using the Results Manager
+You can now use the Results Manager to download results for cloud simulations to your local results folder. Two new download options - Download full results and Download summary results - have been added to the popup menu in the Results Management grid view.
+
+See Results Management for details.
+
+Column changes in the Results Management grid
+A new column, Local results type, has been added to the Results Management grid view. It indicates whether full or summary results, or no results, have been downloaded from the cloud to your local results folder.
+
+And the size of the results file, which was previously shown in KB in the Size column of the grid, is now displayed in MB.
+
+Deleting results using the Results Manager
+As you can now download full results or summary only results for cloud simulations to your local results folder, two new deletion options - Delete all local results files and Delete local non-summary results files - have been added to the popup menu in the Results Management grid view.
+
+See Results Management for details.
+
+Exporting results to files from the Results menu
+Previously you could only export results to files for cloud simulations that had full results downloaded. When you now use any of the following Results menu options to export results, you will be prompted to download full results when you select a cloud simulation with summary results or no results downloaded:
+
+Export to binary files See Exporting Results to Files for details.
+CSV export See Exporting Results to Files for details.
+Export to files See Exporting Results to Files for further information.
+Exporting results to GIS from the Results menu
+Previously you could only export results to GIS from the Results menu for cloud simulations that had full results downloaded. This restriction no longer applies. See below for details.
+
+Export to GIS - When you now use this option for a cloud simulation that either has summary results or no results currently downloaded, you are prompted to download full results during the export process.
+Export maxima to GIS - You can now use this option to export results for cloud simulations that have summary results downloaded or no results downloaded. If you select a simulation with no results downloaded, the Download Cloud Results dialog is displayed during the export process so you can choose what type of results (full or summary) are to be downloaded.
+See Exporting Results to GIS for details.
+
+Exporting GIS results from the Explorer window
+Summary results for a cloud simulation, which have been downloaded, can now have their maximum results exported by right-clicking on the results item in the Explorer window and selecting Export Results to MIF/TAB/SHP/Geodatabase from the popup menu. Note that only maximum results are exported for a simulation with summary results. If you want to export time varying results as well as maximum results from the Explorer window, you must ensure that full results have been downloaded. See Exporting Results to GIS for further information.
+
+Exporting maximum flood contours
+Previously, you could only export maximum flood contour information to MapInfo (MIF or TAB) or ESRI (SHP or ASCII grid ASC) files for cloud simulations that had full results downloaded. Now you can also export maximum flood contours for downloaded summary results and for cloud simulations that have no results downloaded. If you select a simulation that has no results downloaded, the Download Cloud Results dialog is now displayed so you can choose what type of results (full or summary) are to be downloaded.
+
+See Exporting Maximum Flood Contours for details.
+
+Generating reports from the Results menu
+Previously, you could only generate the following reports from the Results menu for cloud simulations whose full results had been downloaded. This restriction no longer applies. See below for details.
+
+Grid reports - You can now generate Return period analysis reports, Flood volume reports, Worst case reports and Velocity profile reports for cloud simulations whose summary results have been downloaded to your local results folder. See Grid Reports for further information.
+UPM river impact - When generating UPM river impact assessments for a cloud simulation that either has summary results or no results currently downloaded, you will now be prompted to download full results. See UPM River Impact Assessment for details.
+Statistical reports - You can now generate Statistical reports for cloud simulations with downloaded summary results and for simulations that have no results downloaded. If you select a simulation with no results downloaded, the Download Cloud Results dialog is displayed so you can choose what type of results (full or summary) to download. See Producing Statistical Reports for further information.
+Results toolbar
+Previously the Graph , Grid , Graph selected objects  and Grid selected objects  buttons on the Results toolbar were only available for cloud simulations, which had full results downloaded. Now you can also use these tools for cloud simulations that have summary results downloaded.
+
+See Results on Graph Views and Results on Grid Windows for information about using the toolbar buttons.
+
+Increase in size limitation for ground models
+Previously, you could only copy ground models which were smaller than 2GB to cloud databases. This limit is now increased to 5GB.
+
+Duplicate items in the Recycle bin
+When copying data between databases, ICM checks if there are any items in the destination database (including its Recycle bin) with the same GUID. If it finds any, the Copying of Duplicate Items dialog is displayed.
+
+Now, if an item is found in a cloud database's Recycle bin with the same GUID, the Copying of Duplicate Items dialog is not displayed. The copied item is automatically assigned a new GUID and will appear in the Explorer window without an ! appended to its name. Any items being copied at the same time that refer to this item will reference it rather than duplicate item in the recycle bin.
+
+Culvert 2D type of conduit *
+A new type of conduit - Culvert (2D) - is now available for InfoWorks networks. This type of conduit can be used in a 2D simulation to introduce unidimensional hydraulic structures directly in the 2D engine, allowing flow to be transferred between two areas of a 2D zone.
+
+The properties required to model a 2D culvert are very similar to those required for modelling a 1D culvert (a conduit whose Conduit type is set to Culvert), which makes it very convenient to use them in existing models that currently use 1D culverts. One of the differences is that, unlike 1D culverts where you can choose a reverse flow model, the 2D simulation engine automatically models reverse flow as outlet. And an additional Min space step property has been added to ensure that a computational cell within a Culvert 2D cannot be smaller than the specified minimum space step.
+
+See Conduit Data Fields (InfoWorks) for property details.
+
+2D Line Connect *
+A new type of line, 2D line connect, which represents a flow exchange boundary, is now available for InfoWorks networks. It lets you associate a Connect 2D node (a node whose Node type set to 2D and its Connection type set to 2D line) to multiple 2D elements in a 2D mesh that intersect the line. Previously, you would have only been able to use a Connect 2D node to connect a Conduit 2D to a single element.
+
+The multiple 2D elements are used in the calculation of the flow exchange between the 2D surface and the associated node.
+
+See the 2D Line Connect and 2D Line Connect Data Fields topics for details.
+
+A theme has also been added to represent the new line on the GeoPlan. It comprises of a solid line between the start and the end coordinates of the 2D line connect object (default), and a dashed line, with the same colour, between the centre of the 2D line connect object and the Connect 2D node it is associated with. For example:
+
+
+You can use the Layer Theme Editor to change the default theme for the 2D line connect object.
+
+Level in 2D Zone result update for Connect 2D nodes *
+For nodes of type Connect 2D, the reporting of the Level in the 2D Zone result now depends on the connection type of the Connect 2D node.
+
+For a connection type of Closed, Lost or Break, the Level in the 2D Zone result was previously reported as 0 but it is now reported as undefined.
+
+For a connection type of 2D, the result was previously reported as the level in the 2D Zone, regardless of the depth in the 2D element. Now it is undefined if depth is 0.
+
+For the new connection type of 2D line, the result is reported either as the maximum level amongst the 2D elements associated with the node through the 2D line connect, or undefined, if depth is zero in all the associated 2D elements.
+
+See Node Results Data Fields (InfoWorks) for details.
+
+Performance improvements for bank spills
+The following changes have been made which will improve performance when modelling bank spills:
+
+Segmentation of banks is now done in parallel, and the number of memory re-allocations needed when inserting bank points (for computational nodes and 2D faces) has been reduced. This should speed up loading the network.
+The calculation of the next point on the bank with a new section is now cached, instead of the engine searching from the current bank point each time along the bank. This should speed up simulations.
+Conduit shape
+The restriction that the Shape ID property could only be set to CIRC or RECT for a Conduit (2D) or Linear Drainage (2D) type of conduit has been removed. You can now choose any of the available shapes for these types of conduits.
+
+Innovyze Licence Setup Wizard
+As the Innovyze supplied local and network soft and dongle types of licences cannot be used in this release of the software, the following pages have been removed from the Innovyze Licence Setup Wizard:
+Specify Floating Licence Server
+Licence Check In / Check Out
+Licence Action
+Update
+Apply Update
+Create Status File
+CD Key
+Apply Licence
+Deactivate
+Test Dongle
+You can still use a subscription based Thales licence. The Wizard's Settings page has been updated so that you are no longer required to specify a licence type, although you must still provide the name or IP address of the Thales licence server. And, by default, the UI and Engine sizes are now set to ICM : Unlimited Nodes Unlimited Elements, which you may need to change to the appropriate sizes for your licence.
+
+Please contact our Support team if you require any assistance with your licence.
+
+Concurrent installations of Innovyze and Autodesk ICM
+You can now install Innovyze versions of ICM/ICMLive/InfoAsset Manager and Autodesk versions of ICM that have the same version number. In addition, you can also change between Autodesk Standard and Ultimate versions of ICM from the same Autodesk installer (see here for details). However, regardless of what product you are using, you will only be able to access the features and functions that are available for your type of licence in that product.
+
+Please contact our Support team if you require any assistance with your licence.
+
+Updates to simulation engine compliers
+Compilers for the cloud and on-premises simulation engines have been updated to meet security requirements and improve consistency between cloud and on-premise. This may cause differences in results for numerically sensitive models where the solution is on the edge of a mode (for example pumps on or off), oscillates between modes or has difficulty converging. This impacts all database versions. See here for details.
+
+Improvement in performance for Water Quality simulations
+The use of multi-threading for water quality calculations in the Sim engine has increased. This will improve the performance of water quality simulations.
+
+Name change for Time Series Database (TSDB) objects
+Time Series Database (TSDB) and Spatial Time Series Database objects have been renamed to Scalar time series data and Spatial time series data objects respectively. There are no other changes to the objects, and any existing time series database objects will still be valid in your models.
+
+If you use InfoWorks Exchange, the names and short codes for time series data objects have not been changed.
+
+Note that the 1D Urban Network Tutorial in ICMLive Configuration Manager has not been updated and therefore references to TSDB objects are still included in the help.
+
+Name change for the Workgroup Data Server
+The Workgroup Data Server is now known as the Workgroup Server. Its application folder has also been renamed and is now called the InfoWorks Workgroup Server, and no longer includes the release year in its name.
+
+See the Workgroup Server Administration Guide for details about setting up the server.
+
+2D meshes imported from InfoWorks CS
+As the import of data from InfoWorks CS was deprecated in version 2023.1, any 2D meshes that were imported but not re-meshed in ICM, are no longer supported.
+
+CUDA update
+An update to CUDA 11.7 is included in this release. This means that your GPU drivers may need to be updated to a version that is compatible with CUDA 11.7. See here for further information.
+
+InfoWorks Exchange and Ruby Scripting documentation
+Previously, you had to download the InfoWorks Exchange documentation. The documentation has been updated and is now part of the product help. It can be accessed by selecting InfoWorks Exchange in the table of contents.
+
+Similarly, as Ruby scripting is used in InfoWorks Exchange, the Introduction to Ruby Scripting in InfoWorks documentation, which you previously had to download, is now included in the ICM Help.
+
+See ICM Exchange for Autodesk for details about using ICM Exchange from our Autodesk products.

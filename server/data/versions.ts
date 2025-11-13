@@ -351,10 +351,190 @@ export const versionsData: Version[] = [
     releaseDate: "2024-04-01",
     features: [
       {
-        id: "2025.0-placeholder",
-        title: "Version 2025.0 Features",
-        description: "Features for version 2025.0 - April 2024. Please provide the full 'What's New' content to populate this version.",
+        id: "2025.0-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-tsd-cloud",
+        title: "Time Series Data (TSD) Objects in Cloud Databases",
+        description: "Scalar and Spatial TSD objects now available in cloud databases with some limitations. Provides intermediate store between external data sources (SCADA/telemetry, RADAR) and InfoWorks/SWMM runs. TSD objects were previously known as TSDB objects. Requires TSD option enabled on licence.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-tvd-connectors",
+        title: "TVD Connectors in Cloud Simulations",
+        description: "TVD connectors, which require input from TSD objects, can now be used in cloud simulations.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-spatial-rain",
+        title: "Spatial Rain Sources and Zones in Cloud",
+        description: "Spatial rain sources and spatial rain zones, requiring input from Spatial TSD or TVD connector rain gauge polygons, can now be used in cloud simulations.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-run-view-tsd",
+        title: "Run View TSD Options for Cloud Databases",
+        description: "Use TSD checkbox now enabled in Schedule Hydraulic Run View for cloud databases, allowing switch between standard events and time series data. TSD option button displays TSD Options dialog for selecting user edits when TSD objects are selected for a run.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-copying-dialog",
+        title: "Copying of Simulation Results, Ground Models and TSD Objects Dialog",
+        description: "New dialog displayed when copying data to cloud databases. Copy time series data options disabled when copying TSD objects from cloud database since TSD objects in cloud cannot be copied to other cloud, on-premise or transportable databases.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-results-manager-download",
+        title: "Downloading Results Using Results Manager",
+        description: "Results Manager can now download cloud simulation results to local results folder. New download options added to Results Management grid view popup menu: Download full results and Download summary results.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-results-grid-columns",
+        title: "Column Changes in Results Management Grid",
+        description: "New Local results type column added to Results Management grid view indicating whether full results, summary results, or no results have been downloaded from cloud. Size column now displays file size in MB instead of KB.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-results-manager-delete",
+        title: "Deleting Results Using Results Manager",
+        description: "Two new deletion options added to Results Management grid view popup menu for cloud simulations: Delete all local results files and Delete local non-summary results files.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-export-files",
+        title: "Exporting Results to Files from Results Menu",
+        description: "Export to binary files, CSV export, and Export to files menu options now prompt to download full results when selecting cloud simulation with summary results or no results downloaded.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-export-gis-menu",
+        title: "Exporting Results to GIS from Results Menu",
+        description: "Export to GIS now prompts to download full results for cloud simulations with summary/no results. Export maxima to GIS now works with summary results or prompts to download if no results available, with Download Cloud Results dialog for choosing full or summary.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-export-gis-explorer",
+        title: "Exporting GIS Results from Explorer Window",
+        description: "Summary results for cloud simulations can now have maximum results exported from Explorer window via Export Results to MIF/TAB/SHP/Geodatabase. Only maximum results exported for summary results; full results required for time varying results.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-flood-contours",
+        title: "Exporting Maximum Flood Contours",
+        description: "Maximum flood contour export to MapInfo (MIF/TAB) or ESRI (SHP/ASCII grid ASC) now works with downloaded summary results and cloud simulations with no results downloaded. Download Cloud Results dialog displays for simulations with no results.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-report-generation",
+        title: "Generating Reports from Results Menu",
+        description: "Grid reports (Return period analysis, Flood volume, Worst case, Velocity profile) now work with downloaded summary results. UPM river impact prompts to download full results. Statistical reports work with summary results or prompt to download if no results available.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-results-toolbar",
+        title: "Results Toolbar Updates",
+        description: "Graph, Grid, Graph selected objects, and Grid selected objects buttons on Results toolbar now available for cloud simulations with summary results downloaded (previously required full results).",
+        category: "Results"
+      },
+      {
+        id: "2025.0-ground-model-limit",
+        title: "Increase in Ground Model Size Limitation",
+        description: "Ground model size limit for copying to cloud databases increased from 2GB to 5GB.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.0-recycle-bin",
+        title: "Duplicate Items in Recycle Bin Handling",
+        description: "Items found in cloud database Recycle bin with same GUID no longer trigger Copying of Duplicate Items dialog. Copied item automatically assigned new GUID and appears in Explorer without ! appended to name. Items referencing this item will reference it rather than duplicate in recycle bin.",
+        category: "Data Management"
+      },
+      {
+        id: "2025.0-culvert-2d",
+        title: "Culvert 2D Type of Conduit",
+        description: "New Culvert (2D) conduit type for InfoWorks networks allows unidimensional hydraulic structures directly in 2D engine for flow transfer between 2D zone areas. Properties similar to 1D culverts with automatic reverse flow as outlet modeling. Additional Min space step property ensures computational cell within Culvert 2D cannot be smaller than specified minimum. Requires database update to 2025.0.",
+        category: "Modeling"
+      },
+      {
+        id: "2025.0-2d-line-connect",
+        title: "2D Line Connect",
+        description: "New 2D line connect line type represents flow exchange boundary for InfoWorks networks. Associates Connect 2D node (Node type 2D, Connection type 2D line) to multiple 2D mesh elements intersecting the line for flow exchange calculation between 2D surface and node. New theme added to GeoPlan with solid line between start/end coordinates and dashed line to Connect 2D node. Requires database update to 2025.0.",
+        category: "Modeling"
+      },
+      {
+        id: "2025.0-level-2d-zone",
+        title: "Level in 2D Zone Result Update for Connect 2D Nodes",
+        description: "Level in 2D Zone result reporting for Connect 2D nodes now depends on connection type: Closed/Lost/Break reports undefined (previously 0); 2D connection type reports undefined if depth is 0 (previously reported level regardless); new 2D line connection type reports maximum level amongst associated 2D elements or undefined if depth is zero in all. Requires database update to 2025.0.",
+        category: "Results"
+      },
+      {
+        id: "2025.0-bank-spill-performance",
+        title: "Performance Improvements for Bank Spills",
+        description: "Bank segmentation now done in parallel with reduced memory re-allocations when inserting bank points for computational nodes and 2D faces, speeding up network loading. Calculation of next bank point with new section now cached instead of searching from current point, speeding up simulations.",
+        category: "Performance"
+      },
+      {
+        id: "2025.0-conduit-shape",
+        title: "Conduit Shape Restriction Removed",
+        description: "Shape ID property restriction for Conduit (2D) or Linear Drainage (2D) conduit types removed. Can now choose any available shapes for these conduit types (previously limited to CIRC or RECT).",
+        category: "Modeling"
+      },
+      {
+        id: "2025.0-licence-wizard",
+        title: "Innovyze Licence Setup Wizard Updates",
+        description: "Innovyze local and network soft/dongle licence types no longer supported. Removed wizard pages: Specify Floating Licence Server, Licence Check In/Check Out, Licence Action, Update, Apply Update, Create Status File, CD Key, Apply Licence, Deactivate, Test Dongle. Settings page updated to remove licence type requirement (Thales server name/IP still required). Default UI/Engine sizes now set to ICM: Unlimited Nodes Unlimited Elements.",
+        category: "Licensing"
+      },
+      {
+        id: "2025.0-concurrent-install",
+        title: "Concurrent Installations of Innovyze and Autodesk ICM",
+        description: "Can now install Innovyze versions of ICM/ICMLive/InfoAsset Manager and Autodesk ICM versions with same version number concurrently. Can change between Autodesk Standard and Ultimate versions from same installer. Feature access limited to licence type regardless of product.",
+        category: "Installation"
+      },
+      {
+        id: "2025.0-engine-compilers",
+        title: "Simulation Engine Compiler Updates",
+        description: "Cloud and on-premises simulation engine compilers updated to meet security requirements and improve consistency. May cause result differences for numerically sensitive models where solution is on edge of mode (e.g., pumps on/off), oscillates between modes, or has convergence difficulty. Impacts all database versions.",
+        category: "Performance"
+      },
+      {
+        id: "2025.0-water-quality-performance",
+        title: "Water Quality Simulation Performance Improvement",
+        description: "Increased multi-threading for water quality calculations in Sim engine improves water quality simulation performance.",
+        category: "Performance"
+      },
+      {
+        id: "2025.0-tsdb-rename",
+        title: "Name Change for Time Series Database (TSDB) Objects",
+        description: "Time Series Database (TSDB) and Spatial Time Series Database objects renamed to Scalar time series data and Spatial time series data objects respectively. No other changes to objects; existing TSDB objects remain valid. InfoWorks Exchange names and short codes unchanged. 1D Urban Network Tutorial still references TSDB objects.",
         category: "General"
+      },
+      {
+        id: "2025.0-workgroup-rename",
+        title: "Name Change for Workgroup Data Server",
+        description: "Workgroup Data Server renamed to Workgroup Server. Application folder renamed to InfoWorks Workgroup Server and no longer includes release year in name.",
+        category: "General"
+      },
+      {
+        id: "2025.0-infowoks-cs-meshes",
+        title: "2D Meshes Imported from InfoWorks CS No Longer Supported",
+        description: "InfoWorks CS data import deprecated in version 2023.1. 2D meshes imported from InfoWorks CS but not re-meshed in ICM are no longer supported.",
+        category: "General"
+      },
+      {
+        id: "2025.0-cuda-update",
+        title: "CUDA Update to Version 11.7",
+        description: "CUDA updated to version 11.7. GPU drivers may need updating to version compatible with CUDA 11.7.",
+        category: "Performance"
+      },
+      {
+        id: "2025.0-exchange-docs",
+        title: "InfoWorks Exchange and Ruby Scripting Documentation",
+        description: "InfoWorks Exchange documentation (previously downloadable) now part of product help accessible via table of contents. Introduction to Ruby Scripting in InfoWorks documentation now included in ICM Help.",
+        category: "Documentation"
       }
     ]
   },
