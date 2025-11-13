@@ -49,7 +49,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
       const response = await anthropic.messages.create({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-5",
         max_tokens: 2048,
         messages: messages.map((msg) => ({
           role: msg.role,

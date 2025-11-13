@@ -4,7 +4,7 @@ export const versionsData: Version[] = [
   {
     id: "2026.2",
     version: "2026.2",
-    releaseDate: "Current Version",
+    releaseDate: "2024-11-13",
     features: [
       {
         id: "2026.2-esri",
@@ -23,7 +23,7 @@ export const versionsData: Version[] = [
   {
     id: "2026.1",
     version: "2026.1",
-    releaseDate: "June 2026",
+    releaseDate: "2026-06-01",
     features: [
       {
         id: "2026.1-cloud",
@@ -90,7 +90,7 @@ export const versionsData: Version[] = [
   {
     id: "2026.0",
     version: "2026.0",
-    releaseDate: "April 2025",
+    releaseDate: "2025-04-01",
     features: [
       {
         id: "2026.0-cloud",
@@ -157,7 +157,7 @@ export const versionsData: Version[] = [
   {
     id: "2025.5",
     version: "2025.5",
-    releaseDate: "November 2024",
+    releaseDate: "2024-11-01",
     features: [
       {
         id: "2025.5-cloud",
@@ -188,7 +188,7 @@ export const versionsData: Version[] = [
   {
     id: "2024.5",
     version: "2024.5",
-    releaseDate: "January 2024",
+    releaseDate: "2024-01-01",
     features: [
       {
         id: "2024.5-cloud",
