@@ -1,20 +1,26 @@
-import { type User, type InsertUser } from "@shared/schema";
+import { type User, type InsertUser, type Version } from "@shared/schema";
 import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { versionsData } from "./data/versions";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getAllVersions(): Promise<Version[]>;
+  getVersion(id: string): Promise<Version | undefined>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
+  private versions: Map<string, Version>;
 
   constructor() {
     this.users = new Map();
+    this.versions = new Map();
+    
+    versionsData.forEach(version => {
+      this.versions.set(version.id, version);
+    });
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -32,6 +38,19 @@ export class MemStorage implements IStorage {
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
+  }
+
+  async getAllVersions(): Promise<Version[]> {
+    return Array.from(this.versions.values()).sort((a, b) => {
+      const [aMajor, aMinor] = a.version.split('.').map(Number);
+      const [bMajor, bMinor] = b.version.split('.').map(Number);
+      if (aMajor !== bMajor) return bMajor - aMajor;
+      return bMinor - aMinor;
+    });
+  }
+
+  async getVersion(id: string): Promise<Version | undefined> {
+    return this.versions.get(id);
   }
 }
 
