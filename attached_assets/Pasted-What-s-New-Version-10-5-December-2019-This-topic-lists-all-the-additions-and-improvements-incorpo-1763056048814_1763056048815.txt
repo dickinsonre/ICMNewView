@@ -1,0 +1,93 @@
+What's New Version 10.5 - December 2019
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 10.5 which were not available in previous versions.
+
+SWMM Integration
+An Innovyze adapted version of the US Environment Protection Agency’s Storm Water Management Model (SWMM) is now available as an additional modelling option in InfoWorks ICM. A new engine for performing the SWMM simulations has been developed which is available in addition to the long established and well-proven Sim engine.
+
+As the data structures associated with SWMM are different to those native to InfoWorks ICM, a new SWMM model network type has been introduced to facilitate the use of SWMM. Existing model networks are now referred to as 'InfoWorks' networks but have retained their current network icon (). This allows them to be easily distinguished from new SWMM networks () in the Explorer window.
+
+There are also a number of new network objects and database items which have been introduced. Like the original InfoWorks networks, SWMM network objects can be categorised as nodes, links, subcatchments, points and polygons, which can be added to the network using the appropriate grid window, by digitising on the GeoPlan or by importing from existing network data.
+
+Database items can also be imported or added to a model network, and, to make it easier to select the relevant database item for the applicable type of network, there are four new context menu options in the Explorer window - New InfoWorks and Import InfoWorks, and New SWMM and Import SWMM.
+
+The new database items that are used exclusively for SWMM networks are:
+
+SWMM Climatology
+SWMM Time Patterns
+SWMM Pollutograph
+SWMM Run
+SWMM simulations are able to leverage the InfoWorks Agent functionality in the same way as InfoWorks simulations and so allow for the scheduling, pausing and stopping of simulations, as well as the distribution of these across available ICM agents with appropriate engine licensing. Alongside this capability, multiple simulation tasks can be submitted at the same time and can be running in parallel on the same machine, assuming sufficient cores are available.
+
+SWMM simulations in InfoWorks ICM are enabled only for 1D and only use the dynamic wave method routing. The capabilities available through InfoWorks ICM with SWMM include SUDS/LID representation, hydrological modelling, hydraulic modelling and water quality modelling amongst others.
+
+One notable difference between the SWMM implementation in InfoWorks ICM and EPA SWMM is related to the separation of event data from network data. In InfoWorks ICM, events can be defined and applied to SWMM networks without them forming part of the network itself. This means that multiple events can be applied and tested with ease, without the need for network modifications in such instances.
+
+SWMM networks in InfoWorks ICM also benefit from scenario as well as version control management. The former allows for different scenarios to be created from a single base network and subsequently tested, while the latter maintains a version history for network changes which users can interrogate and, if required, revert network states to previous versions.
+
+New RTC Controllers
+Two new types of RTC Controllers are now available - FUZZY and CENTAUR - which can be used to control a variable sluice gate. These can be set at a Global or Regulator level.
+
+CENTAUR allows CENTAUR™ gates developed by Environmental Monitoring Solutions to be represented in an InfoWorks network and for the logic in their controls to be replicated in InfoWorks ICM. See the RTC CENTAUR Example topic for information about defining a CENTAUR type of controller.
+
+A FUZZY controller allows you to determine the operation of a variable sluice gate using two new dependants, Member functions and Fuzzy rules. The information required to set up a FUZZY controller is contained in the Controllers topic.
+
+Output lag and Bypass runoff parameters for subcatchments properties
+Two new parameters have been added to an InfoWorks subcatchment properties.
+
+The Output lag parameter allows a fixed time to be specified to delay the outflow from a subcatchment to its 'drains to' destination. The Bypass runoff is a check box which is only available for a subcatchment that drains to another subcatchment. If checked, it indicates that the outflow from the subcatchment is added to the total outflow of the destination subcatchment, or if unchecked, the outflow is applied as an additional input to the runoff surfaces of the destination subcatchment. See the Subcatchment Data Fields (InfoWorks) for further information about these fields.
+
+These fields will be particularly useful for XPRAFTs users when migrating models to ICM; an ICM subcatchment with a non-zero output lag is equivalent to an XPRAFTS subcatchment draining to a lag link.
+
+Processing time improved for Conduits (2D)
+The computational times for conduits (2D) have been greatly improved, giving faster simulation results than in earlier versions.
+
+Improvements to 2D summary log
+A new metric, volume balance error as a percentage of net inflow (VBEPNI), has been added to the volume balance summary report. This will provide a more accurate volume balance error than the VBEPIO metric which provides a volume balance error percentage based on the sum of inflows and outflows. Note that only volume balance error percentage metrics with non zero denominators are output in the log file.
+
+Timestep control for ReFH direct runoff calculations
+InfoWorks ICM now applies the same timestep control options for the ReFH direct runoff phase, as it does for a simulation. In particular, using the Stop simulation at end of time varying data option on the Control page of the Timestep Control Options dialog may mean the ReFH direct runoff phase is much faster, as it may no longer need to run for the full duration of the run.
+
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Nimrod file naming for spatial time series databases
+Nimrod data file naming for files to be read into a spatial TSDB is now flexible and no longer restrictive, as long as the file itself is encoded as a valid Nimrod format.
+
+New time series expression for shifting timestamps on a TSDB stream
+A new times series expression, TSLAG(input_series, lag_seconds), is now available. This expression constructs a series containing the same data points as the input series, but with time stamps shifted forward (lagged) by the specified number of seconds. Specifying a negative number of seconds will shift the timesteps backwards.
+
+See the Theory of Time Series Expressions for further information.
+
+Initialisation time improved significantly for simulations using spatial TSDBs
+Significant improvements have been made to initialisation times associated with spatial TSDBs that have a high cell count, most noticeable when at 10,000 or above.
+
+Technical papers for modelling of pressurised pipes
+To provide additional information about the modelling of pressurised pipes in an InfoWorks network, two new papers - the Modelling of Pressurised Pipes within InfoWorks ICM and the Modelling Steeply Sloping Pressurised Pipes - have been added to the Technical Notes section in the help.
+
+Legacy state files no longer supported
+Initial state simulations generated using job agents prior to InfoWorks ICM version 4.0 are no longer supported.
+
+Conduit status
+Open conduits that previously returned a jet flow boundary condition between the conduit end and adjoining node, will now return a free boundary condition (critical or normal flow).
+
+During simulations, for both open and closed conduits an InfoWorks network, InfoWorks ICM imposed the depth at the conduit end to prevent the depth in the conduit from exceeding that value. While this is suitable for closed conduits, it was not for open conduits, therefore this restriction has been removed.
+
+This change is most likely to be noticed in networks which include river reaches that are connected to 2D zones with banks; it is when the banks are active that the depth in the reach may exceed the highest point defined for a section.
+
+Improvements to arrow themes
+The Line/Link arrow theme has been improved. The size and colour of arrows can now be set using the symbol size and symbol colour functions. This means that size and colour of arrows can be different to the line size and colour.
+
+Snow melt model
+The snow melt model used by InfoWorks ICM, which was based on the SWMM4 continuous simulation model, has been updated to the SWMM5 version.
+
+Import of multi-part shapefiles
+The import of multi-part shapefiles has been improved.
+
+Binary export result files now sorted alphabetically
+Previously results, which are exported in binary format, were unsorted. Now the exported results are sorted alphabetically.
+
+HTML log files
+The layout and appearance of HTML log files produced by InfoWorks ICM has been improved.
+
+An example of an ICM log file which is generated using the Create diagnostic polygons option is shown below:
+

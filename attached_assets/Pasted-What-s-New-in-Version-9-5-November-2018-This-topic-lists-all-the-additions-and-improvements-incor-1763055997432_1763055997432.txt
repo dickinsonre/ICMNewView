@@ -1,0 +1,187 @@
+What's New in Version 9.5 - November 2018
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 9.5 which were not available in previous versions.
+
+Euler Type II design rainfall
+It is now possible to generate Euler Type II design rainfall based on the Euler rainfall type II method using KOSTRA-DWD 2010R data. Rainfall data can be generated for any specified northing and easting coordinates which are located within Germany in an area bounded by a rectangle whose upper left corner coordinates are (3710675.00m, 3149247.90m), and lower right corner coordinates are (4354525.00m, 2271847.90m), using the TRS 1989, Lambert Conformal Conic, EPSG:3034 projection.
+
+A return period, duration and timestep must also be specified in order to create the rainfall event. Saved events can be viewed on a grid or a graph, and can be exported to InfoWorks format or csv files.
+
+German hydrology
+A new runoff volume model, DWA (Grenzwertmethode), has been added to the Runoff volume type field of a subcatchment's runoff surface. Like the other runoff volume models, it can be used to determine how much of the rainfall runs off the catchment into the drainage system after accounting for any initial losses.
+
+This has resulted in some of the parameters, used previously by the Horton and HortonSWMM models, to be renamed as follows:
+
+Horton initial to Initial infiltration, Horton limiting to Limiting infiltration, Horton decay to Decay factor, and Horton recovery to Recovery factor.
+
+In addition, a new routing model option, Cascade, has been added to the Routing model field of a subcatchment's runoff surface. See the Cascade Routing Model topic for details about this model.
+
+RAFTS routing model
+A new routing model option, RAFTS, has been added to the Routing model field of a subcatchment's runoff surface. In the RAFTS Routing Model (also known as the Laurenson Runoff Routing procedure), the specified data is used to calculate the storage delay coefficient for subcatchment in order to develop a non-linear runoff hydrograph. This storage delay coefficient may be calculated on a subcatchment or runoff surface basis. See the RAFTS Routing Model topic for details about this model.
+
+2D conduits for 2D simulations
+Two new types of conduits, Linear Drainage (2D) and Conduit (2D), which can be used in a 2D simulation to introduce unidimensional hydraulic structures directly in the 2D engine, are now available. These allow flow to be transferred between two areas of a 2D zone, and also provide a way of using a linear object to capture surface flow directly from the 2D mesh to transfer it into the drainage system, providing an alternative to the current method of using point objects such as manholes of flood type 2D. See the topic 2D Conduits for further information.
+
+A new Conduit type option has been added to the conduit parameters which has three choices, Conduit, Linear Drainage (2D) or Conduit (2D). Existing conduits are automatically assigned the default type Conduit, and the modelling behaviour of these remains the same as in previous versions of InfoWorks ICM. The new Linear Drainage (2D) type of conduit can be used, for example, to represent a linear gully type of drainage structure in a 2D model while the new Conduit (2D) can be used for 2D modelling of, for example, a culvert. Two new conduit parameters - Slot width and Vertical connection coefficient - have been added for the Linear Drainage (2D) type of conduit, while a Min space step parameter has been added for a Conduit (2D). These new parameters are described in the Conduit data fields.
+
+New type of 2D node
+A new type of node, Connect 2D , has also been introduced to facilitate the modelling of the 2D conduits. The setting of its Connection type parameter defines the way a 2D conduit exchanges flow at the upstream/downstream end vertex. This can be set to Closed, Lost, 2D or Break. See the Node Data Fields for further information.
+
+New simulation results
+The results from simulations which include the new 2D conduits and Connect 2D type of node can be found in the Link Results and Nodes Results respectively. The new parameters are listed below.
+
+Link results:
+
+Maximum flow from 2D Zone - a summary result which provides the maximum net flow from a 2D zone into 2D conduits
+Cumulative flow from 2D Zone - a summary result which provides the cumulative net flow from the 2D zone into 2D conduits
+Maximum flooding onto 2D Zone - a summary result which provides the maximum flow from the 2D conduits onto the 2D zone
+Cumulative flooding onto 2D zone - a summary result which provides Cumulative flow from 2D conduits to the 2D Zone
+Flooding onto 2D zone - a time varying result which provides the flow from 2D conduit onto 2D zone
+Flow from 2D zone - a time varying result which provides the net flow from 2D zone into 2D conduit
+Node results:
+
+Flow - a time varying result which provides the volume of fluid per unit time passing through a Connect 2D type of node with a connection type of 2D or Lost
+Cumulative flow - a summary result which provides the total flow during the simulation through a Connect 2D type of node with a connection type of 2D or Lost
+MicroDrainage importer
+It is now possible to import data from MicroDrainage MDX files into InfoWorks ICM. See the topic, Importing MicroDrainage data, for further information.
+
+SOBEK importer
+A partial SOBEK importer is now available which will be extended in future releases. Currently it is possible to import topographic and bed friction layers from SOBEK network LIT files into InfoWorks ICM. The data from these layers is used to define nodes and conduits in InfoWorks ICM. See the topic, Importing SOBEK Network Data, for further information.
+
+Gated weir
+A new type of ancillary control object, a gated weir, has been added as a link network object. These can be added to the network via the GeoPlan, the Long View or the Links grid, or imported from InfoWorks RS.
+
+Previously, gated weirs imported from InfoWorks RS were converted to variable crest weirs in InfoWorks ICM. However, in order to more accurately model this type of control, they can now be imported as gated weirs.
+
+See the topics Weirs, for further information about gated weirs, and Importing InfoWorks RS Network Data for information about how they are now imported.
+
+InfoNet rebranded as InfoAsset Manager
+In order to make the grouping of Innovyze products more obvious, InfoNet has been re-branded as InfoAsset Manager. Other products in the InfoAsset range include InfoAsset Planner, InfoAsset Mobile and InfoAsset Online, which were previously known as InfoMaster, InfoNet Mobile and InfoNet Web respectively.
+
+See the Innovyze website for further information about the InfoAsset product range.
+
+Note that licenses will now be issued for InfoAsset Manager regardless of the version number you are currently using.
+
+Infiltration units now used for infiltration-related data fields
+Previously some of the network objects had infiltration-related data fields that used rainfall intensity (R) units rather than infiltration (I) units. This has now been changed with no implications to existing data.
+
+This change applies to the following objects:
+
+Infiltration Surface (2D) Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_2d_infil_surface
+
+Horton initial	initial_infiltration	
+Infiltration Surface (2D) Data Fields
+
+Horton limiting	limiting_infiltration
+Infiltration loss coefficient	infiltration_coeff
+Runoff Surface Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_runoff_surface
+
+Horton Initial	initial_infiltration	
+Runoff Surface Data Fields
+
+Horton Limiting	limiting_infiltration
+Infiltration loss coefficient	infiltration_coeff
+
+Bridge Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_bridge	Contraction base infiltration loss coefficient	infiltration_coeff_base_con	Bridge Data Fields
+Contraction side infiltration loss coefficient	infiltration_coeff_side_con
+Expansion base infiltration loss coefficient	infiltration_coeff_base_exp
+Expansion side infiltration loss coefficient	infiltration_coeff_side_exp
+Channel Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_channel
+
+Base infiltration loss coefficient	infiltration_coeff_base	
+Channel Data Fields
+
+Side infiltration loss coefficient	infiltration_coeff_side
+River Reach Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_river_reach
+
+Base infiltration loss coefficient	infiltration_coeff_base	
+River Reach Data Fields
+
+Side infiltration loss coefficient	infiltration_coeff_side
+Conduit Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_conduit
+
+Base infiltration loss coefficient	infiltration_coeff_base	
+Conduit Data Fields
+
+Side infiltration loss coefficient	infiltration_coeff_side
+
+Node Data Fields
+Database table name	Field name	Database field name	Help topic
+hw_node	Infiltration loss Coefficient	infiltration_coeff	Node Data Fields
+Infiltration loss coefficient above liner	infiltratn_coeff_abv_liner
+Infiltration loss coefficient above vegetation	infiltratn_coeff_abv_vegn
+Infiltration loss coefficient below liner	infiltratn_coeff_blw_liner
+Simulation engine updated to support SWMM v5.1.013
+The SWMM5 components that are included in the simulation engine have been updated to SWMM 5.1.013.
+
+Hourly rate
+A new hourly rate (HR) unit has been added, which can be used for specifying the Horton decay and recovery factors for Runoff Surface Data Fields and Infiltration Surface (2D) Data Fields. Previously specified Horton decay and recovery factors will not be affected by this change.
+
+ARR storm generator
+The ARR Storm Generator, which automatically downloads data from the Australian Rainfall and Runoff (ARR) and the Bureau of Meteorology (BOM), has been updated to version 1.0.175. See the description of the Australian Rainfall 2016 for information about using this design rainfall generator.
+
+Variable crest and width weirs
+The maximum and minimum weir parameters previously applied to both variable crest level weirs (VCWEIR) and variable width weirs (VWWIER), and were specified in units of length (L). To avoid confusion, these values have now been separated and two new parameters, Maximum Crest and Minimum Crest, have been added to provide the elevation (Z) rather than the width (L) for variable crest level weirs.
+
+The existing maximum and minimum parameters have been renamed to Maximum Width and Minimum Width and can be used to specify the width (L) for variable width weirs.
+
+If no maximum and/or minimum crest elevation is specified for a VCWEIR, then the specified Maximum Width and/or Minimum Width will be used instead. This ensures that any previously defined VCWEIR maximum/minimum parameters will still be used by InfoWorks ICM.
+
+See the topic, Weir Data Fields, for further information.
+
+Importing events from generic CSV file formats
+Blank lines can now be included when importing event data from a generic CSV file. This is particularly useful when importing data for XPRAFTS hydrographs.
+
+New keyword for the Agent options
+A new keyword, LOGEXPIRYDAYS, can be used to specify the number of days that must elapse before the agent daily log files are deleted. See the Agents Options Dialog topic for further information.
+
+2D zones cropped to fit into the extents of the GeoPlan in the 3D network window
+It is now possible to display a 2D zone, which is cropped to fit into the extents of the GeoPlan, in the 3D Network Window by pressing the CTRL key and either selecting the New 3D network window option from the Window menu or clicking on the  button on the Windows toolbar. See the 3D Network Window topic for further information.
+
+Sky can be excluded in the 3D network window
+A new property, which enables you to turn on (default) or off the display of blue sky with clouds in the background of the 3D View, is now available. See the 3D Network Window topic for further information.
+
+Size restriction 'removed' for workgroup databases
+The maximum number of objects (networks, events, runs, simulations, and so on) that can be held in a workgroup database has been increased to such an extent that they no longer limit the size of the database.
+
+2D engine - multi GPU support via PCI switches
+The 2D engine now supports GPU cards which share the same PCI bus through a PCI switch. These can be configured in the Agent Options dialog.
+
+Exporting snapshot files
+Snapshot files for a network can now also be exported from the context menu in the Explorer window. This allows you to export a snapshot file without opening the network on the GeoPlan, and you can also choose which scenario and version you want to export.
+
+See the topic, Export to Snapshot File, for further information.
+
+Enhancement for Spatial TSDB ASCII and Binary Grid forecast data lead times
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+ASCII and Binary Grid format files with a lead time for less than an hour can now be included in a spatial TSDB configuration. Such files must have a file name with the format, *YYYYMMDDHH_hhhmm (where * is the identifier for the file).
+
+Additional data file formats for Spatial TSDBs
+Three new files formats - Geotiff - Meteo Group (observed and forecast), Grib 1 -AEMET Madrid (forecast) and HDF5 OPERA (observed) - can now be used in a spatial TSDB configuration.
+
+HDF5 OPERA is included to support the IRM (Belgian Weather Service) format HDF5 files, Grib 1 -AEMET Madrid is included to support Grib 1 files from the Spanish Meteorological Agency, and Geotiff - Meteo Group has been included to support Geotiff files from the Meteogroup.
+
+Update for NetCDF AUS.BOM data file format for Spatial TSDBs
+The existing NetCDF Australian Bureau of Meteorology (NetCDF AUS.BOM) observed data format files, which are used in a spatial TSDB configuration, have been updated to support the NetCDF Climate and Forecast (CF) Metadata Conventions, version 1.6.
+
+TSDB performance enhancements
+Performance enhancements have been implement to reduce TSDB file fragmentation.
+
+Master database layouts
+Master database layouts can now be loaded, saved or deleted using the Manage Layout dialog. This dialog is displayed when the LayoutManage layouts... option is selected from the Configuration menu on the Object Properties Window Toolbar. See Using the Object Properties Window for further information about master database layouts and using this dialog.
+
+Updating TSDB to latest versions
+Previously, when selecting to update a TSDB during a run , you could use the Update to latest button (to use the latest local version of the TSDB) and/or the Refresh time series databases(s) from external sources option (to update the time series data from its external sources) in the TSDB Options dialog before starting the run. However, if only the Refresh time series databases(s) from external sources option was selected, it could cause the InfoWorks Agent to sometimes unnecessarily lock out other pre-processors that are updating the same TSDB. This has now been rectified, and the Refresh time series databases(s) from external sources option is disabled unless the Use latest button is selected. The Update to latest button has been renamed to Use latest as this more accurately describes its function, ie it will use the latest available local version of the TSDB rather than updating the TSDB.

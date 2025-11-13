@@ -59,18 +59,13 @@ import('../server/data/versions.js').then(({ versionsData }) => {
   }
   
   // Generate the new file content
-  const header = content.substring(0, arrayStart);
-  const footer = content.substring(arrayEnd + 2);
-  
   const formattedData = JSON.stringify(sorted, null, 2)
     // Remove quotes from keys
-    .replace(/"([^"]+)":/g, '$1:')
-    // Fix the Type[] = structure
-    .replace(/\[/, 'Version[] = [');
+    .replace(/"([^"]+)":/g, '$1:');
   
   const newContent = `import type { Version } from '@shared/schema';
 
-export const versionsData: ${formattedData};
+export const versionsData: Version[] = ${formattedData};
 `;
   
   writeFileSync(versionsPath, newContent, 'utf-8');

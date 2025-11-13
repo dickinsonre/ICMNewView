@@ -1594,6 +1594,19 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "11.0",
+    version: "11.0",
+    releaseDate: "2020-05-01",
+    features: [
+      {
+        id: "11.0-placeholder",
+        title: "Version 11.0 Features",
+        description: "Features for version 11.0 - May 2020. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
     id: "10.5",
     version: "10.5",
     releaseDate: "2019-12-01",
@@ -1693,6 +1706,19 @@ export const versionsData: Version[] = [
         title: "HTML Log Files Layout Improved",
         description: "Layout and appearance of HTML log files improved.",
         category: "Usability"
+      }
+    ]
+  },
+  {
+    id: "10.5",
+    version: "10.5",
+    releaseDate: "2019-12-01",
+    features: [
+      {
+        id: "10.5-placeholder",
+        title: "Version 10.5 Features",
+        description: "Features for version 10.5 - December 2019. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
       }
     ]
   },
@@ -1872,6 +1898,19 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "10.0",
+    version: "10.0",
+    releaseDate: "2019-05-01",
+    features: [
+      {
+        id: "10.0-placeholder",
+        title: "Version 10.0 Features",
+        description: "Features for version 10.0 - May 2019. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
     id: "9.5",
     version: "9.5",
     releaseDate: "2018-11-01",
@@ -2013,6 +2052,146 @@ export const versionsData: Version[] = [
         title: "Enhancement for Spatial TSDB ASCII and Binary Grid Forecast Data Lead Times",
         description: "Enhancement for spatial TSDB ASCII and Binary Grid forecast data lead times.",
         category: "Data Management"
+      }
+    ]
+  },
+  {
+    id: "9.5",
+    version: "9.5",
+    releaseDate: "2018-11-01",
+    features: [
+      {
+        id: "9.5-placeholder",
+        title: "Version 9.5 Features",
+        description: "Features for version 9.5 - November 2018. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "9.0",
+    version: "9.0",
+    releaseDate: "2018-05-01",
+    features: [
+      {
+        id: "9.0-large-text-reports",
+        title: "Large Text Reports Support",
+        description: "50 MB restriction for log files, PRN or SWMM SUDS/LID report files removed. Files <4MB displayed in Text File View. Files 4MB-2GB include progress window with cancel option. Files >2GB or with memory issues offer external application option (e.g., Notepad). Formatting progress window for log file warnings with X,Y coordinates as hyperlinks.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-suds-area-adjustment",
+        title: "SUDS Area Adjustment",
+        description: "Can specify which runoff surface or surface type (permeable/impermeable) a SUDS control is located on. ICM makes appropriate adjustments for accurate surface area runoff representation. New Surface field in Subcatchment SUDS controls. Validation checks Area and Number of units don't exceed Surface area. Log file includes list of subcatchment surface areas adjusted by SUDS control objects.",
+        category: "Modeling"
+      },
+      {
+        id: "9.0-river-reach-validation",
+        title: "Improved Validation for River Reaches",
+        description: "All bank points (left/right) have levels checked against lowest point (invert) on nearby sections. Validation warning issued for river reaches where bank line levels lower than section bed levels. Warning includes X,Y coordinates of suspect bank points for amendment opportunity.",
+        category: "Validation"
+      },
+      {
+        id: "9.0-damage-functions-mcm-2017",
+        title: "New Import Option for Damage Functions - MCM 2017 Data",
+        description: "New import option from MCM 2017 Data. Allows damage curves import from CSV files supplied with Flood and Coastal Erosion Risk Management Handbook and Data for Economic Appraisal 2017. Previous option renamed to from MCM 2005/2010 Data (no changes).",
+        category: "Data Management"
+      },
+      {
+        id: "9.0-feh2013-point-data",
+        title: "FEH2013 Point Data Import for Design Rainfall Events",
+        description: "Point descriptor parameters can be imported from FEH2013 point data XML files into design rainfall events. Point files include rainfall depths for pre-defined return periods/durations. Imported rainfall depths and catchment areas passed to ReFH2, output stored as CSV files and used as hyetograph data.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.0-growth-product-wq",
+        title: "New User-Defined Water Quality Process Type - Growth-Product",
+        description: "New Growth-product process type option allows interaction between dissolved and attached pollutants. New Scaling factor type option (Variable/Constant). Coefficients increased from 4 to 7, determinants from 3 to 6. Pre-existing parameters default to Constant scaling factor. New growth-product equation implemented, existing growth/equilibrium equations updated.",
+        category: "Water Quality"
+      },
+      {
+        id: "9.0-tuflow-invert-levels",
+        title: "TUFLOW Network Import - Invert Levels for Links",
+        description: "If imported TUFLOW link type 'S' and MIF fields 7/8 are null (-99999), invert level now read from channel shape CSV file (previously null values converted to zero-based depths).",
+        category: "Integration"
+      },
+      {
+        id: "9.0-hec-snyder-routing",
+        title: "New Routing Model Option - HEC Snyder",
+        description: "New HEC Snyder (Snyder Alameda) option for routing model parameter in runoff surfaces.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.0-read-subevent-deprecated",
+        title: "Schedule Hydraulic Run View - Read Subevent Option Deprecated",
+        description: "Read subevent UCWI & evaporation option deprecated but retained for backwards compatibility. Previously used for changing evaporation rate/UCWI per sub-event. Read Subevent NAPI (New UK Method) also deprecated (was only enabled if Read subevent UCWI & evaporation selected).",
+        category: "Modeling"
+      },
+      {
+        id: "9.0-network-version-indicator",
+        title: "Visual Indicator for More Recent Committed Network Version",
+        description: "Red border around Update to latest button highlights more recent committed network version than currently selected in Model Network box.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-zoom-spatial-tsdb",
+        title: "Zoom to Spatial TSDB in Network",
+        description: "If spatial TSDB opened on network, can now zoom to area of network it applies to.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-export-scalar-tsdb",
+        title: "Export Data from Scalar TSDB Grid",
+        description: "New Export selected rows context-menu option enables scalar time series data export from selected grid rows to CSV file.",
+        category: "Data Management"
+      },
+      {
+        id: "9.0-local-network-message",
+        title: "Opening Local Networks on GeoPlan",
+        description: "Message displayed when opening network with committed changes by others but local copy has uncommitted changes. Allows choosing to update local copy with committed changes or cancel operation.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-tvd-connectors-renamed",
+        title: "TVD Connectors Parameters Renamed",
+        description: "Input units parameters renamed to Input units type (dropdown no longer includes specific unit - determined by external units of connected data stream or expression units). Expression units renamed to Connector units (can specify units for constant or output expression).",
+        category: "Tools"
+      },
+      {
+        id: "9.0-wastewater-profile-validation",
+        title: "Wastewater Profile Editor - Parameter Validation Enhanced",
+        description: "All parameters requiring values now highlighted if outside permitted range (previously only Pollutant parameters). Previous warning message removed. Upper limit increased to 100000 for all relevant parameters except pH (pH: 0-14).",
+        category: "Validation"
+      },
+      {
+        id: "9.0-arma-error-prediction",
+        title: "ARMA Error Prediction",
+        description: "Auto-Regressive Moving-Average (ARMA) method for error prediction. Calculates difference between actual observed flows from subcatchment and model-predicted runoff. ARMA model referenced by subcatchment, TVD connector connects TSDB data stream for observed flow. Simulation results include unmodified runoff flow and ARMA-modified outflow. Can post-process forecast predictions using observed data for nodes (comparison result level), network results point 1D (flow/depth/velocity), network results point 2D (depth/speed).",
+        category: "Modeling"
+      },
+      {
+        id: "9.0-2d-mesh-improvements",
+        title: "Improvements in Size and Display-Time of 2D Meshes",
+        description: "2D meshes can now handle ~30 million elements (increased from previous limit). Performance improvement when displaying 2D zone mesh elements/triangles in GeoPlan - only necessary mesh data loaded (previously entire mesh data including unrelated drawing data loaded).",
+        category: "Performance"
+      },
+      {
+        id: "9.0-sql-spatial-rain-layer",
+        title: "SQL - Spatial Rain Layer",
+        description: "New spatial rainfall layer added to Layers option in SQL. Allows spatial search of rainfall radar cells used in simulation using SPATIAL keyword.",
+        category: "Tools"
+      },
+      {
+        id: "9.0-xmp-observed-rainfall",
+        title: "X-MP Observed Rainfall Format Support",
+        description: "Spatial TSDB now supports newer format for X-MP Observed rainfall.",
+        category: "Data Management"
+      },
+      {
+        id: "9.0-swmm-buildup-washoff",
+        title: "New SWMM Build-up/Wash Off Model",
+        description: "New build-up/wash off land use model based on EPA's Storm Water Management Model (SWMM) land use part. Alternative to existing Innovyze model for water quality simulations. Enables pollutant build-up/wash-off and potential street cleaning removal calculation for each land use during simulation. New Build-up/Washoff Land Use tab on Subcatchment Grid. New Washoff parameter in water quality/sediment parameters (choose model, provide non-attached pollutants info, potency factors, sweep schedule for SWMM model). SWMM5 importer imports relevant land use data, can specify ICM determinant for each imported SWMM5 pollutant.",
+        category: "Water Quality"
       }
     ]
   },

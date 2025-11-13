@@ -1,0 +1,48 @@
+What's New in Version 2025.3 - September 2024
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2025.3 which were not available in previous versions.
+
+Any feature marked with an asterisk (*) requires a database update to database version 2025.3 in order to access the feature.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+Return Period Analysis (RPA) grid report
+If you have an Autodesk licence, you can now export results data from the RPA report view and automatically upload it to Info360 Asset. A new button, Export Info360, has been added to the Return Period Analysis Grid Report dialog, and the following columns are now included in the RPA report view:
+
+Asset ID - if an Asset ID has been specified for a conduit, this ID is displayed in the Asset ID column.
+Surcharge due to flow - a check in the box in this column indicates that the surcharge is due to flow.
+The following video demonstrates how the new export feature works:
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 0:18
+Playback Rate1x
+Fullscreen
+
+See Grid Reports for details about exporting RPA data to Info360 Asset.
+
+Buildings
+The following improvements have been added to buildings:
+Using Drainage contribution to model the impact of SUDS/LID*
+It is now possible to model the impact of a SUDS structure, such as a rain barrel, without using a SUDS control object. A new property, Drainage contribution, has been added to a building's properties. It is used to specify the percentage of runoff from the roof that enters the drainage system via a building's Drains to object, and is included in the total outflow calculation. The percentage which does not drain to the Drains to object is lost and therefore excluded from the total outflow. This loss can, for example, be attributed to the impact of a SUDS structure. See SUDS modelling in buildings for details.
+
+Perimeter option for Exceedance flow type
+A new option, Perimeter, is now available for Exceedance flow type. If selected, any storm runoff from a building's roof, which is in excess of the Capacity limit, is directed to the boundary of the building, and included in the 2D simulation. This lets you model exceedance in the 2D mesh without having to direct it to a node location.
+
+The following video demonstrates the changes to a building's properties and their effect on a 2D mesh:
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 0:43
+Playback Rate1x
+Fullscreen
+
+Name change for Additional DWF Baseline property for SWMM nodes
+To be consistent with the naming of properties in the DWF section of a SWMM node, the name of the Baseline property for the Additional DWF properties has been renamed to Base flow. There has been no change to its behaviour.
+
+Description updates in the help for State search radius and State power parameter
+To provide more clarity, the descriptions of the State search radius and State power parameter fields in the InfoWorks and SWMM 2D Parameters dialog have been updated and a new topic, Initial State Interpolation, has been added to provide further information about how these parameters are used in the software.

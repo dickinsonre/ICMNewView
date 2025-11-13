@@ -1,0 +1,46 @@
+What's New in Version 2025.2 - July 2024
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2025.2 which were not available in previous versions.
+
+Any feature marked with an asterisk (*) requires a database update to database version 2025.2 in order to access the feature.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+Export 2D to Raster (Tech Preview)
+To provide an efficient way of exporting 2D results, which can be imported into GIS and other analysis systems, a new Export 2D to raster option is now available, as a Tech Preview, for 2D cloud simulations, whose summary results have been downloaded from the cloud.
+
+It lets you export time varying or summary results as raster image files in TIFF format.
+
+You can choose to export all the result attributes from a selected 2D simulation or only the attributes you are interested in.
+
+If you choose to export time varying results, you can also export attribute results for a single timestep at a specific time or all results at a saved timestep. You can also limit the number of timestep results exported by changing the Timestep multiplier.
+
+To access this new feature, a new Export 2D to raster option has been added to the Results menu, which displays the new Export 2D to Raster dialog. You can use this dialog to specify the export details mentioned previously as well as the type of units and resolution used for the exported images, and the location where the exported files are to be saved.
+
+The following video demonstrates how this feature works:
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 0:37
+Playback Rate1x
+Fullscreen
+If you try our new Tech Preview feature, we would really appreciate your feedback before it's officially released.
+
+Please send your feedback to FeatureFeedback.InfoWorksICM@autodesk.com
+
+Cloud Simulation Quota Dialog
+A new Cloud Simulation Quota dialog, which informs you about the implications of monthly quotas for concurrent cloud simulation usage, is now displayed when you run or re-run a simulation for a cloud database. It contains a Do not show this dialog again box which, if checked (default), ensures that the dialog is not displayed again in the version of the software you are currently using.
+
+SWMM5 and InfoSWMM import logs
+Messages in the log, which is produced when you import network data from a SWMM5 text file or an InfoSWMM model to a network in ICM, have been improved.
+
+Previously, some messages implied that an import had failed when a SWMM5 section, such as INFLOWS or PATTERNS, was empty. This was misleading, therefore, these messages have been updated. You are now informed that you can ignore the message if your model does not require this data but, if it does, you are asked to provide the necessary information so that the applicable network can be imported.
+
+In addition, when importing from an InfoSWMM network, and a conduit had no matching Coordinates or Xsections, previous messages would only inform you that the software was unable to create the conduit. Now, it will ask you to verify that the From Node ID and To Node ID fields are populated within the Link Connectivity table, and then to re-import the data to ensure that the conduit is imported.
+
+See Importing InfoSWMM Data to SWMM Networks, Importing SWMM5 Network Data to SWMM Networks and Importing SWMM5 Network Data to InfoWorks Networks for import details.
+
+2D depth noise filter *
+A new 2D depth noise filter has been implemented in the software to reduce numerical noise caused by numbers below floating point precision. This means that some results, which were previously not updated due to the presence of very low depths, can now be updated. This change may have some minor impact on 2D models dealing with very low depths; mainly infiltration models with infiltration surfaces of the type Green-Ampt, Horton, Deficit and Constant Loss and CNSWMM (i.e. models with heave wetting and drying). The affected results are likely to be mainly summary attributes regarding velocities and angles, derived results such as Froude number, and infiltration results related to soil properties, such as Green-Ampt moisture content of the upper zone.

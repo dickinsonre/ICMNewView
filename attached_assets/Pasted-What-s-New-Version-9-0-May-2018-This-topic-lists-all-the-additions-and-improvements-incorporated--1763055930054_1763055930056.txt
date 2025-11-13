@@ -1,0 +1,126 @@
+What's New Version 9.0 - May 2018
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 9.0 which were not available in previous versions.
+
+Text reports
+Previously only log files, PRN or SWMM SUDS/LID report files that were smaller than 50 MB could be opened as a text file in InfoWorks ICM. This restriction has now been removed.
+
+Files that are less than 4MB are displayed, as in previous versions of InfoWorks ICM, in the general Text File View.
+
+However, for files between 4MB and 2GB, a progress window has now been included, providing an option to cancel the loading operation. If cancelled, only the data that had been loaded before the process was cancelled will be displayed in the Text File view.
+
+Similarly, a formatting progress window has also been added for any log file warnings that include X,Y coordinates which are being formatted as hyperlinks. If cancelled, only the coordinates which had been formatted before the process was cancelled, will appear as hyperlinks in the log file in the Text File view. Unformatted coordinates will be displayed as HML tagged text.
+
+For files that are larger than 2GB, or if there are any issues opening a smaller file, such as insufficient memory on a user's computer, then the file cannot be opened in the Text File view. Users are now given the option to choose another application, such as Microsoft's Notepad, to open the file.
+
+Further information about viewing log files, PRN or SWMM SUDS/LID report files can be found in the Text Reports topic.
+
+SUDS area adjustment
+Previously, when SUDS control objects were added to a subcatchment, their surface area was effectively subtracted from all the subcatchment surfaces proportionally to the surface areas. In order to provide a more accurate representation of surface area runoff, it is now possible to specify which runoff surface, or which type of surface (permeable or impermeable), a SUDS control is located on, and depending on what is specified, InfoWorks ICM will make the appropriate adjustments to the surface area.
+
+A new Surface field has been added to the SUDS controls in the Subcatchment Data Fields. This field will initially be undefined for any SUDS control objects defined in previous versions of InfoWorks ICM.
+
+A check will be made to ensure that the Area and Number of units do not exceed the area of the Surface(s) the SUDS control is located on, and a validation message will be issued if required.
+
+The simulation log file now includes a list of subcatchment surface areas which have been adjusted by SUDS control objects. The log will also indicate if no area adjustment has been performed.
+
+Improved validation for river reaches
+For every river reach in the network, all (left and right) bank points will now have their levels checked against the lowest point (invert) on nearby section(s), and a validation warning message will be issued for all river reaches where the bank line levels are lower than section bed levels. As the warning includes the X,Y coordinates of any suspect bank points, users have the opportunity to amend the bank level elevation before using the model in a simulation.
+
+New import option for Damage Functions
+A new import option, from MCM 2017 Data, is now available. It allows damage curves to be imported from csv files, supplied with the Flood and Coastal Erosion Risk Management Handbook and Data for Economic Appraisal 2017, into a new or an existing Damage Function.
+
+The previous damage curve import option, Damage Function Multi-Coloured 2005/2010 Data..., has been renamed to from MCM 2005/2010 Data... but no other changes have been made to it.
+
+FEH2013 point data import for design rainfall events
+Point descriptor parameters which can be useful, for example, when modelling sewer catchments in urban areas, can now be imported from FEH2013 point data XML files into design rainfall events.
+
+The point files include rainfall depths for a pre-defined range of return periods and durations. Once imported, the rainfall depths, and the catchment areas they apply to, are passed to ReFH2. The ReFH2 application then extracts the required data, and the output from this is stored as CSV files and used as the hyetograph data for the rainfall event.
+
+A new user-defined water quality process type
+
+This section is only relevant to Water Quality Simulations.
+
+
+To allow for interaction between dissolved and attached pollutants, a new process type option, Growth-product, has been added to the user-defined water quality parameters. This option could be used, for example, to model a pollutant, such as a radioactive contaminant, entering the water or sewerage system as a dissolved and attached pollutant, and then part of the dissolved pollutant being converted into attached pollutant.
+
+A new Scaling factor type option has also been added to the user-defined parameters which can be set to Variable or Constant, and the number of coefficients has increased from 4 to 7 while the number of determinants has increased from 3 to 6.
+
+Any user-defined process parameters that were specified using an earlier version of the software will have the Scaling factor type parameter set to Constant by default.
+
+A new equation for calculating the growth-product has been implemented, and the existing growth and equilibrium equations have been updated to include the new scaling factor type parameter and the additional number of coefficients and determinants.
+
+TUFLOW network import - invert levels for links
+If the imported TUFLOW link object is type 'S' and the MIF fields 7 and 8 are null (-99999), then the invert level will now be read from the channel shape CSV file. Previously the null MIF values would have been converted to zero-based depths.
+
+New routing model option for runoff surfaces
+A new option for the routing model parameter in runoff surfaces, HEC Snyder (Snyder Alameda), is now available. See the topic, HEC Snyder Unit Hydrograph Model, for further information.
+
+Schedule Hydraulic Run View
+Read subevent UCWI & evaporation option
+The option, Read subevent UCWI & evaporation, on the Schedule Hydraulic Run View is now deprecated but has been retained for backwards compatibility.
+
+Previously, this option was used if a changing evaporation rate and/or UCWI was specified for each sub-event. See the descriptions of the Evaporation and UCWI fields in the Sub-Event Properties dialog for further information.
+
+As the Read Subevent NAPI (New UK Method) option was only enabled if the Read subevent UCWI & evaporation option was selected in the Schedule Hydraulic Run View, it too has been deprecated but retained for backwards compatibility.
+
+Visual indicator that a more recent committed version of a network exists
+A red border around the Update to latest button now highlights that there is a more recent committed version of the network than the one currently selected in the Model Network box.
+
+Zoom to a spatial TSDB in the network
+If a spatial TSDB is opened on a network, it is now possible to zoom to the area of the network it applies to.
+
+Export data from a scalar TSDB grid
+A new context-menu option, Export selected rows…, enables scalar times series data to be exported from selected grid rows in a TSDB grid to a specified CSV file.
+
+Opening local networks on the GeoPlan
+A message is now displayed when you open a network that has changes that have been committed by others but the local copy of the network has uncommitted changes made by you. This message allows you to choose whether or not to update your local copy with the committed changes made by others or to cancel the operation. See the Network topic for further information.
+
+TVD connectors parameters
+To improve clarity and avoid confusion, the 'Input units' parameters have been renamed to 'Input units type', and their corresponding drop-down lists no longer include a specific unit. This is because the units are actually determined either by the external units of the connected data stream or the expression units, and not from the drop-down list.
+
+The Expression units parameter has also been renamed to the Connector units as this field can be used to specify the units for a constant as well as an output expression.
+
+See the TVD Connector Data Fields topic for further information.
+
+Wastewater profile editor - parameter validation and increase of upper limits
+An improvement has been made to the Common page of the Wastewater Profile Editor so that all parameters, for which you must set a value, will now be highlighted if the specified value is outside the permitted range. Previously this was only available for the Pollutant parameters. The warning message that was previously displayed for all other parameters has been removed.
+
+The upper limit of the permitted values has also increased for all relevant parameters, except pH, to 100000. Permitted values for pH are now between 0 and 14.
+
+ARMA error prediction
+ARMA, or Auto-Regressive Moving-Average, is a method for error prediction. In InfoWorks ICM, ARMA is used to:
+
+Calculate the difference between actual observed flows from a subcatchment and the runoff predicted by a model.
+An ARMA model is referenced by the subcatchment for which the runoff is modelled, and a TVD connector is used to connect a TSDB data stream or another TVD connector, from which the observed flow can be obtained, to the subcatchment. This allows the observed and predicated values to be calculated using the ARMA model during a simulation. The simulation results for the subcatchment will include the unmodified runoff flow result as well as the ARMA-modified outflow result. The results can be shown on the relevant subcatchment's graph or grid view.
+
+Post-processing forecast predictions.
+Using the observed data and the relevant ARMA model, the model output can be corrected during a simulation for a node (using the comparison result level), network results point 1D (using the comparison results flow, depth or velocity) or network results point 2D object (using the comparison results depth or speed) that a TVD connector is connected to. The TVD connector results can also be shown in the graph or grid view.
+
+See the ARMA topic for further information about this model or Using ARMA in InfoWorks ICM for outlines of how this feature may be used.
+
+Improvements in the size and display-time of 2D meshes
+Improvements to the software means that the size of 2D meshes InfoWorks ICM can handle has increased to around 30 million elements. In addition, you should also notice an improvement in performance when displaying 2D zone mesh elements/triangles in the GeoPlan as now only the necessary mesh data is loaded. Previously the entire mesh data, which contained data unrelated to the drawing of the 2D zone mesh, would have been loaded.
+
+SQL - Spatial rain layer
+A new layer, spatial rainfall, has been added to the Layers option in SQL. This allows a spatial search of rainfall radar cells used in a simulation using the SPATIAL keyword.
+
+
+X-MP Observed rainfall
+The spatial TSDB now supports the newer format for X-MP Observed rainfall.
+
+A new SWMM build-up/wash off model
+
+This section is only relevant to Water Quality Simulations.
+
+
+A new build-up/wash off land use model is now available for water quality simulations. It is based on the land use part of the Storm Water Management Model (SWMM) developed for the U. S. Environmental Protection Agency, and can be used an alternative to the existing Innovyze model. This type of model enables pollutant build-up and wash-off, as well as their potential removal during street cleaning, to be calculated for each land use during a simulation.
+
+A new Build-up/Washoff Land Use tab on the Subcatchment Grid enables you to define the build-up/wash off land uses. These can then be assigned to subcatchments using the new Build-up/wash off land uses grid on a subcatchment's properties.
+
+A new parameter, Washoff, has also been added to the water quality and sediment parameters. This lets you choose which model you would like the simulation engine to use during a water quality simulation, as well as providing information about non-attached pollutants, potency factors and the sweep schedule for the SWMM model.
+
+Information about using a SWMM build-up/wash off model in a simulation is included in the Water Quality Simulations topic, and further information about the InfoWorks ICM SWMM model is contained in the Build-up/Washoff Models topic.
+
+The SWMM5 importer will also now import the relevant land use data from SWMM5, and you can specify which ICM determinant to use for each imported SWMM5 pollutant.
+
+Was this information helpful?YesNo

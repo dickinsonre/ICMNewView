@@ -1,0 +1,387 @@
+What's New in Version 2.0 - August 2011
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2.0 which were not available in previous versions.
+
+Change in terminology - Workgroup Coordinator is now Workgroup Data Server
+The Workgroup Coordinator has been renamed to Workgroup Data Server.
+
+This change has been implemented to avoid confusion with the simulation agent coordinator used by InfoWorks ICM.
+
+See the Workgroup Data Server topic for further information.
+
+Ability to check for available updates from the Help menu
+A new Check for updates option has been added to the Help Menu.
+
+Selecting this menu option will open the product updates page of the Innovyze Website, displaying details of the latest version of the software available for download.
+
+Side-by-side installation of the Innovyze Workgroup Client and the InfoWorks ICM Agent
+Major versions 1.5, 2.0 and later of the Innovyze Workgroup Client and the InfoWorks ICM agent can now be installed and used side-by-side.
+
+The InfoWorks ICM Agent service will normally run the most recently installed version of the agent software, but is able to carry out simulations for both the current and older versions of the Innovyze Workgroup Client installed on the same computer. Simulations use the version of the simulation engine that matches the client, so give the same results as if that version was installed on its own. Similarly, a remote agent with multiple versions installed side-by-side will be listed as available to carry out simulations for a client on a different computer provided exactly the same version is installed on both computers (same minor version number).
+
+For information on configuring a coordinator and remote agents please contact Innovyze.
+
+Multi-threading control for simulation jobs
+A limit may be set on the number of threads used by an individual simulation job and/or on the total number of threads available to all simulation jobs executing concurrently on a given agent.
+
+The default is to limit the total threads to the number of cores on the machine and share these equally between jobs executing concurrently.
+
+The per-job limit is set in the Schedule Hydraulic Run View and the per-agent limit is set in the Agent Options dialog.
+
+Improved use of Simulation Agent with databases on network shares
+Enhancements have been made to the InfoWorks ICM Agent Manager to improve use of the agent with databases on network shares.
+
+The Agent Manager now connects to the database and runs simulations under the User's account as opposed to the service account, (which by default will be the Local System account and will not usually have access to a user database on a network share). Connecting to the User's account allows the agent to read from and write to databases and results on network shares accessible to the user without any need for further configuration.
+
+Note:
+
+This process only works when using the default local pipe connection method (specified in the Manage Simulation Agents Dialog). The process will not work over a TCP/IP connection.
+This enhancement does not apply to the coordinator, which may need to access a network share that is being used for shared results. It may still be necessary to run the InfoWorks ICM Agent service on the coordinator machine under an account that has access to any and all network shares used for shared results.
+Automatic adjustment of Phase-in time
+An improvement has been made to the simulation engine to reduce initialisation failures in models with large rivers.
+
+The simulation engine will now perform up to five initialisation phases. Each time initialisation fails, the phase-in time will be multiplied by a factor of 10 and restarted from the initial (dry) condition.
+
+See Simulation Parameters for further information.
+
+Engine update for culvert inlets and outlets
+The implementation of culvert inlet and outlets in InfoWorks has been reviewed.
+
+The simulation engine has been updated to better represent behaviour of culverts in accordance with the CIRIA Funders Report/CP/40 Hydraulic design of culverts, 1996.
+
+A technical note on the Representation of Culverts in InfoWorks, including some worked examples, has been added to the help.
+
+Bank flow stability improvement
+Improvements have been made in the engine to the way bank flows are simulated. Bank flows are now calculated once the solution is converged to improve consistency between 1D and 2D components of the model. Previously, bank flows were calculated at the solution of the previous iteration.
+
+2D Engine performance improvement
+The 2D engine will now put individual zones in 'sleep mode' whenever a steady state is reached in the zone. The zone will only become active again when variations in input data into the 2D zone or changes in 2D zone variables are considered large enough to disturb the steady state.
+
+The introduction of this new functionality has the potential to reduce simulation times significantly for networks containing zones in which a steady state is reached.
+
+Licence number information written to simulation log file
+The licence number used by the simulation engine is now reported in the simulation log file.
+
+This information may aid in diagnosing run failures caused by node size or licence type limits.
+
+New option to perform 2D calculations at minor timesteps
+A new option has been added to the advanced 2D Parameters. Check the Link 1D and 2D calculations at minor timestep option on the Advanced tab of the 2D Parameters Dialog to perform 2D calculations at every minor timestep.
+
+By default the option is unchecked, in which case the 2D simulation engine will perform 2D calculations at every run timestep as in previous versions of InfoWorks ICM.
+
+Using the Link 1D and 2D calculations option may help reduce the occurrence of oscillations at banks in some networks.
+
+See 2D Parameters for further information.
+
+New Inline Bank object
+A new control object has been added which can be used to model in-line flows between 1D and 2D networks.
+
+The Inline Bank is modelled as a link of zero length with associated geo-referenced section data. To connect the inline bank to a 2D zone: create an outfall node inside the 2D zone and connect one end of the link to the outfall. Flow is distributed between all mesh elements touching the bank section and is calculated in the same way as River Reach Bank Flow.
+
+The Inline Bank can also be used as a geo-referenced Irregular Weir to model in-line flows within the 1D network.
+
+See the Inline Bank topic for further details.
+
+Enhancements to RS CSV importer
+The functionality to import network data from InfoWorks RS CSV files has been extended to include support for the partial import of RS USBPR bridges.
+
+In-line spills, which were previously imported as Irregular Weir and Bank Line objects are now imported as Inline Bank and Bank Line objects.
+
+See Importing InfoWorks RS Network Data for details.
+
+New water quality features
+The following new water quality features have been implemented for this version:
+
+New determinants: dissolved oxygen (DO), nitrite (NO2), nitrate (NO3), pH (PH), salt (SAL), water temperature (TW) and coliforms (COL). In order to support the modelling of the new determinants, updates have been made to Water Quality Parameters, Pollutographs, Trade and Waste Water event editors, Initial Conditions 2D and the QM Parameters Dialog.
+Support for decaying pollutants: decay settings for a set of determinants can now be specified in a new Decaying pollutants editor via the Water Quality Parameters property sheet.
+Built-in processes (dissolved oxygen and temperature): dissolved oxygen and temperature parameters are specified in new fields in the Water Quality Parameters property sheet.
+Support for user defined processes: parameters for user defined processes are specified in a new User defined processes editor in the Water Quality Parameters property sheet.
+Structure reaeration: reaeration coefficients can be specified for controls (excluding pumps) in the network. Reaeration coefficients are set in the new Structures editor in the Water Quality Parameters property sheet.
+Support for lateral inflows from Inflow and Pollutograph events
+It is now possible to apply an Inflow hydrograph or Pollutograph profile to a link as a lateral flow.
+
+The Node reference field in the Profile Properties Dialog for Inflow and Pollutograph events has been renamed to Object reference and will now allow link references to be entered.
+
+Event Editor enhancement - support for seconds in sub-event start time
+The Event Editor now supports seconds in sub-event start times, not just hours and minutes.
+
+Enter start times in hh:mm:ss in the Sub-event Properties Dialog.
+
+Non-normalised user-defined shapes
+Previously, user-defined shapes, (used to define conduit and bridge opening cross-sections), had to be entered as a normalised shape using height and width factors between 0 and 1.
+
+It is now possible to enter non-normalised user-defined shapes, allowing surveyed dimensions to be stored. Uncheck the new Normalised option that has been added to the Geometry Editor of the Shape object to allow a non-normalised cross section to be defined.
+
+Note that the non-normalised shape is dimensionless. InfoWorks ICM normalises the profile prior to simulation. The normalised profile is then multiplied by the height and width values of the conduit / bridge opening that the shape is associated with (in the same way that a normalised shape is multiplied by height and width) to determine actual dimensions.
+
+See User-defined Shape for further information.
+
+Ability to rotate cross section lines
+A tool has been added for rotating cross section lines. Cross section lines can now be :
+
+rotated by an angle around the point of lowest bed level or intersection with a river reach / bridge link or general line
+rotated perpendicular to a river reach/bridge link about the point of intersection with the link.
+See the River Lines topic for further details.
+
+Option to insert interpolated rows in river line section data grids
+In previous versions of InfoWorks ICM it was possible to insert a blank new line in the Sections Editor grid for river lines.
+
+In this version, additional options have been added to allow the insertion of a row with values calculated by interpolating between existing values in the grid.
+
+Right click on the left hand side of a row in the grid and select Insert Interpolated Row Above or Insert Interpolated Row Below from the context menu.
+
+See Sections Editor for further details.
+
+Tool to convert Channels to River Reaches
+A tool is now available to convert Channel objects to River Reach objects. Select Convert selected channels to river reaches from the Model menu to convert the current selection of channel objects.
+
+This tool is of particular use for converting channel objects imported from InfoWorks CS/SD networks.
+
+See Converting Channels to River Reaches for details.
+
+Option to include network objects when creating TIN ground models
+It is now possible to specify a selection of cross section lines, bank lines and / or river reach objects for use in creating a TIN ground model.
+
+Elevation data of selected lines and / or river reach section and bank profiles will be used to create new TIN vertices and will be treated as break lines during the creation process.
+
+See Creating a TIN Ground Model for further information.
+
+Option to turn off display of scenario 'object ghosts'
+By default, objects that are present in the base network but not in the current scenario are displayed as a faded grey colour in the scenario GeoPlan Window.
+
+Display of these 'object ghosts' can now be turned on/off from the Visual Page of the GeoPlan Properties Dialog.
+
+Note that as a result of the addition of this new option, it has been necessary to move control of visual effects of 2D elements and river reach section and bank lines to a new Elements Page on the GeoPlan Properties Dialog.
+
+Notes field added to grid views
+The Notes field for network objects has now been added to the grid views. Previously this field was only visible from the object's property sheet.
+
+The first few characters of the Notes field are visible in the grid view. Click the  button to open the Notes editor to view the entire text.
+
+2D Meshing using the simulation agent
+In previous versions of InfoWorks ICM it was only possible to carry out meshing of 2D zones 'online', which prevents use of the user interface while meshing is in progress.
+
+In this version it is now possible to carry out meshing 'offline' by using the simulation agent. Each zone to be meshed is run as a 'mesh job' in the simulation queue. Mesh jobs can be run on both local and remote agents. If you have installed the 64-bit edition of InfoWorks ICM, offline meshing uses a 64-bit engine, which allows larger and more complex meshes to be generated than when using online meshing that always uses 32-bit.
+
+To carry out meshing using the simulation agent, select the new Do meshing offline using simulation agent option on the Mesh 2D Zones Dialog.
+
+See the Mesh 2D Zones Dialog topic for full details.
+
+Mesh Zone filtering during 2D meshing process removed
+In previous versions, Mesh Zones with a null Maximum Triangle Area were excluded from the process of creating a 2D mesh.
+
+In this version, all mesh zones are included in the meshing process. This allows mesh zones to be used for specifying ground level modifications without the need to also specify a maximum triangle area.
+
+In mesh zone areas with no specified maximum triangle area, the maximum triangle area of the overlapping 2D zone will be used.
+
+See Creating 2D Meshes for further information.
+
+2D Meshing - Improvement to mesh element aggregation
+Improvements have been implemented in the 2D mesh element aggregation algorithm to avoid the generation of non-convex elements as much as possible.
+
+The 2D engine can more accurately model behaviour at element interfaces when using convex elements, thereby improving the quality of local mesh results.
+
+Number of 2D elements displayed in Network Overview
+The number of 2D zones and 2D elements in the network has now been added to the information displayed in the Network Overview View.
+
+This information may be of use for checking that the number of elements in the network has not exceeded the current licence limit.
+
+Export of 2D mesh triangle geometry to CSV
+The option to Export 2D triangles has been added to the Select CSV Export Options Dialog.
+
+Check this option to export x, y and z coordinates of triangle vertices. Each triangle will be exported as a separate object.
+
+Note: subsequent import/update of network data from CSV does not support the import of 2D triangle data.
+
+Improvement to River Reach section building
+The functionality for building river sections from cross section lines has been improved.
+
+A tolerance has been added so that cross section lines that do not intersect a river reach link but are within 0.1 m of the link upstream or downstream node are included in the building process.
+
+The reach sections generated from these cross section lines are translated to intersect the upstream / downstream node positions of the river reach link.
+
+See the River Reach Building Tools topic for further details.
+
+New engineering validation for bed slope in reaches
+A new engineering validation rule has been added to validate river reach bed slope.
+
+Rule 4012 is used to check for bed slope higher than a specified threshold, where bed slope in a river reach is calculated as:
+
+(upstream section lowest bed level - downstream section lowest bed level) / distance between sections
+
+High bed slopes may result in simulations failing to converge. This engineering validation rule can be used to indicate locations at which it may be more appropriate to model the change in slope by inserting a weir, or a break in level between two reaches, for example.
+
+See Engineering Validation for further information.
+
+Improved network validation
+Improvements to network validation have been made by adding the following validation checks:
+
+Chamber floor level of a 2D node must be lower than the node ground level (E2082)
+Manning n values on river reaches:
+Zero and non-zero manning values must not be mixed within a panel on a section (E7811)
+There must be at least one panel on a section with non-zero manning values (E7813)
+Manning values should be within recommended range 0.009 - 0.2 (W7812)
+Manning values differ by more than 20 percent within a panel on a section (W7810)
+Bridge opening associated with a Bridge must be referenced in the bridge section data (E7815)
+Invert level of a culvert inlet/outlet should be the same as the invert level at the attached end of a barrel conduit (conduit connected immediately downstream of a culvert inlet or immediately upstream of a culvert outlet) (W2553, W2580)
+Conduit headloss type should not be set to NORMAL or HIGH at link ends attached to break nodes, ponds or culvert inlet/outlets or when the conduit is of an open channel shape (W7785)
+Distance between river sections should not be less than the minimum space step specified in the Simulation Parameters (W7814)
+Mesh element has an area less than half of the specified minimum element area (W2285)
+See Validation Messages for details.
+
+3D Network Window improvements
+The options on the Properties Dialog of the 3D Network Window have been revised to give greater control over display of network objects in the view.
+
+It is now possible to turn the display of the following features on / off:
+
+Nodes and links (including flood cones)
+Storage area ground levels
+River reach ground levels
+2D zone element ground levels
+See 3D Network Window for further information.
+
+Improvements to Flooding Section Window
+A trace representing the ground level as determined from the network (e.g. mesh element ground levels within a 2D zone), can now be plotted on the Flooding Section Window.
+
+To turn this ground level trace on/off, set the status of the Show results ground level in the Content page of the Section Properties Dialog for the window. The colour of the trace can be set in the Layout page of the dialog.
+
+Additional options have been included in the section properties dialog allowing ground model and water level traces to be shown or hidden. Previously, the water level trace may have been obscured by the ground model fill with no option to turn the fill off.
+
+See Flooding Section Window and Section Properties Dialog for more information.
+
+Advanced caching option to improve drawing performance
+Use advanced caching and Use file cache options have been added to the GeoPlan Page of the Options Dialog.
+
+Use these options to improve drawing performance by reducing unnecessary redraws. The most significant improvements are most likely to be seen when replaying 2D results. Any large networks should benefit from faster drawing when moving round the GeoPlan or replaying results.
+
+See Options - GeoPlan Page for further information.
+
+Improved drawing of arrows on river reach links
+The drawing of link theme arrows on river reach links has been improved. Direction arrows on a river reach link are now drawn between each pair of sections.
+
+Previously only a single set of arrows was drawn per river reach.
+
+Simulation Control Window - status description revised
+In previous versions of InfoWorks ICM, the status of finished simulations was displayed in the Simulation Control Window as Succeeded (regardless of whether the simulation was incomplete or had warnings).
+
+The status of a finished simulation is now more accurately displayed as Ended.
+
+Hyperlinked coordinates in simulation engine log
+The simulation engine log has been improved by applying hyperlinks to x and y coordinates within warning messages in the log. Clicking on the hyperlink will zoom into the corresponding location on the current GeoPlan Window enabling problem locations to be found quickly and easily.
+
+Base flow depth field removed from River Reaches
+In previous versions of InfoWorks ICM, a Base flow depth field was included for River Reach objects.
+
+This field has now been removed as it is not used by the simulation engine. (An inverse Preissmann slot is used to implement base flow for river reaches.)
+
+InfoWorks ICM River and Bridge tutorials now available
+Mini-tutorials detailing the sequence of events leading to river and bridge model building in InfoWorks ICM have been included in this release. Lessons or instructions can be found in the InfoWorks ICM help file which can be accessed from within the software by pressing the F1 keyboard key. In the help, click on the Contents tab, then on InfoWorks ICM Tutorials.
+
+Sample data is provided for each lesson. Note that tutorial example files do not get installed with InfoWorks ICM and must be installed separately.
+
+To allow users to restart the tutorials at any point, the sample database contains a copy of the data as it should appear at the beginning of various stages. This also leaves the user free to experiment with the data and still start each new stage with the correct data.
+
+Dropdown list of undo / redo actions
+A list of undo / redo actions can now be viewed from the new  button on the Edit Toolbar. Click on the down arrow to list up to five undo and redo actions in the order the actions were carried out. You can undo the most recent action, and redo the most recent undo action from this list.
+
+The Edit menu has been similarly updated and action descriptions have been improved.
+
+More restrictive user permissions
+The ability to apply more restrictive permissions to database users has been added. It is now possible to set a default option (for database users with no specific roles set) to restrict viewing of data so that objects can be seen in the tree but not opened. The only action that can be carried out by the database user is to view the properties of tree objects.
+
+The following changes have been made in the implementation of this functionality:
+
+The previously named User Maintenance Dialog has been renamed to Users and Permissions Dialog and is accessed from the File | Master database settings | Users and permissions... menu.
+The options to implement user permissions and to protect global database settings have been moved to the Users and Permissions Dialog (these were previously turned on and off via the File | Master database settings menu.
+A new option to set the default viewing permissions for database users has been added to the Users and Permissions Dialog.
+See User Permissions for further information.
+
+Ability to assign user permission roles using Windows groups
+The user permissions functionality has been extended to allow Windows groups to be added as users and assigned roles for groups in the tree. Users who are members of such Windows groups will automatically inherit the roles assigned to those Window groups for the relevant groups in the tree, in addition to any roles that may be assigned specifically for those users.
+
+See User Permissions for further information.
+
+New automatic node naming variable to create globally unique IDs
+In previous versions of InfoWorks ICM, the {C} variable could be used as a sequence count when automatically generating node IDs, to ensure uniqueness of names for a network. This method only ensures uniqueness of names for the current user and may result in commit conflicts when multiple users are editing the network.
+
+In this version, a new {K} variable has been added. When using the {K} variable an absolute sequence number is issued globally at the database level to ensure that no user is given the same sequence number, thereby avoiding commit conflicts.
+
+See Automatic Node Name Generation for further information.
+
+Edit Notes option for scenarios
+Previously, scenario notes could only be entered at the time of creation of the scenario.
+
+In this version it is now possible to edit notes for a scenario at any time using the new Edit Notes button that has been added to the Manage Scenarios Dialog.
+
+Open Data Import Centre - previous source type settings retained
+In the Open Data Import Centre Dialog, the source type most recently used for import is now remembered and selected the next time the dialog is opened.
+
+Previously, a set default source type was selected each time the dialog was opened.
+
+Open Data Export Centre - facility to filter exports via Ruby methods
+The Open Data Export Centre is now able to use a user-defined ruby script to filter objects as part of the export process. The filtering will usually be based on the data to be exported. As an example, an export of pipe data may use a script to filter out from the export pipes with a diameter less than a specified minimum.
+
+For further information on using a script to control export contact Innovyze.
+
+Improvements to GeoPlan Theme configuration
+GeoPlan theme usability has been improved in this version of InfoWorks ICM. The layout of the Sub Theme Editor Pane (in the Layer Theme Editor) has been redesigned to be more user-friendly. Users can now select the properties to use for setting up a theme in the new Properties section instead of having all the available properties displayed in the Ranged Themes grid, even if they are not all used. This makes the Layer Theme Editor less cluttered and easier to use.
+
+Improvements to saving of grid layout and section properties
+Improvements have been made to allow changes in grid column layout and long section properties to be saved using a similar method to the saving of GeoPlan properties and themes.
+
+Properties can be saved as default for a particular network, as default for all networks of a particular type, or to an .iws file.
+
+Section properties are saved and loaded via the Save and Load buttons on the Section Properties Dialog.
+
+Grid layout properties are saved and loaded via the Save grid layout and Load grid layout options on the Grid menu.
+
+See Network Editing Properties - Save Options Dialog and Load Network Editor Properties Dialog for further information.
+
+Simulation results progress and jump bar
+Enhancements have been made to the simulation replay clock displayed in the GeoPlan Window. The clock now also acts as a replay progress bar, with fill colour progressing as the simulation plays. The clock also provides the ability to jump to results: click on the clock bar to display results at the time corresponding to the position clicked on.
+
+See Viewing Replays of a Simulation for further information.
+
+Improvement to time-varying results export
+An improvement has been made to the Set Timestep Dialog, which is used to select the export timestep when exporting results to GIS files.
+
+In previous versions of InfoWorks ICM, the Set Timestep Dialog displayed simulation times in hours and minutes only.
+
+In this version, the Set Timestep Dialog now also displays the seconds part of the timestep (for simulations using absolute times), allowing the export timestep to be specified more accurately.
+
+The Replay Options Dialog has also been updated to display the seconds part of the timestep for simulations using absolute times.
+
+See Exporting Results to GIS for further information.
+
+Introduction of new-style dongles
+'New-style' dongles have been introduced for this version of InfoWorks ICM.
+
+It is possible to have more than one new style network dongle attached to a single server. The new style network dongles also offer a greatly improved control panel for monitoring the use of dongles and licences.
+
+New style dongles are supported from Version 12.0 onwards. All products continue to work with old style dongles (dongles provided prior to the Version 12.0 release).
+
+The 'Licence Key Setup' program used to configure dongle settings is now run as a wizard and allows dongle options to be set for both the current user and for all users on a machine.
+
+For information on configuring the dongles used with InfoWorks ICM, see the Dongle Configuration Guide available for download from the Innovyze Web Site or on request from Innovyze.
+
+Enhancements to map control support
+ArcEngine map control option
+InfoWorks ICM now supports ESRI ArcEngine as the map control for the GeoPlan Window in addition to PBBI MapXtreme and ESRI ArcObjects. You can use whichever component suits the format of any external data or map backgrounds you want to use with InfoWorks ICM.
+
+ArcEngine is a cheap alternative to the ArcObjects (ArcGIS/ArcView) map control and supports the following layer types:
+
+ESRI ® Shapefiles
+CAD Layers - Points, Areas, Polygons and Polyline classes
+
+Raster images such as JPG, PNG, ECW, BIL, BMP, SID
+Layer files
+Please refer to the GIS Layer Control dialog topic or the Changing the current Map Control topic for further information.
+
+As part of these map control improvements, dialogs relating to GIS import have been rationalised.
+
+Support for ArcGIS server map services
+ArcGIS Server Map Services are now supported in InfoWorks ICM. ArcGIS Server Map layers can be displayed as background layers when using the ArcObjects map control and can be saved in layer lists. Users can connect to both remote web servers and LAN servers.
+
+Please refer to the Additional GIS Layers and the GIS Layer Control Dialog topics for further details.
+
+Export to shape file - ArcGIS 10 compatibility option
+Various options in ArcGIS 10 now require single-part polygons to be specified in an anti-clockwise direction. It is unlikely that you will experience any problems with exported data, however, if exported data is not behaving as expected, you can make use of the Use ArcGIS 10 compatibility option that has been added to the GIS Export Dialog when exporting to shape file. Check this option to carry out a direction check on polygons to ensure that all exported single-part polygons are specified anti-clockwise.
