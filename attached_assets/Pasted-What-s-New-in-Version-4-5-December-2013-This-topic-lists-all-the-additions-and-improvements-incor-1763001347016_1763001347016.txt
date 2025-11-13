@@ -1,0 +1,312 @@
+What's New in Version 4.5 - December 2013
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 4.5 which were not available in previous versions.
+
+Flood risk analysis
+New functionality has been implemented to allow InfoWorks ICM users to carry out flood risk analysis.
+
+The Risk Analysis Run is used to schedule risk analysis simulations for multiple events. Each simulation carries out damage calculations to produce cost values associated with damage incurred by flooding at defined Damage Receptor locations in the network.
+
+The risk analysis process uses the probability of occurrence of an event in conjunction with the damage calculation results to produce an expected annual damage (EAD) value for each Damage Receptor.
+
+Risk analysis runs can only be carried out if the Risk option is enabled on your licence.
+
+In order to support the risk analysis functionality, the following features have been implemented:
+
+Damage receptors
+A Damage Receptor is a new point object that is used to define the location and properties of a structure/building within a 2D mesh. Hydraulic simulation results at the Damage Receptor include flood duration and maximum flood depth. The results are used in the calculations carried out by a Risk Analysis Run.
+
+See Damage Receptors for further information.
+
+Damage Function database item
+A Damage Function is a new database item type used to store a set of damage curves defining the relationship between flood depth and damage values. The curves are associated with Damage Receptors by cross-referencing the Code and Component values of the curves with those specified at the receptor objects.
+
+The curves are viewed and edited in the Damage Function Editor. Curves may be imported from csv files generated from the Excel spreadsheets supplied in the Multi-Coloured Handbook and CD 2010.
+
+The curves are used in the calculations carried out by a Risk Analysis Run.
+
+See Damage Function for details.
+
+Damage calculation parameter in 2D parameters dialog
+A new parameter has been added to the Advanced tab of the 2D Parameters Dialog.
+
+Use the Damage calculation timestep multiplier to control the timestep at which flood duration results at Damage Receptors are calculated.
+
+New subevent properties for rainfall events
+Return period, Storm duration and Return period type properties have been added to the Sub-Event Properties Dialog of the Rainfall Event Editor.
+
+The values in these fields are used to calculate damage values when carrying out a Risk Analysis Run.
+
+Spatial rainfall intensity theme displayed when showing maximum results
+When displaying maximum results on the GeoPlan, maximum spatial rainfall intensity is now displayed using the rainfall theme (if the theme is turned on in the GeoPlan Properties Dialog). Maximum results are displayed using the  button on theReplay Control Toolbar .
+
+Maximum intensity rainfall values will also be displayed in the Status Bar when the option to show spatial rain is turned on in the Visual Page of the GeoPlan Properties Dialog.
+
+See Displaying Spatial Rainfall on the GeoPlan for further information.
+
+Long section enhancements
+The following enhancements have been made to the Long Section Window:
+
+Display of secondary water level line when comparing simulations
+When comparing results of two simulations, a line representing level results from the second simulation is now displayed in the Long Section Window. Line colour is controlled by using the Secondary water level colour picker on the layout page of the Section Properties Dialog.
+
+Ability to display total head line
+It is now possible to display a line representing total head in the network on the Long Section Window. Line visibility and colour is controlled by using the new total head options on the Section Properties Dialog.
+
+Improvement to horizontal scale display
+In previous versions of InfoWorks ICM, the horizontal scale for a long section was displayed at manhole locations only.
+
+In this version, the horizontal scale is shown when zoomed in, even when there are no visible manholes.
+
+Import from EACSD file format
+It is now possible to import network objects from files in EACSD v3.2 format.
+
+The importer currently supports the import of: cross sections, river reach centre lines, and bank lines.
+
+See Importing from EACSD Format Files for details.
+
+Area-averaged subcatchment rainfall
+A new Use area-averaged rain option has been added to subcatchment objects in the network.
+
+When using spatial rainfall, either from Events or TSDB, subcatchments are matched, by default, to the rainfall polygon that contains the centroid of the subcatchment. For very large subcatchments and/or high resolution (radar) rainfall data, where the subcatchment overlaps multiple rainfall polygons, this can mean that the simulated subcatchment rainfall is not representative of the rainfall over the subcatchment as a whole.
+
+Check the Use area-averaged rain option to calculate rainfall for the subcatchment as the area-average of the rainfall of all rainfall polygons that overlap the subcatchment.
+
+See the Using Spatial Rainfall in Simulations and TVD Connectors topics for further details.
+
+Enhancement to allow more complex rain gauge boundaries in rainfall events
+The size of the Gauge data field in the Rainfall Event properties has been increased to allow the use of more complex Rain Gauge Boundaries with a large number of vertices.
+
+Base linear structures controlled by a user defined head-flow relationship
+It is now possible to control the flow across a Base Linear Structure (2D) by use of a user defined head-flow relationship.
+
+A new Head Unit Flow table object has been added to the Lines Grid. Head unit flow tables are used to define the relationship between head and flow per unit length of crest of the base linear structure; where head is the difference between the upstream water level and either the downstream water level or the crest level of the structure, whichever is higher.
+
+To apply the head-flow relationship to the linear structure, set the Structure type field to User control and specify the Head Unit Flow in the Head unit flow table field of the Base Linear Structure property sheet.
+
+See Base Linear Structures (2D) for further information.
+
+2D point source results
+It is now possible to view results for 2D point source objects using the following functionality:
+
+Pick graph  and pick grid  tools on the Results Toolbar
+Points Results Grid
+Graph Reports
+Custom Graphs
+Statistical Reports
+CSV results export
+In addition, support for gauged results at 2D point sources has been added.
+
+For details of results fields, see the Point Results Data Fields topic.
+
+Saturated dissolved oxygen displayed as results attribute
+Saturated dissolved oxygen results are now output for Water Quality Simulations modelling Dissolved Oxygen.
+
+The results are displayed in the new Saturated DO field in the Time Varying Results Grid.
+
+New maximum results attributes
+Maximum results have been added for subcatchments.
+
+The results are displayed in the Results Grid Windows and in the Property Sheets when displaying results.
+
+Deficit and constant loss runoff surface type
+A DefConLoss (Deficit and constant loss) option has been added to the Runoff volume type field for Runoff Surfaces.
+
+The model is based on the HEC-HMS model described in the HEC-HMS Users's Manual (2010). The surface is modelled as a single soil layer in which incident rainfall is initially stored and which is subject to evaporative loss (defined in the Rainfall Event). When the soil layer reaches saturation capacity, infiltration may occur, with the excess rainfall going to runoff.
+
+See Deficit and Constant Loss Model for further details.
+
+Ability to edit river line section data by specifying an offset
+New options have been added to the Sections Editor for cross section and bank lines. The options are available from the context menu displayed by right clicking on the left hand side of the row in the survey points grid in the editor:
+
+Edit offset - allows the offset of the vertex clicked on to be edited. The new location of the vertex will be determined from distance from adjacent vertices, whilst maintaining the original offsets of the adjacent vertices.
+Insert row at offset - allows a new vertex to be added at the offset specified. The location and bed level of the vertex will be determined by linear interpolation between adjacent vertices.
+If river reach section data is editable (Allow editing of river reach data option turned on in the General page of the Options Dialog), these options will also be available in the River Sections Editor and when editing Bridge sections.
+
+Option to split link when moving a node
+When moving a node onto a conduit or river reach link, the option to split the link is now displayed. Select this option to insert the node into the link that it has been moved to.
+
+Diagnostic option to exit simulation if event profile does not match object
+A new Exit if TVD Profile ID is not matched in network option has been added to the Run Diagnostics Dialog.
+
+Check this option to exit the simulation if a profile ID in an Event included in the run schedule does not match an object in the network. Applies to Inflow, Level, Pollutograph, Regulator and Ground Infiltration events.
+
+New initialisation option in run scheduler
+The propagation of outfall tide levels upstream during the initialisation process was implemented for version 4.0. In certain cases, in networks where beds have slopes of different signs between sections, the use of this option may cause initialisation to fail.
+
+A new Initialise by level fill-in from outfalls check box has been added to the Schedule Hydraulic Run View to make propagation of levels from outfalls during initialisation optional.
+
+Validation no longer required for network preference changes
+It is now possible to commit changes to network preferences, (e.g. GIS layers and network themes), without the need to re-validate the network prior to use in a simulation.
+
+SQL expression themes for networks without results
+In previous versions of InfoWorks ICM, SQL expression themes could only be used when simulation results were loaded on the GeoPlan.
+
+In this version, it is now possible to display non-result SQL expression themes when there are no results in the GeoPlan.
+
+See Managing Themes for further information.
+
+Ability to update base linear structure crest level data from ground model
+It is now possible to update base linear structure crest level data from ground models. This process is very similar to that of the update of river line section data from ground models. Base linear structures to update must be selected in the GeoPlan prior to the Update from ground model option being invoked from the Model menu. This displays the Update from Ground Model Dialog where sampling parameters, such as ground model selection and vertice insertion options, can be set. In this dialog the River lines section has been renamed Lines as the options it contains apply to both river lines and base linear structures.
+
+See Updating Network Objects from the Ground Model and Update from Ground Model for more information.
+
+Ability to create a new base network from a scenario
+It is now possible to make a copy of an existing scenario and make that copy a base network, by using the new Duplicate button of the Manage Scenarios Dialog. Invoking this functionality creates a brand new network with the selected scenario as the base network. The selected scenario and base network it originates from do not get overwritten and exist side by side with the newly created base network.
+
+Creating a new base from a scenario has the advantage of making a clean break as the scenario heritage does not get brought across to the new base. See Scenarios or Manage Scenarios Dialog for further details.
+
+Improvements to Resolve Update Conflicts Dialog
+A conflict can occur if two or more users make changes to the same fields in the same objects and this results in the fields being set to different values. Although conflicts can be difficult to resolve, they must be fixed before changes made in the current network can be committed to the master database. To help users identify the user whose edits are conflicting with their updates for the current object / field, the Resolve Update Conflicts Dialog has been enhanced with a Commit history button. Clicking on this button displays the Commit History dialog for the network object currently selected in the Resolve Update Conflicts dialog. In there, the object commit history can be seen, as well as commit details for each version, including user ids.
+
+Enhancement to links between base and scenario objects
+When working with Scenarios, if changes are made to a field of a network object in a scenario so that the value of the field in the scenario differs from the value of the field in the base, subsequent changes in the base network to the same field are not carried over to that scenario.
+
+An enhancement to the scenario functionality has been made for this release, so that if changes are subsequently made to the same field in the scenario so that the value of the field in the scenario is set to the same as the base, the link between the objects in the base and scenario is re-established and changes made in the base will be visible in the scenario again.
+
+Ability to view the full commit history for a single network object
+Enhancements have been made to the Object Commit Details dialog to allow users to view the full commit history for a selected network object. Enabling the Full history option of the dialog displays a grid of all the commit versions for the object.
+
+As part of these improvements, the Show Base option is available from the Commit History dialog for scenario objects that have been modified from the base.
+
+Please refer to the Commit History Dialog and the Object commit details Dialog topics for further details.
+
+Enhancement to GeoPlan Properties dialog to easily show/hide multiple object layers
+A usability enhancement has been made to the Layers and Themes Page of the GeoPlan Properties Dialog.
+
+Visibility of multiple network object layers can now be turned on/off by holding down the CTRL key while clicking on a check box in the Display column. The status of the Display check boxes in all currently selected rows will be changed at the same time. This functionality can also be used to turn display of auto labels on/off.
+
+See GeoPlan Properties - Layers and Themes Page for further information.
+
+Ability to make object layers unselectable on the GeoPlan
+A Selectable check box has been added to each object layer in the Layers and Themes page of the GeoPlan Properties dialog. When disabled this option makes the objects in that layer unselectable. This option can be very useful when layers overlap as it restricts the number of network objects returned when performing a selection. Please note that this feature applies to methods by which the object is directly selected. This involves the use of the following tools:
+
+Selection tool (Selection tool)
+Properties tool (Properties tool)
+Graph Pick tool (Graph Pick tool)
+Grid Pick tool (Grid Pick tool)
+See GeoPlan Tools toolbar and Results toolbar for more information.
+
+Indirect object selection is unaffected by this new feature. In other words, objects located in unselectable object layers will still be selectable (or returned) when indirect methods such as the ones described below are used:
+
+Polygon Select tool (Polygon Select tool)
+SQL queries
+Selection in grids
+Searching for network objects on the GeoPlan
+Snap mode enhanced to allow snapping to objects in GIS layers
+When digitising and editing network objects with Snapping Mode on, it is now possible to also activate GIS snapping mode.
+
+With snapping mode on, press the g key to toggle GIS snap mode on and off. GIS snap mode allows network object vertices to be snapped to the vertices of objects in background GIS layers.
+
+The current snap mode is displayed in the Status Bar (when snap mode is relevant).
+
+Ability to generate custom reports in .xslm format
+When creating a Custom Report it is now possible to select a file of type .xslm as the report template. Reports created from a .xlsm template will be generated in .xlsm format.
+
+Reports created from .xls or .xlsx templates will be generated in .xlsx format (as in previous versions of InfoWorks ICM).
+
+(Applicable when using versions of Excel 2007 and later.)
+
+New SQL FIXED function
+A new FIXED function is now available for use in SQL queries.
+
+FIXED(number_to_convert,number_of_decimal_places) converts a number to a string with a fixed number of decimal places (from 0 to 8), rounding up or down as appropriate. If the number of decimal places is 0 the string will have no decimal point.
+
+See SQL Syntax and SQL in InfoWorks ICM and InfoNet for more detailed information.
+
+AutoCAD 2014 support
+InfoWorks ICM now supports import from AutoCAD 2014 format files. In addition DWG files generated from section and Geoplan export are now in AutoCAD 2014 format
+
+Improvement to Previous View functionality
+The previous view on a GeoPlan is displayed by right clicking on the GeoPlan and selecting Previous view from the context menu.
+
+In older versions of InfoWorks ICM, the use of the Previous view option was limited to toggling between the view previous to the last view and the last view.
+
+In this version, the Previous view option will display the view previous to the currently displayed view.
+
+Ability to adjust width of custom label callout line
+It is now possible to adjust the width of a custom label's callout line using the new Callout Line Width setting that has been added to the Custom Label Settings Dialog - Formatting Page.
+
+GPU engine improvement
+Improvements have been made to the GPU engine to include support for water quality results for network results objects.
+
+(Not all water quality functionality is supported by the GPU. See the 2D Parameters topic for details.)
+
+Note:
+When using a GPU card for carrying out 2D calculations, it is recommended that the latest available NVIDIA driver for the GPU card is installed.
+
+Improvements to job submission functionality
+The following enhancements have been made to cater for the different types of jobs that can be submitted to the server:
+
+The Simulation Control Window is now called Job Control Window.
+The Simulation Progress Window is now called Job Progress Window.
+The Manage Simulation Agents Dialog has been renamed Manage Job Agents Dialog.
+The Max concurrent simulations field of the Agent Options dialog (accessible from the Agent options button of the Manage Job Agents Dialog) has been changed to Max concurrent jobs.
+The grid of the Job Control Window has been redesigned in an attempt to provide the user with as much information as possible for each job:
+A new column to indicate the job type has been added (Job type column).
+Tooltip enhancements have been implemented at cell level.
+User permissioning of selected actions
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Database owners can now set user access permissions at action level, to a selected Group in the master database. The selected Group may be a Master Group or Model Group.
+
+User permissions need to be activated for database owners to be able to implement these action permissions.
+
+These permissions are designed to prevent specific users from performing certain actions on time series databases :
+
+TSDB Owner
+TSDB Editor
+TSDB User
+TSDB Viewer
+As part of these changes, the Edit Group Permissions Dialog has been enhanced so it now gives an indication of which users are Database Owners.
+
+Please refer to theUser Permissions and User Permissions at action level topics for more information.
+
+Ability to update time series data from external sources
+It is now possible to update time series database objects from external sources in InfoWorks ICM. Data streams and data sources can be manually updated using the new Update data button that has been added to the Time Series Data Grid.
+
+For scalar time series databases, users can alternatively use the Update data… context menu option available on the Forecast/ Observed page for a single data stream or the Data Sources page for a whole data source.
+
+All of these routes lead to the Update Time Series Data Dialog being launched. In this dialog, users can specify update settings. The option to perform the update in the background (Perform the update in a background process (recommended)) is selected by default. It is highly recommended to leave it enabled as updates can take a long time and carrying them out in the background will allow users to perform at the same time other tasks in InfoWorks ICM or other applications on their computer.
+
+It is also possible to disable TSDB updates in InfoWorks ICM and ICMLive Operator Client.
+
+See Updating Time Series Data for further details.
+
+Ability to use historic TSDB data in a run
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+It is now possible to select a 'past version' of a TSDB to be used in a new run.
+
+This functionality allows a historic run to be carried out using data in the TSDB as it was at the time of the run period. (In previous versions, the user could only select the latest version of the TSDB for new runs, or the TSDB version used at the time of creation for existing runs.)
+
+To select the TSDB version to be used in a run, enter the TSDB version time in the TSDB Options Dialog, accessed via the Schedule Hydraulic Run View.
+
+Licence required for PDM simulations
+From this version of InfoWorks ICM, an extra licence option is required to run simulations using PDM functionality. This will affect simulations that use networks containing subcatchments with PDM or SRM runoff surfaces.
+
+Contact Innovyze for information about adding this option to your existing licence.
+
+Support for ArcGIS 10.2
+InfoWorks ICM now supports ArcGIS version 10.2 when using the ArcObjects map control.
+
+See Changing the Current Map Control for further information on supported map controls.
+
+CSV network data import and export now support UTF-8 encoding system
+It is now possible to use UTF-8 encoding when importing network data from CSV files and exporting network data to CSV.
+
+UTF-8 is a character encoding that is of particular relevance to customers using non-Western Latin characters.
+
+Soft Licensing
+Soft licences are now available to InfoWorks ICM users and are provided as an alternative authorisation mechanism to the traditional dongles.
+
+Soft licences are more flexible than dongles and can be checked out / in or requested on demand as required.
+
+As with licences provided by dongles, soft licences can be local licences or network licences. Network soft licences require the use of a server.
+
+Network soft licences can be checked out from a floating licence server to be used on a specific PC. That PC does not need to be part of a network, which can be very useful when working from home or visiting a customer. That particular licence is then unavailable to any other authorised users until either the number of days it has been checked out for has elapsed or it is checked back in.
+
+Additionally, network soft licences can be used on demand. Such licences are activated when requested and when InfoWorks ICM is been used. They are relinquished when users stop running InfoWorks ICM. Also please note that for an on demand soft licence to work, the client PC must be connected to the licence server.
+
+Licence configuration takes place in the Licence Setup Wizard, that can be launched via the Windows Start menu. Please refer to the Licence Setup Wizard topic for more information.

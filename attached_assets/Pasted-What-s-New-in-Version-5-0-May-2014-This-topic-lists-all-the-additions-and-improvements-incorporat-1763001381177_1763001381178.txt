@@ -1,0 +1,177 @@
+What's New in Version 5.0 - May 2014
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 5.0 which were not available in previous versions.
+
+Initial conditions editor for nodes and river reaches
+The Initial Conditions 1D object is a new tree object used to assign initial hydraulic values to nodes and river reaches at the start of a simulation. To use an initial conditions object in a simulation, include it in the Schedule Hydraulic Run View when scheduling a run. Values provided in the Initial Conditions 1D object will override values provided by an initial state simulation.
+
+See the Initial Conditions 1D topic for further details.
+
+Ability to initialise a 2D mesh using results for a different mesh
+In previous versions of InfoWorks, to use an initial state simulation in a run, 2D meshes in the network selected in the run view had to match meshes in the network used to produce the initial state simulation.
+
+In this version, it is now possible to use an initial state simulation using a network with different 2D meshes to the current network selected in the run view. The meshes in the initial state simulation are linked to meshes in the current network by 2D Zone ID. This functionality is intended for use where small changes have been made to a network requiring re-meshing of a 2D Zone.
+
+See Initial State Simulations for further details.
+
+2D suspended sediment transport functionality
+It is now possible to carry out suspended sediment transport modelling in the 2D network.
+
+To model suspended sediment transport, check the Model 2D erosion-deposition option in the QM Parameters Dialog when scheduling a simulation.
+
+Parameters to be used in the calculation of erosion-deposition are specified in the Water quality and sediment parameters for the network.
+
+UKWIR runoff volume models
+Runoff surfaces and subcatchments have been updated in order to support the UKWIR model, which has been developed as a replacement for the New UK PR Model.
+
+UKWIRPaved and UKWIRPerv options have been added to the Runoff volume type field for Runoff Surfaces to allow multiple paved and pervious surfaces to be defined based on the UKWIR model described in A Guide to the use of the UKWIR Equation (2014).
+
+See the UKWIR Model topic for further information.
+
+Japanese rainfall runoff models
+Runoff surfaces and subcatchments have been updated in order to support rainfall runoff models commonly used in Japan:
+
+An f1-Rsa option has been added to the Runoff volume type field for runoff surfaces. Select this option to calculate effective rainfall intensity using the f1-Rsa method.
+A Kadoya option has been added to the runoff surface Routing model field to support the Quasi Linear Reservoir Method. The value for the Kadoya coefficient, C, is entered in the Runoff routing value field.
+A Non-linear option has been added to the runoff surface Routing model field to support the Storage Function Method. Routing parameters are defined in the subcatchment data fields.
+A Rational option has been added to the subcatchment Unit hydrograph definition field to support the Hydrograph method with rational formula. Routing parameters are defined in the subcatchment data fields.
+Inference rule to infer node ground levels from mesh element ground levels
+An Inference rule has been added to allow node ground levels to be inferred from the ground level of the mesh element in which the node is located.
+
+See the Inference and Inference Rules - Node Parameters topics for further information.
+
+Risk analysis run results displayed in GeoPlan
+Risk analysis simulation and risk analysis results tree objects can now be loaded in the GeoPlan window. (Previously, risk results were only available as an HTML log).
+
+Risk analysis results can be viewed for damage receptors and associated polygons using: themes, grid/graph results tools and network results grids for points and polygons.
+
+See Risk Analysis Runs for further information.
+
+Risk analysis - associated polygon areas used in absence of a damage receptor area
+When using Relative to Area damage curves in a risk analysis, the Area value defined at the damage receptor is used in the damage calculation by default.
+
+In this version, if the damage receptor does not have an area defined the sum of the area of any associated polygons will be used instead.
+
+See the Damage Receptors and Risk Analysis Runs topics for further information.
+
+CSV import/export functionality added to Damage Function
+Improvements have been made to the Damage Function to allow damage curves to be imported from, and exported to, csv file format.
+
+(In previous versions, damage curves could be imported, but only from csv files generated from data provided by the Multi-Coloured Handbook.)
+
+See the Damage Function topic for further information.
+
+Ability to batch export time varying results to GIS format
+The export results to GIS functionality has been updated. It is now possible to export time varying results for a range of timesteps at a specified timestep interval, or for a list of specified timesteps loaded from a csv file.
+
+See Exporting Results to GIS for further information.
+
+New inundation results for 2D meshes
+New summary results have been added to the 2D Zone Mesh Element Properties Dialog:
+
+Time to last inundation - time (from start of simulation) at which depth exceeds the inundation mapping depth threshold for the last time during the simulation
+Total inundation duration - total time over which depth exceeds the inundation mapping depth threshold during the simulation
+(The Inundation mapping depth threshold is specified on the Advanced tab of the 2D Parameters Dialog when scheduling a run.)
+
+Ground level results for 2D network results lines and Polygons
+New ground level results have been added to Network Results Line (2D) and Network Results Polygon (2D) objects.
+
+Mean, max and min ground level results are now displayed in the results grids and property sheets.
+
+See Network Results Object Results Data Fields for further details.
+
+Observed rainfall - return period and duration used for RPA and worst case reports
+When creating Return Period Analysis and Worst Case reports, observed rainfall may be used as long as return period and duration information is available from the rainfall event.
+
+By default, InfoWorks ICM will now look for return period and duration values in the Return period and StorDm duration fields in the Sub-event properties of the first sub-event. If these values are not present, InfoWorks ICM will try to use information from the Profile title field in the Profile properties of the first profile.
+
+See Grid Reports for further details.
+
+SQL enhancements
+The following enhancements have been made to the SQL functionality in InfoWorks ICM:
+
+See SQL in [%=Variables.Product3%] and [%=Variables.Product4%] for further details.
+
+Subcatchments added as a one-to-many link from nodes
+Subcatchments are now available as a one-to-many link from nodes in SQL queries.
+
+New SQL functions NL() and NVL(x,y)
+New SQL functions hav been added:
+
+NL() returns a new-line character. For example, to set up a three line note field:
+
+SET notes = 'Set'+NL()+'new'+NL()+'line'
+
+NVL(x,y) returns y if x is null, otherwise returns x
+Ability to delete rows in arrays
+It is now possible to delete rows from an object's array using the syntax:
+
+DELETE FROM [Table Name].array_name WHERE condition
+
+This deletes the contents of the array but not the object in the table. The condition may be omitted. The condition may include fields in the array and fields in the object i.e. rows in the array can be selectively deleted based on a combination of conditions for the array and the object.
+
+Inline bank validation improvement
+When validating a network, validation errors are now displayed if discharge coefficient or modular limit data is missing from the section data of inline banks.
+
+Improvement to preprocessing performance for network results objects
+Improvements have been made to significantly reduce the amount of time taken in pre-processing large numbers of network results objects.
+
+Performance improvements for runs using initial state simulations
+Improvements have been made to reduce the time taken to load flexible states when running a simulation.
+
+The changes made have the potential to reduce run times significantly, particularly for large networks.
+
+Historic mode added to TSDB simulations
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A new Historic mode check box has been added to the TSDB Options dialog used when scheduling a simulation.
+
+Check this option to use the Run origin time as the historic time for the time series databases used by the simulation. When using historic mode, only observed values will be included up to the run origin time and only forecast values with an origin earlier than the run origin time will be included. This allows simulations to be run using historical data stream values including any subsequent user edits made to the data.
+
+TSDB: iHistorian and ClearSCADA support
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+InfoWorks ICM now supports two new telemetry data source formats:
+
+iHistorian (or Proficy Historian), developed by GE Intelligent Platforms
+ClearSCADA, developed by Schneider Electric
+Both types apply to scalar time series databases.
+
+TSDB: update from CSV file performance improvements
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Enhancements have been made in order to improve performance when updating TSDBs from CSV file format. After updating data streams from a CSV data source, successfully loaded entries are moved to a file in a 'loaded' subdirectory, (relative to the location of the CSV file containing the telemetry data), and failed entries to a file in a 'failed' subdirectory.
+
+See the Updating Time Series Data topic for further details.
+
+TSDB: password characters hidden for data sources
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+In previous versions of InfoWorks, password characters were shown in the Data Sources tab of the Time Series Database editor. In this version the password characters are now displayed as asterisks.
+
+Vertical bar representing run origin added to replay clock
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+The replay clock, displayed when viewing replays of a simulation in the Network Page, has been enhanced by the addition of a blue vertical bar at run origin time.
+
+(Applicable when using TSDB as time-varying inputs.)
+
+
+
+What's New in Version 1.5 - February 2011
+
+What's New in Version 2.0 - August 2011
+
+What's New in Version 2.5 - February 2012
+
+What's New in Version 3.0 - August 2012
+
+What's New in Version 3.5 - February 2013
+
+What's New in Version 4.0 - June 2013
+
+What's New in Version [%=Variables.Version_4_5%] - December 2013

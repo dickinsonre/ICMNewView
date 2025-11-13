@@ -1,0 +1,193 @@
+What's New in Version 8.0 - May 2017
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 8.0 which were not available in previous versions.
+
+New data sources for TSDB
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+New data source types for observed data, PI Web API and EA Rest API, have been added to scalar TSDBs. This enables a data adaptor to connect TSDBs to PI or EA databases using the PI Web application interface (PI Web API) or the EA Rest application interface (EA Rest API). To use one of these, ensure that you select the PI WebAPI or EA RestAPI option in the Type field in the Data Sources tab for the TSDB, and then complete the other fields as required. Use the Observed tab to specify the applicable information about the observed datastreams.
+
+See Time Series Database for more information.
+
+Telemetry data from PI, ClearSCADA and iHistorian is imported using UTC
+In a scalar TSDB, telemetry data imported from PI, ClearSCADA and iHistorian is now imported in Coordinated Universal Time (UTC). Previously it was imported using local time which resulted in time stamps being out by one hour during summer time.
+
+TVD connectors can be used to query average spatial rainfall
+It is now possible to create a TVD connector with polygon geometry which will contain the averaged spatial rainfall result for a given simulation, using rainfall data from spatial TSDBs. The TVD connector polygon can be located outside of the existing network. It is possible to display a graph and grid of the result.
+
+See Using TVD Connectors to Query Averaged Spatial Rainfall for further information.
+
+Exporting ground models (grid)
+Ground model grids can now be exported to ESRI ASCII raster format.
+
+Orifice diameters
+An orifice diameter can now be set to less than 100mm. However, a validation warning will be issued for any orifice smaller than 0.01m.
+
+Custom Graphs
+Two new pages - Properties and X Axis have been added to the Custom Graph View.
+
+The Properties page can be used for observed / predicted reports to define the Y-axis and parameters for the graph, such as attributes, titles, and maximum and minimum values.
+
+The X Axis page defines the X-axis and its parameters, such as maximum and minimum days/time, autoscale, and axis colour for all report styles.
+
+The addition of these pages means that it is now possible to edit all available aspects of custom graphs directly from the Custom Graph View. Previously, you needed to use the Graph Properties dialog to do this.
+
+Current selections in Custom Graphs
+A  button is now included in Selection List boxes in the Custom Graph View. You can use this button to add objects currently selected in the active network to a selection list.
+
+Importing a rainfall event from multiple generic CSV files
+A new option which allows you to import several generic CSV files into a single rainfall event is now available. See Importing and Exporting Rainfall Events for further information.
+
+Enhancements to the Import Time Varying Data From CSV dialog
+InfoWorks ICM now uses the contents of the cell above the first value in a data column in the import file as the profile name in the imported event. If you want to use different cells as the profile names, then you can still do so, and you can still choose to use the imported file name, or part of it, for all profile names in the imported event.
+
+See the Import Time Varying Data from CSV dialog for further information.
+
+Importing time varying data with relative times
+Relative times, in the supported date/time formats, can now be used when importing time varying data from generic CSV files into a rainfall event or flow survey.
+
+See the Import Time Varying Data from CSV dialog for further information.
+
+Editing scenario notes
+The Edit Scenario Notes dialog now contains a Previous and Next button, which enables you to move through the notes for all the scenarios, displayed in the Manage Scenarios dialog, without having to close the editor.
+
+SQL functions
+A new stepwise or piecewise linear list function, LOOKUPFN (lookup function), which uses a NULL or numeric input expression (x) and returns a NULL or numeric value (y) is now available. It is intended primarily for use with time series data values but can be used in any other relevant SQL expression. See SQL_Syntax for further information.
+
+SQL - River reach cross sections
+A new field type, river_section, has been added for river reach objects enabling you to run SQL queries for sections of a river reach. This can be particularly useful when combined with sim (results at a timestep) or tsr (results over all time steps) results.
+
+Example
+
+SELECT oid,COUNT (River_section.*)
+
+SELECT oid,river_section.key,sim.river_section.rr_depth,sim.river_section.rr_flow,sim.river_section.q_left,sim.river_section.q_right
+
+SELECT oid,MAX(sim.river_section.rr_depth),MAX(sim.river_section.rr_flow),MAX(sim.river_section.q_left),MAX(sim.river_section.q_right)
+
+SELECT oid,MAX(tsr.river_section.rr_depth)
+
+The SQL for querying river reaches and cross sections can be incorporated into a query within an alert definition list.
+
+SQL themes for non-numeric results
+It is now possible to use the Layer and Theme Editor to theme using text string or date results from an SQL expression.
+
+Trace titles for Observed/Predicted Reports in Custom Graphs
+It is now possible to edit trace titles for predicted events in Observed/Predicted custom graphs using the Trace Style dialog. This dialog is displayed when you select the Trace Properties button on the Custom Graph View Layout page.
+
+RTC Editors
+The processing performance of the RTC window and RTC grid editors have been significantly improved; this is especially noticeable when editing a large RTC. A progress bar is also now displayed when updating the real time control parameters for regulator structures.
+
+SUDS Control Types
+Rain gardens now require a Seepage rate to be specified, and the Berm height must be greater than zero for vegetative swales. See SUDS control data fields for further information about these parameters.
+
+Net deposition and sediment depth included in river reach results
+During a simulation, InfoWorks ICM now calculates the sediment depth and net deposition for each river reach section. The net deposition is only calculated if the river reach property, Bed updating is set to Uniform.
+
+Note that the Bed offset and Reach chainage parameters in the River Reach Results have been renamed to Section bed offset and Section reach chainage.
+
+Layer theme editor enhancements
+The Layer Theme Editor has been updated to include a new range setting - Direction - and a new attribute - Arrow angle.
+
+The Direction range setting is available for 2D results fields with parameters with directional (angle) results. Currently, these are Network results point (2D) results and 2D zone results.
+
+The Arrow angle attribute has been added to enable you to theme on the directional (angle) for 2D zone results.
+
+These new options provide a powerful way to theme results according to direction. They can also be used, for example, to theme a mesh area using arrows that point in different directions depending on the size of the element.
+
+Additional results fields for flow direction
+Summary results parameters, which can be used to indicate flow direction have been added to Network results point (2D) results and 2D zone results. These are:
+
+Flow direction at first occurrence of:
+maximum velocity (MAXANGLE2D)
+minimum velocity (MINANGLE2D)
+maximum hazard (MAXHAZANGLE2D)
+maximum depth (MAXDEPTHANGLE2D)
+maximum velocity (MAXVELDEPTHANGLE2D)
+Velocity at first occurrence of maximum hazard (MAXHAZSPEED2D)
+Depth at first occurrence of maximum hazard (MAXHAZDEPTH2D)
+
+You can, for example, use the new Direction range setting and the new Arrow angle attribute to create a sub-theme for flow direction at peak velocity for 2D zone results in the Layer Theme Editor.
+
+Additional setting for ANGLER unit type
+The ANGLER unit type can now be set in degrees as well as radians. See Units for further information.
+
+New option for simulation of very shallow flows on steep slopes in 2D
+A new parameter, Ground slope term correction, has been added to the simulation parameters to help calibrating models in areas with steep slopes.
+
+If you select this option, the ground slope term at the faces will be based on a constant slope connecting the adjacent element ground levels, otherwise, it will be based on a discontinuous step connecting the adjacent element ground levels (default). See the description of the Ground slope term correctionin the simulation parameters for further information.
+
+Transitional flow regime implemented for siphons
+A new parameter, Hood soffit level has been added for siphons so that a transitional flow regime can be implemented as a siphon becomes primed. See the Siphon Data Fields for further information.
+
+Infiltration zones
+Infiltration zones are no longer required to be associated with an infiltration surface, allowing infiltration zones to be included in a mesh before adding an infiltration surface.
+
+Turbulence modelling
+Turbulence is now modelled by applying eddy viscosity during 2D simulations. A Turbulence Model (2D), which defines the turbulence characteristics to be applied, can be associated with a 2D Zone as well as specific Turbulence Zones (2D) within a network.
+
+Once defined, the Turbulence Model (2D) is used to calculate turbulence in 2D elements of a 2D mesh. During meshing, a turbulence zone's boundaries will be used as break lines for triangulation (if specified to do so) and a list of turbulence zones included in the process will be included the mesh log.
+
+The time varying 'eddy viscosity' results for each applicable 2D element are included in 2D Zone results as well as network results point (2D) results.
+
+RTK hydrograph import from SWMM5 extension
+The RDK hydrograph import from SWMM5 has been extended to include the import of the maximum initial abstraction depths, initial abstraction recovery rates, and the initial abstraction depths for short-term, intermediate-term, and long-term UH responses. See RDK Hydrograph Data Fields and Monthly RTK Hydrograph Data Fields for further information.
+
+RTK hydrograph monthly profiles
+If any monthly profiles are available for RDK hydrograph objects, then these can now also be imported from SWMM5 or defined using a Monthly RTK hydrograph object. The data from the Monthly RTK hydrograph object overrides the data for the RDK hydrograph object which shares the same ID.
+
+Cumulative flooding onto 2D zones used in Return Period Analysis, Flood Volume and Worst Case grid reports
+For 2D nodes, cumulative flooding onto 2D zones (TWODQCUMFLOOD), rather than flood volume (FloodVolume), will be displayed in Flood Volume and Worst Case grid reports. Previously, flood volume would have been used, which for 2D nodes, is a notional value calculated by applying the water level to an imaginary cylinder extending vertically upwards from the node. Using cumulative flooding will make a significant difference to the calculated flood volume, and values will be typically orders of magnitude higher than they were.
+
+Similarly, for RPA grid reports that include 2D nodes, cumulative flooding onto 2D zones (TWODQCUMFLOOD), rather than cumulative flow from 2D zone (TWODQCUM) will be used when calculating flood volume at 2D nodes (i.e. nodes whose flood type is 2D, gully 2d or inlet 2d). This means that flows from the surface into the node are no longer subtracted from the flows from the node onto the surface when calculating the flood volume for the analysis.
+
+Waste water and trade waste are now aware of daylight saving times
+Applies to TSDB runs only.
+
+A run containing a waste water or trade waste event will now take account of any local time changes when calculating the waste water or trade waste profile.
+
+Daylight saving time for RTCs
+As many regulatory structures, such as pumps and weirs, operate using daylight savings times, RTC objects in InfoWorks ICM can now do the same. Two new ranges are available; Local Clock Time (LCT) and Local Clock Time Repeat (LCTR), which will take account of daylight saving during a run.
+
+Monthly factors included for evapotranspiration in the groundwater model
+It is now possible to provide monthly factors for evapotranspiration from the soil layer of the groundwater model. This is equivalent to the monthly evaporation pattern field in the [AQUIFERS] section of the SWMM5 input file. New parameters, one for each month, which allow you to define an evapotranspiration factor, have been added to ground infiltration objects.
+
+Evaporative loss can be set as linear or constant
+Evaporative loss in ground infiltration objects can now be set to vary linearly with depth (as before) or to be constant. Two new parameters - Evapotranspiration type and Evapotranspiration depth have been added to ground infiltration objects to facilitate this.
+
+Green-Ampt infiltration in 2D simulations
+Green-Ampt infiltration can now be modelled in 2D simulations.
+
+Infiltration Surface (2D) objects now have an additional choice of GreenAmpt for their Infiltration type, and three additional parameters - Green-Ampt suction, Green-Ampt conductivity, and Green-Ampt deficit - are used to further define Green-Ampt infiltration.
+
+2D initial conditions have also been modified to enable the modelling of Green-Ampt infiltration; a new parameter Green-Ampt soil moisture deficit (%) has been added, and the Soil water content (%) parameter has been renamed to Horton soil water content (%).
+
+The following time varying results for each applicable 2D element are included in 2D Zone results :
+
+Green-Ampt Soil moisture deficit (%)
+Green-Ampt Moisture content of the upper zone
+Green-Ampt Time needed to drain upper zone
+Green-Ampt Saturation flag
+Ground infiltration profiles for time-varying events
+Previously, ground infiltration profiles only used the parameters specified in the Profile Properties dialog to determine the initial soil saturation and groundwater level to be applied to a subcatchment. Now, you can also apply the profile specified in a Ground infiltration record, and all subcatchments which are associated with this record, will use the initial soil saturation and groundwater level set in the record. See Profile Properties for further information.
+
+Ground water infiltration includes surcharge state
+In previous version, the level in the destination node for groundwater infiltration had no influence on the groundwater flow into that node. A new simulation parameter - Node level affects groundwater - has been added which allows you to choose whether or not the level in the destination node is to influence groundwater infiltration flow. This parameter is automatically checked for new networks; for existing (pre-version 8.0) networks, it is unchecked.
+
+Infiltration and liner calculations revised for SUDS pond nodes
+Previously, a simple trapezoidal integral of the perimeters was used to calculate the areas of the sides of the pond in SUDS structures. This has been replaced with a more realistic calculation for each segment of the side area of the pond. See the Sustainable Urban Drainage Systems (SUDS) topic for further information.
+
+2D network result lines
+Network results lines (2D) are now fully supported when they are located at the boundaries of 2D Zones.
+
+SWMM5 export of non-numeric rainfall profiles
+When exporting subcatchments to SWMM5 files, non-numeric rainfall profile IDs are now exported to the Raingage field.
+
+Evaporation profiles included for subcatchments
+Evaporation profiles are now separate a subcatchment parameter. Previously they were only associated with a rainfall profile.
+
+Differential snapshot files
+When importing a differential snapshot file, objects that have been renamed are now handled with reference to their previous ID.
+
+Workgroup database versions displayed in the Open Master Database dialog
+The Master database list in the Open Master Database dialog now includes the version number of the workgroup databases available on the host machine. The product version is included in brackets after each database listed if the database is not for the version of the software you are running.

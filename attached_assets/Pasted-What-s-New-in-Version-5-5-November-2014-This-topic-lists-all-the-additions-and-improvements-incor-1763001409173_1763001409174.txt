@@ -1,0 +1,245 @@
+What's New in Version 5.5 - November 2014
+This topic lists all the additions and improvements incorporated in InfoWorks ICM Version 5.5 which were not available in previous versions.
+
+Changes to water quality sim parameter defaults to reflect recommended use
+The default setting of the Erosion/deposition affects hydraulics and Native washoff routing options in the QM Parameters Dialog have been changed to reflect recommended usage. (The previous default settings were appropriate when the options were first introduced, but recommended defaults have since changed as water quality simulation capabilities have evolved.)
+
+Erosion/deposition affects hydraulics: now checked by default; variable sediment depth from the water quality model will be fed back into the hydraulic model. (When unchecked active sediment in the water quality model is ignored by the hydraulic model.)
+Native washoff routing: now checked by default; the hydraulic runoff routing model will be used for calculating washoff. (When unchecked the Desbordes Model is used to route washoff.)
+These changes affect newly created runs only; QM parameter settings of existing runs will not be changed.
+
+Export flood contours to ASCII grid format
+Flood contours can now be exported to ESRI ACSII grid (.ASC) format in addition to ESRI .SHP and MapInfo .MIF/.TAB format.
+
+Select the new Export Flood ContoursTo ESRI ASCII grid files option from the Results menu.
+
+See Exporting Flood Contours for further information.
+
+Mesh Level Zones
+A new 2D modelling object has been added.
+
+Mesh Level Zone objects can be used to divide a 2D Zone into regions in which mesh element elevations are to be modified based on ground model elevations or user-defined values.
+
+In previous versions of InfoWorks, Mesh Zones could be used to carry out ground level modification of areas within the 2D mesh. Mesh Level Zones provide greater flexibility than Mesh Zones, allowing more detailed representation of structures such as roads and embankments.
+
+Risk Impact Zones
+A new network object type has been added for use in Risk Analysis Runs.
+
+Risk Impact Zones are used to aggregate risk results from individual damage receptors into geographical areas. This functionality allows users to inspect and analyse risk results data by area, rather than just at damage receptor level, providing a more realistic representation of damage.
+
+Annual damage results are available for Risk Impact Zones when viewing Risk Analysis Results objects. Risk analysis reports summarising impact zone results can be exported to csv or generated in grid view format.
+
+See Risk Analysis Runs and Risk Impact Zones for details.
+
+Flooding onto 2D zone results for 2D nodes
+New results fields have been added to 2D nodes to report on flooding from the node onto a 2D zone:
+
+Flooding onto 2D zone - time varying result of flow from the 2D node onto a 2D zone. (Results will be zero when direction of flow is from the 2D zone to the 2D node).
+Max flooding onto 2D zone - maximum Flooding onto 2D zone value experienced during the simulation.
+Cumulative flooding onto 2D zone - total flow from the node onto the 2D zone calculated as the integral of outflows from the node.
+See Node Results Data Fields for details.
+
+Flow limiting results at 2D inlets
+When modelling 2D inlets, flow capping is applied to limit exchange between the 2D and 1D network in situations where inflow at the node would exceed volume contained in the 2D element at any given timestep. This may occur if the 2D element that the inlet node is located within is too small.
+
+New node results fields have been added to aid in identifying the locations at which flow limiting occurs:
+
+Duration of flow limiting - number of seconds over which flow limiting was applied during the simulation
+Flow limited - indicates whether flow limiting has been applied to the node (0 = capping, 1 = no capping). Only applicable to simulations using the Timestep log option on the Run Diagnostics Dialog.
+Area of flood inundation results for results polygons
+New results fields have been added to Network Results Polygon (2D) objects to display areas of flood inundation:
+
+Area flooded to inundation depth - time varying result calculated as the sum of element areas of the 2D mesh elements within the polygon boundary with water depth exceeding the inundation threshold (specified in the 2D Parameters Dialog). Results fields for maximum and minimum areas of flood inundation have also been added.
+Total area flooded to inundation depth - sum of areas of the 2D mesh elements within the polygon boundary where water depth exceeded the inundation threshold at some time during the simulation. (Inundation may not have occurred in the elements at the same time.)
+The Area flooded to inundation depth time varying result is also available for Results Analysis Polygons.
+
+See Polygon Results Data Fields and Results Analysis Objects topics for details.
+
+New 2D suspended sediment results
+New 2D zone results fields have been added for water quality simulations including modelling of 2D erosion-deposition:
+
+Sediment depth - total sediment depth calculated as the sum of sediment fraction depths
+Volumetric erosion rate - volume erosion rate (displayed per sediment fraction and as a total rate)
+Dimensionless concentration - dimensionless concentration as m3 of sediment per m3 of water sediment mixture (displayed per sediment fraction and as a total concentration)
+Deposited sediment depth - total amount of eroded/deposited material since start of simulation (displayed per sediment fraction and as a total deposited depth)
+See 2D Zone Results Data Fields for details.
+
+2D sediment results - display of time varying ground level in flooding section window
+An improvement to the display of 2D sediment results has been made to the Flooding Section Window.
+
+The trace displaying the results ground level now shows the time-varying active layer level.
+
+In the previous version of InfoWorks ICM, the results ground level trace displayed the fixed ground level of the 2D mesh elements.
+
+2D bed load sediment transport functionality
+It is now possible to carry out bed load sediment transport modelling in the 2D network.
+
+To model bed load transport, check the Model 2D bed load option in the QM Parameters Dialog when scheduling a simulation.
+
+Parameters to be used in the calculation of erosion-deposition are specified in the Water quality and sediment parameters for the network.
+
+Chinese Rainfall Generator
+A new design rainfall generator has been added to produce rainfall profiles suitable for use in Chinese catchments. The Chinese Rainfall Generator model is based on the approach described by Keifer and Chu (1957).
+
+See Design Rainfall Generators for more information.
+
+ReFH/FEH rainfall generator improvement - ability to graph multiple catchments
+In previous versions, when opening ReFH/FEH design rainfall as a graph, only the first catchment was graphed.
+
+In this version, if there are multiple catchments defined in the rainfall event, it is now possible to choose which catchments to graph.
+
+See Opening an Event for details.
+
+'Show observed' option added to custom graphs
+The option to display observed data has been added to custom graphs of type Object per page.
+
+Check the Show observed box on the Layout page of the Custom Graph View to display TVD connector comparison results for each object to be graphed (applies when viewing simulations using TSDB data only).
+
+2D zone themes improvement
+The GeoPlan Themes functionality has been enhanced to allow 2D elements to be themed when simulation results are not present.
+
+New fields have been added to the Field dropdown box on the 2D zone Layer Theme Editor to enable mesh elements to be themed on element area, level, roughness zone or roughness value.
+
+SWMM5 importer updated to support SWMM v5.1.007 files
+Updates have been made to the SWMM5 importer in order to support the import of EPA SWMM v5.1.007 files. Support for the following features has been added:
+
+Infiltration type of Modified_Horton: imported as Runoff volume type of Horton.
+Seepage rate for SWMM5 conduits: imported into the Infiltration loss from base coefficient field of the InfoWorks conduit.
+See the SWMM5 Conversion Notes section for further information.
+
+GIS export enhancement - export selected tables only
+When exporting to GIS file format, it is now possible to restrict the export to a selection of tables.
+
+Check the Export selected tables only option on the GIS Export Dialog to restrict export to selected tables. Tables are selected from a list displayed by clicking on the Tables button in the GIS Export Dialog.
+
+See Export to GIS File Format for further information.
+
+Improvements to GIS export of 2D mesh results
+The following improvements have been made to the GIS export of 2D zone results:
+
+Export of mesh elements
+Mesh elements are now exported, as opposed to the mesh triangles that make up the elements.
+
+Ability to export SQL expressions
+It is now possible to include SQL expressions in the export of 2D zone mesh elements.
+
+SQL expressions are created and edited via the GIS Export Dialog. Check the Export expressions option on the export dialog to include the expressions in the exported 2D zone table.
+
+See Exporting Results to GIS for details.
+
+Ability to batch export results maxima to GIS format
+It is now possible to export results maxima to GIS format from multiple simulations. (In previous versions it was only possible to export maximum results from one simulation at a time.)
+
+Simulations for export are selected in the Export Maxima to GIS Dialog, which is displayed by choosing an option from the ResultsExport Maxima to GIS submenu.
+
+See Exporting Results to GIS for details.
+
+Ability to export Min/Max results to CSV
+An enhancement has been made to the CSV Export Dialog to allow summary results to be exported to csv file.
+
+Select the Min/Max timestep option to export minimum/maximum results for selected attributes.
+
+Engine improvements for networks with banks
+Efficiency improvements have been made to the simulation engine which have the potential to reduce simulation times significantly for networks including banks.
+
+(Note that minor differences in results may be observed between results in this version and previous versions due to the numerical sensitivity of banks.)
+
+Spatial TSDB - addition of NIMROD as a forecast radar data format
+It is now possible to choose NIMROD as a forecast data file format when configuring a Spatial Time Series Database.
+
+Improved housekeeping - PRN summary results deleted when deleting TVD results
+When deleting time-varying results files, the .PRN summary results file is now also deleted.
+
+See Results Management for further details.
+
+Usability improvements to asset network selection when performing cross network queries
+It is now possible to drop asset groups onto the Asset networks droptarget of the Run Query Dialog. The asset groups will be replaced in the selection box by the networks contained within the groups. Please note that this process is not recursive, i.e. it will only work for networks placed at group top level.
+
+As a result of these changes the Asset networks droptarget of the Run Query Dialog has been renamed Asset networks and groups.
+
+See Run Query Dialog for more information.
+
+Option to prompt users to commit their changes regularly
+The Prompt for commit before closing version controlled items option has been added to the General page of the Options dialog to encourage users to regularly commit their changes to the Master Database so that they are available to other users. This option is per user and is disabled by default. When it is enabled, a commit prompt is displayed whenever one of the following actions is undertaken:
+
+Closing a locally modified version controlled item.
+Closing InfoWorks ICM when there are one or more locally modified version controlled items.
+Bulk deleting of Database Items now available
+It is now possible to delete a number of database items at the same time. For this simply select multiple items in the Explorer window, and either right-click one of them and select Delete from the popup menu, or press the DELETE key. Please refer to Working with Database Items for more information.
+
+Please note that this functionality is available for master databases (not transportable databases) and that deleting multiple database items is not allowed for selections including the top-level master database or the Recycle Bin.
+
+SQL Object Type field
+The read only variable OTYPE can be used to return the type of an object. An otype option is now available from the Field list in the SQL Page of the SQL Dialog.
+
+Please refer to the SQL Dialog - SQL Page topic for further details.
+
+Improvements to User Permissions
+ICMLive user permissions have been rationalised to improve clarity and ease of use.
+
+The Change Manifest Mode, Set / Reset Alert Trigger, Create Manual Run and Change Action State action roles have been grouped into the new Live Control Room Manager role and are no longer available as individual permissionable actions. A user who is assigned the Live Control Room Manager role is allowed to perform all the tasks that are required from a day-to-day operational perspective both in ICMLive Configuration Manager and ICMLive Operator Client, i.e. edit manifests and manifest deployments.
+
+As part of these changes, the Edit Manifest and Deploy Manifest roles have been obsoleted. They are no longer relevant as they are now covered by the Live Control Room Manager / Live User and Live Viewer roles. Any other role remains unchanged.
+
+Please refer to the User Permissions and User Permissions at action level topics for more information.
+
+Ability to share Object Property Window layout settings across a Workgroup database
+It is now possible to standardise the layout of the Object Properties Window across all the users of a Workgroup database. Layout settings are a master database-wide property.
+
+The Update all from master database and Push all to master database option have been added to the Layout menu option of the Configuration toolbar icon (). The Update all from master database option allows users to override the current layouts of the Object Properties Window with those of the Master Database while the Push all to master database allows users to update the layouts of the master database with those of the users.
+
+Update all from master database
+If Object Properties Window layouts have been edited locally by the user, selecting the Update all from master database option will overwrite the local layouts with the master database layouts. A warning message will be displayed letting users know that proceeding with this action will overwrite any local changes they may have made.
+
+If the layout has not been edited locally, layouts will automatically be updated from the master database when the Object Properties Window is next accessed or when InfoWorks ICM is next launched, depending on whether the software was open when the updates were made.
+
+Push all to master database
+Select the Push all to master database option to overwrite the master database layouts with your own local layouts. This will display a warning message informing the user that this will overwrite the existing mater database layouts, and therefore potentially affect all master database users.
+
+Please note that if users and permissions are implemented for the database and that the Only database owners can change database-wide settings option is enabled, users who are not Database Owners are not allowed to push their layouts to the master database.
+
+The About Box has been updated as part of these enhancements and now shows both the Object Properties Window local and master timestamps.
+
+Better usability of dialogs or views containing grids
+The F6 key / Shift+F6 shortcut can now be used to move from grids to the next and previous item in tab order respectively.
+
+Upgrade to MapXtreme 7.2
+InfoWorks ICM now supports MapXtreme version 7.2.
+
+See Changing the Current Map Control for further information on supported map controls.
+
+Support for ArcGIS 10.3
+InfoWorks ICM now supports ArcGIS version 10.3 when using the ArcObjects / ArcEngine map control.
+
+See Changing the Current Map Control for further information on supported map controls.
+
+Ability to disable in-place renaming of tree database objects
+In previous versions, the ability to rename database objects directly in the Explorer Window tree view by clicking on the object name and typing in a new name, was always turned on.
+
+It is now possible to switch this in-place renaming on or off by setting the status of the Allow in-place renaming of objects in tree option that has been added to the General page of the Options dialog. Uncheck this option to disable the functionality in order to prevent inadvertent renaming of objects in the tree view. Renaming can still be carried out by right-clicking on the database object and selecting Rename from the context menu.
+
+Please note that it may be necessary to close and re-open the Explorer Window or even to restart InfoWorks ICM altogether for changes to this option to be taken into account.
+
+Enhancement to Network Object Grid Window
+A tooltip is now displayed when a column header of a Network Object Grid Window is hovered with the mouse cursor. This tooltip contains information about the related object data field. See Network Object Grid Windows for further details.
+
+Keyboard shortcuts for switching between tabs in the Network Object Grid Windows
+CTRL+Page Up and CTRL+Page Down can now be used to switch between tabs by moving to the next tab on the left / right respectively. See Keyboard Shortcuts and Network Object Grid Windows for more information.
+
+
+
+What's New in Version 1.5 - February 2011
+
+What's New in Version 2.0 - August 2011
+
+What's New in Version 2.5 - February 2012
+
+What's New in Version 3.0 - August 2012
+
+What's New in Version 3.5 - February 2013
+
+What's New in Version 4.0 - June 2013
+
+What's New in Version 4.5 - December 2013
+
+What's New in Version 5.0 - May 2014

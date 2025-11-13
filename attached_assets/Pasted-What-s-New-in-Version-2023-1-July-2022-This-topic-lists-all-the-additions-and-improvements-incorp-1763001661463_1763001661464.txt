@@ -1,0 +1,187 @@
+What's New in Version 2023.1 - July 2022
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2023.1 which were not available in previous versions.
+Support for database versions 2023.0 and above in the latest version of the software
+When you previously installed a new version of InfoWorks ICM, you were required to update your master database or transportable database to the latest version of the database as only the latest version of the database was supported. This is no longer required when using database versions 2023.0 and above as you can now use multiple versions of the database with the latest version of the software.
+
+When you use an older version of a database than the latest one, you may not be able to access all the features available in the latest version of the software. The availability of a new feature depends on whether or not it requires database tables or fields that are only available in the latest version of the database, or there have been other changes that may affect results. Such restrictions could be because we have added new database items or properties. However, non-database or results related features, such as performance improvements, will be available even when you use an older version of the database.
+
+For example, if the version of the software that you use is 2023.1 and you open a 2023.0 master database, you will benefit from the clip meshing improvements but the Inlet and Outlet properties, that are new for 2023.1, will not be displayed. If you want to display these properties or use any of the other new features that may have a database version restriction, you can update the 2023.0 database to 2023.1. When you update a master database, it cannot be used by you, or any other user, in an older version of the software.
+
+Support for different database versions is only available for database versions 2023.0 and above.
+
+Database version change dialog
+When you open a newly installed version of InfoWorks ICM, a new Database Version Change dialog is displayed.
+
+
+
+It informs you that the database version has changed for the current master database, and the implications for updating it to the latest database version.
+
+It also contains a check box which lets you choose whether or not the dialog is displayed again. If unchecked (default), this dialog is displayed every time you open this master database.
+
+The dialog replaces the Update Database dialog that was previously displayed when you installed a new version of InfoWorks ICM.
+
+
+
+Updating a standard master database to the latest version
+A new option, Update current master database to latest version, has been added to the FileDatabase updates menu. This option automatically updates the currently selected standard workgroup or standalone master database to the latest version of the database. Previously, you would have had to select a database from the Open Master Database dialog before you could update it. When a database has been updated to the latest version, you, and other users of the updated database, will be able to access all features available in 2023.1 but no one will be able to use the updated databases in older versions of the software.
+
+See Master Databases for further information.
+
+Version selection when updating a standard master database
+When you update a standard workgroup or standalone master database, you can now choose which version of the database you want the master database to be updated to. A new Update to dropdown has been added to the Open Master Database dialog. When a database is updated to the selected version, you, and other users of the updated database, will be able to access all features available in applicable version of the software but no one will be able to use the updated databases in older versions of the software.
+
+As support for different database versions is only available for database versions 2023.0 and above, the oldest version you can update to is 2023.0.
+
+See Master Databases for further information.
+
+Version selection when updating a transportable database
+When you update a transportable database, you can now choose which version of the database you want the transportable database to be updated to. A new dialog, Update Transportable Database, is now displayed when you select the Update transportable database option from the FileDatabase updates menu. In this dialog, you can use the Browse button to locate the relevant transportable, and use the Update to dropdown to select which version of the database it is to be updated to.
+
+As support for different database versions is only available for database versions 2023.0 and above, the oldest version you can update to is 2023.0.
+
+See Transportable Databases for further information.
+
+Version selection for new master and transportable databases
+Each major release of InfoWorks ICM includes a new version of the database. Previously, when you created a new master database or a transportable database , it would automatically be created using the latest version of the database. For example, a master database or a transportable database created with version 2023.0 of the software will have a database version of 2023.0. However, you can now choose which version of the database is to be used when you create a new master or transportable database. This can be especially useful if you collaborate with other users who do not work with the same version of InfoWorks ICM as you.
+
+In order to choose a database version, a new Database version dropdown, has been added to the New master database dialog , and to the standard Windows Save as dialog, which is displayed when you create a new transportable database.
+
+As support for different database versions is only available for database versions 2023.0 and above, the oldest version you can select is 2023.0.
+
+Database version number display
+To make it easier to know which version of a master database you are using, the version number is now displayed in the title and tree view in the Explorer window.
+
+
+
+The version number for a current transportable database and a read-only one is now displayed in the tree view. The version number for a non-current transportable database is displayed in the window title and the tree view.
+	
+Example of a read-only transportable database	Example of a non-current transportable database
+Copying data between databases with different database versions
+Data can be copied between databases that have different database versions using the same methods before. You can paste data copied from an older version of a database into a newer version but you cannot paste data copied from a newer version of a database into an older version, unless you update the older version to the same version as the newer database.
+
+Culvert inlets and outlets
+To improve the process of defining culvert inlet and culvert outlet losses for an InfoWorks network, a new field - Culvert code - has been added to their properties. This code is based on the culvert shape and material, and inlet and edge types, as defined in the Hydraulic Design of Highway Culverts, Third Edition, published by FHWA. When a code is selected, the values for K, M, c, Y, and Inlet headloss coefficient (Ki) fields are automatically populated if the #D flag is set on those fields. Previously, you could only manually enter these values. Note that for a culvert outlet, the Culvert code field is only displayed when its Reverse flow model is set to INLET.
+
+See Culvert Inlet Data Fields and Culvert Outlet Data Fields for further information.
+
+Culvert type of conduit
+Previously, three links would have been required to model inlet and outlet losses for a culvert - a Culvert inlet that defined the inlet controls, a Conduit that represented the culvert, and a Culvert outlet that defined the outlet controls.
+
+To simplify the process, you now only need to define one link as the properties for culvert inlet and outlet losses can be defined as part of a conduit.
+
+A new option Culvert has been added to the Conduit type field for a conduit. When this option is selected, the fields for the culvert inlet and the culvert outlet losses are displayed so that you can define their properties.
+
+
+
+Descriptions of the new culvert inlet and outlet properties are included in the Conduit Data Fields topic.
+
+The calculation of flow through the culvert inlet and outlet has not changed; only the method used to define the culvert. You can still use the three link method to update existing network data or even to add new culvert inlets and outlets but you will probably find it more convenient to use the new one link method when defining new culverts.
+
+To make this new type of conduit recognisable on the GeoPlan as a culvert, you can add or update a sub theme for the conduit type. See the Layer Theme Editor for further information.
+
+Importing culvert type of conduits from SWMM5 data or a SWMM network to an InfoWorks network
+When you import SWMM5 data, either from a SWMM5 text file or by importing a SWMM network to an InfoWorks network, and the data includes a conduit with a Culvert code that is not 0, the conduit will be imported with its Conduit type set to Culvert in the InfoWorks network and its Culvert code will be assigned the imported code. The imported conduit's upstream and downstream headloss coefficients will be imported to the Inlet headloss coefficient and Outlet headloss coefficient properties for InfoWorks conduit. See SWMM5 Conversion - Links for further information.
+
+Exporting culvert type of conduits from an InfoWorks network
+When you export data from an InfoWorks network, either to a SWMM5 text file or to a SWMM network, and the InfoWorks network includes a conduit with its Conduit type set to Culvert, its Culvert code, Inlet outlet headloss coefficients and Outlet headloss coefficients will now be exported. See SWMM5 Network Export from an InfoWorks Network for further information.
+
+NOAA rainfall generator
+Three new methods of temporal distribution - Huff Distribution, Bulletin 75 and Alternating Block - are now available when generating NOAA design rainfall using the NOAA Atlas 14 Rainfall Generator. When the Huff Distribution or Bulletin 75 method is selected, the size of the area that is to be used when generating the rainfall can be selected from the Catchment area dropdown on the generator's Temporal Distribution page.
+
+When the Alternating Block method is selected, the time series interval and time to peak for the storm can be specified on the Event page.
+
+Runoff limit for InfoWorks subcatchments
+You now have an option to set a runoff limit for the object that a subcatchment drains to. If you choose to set a runoff limit, you can also choose whether the exceedance flow is lost or surcharged to the 2D mesh. This can be useful, for example, if you want to model roof gutters that capture a portion of rainfall and the excess flow spills over the gutters and runs overland.
+
+A new, Limit drain to capacity, box has been added to the subcatchment properties, that when checked, limits the runoff from the subcatchment to its Drains to object. A new Capacity limit property lets you specify the maximum runoff that flows to the Drains to object, while a new Exceedance flow type property lets you choose how the flow above the capacity limit is handled. The exceedance flow is either Lost from the system, or it surcharges to the 2D mesh and is included in a 2D simulation.
+
+Note: If the Exceedance flow type is set to 2D mesh, the subcatchment must Drain to a node within a 2D mesh element. It can be any type of node except Outfall or Outfall 2D.
+
+Exceedance results for InfoWorks subcatchments
+Two new exceedance results, Exceedance flow and Exceedance volume, have been added for any subcatchment included in a simulation that has its Limit drain to capacity box checked. See the Subcatchment Results Data Fields for details.
+
+2D Zone results
+A new result, Volume error, is now included in the 2D Zone Mesh Element Properties dialog. It provides the accumulated water volume error at a mesh element during the simulation. See 2D Zone Results Data Fields for further information.
+
+2D flow direction results in radians
+To provide more precise results, any 2D result attributes for flow direction now have their value, in radians, given to three decimal places rather than one. The applicable attributes include ANGLE2D, MAXANGLE2D, MINANGLE2D, MAXHAZANGLE2D, MAXDEPTHANGLE2D, and MAXVELDEPTHANGLE2D. See Network Results Object Results Data Fields and 2D Zone Results Data Fields for further information.
+
+Validation of a 2D Zone when a mesh elevation is resampled
+During the mesh elevation resample process, the software now automatically validates the 2D Zone. It checks that there have been no changes since the last mesh was created that could cause the resample process to fail. Such changes would typically include if a Mesh Zone or a Mesh Level Zone boundary has been edited or if a Mesh Zone or a Mesh Level Zone has been re-named or deleted.
+
+If it finds that any such changes have occurred, the resample process is stopped and a message is displayed which recommends that you correct the applicable 2D objects before you resample the 2D Zone again. When you click OK in response to the message, a list of validation messages that apply to the 2D Zone is displayed in the Output window.
+
+New methods of ground level adjustment for Mesh Level Zones
+Previously when you wanted to adjust the ground level for a Mesh Level Zone, you potentiality had to specify the required adjustment for each vertex. This method could be quite time consuming if all that was required was a simple change of the ground level for the entire Mesh Level Zone. Therefore, to simplify the process of ground level adjustment, four new options have been added to the Type field for a Mesh Level Zone:
+
+Level (Specified fixed level): the mesh element levels and elevations of mesh level zone vertices will be set to a value, which is specified in a new Level field.
+Rel. to highest (Fixed level relative to highest): the maximum sampled level from the ground model within the Mesh Level Zone is found, and then raised or lowered by a value specified in a new Raise by field.
+Rel to lowest (Fixed level relative to lowest): the minimum sampled level from the ground model within the Mesh Level Zone is found, and then raised or lowered by a value specified in the new Raise by field.
+Raise or lower: the level of every Mesh Level Zone element and vertex is raised or lowered by a value specified in the new Raise by field.
+When the 2D mesh is generated, the Level (Specified fixed level), Rel. to highest (Fixed level relative to highest), and Rel to lowest (Fixed level relative to lowest) options will produce a Mesh Level Zone surface that is perfectly flat while Raise or lower simply raises or lowers the ground level of the zone without altering its surface.
+
+You can still use the existing 'Specify' and 'Adjust' ground level adjustment options to change the topography of the Mesh Level Zone by adjusting individual vertex elevations. Note that these options have been renamed from Specify (Specified elevation) to Specify (Specified boundary elevations) and Adjust (Ground model adjusted) to Adjust (Boundary ground model adjusted) but their functionality remains the same.
+
+See the Mesh Level Zone Data Fields (InfoWorks) and the Mesh Level Zone Data Fields (SWMM) for further information.
+
+Maximum Triangle Area (MTA) in Clip meshing
+Previously, when using the clip meshing method of mesh generation, and a Mesh Zone had a larger MTA than that of the 2D Zone, the larger triangle area would be disregarded, and all triangles in that Mesh Zone would use the MTA of the 2D Zone. Mesh zones with triangles that were smaller than the MTA of the 2D Zone were not affected.
+
+This discrepancy has been corrected, and all Mesh Zone MTAs, both larger and smaller than the 2D Zone MTA, are now included in the mesh generation process.
+
+Triangulation performance improvement in Clip meshing
+Performance improvements have been made to the refinement of triangles based on the Maximum Triangle Area (MTA) of Mesh Zones. This will be most noticeable for models with a large number of complex Mesh Zones. For example, in a test model with 1.2 million triangles and 780 Mesh Zones, the "primary triangulation" stage was ten times faster, which reduced in the total mesh generation time by half. Note that this change may occasionally result in benign differences in the triangulation if you re-mesh a zone whose mesh was generated using a previous version of the software.
+
+Polygon geometry processing improvement in Clip meshing
+The processing of polygon geometry when using the clip meshing method of mesh generation has been significantly improved. This will be especially noticeable for larger models that contain many polygons or zones. For example, a model with 42,000 Porous Polygons and 17,000 Subcatchments, had its total clip meshing time reduced by 40%.
+
+Topographic sampling improvement in Clip meshing
+Performance improvements have been made to the sampling of mesh vertex elevations from ground model grids. Testing, using the clip meshing method of mesh generation, has shown that the "sampling topography" stage is now generally 2-3 times faster.
+
+Stricter validation for zone overlaps in Clip meshing
+The validation of zones (Mesh Zones, Mesh Level Zones and Roughness Zones, and for InfoWorks networks only, Infiltration Zones, Turbulence Zones and Permeable Zones) that overlap when using the clip meshing method of mesh generation has been made stricter. Previously, some small overlap was allowed, provided it did not affect the centroid-based attribution of the mesh triangle properties. Zone intersections are now validated at the start of the process, and a mesh will not be generated if there are any parts of the geometries that overlap. This is consistent with the Classic method of mesh generation. Zones that fail the intersection validation are reported in the mesh log.
+
+Note that some models, for which a mesh could be generated using clip meshing in previous versions of the software, may now fail. This will be resolved when you correct the geometry of the applicable zones.
+
+Bank intersection processing improvement in Clip meshing
+The processing of intersection points for Inline Bank and River Reach bank lines when using the clip meshing method of mesh generation has been significantly improved. For example, a model that included river reaches took 169 seconds for the clip meshing to complete before the improvement. This was reduced to 90 seconds after the improvement, providing a reduction of about 47%.
+
+Desbordes model and surface washoff calculations
+Water quality simulations will now only use the Desbordes Model for surface washoff calculations if the Desbordes Model is selected as the runoff routing model.
+
+Previously, you could choose to use the Desbordes Model, even if it was not selected as the runoff routing model, by unchecking the Native Washoff Routing option in the QM Parameters dialog when scheduling a Run. However, sensible results for surface washoff are only produced if the runoff routing model is also set to Desbordes. Therefore the Native Washoff Routing option has been removed from the QM Parameters dialog, and the selected runoff routing model is automatically used to calculate surface washoff.
+
+Mesh log for SWMM 2D Zones
+The mesh log now contains information from the mesh generation process when creating a mesh for a SWMM 2D Zone. The log includes details such as the types of network objects that provided the intersection data, the number of vertices used and the number of triangles and elements created, and whether or not terrain-sensitive meshing is applied. If terrain-sensitive meshing is applied, the specified maximum height variation used will also be included.
+
+The log is displayed when you click Show log in the Manage Mesh Results dialog. If you load the mesh results, the summary information from the log is displayed when you click  in the relevant 2D zone's Mesh summary field.
+
+Support for 4K screen resolution
+The display of InfoWorks ICM is now enhanced on high resolution, 4K screens.
+
+Importing HydroWorks network data from a DSD/SSD file
+Importing HydroWorks network data from DSD or SSD files is no longer supported. The option ImportModelfrom DSD/SSD file has been removed from the Network menu.
+
+Importing InfoWorks RS network data from a CSV file
+Importing InfoWorks network data from a CSV file is no longer supported. The option ImportModelfrom CSV network data has been removed from the Network menu.
+
+Importing InfoWorks CS/SD data
+The import of InfoWorks CS/SD data from CS2IC migration files has been deprecated, and the following options are no longer available in the Explorer window:
+
+ImportImport model data from InfoWorks CS migration file - from the context menu for a master database or a master group
+Import InfoWorksModel groupfrom InfoWorks CS migration file - from the context menu for a model group
+Importing gridded ground models
+The import of gridded ground models from InfoWorks IGM files has been deprecated, and the following options are no longer available when you right-click on a model group in the Explorer window:
+
+Import InfoWorksGround model gridFrom InfoWorks ground model
+Import SWMMGround model gridFrom InfoWorks ground model
+Importing ISIS network data
+It is no longer possible to import river section and spill data from an ISIS DAT file. Therefore, the option ImportModelfrom ISIS network data has been removed from the Network menu.
+
+Minute granularity for observed and forecast ASCII and Binary Grid format files
+Observed and forecast ASCII and Binary Grid format files with minute granularity can now be included in a spatial TSDB. See the Spatial Time Series Database Configuration topic for information about the file format for files with minute granularity.
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+External Data Server
+The External Data Server (EDS) has been deprecated, and the option, Manage external data sources, which allowed you to configure the EDS service, has been removed from the Tools menu. And as external data items can no longer be associated with a network object, the (External data) option on the toolbar in the Object Properties Window or, for Asset network objects, the tabbed property sheet, have also been removed.

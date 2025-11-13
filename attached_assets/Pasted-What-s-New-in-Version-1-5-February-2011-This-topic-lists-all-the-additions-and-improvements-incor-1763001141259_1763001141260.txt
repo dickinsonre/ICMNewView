@@ -1,0 +1,348 @@
+What's New in Version 1.5 - February 2011
+This topic lists all the additions and improvements incorporated in InfoWorks ICM Version 1.5 which were not available in previous versions.
+
+3D Network Window display improvements
+The following improvements have been made to the display of networks and results in the 3D Network Window.
+
+Improved display of bridge openings
+In InfoWorks ICM v1.1, bridge faces were drawn solidly in the 3D Network Window.
+
+In this version, a hole is now cut into the face of the bridge to display the bridge opening clearly.
+
+Improved display of 2D mesh elements
+2D mesh element ground levels and water levels are now drawn as horizontal elements separated by 'risers'.
+
+This approach provides a more accurate representation of the 2D mesh levels as used by the simulation engine and of the simulation results produced.
+
+In addition, gaps in the display of the 3D view due to the previously used method of drawing water levels are eliminated.
+
+
+Skew Bridges
+New fields have been added to Bridge objects to allow modelling of skew bridges:
+
+The Skew angle field is used to specify the angle of the bridge deck in relation to the centre line of the bridge link. The default value is the angle between the bridge link and the upstream face bridge section.
+The Skew openings and piers field is used to specify whether the openings associated with the bridge are specified running parallel with the river or perpendicular to the bridge sections.
+See Bridge Data Fields and Bridge Openings for further information.
+
+2D Infiltration Model
+In previous versions of InfoWorks ICM, 2D Zones were considered impervious and soil infiltration could not be modelled.
+
+In this version, a 2D Infiltration Model has been implemented.
+
+Infiltration characteristics are defined in new Infiltration Surface objects. An Infiltration Surface can then be applied to a 2D Zone or to Infiltration Zones used to represent areas within the 2D zone to which different surface types apply.
+
+The infiltration model calculates the infiltration properties in each element of the 2D mesh using one of three infiltration models: constant infiltration, fixed infiltration and Horton infiltration.
+
+See 2D Infiltration Model for details.
+
+2D Water Quality Model
+It is now possible to model water quality in the 2D network. The 2D water quality engine is able to model advection and diffusion of the same pollutants that can be modelled in the 1D network.
+
+Available sources of pollutants in the 2D zone are river banks, manholes, point sources and external boundaries.
+
+Initial conditions are defined in the Initial Conditions 2D grid. The initial conditions can then be applied to a 2D Zone or to an Initial Conditions Zone used to represent areas within the 2D zone to which different water quality initial conditions apply.
+
+Diffusion coefficients are set in a new field in the Water Quality Parameters.
+
+See 2D Water Quality Simulations for further information.
+
+Water Quality Model - support for non-prismatic conduits
+In previous versions of InfoWorks ICM, it was not possible to carry out a water quality simulation for a network containing non-prismatic conduits (river reach or bridge objects).
+
+In this version, the Water Quality Model has been updated to support modelling of river reaches and bridges.
+
+Importing network data from ISIS .dat files
+Limited support to allow the import of network data from ISIS . dat files has been added.
+
+It is now possible to import river section data and spill data from ISIS .dat files. In order to import sections and spills to the correct geographical location the objects must be geo-referenced (easting and northing values specified) in the .dat file.
+
+See Importing ISIS Network Data for details.
+
+Improvements to River Reach building functionality
+Enhancements to existing functionality and new features have been implemented in this version to improve the usability of the river reach building tools:
+
+Changes in terminology for river related objects
+The Cross Section Survey and Bank Survey objects in previous versions of InfoWorks ICM have now been renamed Cross Section Lines and Bank Lines. This change in terminology has been made to clarify the intended use of these objects, i.e. building of River Reaches. If changes to reach cross section/bank parameters are required, these should be made to the River Line data, and the reach updated from the line data.
+
+In addition, objects previously named Roughness Polygons, Mesh Polygons and 2D IC Polygons have been renamed Roughness Zone, Mesh Zone and 2D IC Zone.
+
+Ability to make river reach cross section and river bank data editable / uneditable
+River reach cross section and bank parameters (including geometry) are designed to be built from river line data. If changes to these parameters are required, these should be made to the line data and the reach updated from the line data.
+
+Previously, river reach section and river bank parameters were always fully editable, which could potentially lead to some loss of the edits if the river reach was subsequently re-built or updated.
+
+River reach section and river bank data has been made uneditable by default in this InfoWorks ICM version in order to prevent this from happening. Users are also now given the flexibility to make this data editable in case they want to allow edits of the river reach information within InfoWorks ICM. This is achieved by using a new option available in the General Page of the Options dialog.
+
+See River Reaches and Options dialog - General Page topics for further details.
+
+Automatic update from roughness zones when building river sections from line data
+When building river sections from line data, roughness values at the section vertices are automatically updated from roughness zones. River section vertices that do not fall within a roughness zone retain the roughness value from the corresponding cross section line.
+
+See River Reaches for further information.
+
+Generation of cross section lines when inserting sections
+When inserting a new river section into a reach, either by adding an interpolated section, or by inserting a node, a corresponding Cross Section Line object is now created automatically.
+
+This feature has been added to enable all river reach sections to be rebuilt from scratch from line data and to keep the line data as consistent with the river reach object as possible.
+
+See River Reaches for more information.
+
+Ability to update river reach section data from selected cross section lines
+It is now possible to update river reach section data from cross section lines without deleting all pre-existing section data. Select the river reach to be updated and the cross section lines to update the reach with and choose River reach | Update sections from selected lines from the Model menu.
+
+Sections will be inserted into the reach at selected cross section line locations. If the cross section line coincides with a pre-existing section, the data from the line will be used to overwrite the pre-existing section.
+
+See River Reaches for more information.
+
+Bank line creation options
+It is now possible to automatically create bank line objects from the ends of river reach sections. Select a river reach and choose River reach | Create bank lines from section ends from the Model menu.
+
+The choice of building each bank line to follow the shape of the river reach link will be given. Accept this choice to insert additional vertices into the bank line at bends in the reach, so that the generated line follows the shape of the river centre line.River reach bank profiles can subsequently be constructed from these generated bank lines via the Build banks from selected lines menu option.
+
+See River Reaches for more information.
+
+Improvement to building bank profiles from line data
+Improvements have been made to the method used to build River Reach bank profiles from Bank Line data.
+
+In cases where a bank line is much shorter than the river reach to which it is applied, only the river reach sections that are clearly associated with the bank line will be used to create bank profile coordinates and section markers.
+
+Previously, all river sections would have been used in the bank building process, regardless of distance from the bank line.
+
+See River Reaches for more information.
+
+Enhancements to Interpolation tool
+When adding an interpolated section, it is now possible to insert multiple sections and to define custom chords to map specific features (e.g. banks and ditches) from one section to another in order to improve accuracy when generating interpolates.
+
+Interpolation options are viewed and edited on the Interpolation Viewer.
+
+Join Reaches Tool
+A tool has been added to make it possible to merge connected river reaches, with the same bank connections, into a single reach, using the same sort of method used to merge similar conduits.
+
+See River Reach Building Tools - Joining River Reaches for further details.
+
+Highlighting of sections on GeoPlan from section editors
+River sections and bridge sections are now temporarily highlighted on the GeoPlan when opening a section editor via the object property sheet.
+
+Selecting river sections and section points from the editor grid and graph will also temporarily highlight sections and vertices on the GeoPlan.
+
+This functionality has been implemented to improve usability by allowing objects to be identified when exploring section data.
+
+See the River Sections Editor and Sections Editor topics for further information.
+
+Ability to change line and polygon type
+It is now possible to change a selection of lines and/or polygons from their current type to another type.
+
+Select the objects to be changed and choose Selection operations | Change line/polygon type... from the Selection menu.
+
+See Changing Line and Polygon Type for further information.
+
+Improvements to crop overlapping polygons functionality
+The following improvements have been made to the Crop Overlapping Polygons functionality:
+
+It is now possible to crop River Reach boundaries, Bridge boundaries and Storage Area polygons
+A selection list can be used to specify the polygons to be cropped
+An optional selection list can be used to specify the polygons to be cropped against
+Cropping functionality now allows for complex polygons (with the exception of river reaches and bridges)
+A new option to Retain all the separate parts of the cropped polygons has been added to allow creating of new polygons where cropping a polygon results in the original polygon being split into multiple parts
+See Cropping Polygons and Polylines for further information.
+
+New Mesh summary field for 2D Zones
+A new read-only Mesh summary field has been added to 2D Zone objects. When the 2D Zone is meshed, the summary information and list of validation warning messages displayed in the log file are written to the Mesh summary field of the zone. Only the most recent meshing information is stored in this field. Previous meshing summary information will be overwritten if re-meshing of the zone takes place.
+
+In previous versions, meshing summary information was appended to the Notes field of the 2D Zone.
+
+Improvement to meshing at manholes
+When creating a 2D mesh, mesh triangles are now aggregated at 2D manholes to ensure that the manhole is fed from a single element, thereby reducing the likelihood of water balance problems for manholes with a large area.
+
+Triangles are aggregated until the area of the element meets the effective area of the manhole, calculated as:
+
+Shaft plan area x 2D element area factor
+
+where the 2D element area factor is a new field that has been added to the Node object. This field is used as above to specify the area in the 2D zone that is linked with the manhole and can be used to further avoid stability issues in 2D simulations.
+
+Meshing improvement when handling vertices with undefined ground level
+Ground models can sometimes contain areas of undefined elevation. If all of the vertices of a 2D mesh element fall within an undefined area, unrealistic simulation results can be produced.
+
+In this version of InfoWorks ICM, errors will be displayed in the meshing log if there are any mesh elements that have all vertices with undefined elevation. Coordinates of areas that require height values will be listed in the log.
+
+Element adjustment at river reach banks at meshing time
+Previously, adjustment of the ground level of mesh elements adjoining river banks, (so that element ground level is not higher than the adjoining bank level), was carried out by the engine at simulation time.
+
+In this version, a new option, (Lower 2D mesh element ground levels higher than adjacent bank levels), has been added to the Mesh 2D Zones Dialog to allow this adjustment to be carried out during the meshing process. A warning list will be displayed in the meshing log listing the elements that have been adjusted and the value by which the ground level has been adjusted.
+
+See Creating 2D Meshes for further information.
+
+2D Outfall validation improvement
+Validation warning W2112 is used to warn if the ground level of a 2D outfall node is different to the downstream invert of the connecting pipe.
+
+In this version of InfoWorks ICM, the warning has been extended to apply to all link types and not just conduits.
+
+Ground Model elevation display in section editors
+A Ground Model trace can now be displayed on all property sheet section editors when a ground model is loaded onto the GeoPlan.
+
+Right click on the graph on the editor to display options for turning the ground model on and off and for setting trace properties.
+
+Enhancement to import of Access Database data
+Queries are now available for selection in the Feature dropdown list of the Open Data Import Centre dialog, as well as tables, when data is imported from Access Databases.
+
+Please refer to the Open Data Import Centre dialog topic for more information.
+
+Improvements to GeoPlan network object deletion functionality
+The process of deleting network object in the GeoPlan has been enhanced for security reasons. Tighter control over the type of user notification has been implemented to offer greater flexibility and to help prevent accidental deletions. The user can now choose between immediate deletion without notification, display of a progress dialog for a minimum of 1.5 s and deletion with automatic confirmation. Moreover, database owners can override any of these settings by forcing all database users to confirm object deletion. User notification options can be configured in the General Page of the Options dialog.
+
+See Deleting Network Objects and Options dialog - General Page topics for further details.
+
+SQL Enhancements
+Several SQL enhancements have been made for this version of InfoWorks ICMInfoNet. See the SQL technical note for further details.
+
+A new ORDER BY clause has been added, which is used to sort the records output to grids and csv files when using explicit SELECT clauses. Records can be sorted in ascending or descending order by use of the keywords ASC and DESC. Number of records output can be restricted by use of the keywords TOP and BOTTOM.
+The keyword DISTINCT can be used in an explicit SELECT clause to return a group of values without duplicates. It can be used in conjunction with WHERE and ORDER BY
+For example:
+
+SELECT DISTINCT width,ds_width WHERE pipe_material = 'co' ORDER BY width ASC, ds_width ASC
+
+will display in a grid view one record for each distinct set of width and downstream width values for all concrete pipes, sorted in ascending order by width and then by downstream width.
+
+A new INSERT clause has been added, which allows objects to be inserted into the network or rows to be inserted into arrays.
+For example:
+
+INSERT INTO node (node_id,x,y) VALUES ('N1', 123, 456)
+
+will add a node 'N1' to the network with X coordinate 123 and Y coordinate 456.
+
+New SQL functions
+New SQL date functions have been added:
+
+MONTHYEARPART returns the month and year of a date as a string: mm/yyyy
+YEARMONTHPART returns the year and month part of a date as a string: yyyy/mm
+MONTHNAME returns the month part of a date as the full name of the month
+SHORTMONTHNAME returns the month part of a date as the abbreviated name of the month
+DAYNAME returns the day part of a date as the full name of the day
+SHORTDAYNAME returns the day part of a date as the abbreviated name of the month.
+New SQL trigonometric functions are now available for use in SQL queries. These functions apply to angles in degrees and will return NULL if their parameters cannot be converted into numbers. Functions include:
+
+LOGE(x) returns the log (base e) of x.
+SIN(x) returns the sin of x.
+EXP(x) returns e^x.
+ATAN(x) returns the inverse tangent of y/x using the signs of y and x to correctly determine the quadant.
+See SQL Syntax and SQL in InfoWorks ICM and InfoNet for more detailed information.
+
+SQL Object ID field
+The read only variable OID can be used to return the object ID (primary key) of an object. This can be used to get multi-part IDs for objects such as pipes that include link suffix as part of their ID. An oid option is now available from the Field list in the SQL Dialog - SQL Page.
+
+Flags as an array
+Flags for an object can now be treated as an array when carrying out SQL queries, where the array contains two fields - value and name. A flags option is now available from the Field Type list in the SQL Dialog - SQL Page.
+
+For example:
+
+SELECT oid, COUNT(flags.value='S1') will display in a grid view a list of primary keys with the number of S1 flags applied to the object
+
+SET flags.value='S2' where flags.name='survey_date_flag' will set the flag for survey date fields to S2
+
+SQL for non-GeoPlan objects
+Usability of the SQL Dialog has been improved for updating of non-GeoPlan objects. It is now possible to select objects that are not digitised on the GeoPlan (e.g. headloss curves, runoff surfaces ) from the Object Type list in the SQL Dialog - SQL Page.
+
+Gridded Ground Model import from InfoWorks format file
+It is now possible to import a gridded ground model from an .IGM ground model file exported from InfoWorks.
+
+See the Ground Models (Grid) topic for details.
+
+Improvement to the saving of GeoPlan properties and themes
+A new option has been added to the Load Network Editor Properties dialog to allow users to load previously saved user defaults in terms of GeoPlan properties and themes. You can now revert to your user default settings without having to close and reopen the network. This is a particularly useful feature if experimenting with GeoPlan properties and themes or importing a snapshot with its own GeoPlan properties and themes.
+
+See the GeoPlan Properties dialog and the Load Network Editor Properties dialog topics for further information.
+
+Explorer Window Enhancements
+Several improvements have been made to the usability of the Explorer Window:
+
+Enhancement to Find Modified functionality in the Explorer Window
+The version control menu options are now displayed when right clicking on a version controlled item in the Find pane of the Explorer Window.
+
+This functionality allows version control actions to be taken on found items without the need to select and search for the items in the tree view.
+
+Enhancement to display of database item details in Explorer Window
+A new column has been added to theExplorer Window when details are displayed. The ID column displays the item identifier (as displayed in the item's Properties Dialog).
+
+The ID is also displayed in the item tooltip.
+
+In addition an improvement has been made to the tooltip displayed from the Master Database icon in the tree view: the tooltip now displays information including the database path and GUID.
+
+See the Explorer Window topic for more information.
+
+
+Improvement to display of Model Groups in Explorer Window
+When a Model Group contains only one type of object, the Model Group icon is changed slightly to reflect that single contained type.
+
+For example: the Ground Model and Rainfall groups in the example image each contain only one type of object. The Model Group icon has been modified to display a folder containing the object type icon.
+
+The purpose of this functionality is to allow groups in the tree to be identified more easily.
+
+
+
+Usability enhancement to object creation in the Explorer Window
+	
+Images have been added to the new object sub-menu (displayed by right clicking on a Model group in the tree and selecting New from the context menu).
+
+This functionality aids the user in finding the object type to be created quickly without the need to read through the object list.
+
+Improvement to managing ranged themes
+An improvement has been made to the Layer Theme Editor to allow theme ranges to be added or removed quickly. Hold down the  buttons to add or remove multiple ranges.
+
+See the Managing Themes section for further information on themes.
+
+Area Measurement using the Distance Tool
+The Distance Estimation Tool  selectable from the GeoPlan Tools Toolbar has been enhanced to allow measurement of area in addition to length.
+
+Using the distance tool, click on the GeoPlan around the area to be measured, hold down the CTRL key and double-click to link the last click point to the first click point. The polygon formed will be displayed briefly on the GeoPlan. The area of the polygon will be displayed in the status bar .
+
+Data Flag codes increased to four characters
+In previous versions of InfoWorks ICM , data flag codes were restricted to two characters.
+
+In this version it is possible to specify data flag codes of up to four characters.
+
+See the Data Flags topic for further details.
+
+Find and Replace Flags functionality
+It is now possible to search for specific flags and replace the occurrences of these flags with other flags. This functionality can be used to update the flags of an imported network that was originally created using a different flagging system to the one used in the current database.
+
+See the Data Flags and Find and Replace Flags Wizard topics for details.
+
+Selection tool double-click functionality extended
+Double-clicking on a single network object when using the selection tool  on the GeoPlan View displays the property sheet for the object in addition to selecting the object.
+
+This tool has now been extended to work when multiple objects are clicked on, (when objects overlay each other for example). Clicking on the objects displays a Multiple Selection Dialog. Selecting an item from the Multiple Selection Dialog selects the object in the GeoPlan when using a single click (as in previous versions). When using a double-click the property sheet is also displayed for the selected object.
+
+The tool can also now be used in the Long Section Window and the 3D Network Window.
+
+Backspace shortcut to clear current selection
+It is now possible to use the Backspace key as a shortcut to clear the current selection in the GeoPlan View.
+
+Esc can also be used, however this will also revert the mode to Selection mode when using tools other than the select tool.
+
+Ability to change GIS layer selection colour
+A new GIS Layer selection colour option has been added to the Visual Page of the GeoPlan Properties Dialog. This option allows the highlighting colour for objects found using the GIS Find or Street Find functionality to be changed.
+
+Implementation of filters to fine tune comparison of version control items
+Optional filters have been implemented in the Comparison dialog to help filter out the differences to be reported during the comparison of version controlled items. Users of InfoWorks CS, SD, RS and WS will be familiar with the Ignore flags and Ignore defaults options. A new option, Use display precision, to be used to ignore differences that are below the level of precision shown in the object property sheets or grids, has been introduced.
+
+When implemented, this functionality produces less cluttered outputs (screen, text file, CSV file or none) by hiding differences that can be perceived as more trivial.
+
+See Comparison Dialog and Comparing Version Controlled Items topics for more details on these filters.
+
+Usability improvement to scenario selection in Schedule Run View and Network Validation dialog
+An improvement has been made to the Schedule Hydraulic Run View and the Network Validation Dialog to allow selection of multiple scenarios. Previously the status of the check box of each scenario to be run/validated had to be set individually.
+
+To select multiple scenarios, use the CTRL or SHIFT keys. Click on the check box of one of the selected scenarios to set the status of the check boxes of all selected scenarios.
+
+Ability to copy commit history to clipboard
+The ability to copy selected rows of the commit history to the clipboard has been implemented. Select one or more rows on the Commit History Dialog and right click to display the Copy selected items to clipboard option.
+
+Emergency reset of user permissions
+In the event that it is necessary to reset user permissions for a master database, it is now possible to add a user as an administrator to a database via an emergency reset file obtained from Innovyze.
+
+See User Permissions for further details.
+
+Google Earth export - option to export current timestep only
+An option to export only the currently displayed timestep, when exporting to Google™Earth format, has been added to the Export to KMZ for Google Earth dialog.
+
+See Integration with Google Earth for further information.

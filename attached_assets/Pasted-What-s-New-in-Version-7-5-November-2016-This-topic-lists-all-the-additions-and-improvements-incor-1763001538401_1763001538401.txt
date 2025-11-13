@@ -1,0 +1,145 @@
+What's New in Version 7.5 - November 2016
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 7.5 which were not available in previous versions.
+
+PDM calibration
+The parameters in a PDM Descriptor, modelling the runoff from a subcatchment, can now be calibrated automatically. Observed data must be supplied via a TSDB. The calibration is performed using a Nelder-Mead simplex minimisation procedure.
+
+ReFH initial baseflow scaled to subcatchment area
+ReFH initial baseflow can now be scaled according to the subcatchment rather than catchment area:
+
+The initial baseflow, set in the Profile Properties dialog, is now scaled so that it is applied proportionally according to the area of each subcatchment within the catchment. Previously, all subcatchments using a particular profile would have the same initial baseflow, regardless of the size of each subcatchment area.
+When generating either a ReFH or FEH2013 design rainfall event, you can now choose to scale the specified initial baseflow proportionally or to apply it relatively to each subcatchment's area. Previously, a user-defined ReFH initial baseflow (BF0) was specified per catchment and this value was applied to each subcatchment within that catchment area, regardless of the actual size (area) of each subcatchment. See the ReFH (2) catchment BF0 (m3/s) field in the Rainfall Generator dialog for further information.
+When setting a global ReFH initial baseflow (BF0) on the Globals tabs in the Rainfall Event Editor or the Catchment Initial Conditions window, you can choose if this global value is to apply to every subcatchment during a rainfall event or if it is to be applied proportionally to each subcatchment within the catchment area.
+However, if you want to specify a specific ReFH initial baseflow (BF0) per subcatchment, then it is still recommended that you use the ReFH Subcatchment tab on the Rainfall Event Editor to do so. This takes precedence over the user-defined ReFH initial baseflow (BF0) in the Rainfall Generator dialog, any global ReFH initial baseflow (BF0) set on the Globals tab on the Rainfall Event Editor, and the initial baseflow set in the Profile Properties dialog.
+
+Exporting results from risk analysis simulation and risk analysis result objects
+It is now possible to export results from risk analysis simulations and risk analysis result objects to GIS format files or using the Open Data Export Centre. See Risk Analysis Runs for further information.
+
+Risk analysis runs included in SQL Selections
+Results from risk analysis simulations and risk analysis result objects can now be included in SQL queries. A new risk option for the Field Type on the SQL page will include results fields from any risk analysis simulation and risk analysis result objects which are loaded in current network on the GeoPlan.
+
+Enhanced 3D view
+The performance and look of the 3D network view has been improved. A more visually pleasing representation of water and sky have been implemented, and it now displays the whole network rather than being restricted to the area covered by the currently-open GeoPlan.
+
+Piers Editor
+The usability of Piers editor, which is used to define the location and geometry of bridge piers, has been improved to include a new selection list for the Pier ID. The points, which comprise the selected Pier ID, are now displayed in the graph.
+
+ReFH runoff model volume conservation
+A method to close the water balance (i.e. conserve volume) for the ReFH runoff model has been implemented. The approach was developed by Wallingford Hydro Solutions (WHS), and it works by modifying the ReFH base flow calculation to phase out the contribution of the direct runoff component to base flow. ReFH remains an event-based model; this improvement does not provide support for continuous simulation. More details can be found in Appendix 1 of the ReFH 2.2 Technical Guidance Report, available from WHS.
+
+Log file warning of subcatchments with inaccurate population values
+A warning is now included in the HTML log file, which is generated when setting up subcatchment population counts from address point data or census data, that indicates which subcatchments are likely to have incorrect population values normally as a result of invalid geometry. You can use the new functions, Insert vertices at intersections and spur removal (an extension to Simplifying Object Geometry) as well as existing tools to help correct the geometry.
+
+Improvements to the Job Progress Window for 2D runs
+When running simulations, a number of new fields, which provide progress information for 2D zone elements, are now available in the Job Progress Window.
+
+Enhancements to the Damage Function Grid Editor
+You can now generate multiple damage curves for the same damage receptor using different periods (start and end dates) for each curve, as well as generating up to 4 damage curves per period. You can also now choose to use a linear or stepped method of interpolation for each damage curve. See the Damage Function Editor for further information.
+
+In addition, in the Damage Function Graph Dialog, which displays the graph of the damage curve, you can now specify up to 10 velocity-dependent damage curves.
+
+Insert Vertices at Intersections
+A new Geometry option, Insert vertices at intersections, allows you to update existing network objects which are geometrically represented as polygons, such as subcatchments and other polygon objects by inserting vertices where intersections occur with either GIS polygon objects or other network polygon objects.
+
+If a network polygon object boundary is cut, for example, by a GIS polygon at a point on one of its segments, then a vertex will automatically be added at this intersection point.
+
+Extensions to Simplifying Object Geometry
+When thinning geometry (to reduce the number of object vertices, potentially reducing data size and improving performance) for polygon objects, you can now remove any spurs (regions on the polygon boundary connected to the main part of the polygon by a narrower strip) which are less than a specified width.
+
+You can also now specify an area constraint to ensure that polygons are not over-thinned. Any polygon, whose area has changed as a result of thinning, is checked to see that its area does not exceed a maximum change in area value. If it does, individual vertices, which were deleted as part of the thinning process, are reinstated until the changed area is within the specified limit.
+
+See Simplifying Object Geometry and the Simplify Geometry Dialog for further information.
+
+Generate and import FEH2013 design rainfall events
+A new design rainfall generator - FEH2013 - is now available which you can use to generate a rainfall event. You can download rainfall data as XML files from the Flood Estimation Handbook web service, and import them into InfoWorks ICM using the Rainfall Generator dialog. The data is then passed to REFH2 application from Wallingford HydroSolutions (WHS) which generates the appropriate rainfall hytegraph for the event.
+
+See Design Rainfall Generators and the Rainfall Generator dialog for further information about the FEH2013 design rainfall event.
+
+In order to generate a FEH2013 design rainfall event, you must have access to the FEH web service, and a licence for the ReFH2 software must have been obtained from Wallingford HydroSolutions (WHS).
+
+Alerts on 'live' TSDB data
+Previously, it was only possible to alert on the results of TVD connectors, which hold the TVD connector results for the TSDB data, as it was at the time of the run. Now you can alert on 'live' TSDB data, i.e.as it is at the time the alert engine is run.
+
+A new choice, live_data, which enables data to be extracted from the TSDB in real time, has been added to the Target field A and Target field B fields in an Alert Definition List.
+
+Binary grid files for spatial TSDBs
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A new Binary grid format for observed or forecast data is available as an option in the Data file format field in the Spatial Time Series Database Configuration dialog. The new Spatial Rain Raw Binary File Configuration dialog can be used to specify or update file information and grid parameters for forecast or observed data which is in a raw binary file format.
+
+FURUNO GRIB2 format radar data
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Radar data in the GRIB2 format from FURUNO is now supported by InfoWorks ICM. To include this type of data in a spatial TSDB, ensure that the GRIB2 option is selected in the Data file format field in the Spatial Time Series Database Configuration dialog.
+
+New radar format for TSDB
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A new radar format -Shanghai Met (forecast) - is available as an option for the Data file format in the Spatial Time Series Database Configuration dialog.
+
+TIDE SQL expression for TVD connectors
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A new SQL expression can now be added to TVD connectors which can be used to calculate tidal harmonics during a run. SeeTVD Connector Data Fields and TVD Connector - SQL Expression Dialog for further information.
+
+2D Depths displayed in the Coordinates Panel
+A new option in the GeoPlan Properties and Theme's Visual tab now enables 2D depths to be displayed in the Coordinates Panel on the Status Bar when simulation results are opened on the GeoPlan.
+
+SUDS/LIDS simulation results report
+Control and performance summaries for SUDS/LID structures, which are included in a simulation, can now be viewed as a SWMM SUDS/LID text report. Any SWMM5 related errors will also be included in the report.
+
+Geodatabase tables can be imported using the ODIC
+Geodatabase tables can now be imported using the Open Data Import Centre (ODIC).
+
+Water quality in SUDS/LIDs
+The SWMM WQ LIDs component has now been added to the InfoWorks ICM's water quality features. Changes have been made to the simulation engine but there are no changes to the user interface. See Sustainable Urban Drainage Systems (SUDS) for further information.
+
+Drain flow from SUDS/LIDs included in results
+The drain flow from LIDs/SUDS structures are now included for both time-varying and non-time varying results for subcatchments. See the Subcatchment Results Data Fields for more information.
+
+Flags on array fields can be used in SQL queries
+Data flags on array fields such as river section data can now be used in SQL queries.
+
+Batch export of maximum flood contours
+The export of maximum flood contours from the results of one or more simulations to MapInfo MIF or TAB files, or ESRI Shape or ASCII Grid files, is now available via the Export Maximum Flood Contours option in the Results menu.
+
+Template network
+A template network is simply an existing network which has been defined as a template network. You can select a specific version of an existing network to use as the template network or you can choose to always use the latest version of it.
+
+Any new networks, which you choose to be based on the template network, will inherit all the network objects from the template network when the new network is created.
+
+Sediment data included in run log files
+Summary results for sediments are now included in a run log file, providing that sediment has been modelled in the network. The following sediment information will be included in the log file:
+
+Cumulative sediment mass balance
+Sediment balance for each modelled sediment fraction
+Sediment deposit, initial and final bed level, per river section
+Material sizes (only available when modelling more than one sediment fraction)
+See Text Reports for details about to view a simulation log report.
+
+Multiple simulations run on the same GPU card
+Multiple simulations can now be run simultaneously on the same GPU card. Previously this was restricted to one simulation per card. The Job Agent automatically assigns each GPU-using simulation to a card (subject to a limit set by the user), and will use the card with the fewest simulations assigned to it first. For further information, see the Custom settings in the Agent Options dialog.
+
+Water Quality Diffusion available in the 2D GPU engine
+A GPU card can now be used for 2D calculations of Water Quality Diffusion. The options for using a GPU card are specified in the 2D Parameters dialog.
+
+User-defined conveyance data
+River reach cross-sections, for which user-defined conveyance values have been specified, are now highlighted in bold in the river reach Sections list in the Conveyance Data Editor.
+
+Statistical reports
+Network version numbers are now included in statistical reports.
+
+SQL spatial searches now include a Nearest option
+The Nearest option, which finds the nearest single object of a selected type within a specified distance, can now be included in SQL spatial searches.
+
+Object property editor features
+The following features have been added to improve usability in object property windows:
+
+The Return key can now be used instead of selecting the  (Ellipsis) button from a field, such as the Notes and Hyperlinks, in an object's property sheet that invokes a dialog.
+An Open all groups and a Close all groups option have been added to the object property editor's popup menu. These options expand (+) or contract (-) groups of fields in object property windows.
+Set alternative coordinate system
+The Set online map projection has been replaced by the more aptly named Set alternative coordinate system. The purpose of the option has not changed; you still use it to specify an online map projection system for databases which do not have a map control set in order to enable the use of online maps.

@@ -1,0 +1,259 @@
+What's New in Version 2.5 - February 2012
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2.5 which were not available in previous versions.
+
+Polygon cropping tool extended to include trimming of polylines
+Enhancements have been made to the Crop Selected Polygons tool to include polylines as well.
+
+All polygon and polyline objects can now be cropped against each other.
+
+The extension to this functionality is of particular use in cases where river cross section lines extend beyond bank lines. The cross section lines can now be trimmed against the bank lines prior to building the river reach.
+
+See Cropping Polygons and Polylines for further information.
+
+Tool to close gaps and overlaps between polygon and polyline objects
+The Close Gaps and Overlaps tool can be used to close the gaps (or overlaps) between a selection of polygon and/or polyline objects.
+
+This functionality is of particular use for cleaning up polygons and polylines prior to Creating 2D Meshes, as it can be used to remove small gaps and overlaps that would otherwise cause many small triangles to be generated in the mesh.
+
+See Closing Gaps and Overlaps for details.
+
+New 2D linear structure objects
+A new Linear Structure (2D) has been added which can be used to represent wall and weir structures in 2D simulations. The linear structure supersedes the Porous Wall object used in previous versions of InfoWorks ICM (the porous wall is retained for backwards compatibility).
+
+New General Point object
+A new General Point object has been added which can be used to store surveyed point data. The points can then be used to provide elevation data when creating a TIN ground model.
+
+When creating a TIN, include general points to be used in the Network objects selection in the Create New TIN Ground Model Dialog.
+
+See Creating a TIN Ground Model for further details.
+
+New UPC grate inlet type
+A new node inlet type has been added.
+
+The UPC Grate (named after the Universitat Politècnica de Catalunya, where the model was developed), can be used as an alternative to the HEC-22 continuous grate (Inlet type ContG), available in previous versions of InfoWorks ICM.
+
+See Inlet Nodes and Inlet Node Parameters for more details.
+
+New Inlet 2D flood type for nodes
+A new flood type for nodes has been added. The Inlet 2D flood type allows a head discharge relationship between the manhole and the 2D mesh to be defined by use of Inlet Node Parameters.
+
+See Defining 2D nodes for more information.
+
+Improvements to network object grid window organisation
+Improvements have been so that the Network Object Grid Windows are now organised according to geometry types.
+
+Nodes, links and subcatchments grids are unchanged
+Two new grids for Lines and Points have been added
+The 2D grid has been removed and objects that were previously in the 2D grid have been moved to the Polygons, Lines and Points grids according to geometry type
+The River Lines grid has been removed and objects that were previously in the River lines grid have been moved to the new Lines grid
+Enhancement to RS CSV importer
+The functionality to import network data from InfoWorks RS CSV files has been extended to include support for the import of:
+
+Subcatchments
+Conduits - circular, rectangular and sprung arch
+Weirs - gated, round nosed broad crested, sharp crested and broad crested
+Culvert inlets and outlets
+Open orifices
+Floodplain sections
+Vertical sluices
+See Importing InfoWorks RS Network Data for details.
+
+'Build all' option removed from River reach menu
+The option to Build all has been removed from the ModelRiver Reach menu for this version.
+
+This change has been made in order to avoid confusion caused by the fact that bank connection building was not included in the Build all functionality.
+
+In this version, river reaches should be built by the step-by-step approach using the options in the order listed in the ModelRiver reach menu.
+
+See River Reach Building Tools for details.
+
+'Online' meshing replaced by 2D meshing using simulation agent
+2D meshing via the simulation agent was introduced in version 2.0.
+
+In this version, the agent mesher functionality has been improved to allow GIS files and layers to be used in the meshing process (an ability that was not present in version 2.0).
+
+The old 'online' method of meshing, which prevented use of the user interface while meshing was in progress, has now been removed and is completely replaced by meshing via the simulation agent.
+
+See Creating 2D Meshes for further information.
+
+More accurate ground level interpolation when creating 2D meshes
+Improvements have been made to increase the accuracy of the calculation of ground levels when creating 2D meshes.
+
+In pervious versions of InfoWorks ICM, the ground level of each mesh triangle was based on the average values at the three vertices of the triangle only. This method may result in inaccurate ground levels in the mesh in cases where mesh resolution is much larger than ground model resolution.
+
+In this version, the ground level for a triangle is now calculated by sampling the ground model within the triangle, where the number of sample points to be used is determined by minimum mesh element area and, (when using a Gridded Ground Model), ground model resolution.
+
+See 2D Mesh Generation Methodology for further information.
+
+Terrain-sensitive meshing
+The ability to apply terrain-sensitive meshing to individual 2D zones has been introduced for this version of InfoWorks ICM. This functionality is used to increase the resolution of the mesh in areas that have a large variation in height, without increasing the number of elements in relatively flat areas.
+
+To apply terrain-sensitive meshing to a 2D zone, check the new Terrain-sensitive meshing option and specify a Maximum height variation for the zone. During meshing an iterative process is carried out in which the ground model is sampled in each candidate triangle. If the range of heights within the triangle exceeds the Maximum height variation, the triangle is split, increasing the resolution of the mesh in areas where terrain height varies rapidly.
+
+See 2D Mesh Generation Methodology for details.
+
+2D performance enhancements
+Enhancements have been made to the 2D engine in order to improve performance of 2D simulations:
+
+2D mesh triangles are now spatially sorted during the meshing process. This results in an improvement in simulation engine performance, as data for element faces that interact with each other will be spatially clustered in memory.
+Aggregation of virtual element faces has been implemented. Reducing the number of faces reduces the number of total operations per timestep which can result in faster simulation times.
+Ability to display river section and 2D element results in custom labels
+It is now possible to custom label river reach sections/banks and 2D zone mesh elements.
+
+Results for these 'sub-objects' can be displayed in the labels by selecting a results field name from the field list in the Custom Label Settings Dialog - Content Page. (Sub-object results fields are appended by '... (Element result)' in the field list.)
+
+See Custom Label Settings Dialog - Content Page for further information.
+
+Move Selection tool
+A new Move Selection  tool has been added to the More GeoPlan Tools Toolbar. This tool provides an alternative method to use of the Geographical Adjustment of Selection Dialog for moving a selection of objects.
+
+Left click on the GeoPlan and hold mouse button down to drag currently selected objects to new location. Release the mouse button to drop selected objects at the new location.
+
+See Editing Network Object Geometry for further information.
+
+Ability to delete branched networks
+It is now possible to delete a branch of a version controlled item, such as a network.
+
+Right click on the branch item in the Explorer Window and select Delete from the context menu to send the branch to the Recycle Bin.
+
+Option to use US survey feet when importing gridded ground models
+The option to use US survey feet as units for ground elevation and X, Y coordinates has been added to the Ground Model (Grid) Import Dialog.
+
+See Ground Models (Grid) for further information on importing gridded ground models.
+
+Option to turn off display of scale bars on GeoPlan
+An option allowing the scale bars displayed in the bottom left hand corner of the GeoPlan to be turned off has been added.
+
+The Show scale bars option can be found on the GeoPlan page of the Options Dialog.
+
+Object Properties Window usability enhancement
+A new divider line has been added to the caption bar of the Object Properties Window to allow the width of the field name display to be adjusted. This functionality allows long field names, that would otherwise be hidden by data values, to be viewed fully.
+
+Click on the divider line in the caption bar and drag to the required position.
+
+See Object Properties Window for further information.
+
+Recycle bin usability improvement
+The recycle bin now shows the date when the item was deleted and the user who deleted the item when details are displayed.
+
+Ability to run 2D simulations without a 1D network
+In previous versions of InfoWorks ICM, to run a 2D simulation it was necessary to have a 1D network present in addition to the 2D network.
+
+In this version it is now possible to run a 2D simulation without the presence of a 1D network.
+
+See 2D Simulations for further information.
+
+Simulation parameter to aid handling of ground level discrepancy between manholes and the 2D mesh
+In some situations, discrepancy in ground levels between 2D manholes and the 2D mesh can result in oscillating flows.
+
+By default, the interaction between 1D and 2D at manholes is based on depth values.
+
+A new Use 2d elevations instead of depths has been added to the network Simulation Parameters in order to allow elevations to be used instead of depths when calculating exchange of water at manholes. Checking this option may resolve the problem of oscillating flows due to ground level discrepancy.
+
+See Simulation Parameters and Defining 2D Nodes for further information.
+
+WQ number of initial state steps default set to -1
+In previous versions of InfoWorks ICM, the default value for the Number of initial state steps in the Water Quality Parameters was set to 3.
+
+The use of a value > 0 in this field has now been deprecated and the default changed to -1 (no initialisation).
+
+See Water Quality Parameters for further details.
+
+Use of initial states from runoff only simulations prevented
+It is no longer possible to save the final state of a runoff only simulation, or to use a runoff only simulation as the initial state for another simulation.
+
+The Schedule Hydraulic Run View has been updated to prevent saving of the final state of a runoff only simulation. If an attempt is made to run a simulation using a runoff only simulation to provide initial states, an error message will be displayed.
+
+These changes have been implemented to prevent initialisation problems caused by using a runoff only state as the starting point for a full simulation.
+
+Option to use initial state regardless of whether boundary conditions match
+It is now possible to use the final state of a previous simulation as the initial state of another simulation, regardless of whether its boundary conditions match those at the start of the simulation using the state.
+
+Check the new Always use state without re-initialisation option in the Simulation state section of the Schedule Hydraulic Run View to always use the initial state, even if boundary conditions do not match.
+
+If this option is unchecked, InfoWorks ICM will behave as in previous versions and the simulation engine will perform an initialisation phase if the boundary conditions do not match.
+
+Links connected to outfalls no longer automatically gauged
+In previous versions of InfoWorks ICM, any link connected to an outfall was automatically gauged. This had the potential of generating a large amount of result data that was not necessarily needed, particularly when the model included a reach with a large number of sections connected to an outfall.
+
+In this version, in order to prevent the generation of gauge results that are not required, links connected to outfalls are no longer automatically gauged. Gauge results will only be generated for those links in the Additional Links to be Gauged selection list specified in the Schedule Hydraulic Run Dialog.
+
+Enhancements to log files
+The following enhancements have been made to simulation log files:
+
+Counts of unconverged objects added to timestep log
+When timestep logging is turned on, the simulation log now reports the count of objects, (for link flow, link depth and node), that are least converged at the end of an unconverged iteration.
+
+This information can be used to identify at which nodes convergence problems occur the most.
+
+Improvements to reporting of composite objects
+Some objects in the network are composite objects, for example: river reaches with banks and bridges. These composite objects are represented in the simulation engine by multiple objects which are created during the pre-processing stage of the simulation. References to the created nodes that make up the composite objects appear in the simulation log file and the prn file.
+
+In previous versions of InfoWorks ICM, the created nodes were named after the parent object node ID appended by a '_O' and a number of '!'s if required for uniqueness. In this version, more meaningful node name suffixes are now used to make it easier to interpret the messages in the log file.
+
+2D volume balance linkage errors only reported when timestep logging turned on
+Simulation log usability has been improved by removing the logging of 2D volume balance linkage problems unless timestep logging is turned on.
+
+This improvement can greatly reduce the size of log files created when timestep logging is turned off.
+
+Improved feedback in simulation progress window for models with 2D zones
+Progress messages in the Activity field of the Simulation Progress Window have been improved to report on loading of 2D networks.
+
+In previous versions of InfoWorks ICM, feedback on progress was displayed during loading of the 1D network, but not during loading of the 2D network.
+
+2D engine performance improvement - new local steady state parameters
+Improvements were made to the 2D engine in version 2.0 to put individual 2D zones in 'sleep mode' whenever a steady state was reached in the zone. The zone only became active again when changes in 2D zone variables were considered large enough to disturb the steady state.
+
+In this version, further enhancements have been made and the 2D engine is now able to check for a local steady state in each element of the 2D zone rather than for a global steady state in the whole zone.
+
+This functionality has the potential to speed up simulations in cases where 2D zones are large with different flooded areas acting independently.
+
+The option to turn this tool on/off and the criteria to be used to assess whether variables have reached a steady state are edited in the 2D Parameters Dialog.
+
+See 2D Parameters for details.
+
+2D engine performance improvement - bank connections
+In previous versions of InfoWorks ICM, the boundary faces connecting a 2D zone and a bank were always active in the 2D engine, regardless of whether there was any flow at the face.
+
+In this version, faces are now only activated when there is flow between them, thereby improving efficiency with the potential of reduced simulation times.
+
+Engine improvement - new weir based model for flood type lost
+Previously, for nodes with Flood type Lost, flow lost was determined at each timestep by calculating the volume in an imaginary flood cone defined above ground level, with the level at the node being reset to ground level at each timestep. Convergence problems could occur due to discrepancies between levels at the node and connected links
+
+The new model evaluates flow lost due to flooding using a free discharge weir equation and a constant plan area above ground level. This new method improves the stability and accuracy of models, but may result in some differences in simulation results from previous versions.
+
+Note that simulations using networks containing nodes with Flood type Lost and Chamber floor level above Ground level will now fail with an integrity failure.
+
+See the Nodes topic for further information.
+
+Engine improvement - change to conveyance calculations
+An improvement has been made to the method in which conveyance is calculated for conduits using Colebrook-White roughness.
+
+In previous versions of InfoWorks ICM, in conditions where a pipe was not surcharged, it was assumed that the hydraulic gradient was the same as the pipe slope for the purposes of conveyance calculation. This allowed a rapid solving of the flow equations. In surcharged conditions this assumption cannot be made. It was found that in some circumstances, (for example a flat pipe moving in or out of surcharge at its downstream end), instabilities could occur as this assumption was removed or re-instated. The flow equations have been updated to remove this assumption under all conditions. The consequence of this is that all pipes could show slightly different answers when compared with results from previous versions.
+
+Engine improvement - double precision 2D level and depth initial conditions
+Precision of 2D level and depth initial conditions has been increased from single to double precision. This change has been made in order to improve accuracy, thereby avoiding problems previously experienced due to rounding errors when imposing a constant level in a given area.
+
+Web Map Service images supported in MapXtreme GeoPlans
+It is now possible to load a Web Map Service (WMS) image on to the GeoPlan window as a background layer when using MapXtreme as the map control.
+
+Specify a WMS URL via the new Add WMS... button on the MapXtreme Layer Control Dialog. Visibility of sub layers is controlled via the Web Map Service Properties Dialog accessed via the layer control Properties... button.
+
+Geographic coordinate transformations for ArcObjects/ArcEngine GeoPlans
+When using ArcObjects/ArcEngine as map control, geographic transformations can be specified to allow datasets which have different geographic coordinate systems to be mapped together.
+
+To apply transformations, click the new geographic coordinate transformations Edit... button on the Projected Coordinate System Dialog to display the Geographic Transformations dialog. Transformations available are those which are related to the current GeoPlan coordinate system. One transformation may be selected for each available coordinate system.
+
+See Selecting the Coordinate System for further information.
+
+Support for adding of feature datasets in ArcObjects GeoPlans
+When selecting map layers using ArcObjects map control, it is now possible to select a feature dataset to be added. All feature classes contained in the dataset will be added automatically.
+
+See Layer Control Dialog for further information.
+
+Autofilter functionality available in Network Object Grid Windows
+Network object grid windows can now be autofiltered, allowing users to selectively display data meeting a maximum of two criteria (or filters) while hiding the other rows. Three new options have been added to the grid context menu to allow users to specify filters, filter on the current cell value and clear existing filters.
+
+The new Filter Options dialog, which is displayed when the Filter context menu item is selected, is used to configure the comparison operator and value that make up each filter. Up to two filters can be simultaneously applied and columns must not be contain more than 10,000 unique values.
+
+Refer to the Autofiltering Grid Data and the Filter Options Dialog topics for further details.

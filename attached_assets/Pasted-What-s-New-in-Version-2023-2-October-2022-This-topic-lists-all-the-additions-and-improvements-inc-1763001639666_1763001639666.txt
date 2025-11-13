@@ -1,0 +1,124 @@
+What's New in Version 2023.2 - October 2022
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2023.2 which were not available in previous versions.
+Any feature marked with an asterisk (*) requires a database update to database version 2023.2 in order to access the feature.
+
+Overlapping roughness zones for clip meshing *
+Previously, when two or more roughness zones that are located within the same 2D zone overlapped, the mesh could not be generated. A message would be included in the log indicating which zones intersected, and you would need to correct the overlapping geometry of the intersecting zones before the 2D zone could be meshed successfully.
+
+Now you can assign a priority value to roughness zones. If a zone overlaps another roughness zone, the overlapping part of the zone with the lowest priority value will have precedence over a zone with a higher priority value. When the mesh is generated, using the clip meshing method, the software can now assign roughness based on priority, removing the need for editing overlapping geometry.
+
+To let you to assign a priority value to the roughness zone, a new Priority field has been added to the roughness zone properties.
+
+When you now mesh a 2D zone, the roughness value that is assigned to each mesh triangle depends on what priority has been set for the roughness zone the triangle is located in. Any mesh triangles, whose centroid falls within an overlapping zone, will be assigned the roughness of the lowest priority overlapping zone if Exclude roughness zone boundary when creating 2D mesh is unchecked. If checked, all mesh triangles that fall within the overlapping zones will be assigned the roughness of the lowest priority overlapping zone. See the example included Roughness Zone Data Fields (InfoWorks) and Roughness Zone Data Fields (SWMM) for further information.
+
+The mesh generation process will still fail for overlapping roughness zones if you:
+Do not assign a Priority to a roughness zone.
+Use the same priority value as another roughness zone located in the same 2D zone.
+Use the classic method of mesh generation.
+Size limit error added to the Mesh 2D zones log
+A new message has been added to the Mesh 2D zones log that informs you if the size of the mesh data (vertices, edges, triangles or elements) exceeds the storage limit.
+
+
+
+Example of a size limit error
+
+Whether the limit is exceeded depends on various factors including the amount of aggregation and the complexity of the geometry. See Creating 2D Meshes for further information.
+
+Ground model theme improvements *
+To provide a more convenient way to update the range of elevations displayed on the GeoPlan, the layer theme editor for ground models has been updated to include a new Value Range section. This section includes a Restrict range box, that when checked, lets you restrict the range of values, displayed in the Value column in the Ranged Themes grid, to the values specified in the Min and Max boxes.
+
+In addition, the Value count in the in Ranged Themes grid for a ground model theme is now editable. This lets you type in the number of values allowed for the range, providing an alternative to using the Plus and Minus buttons (), to add or remove values within the range. When you increase or decrease the number of values allowed, the values displayed in the Value column are automatically calculated according to the distribution type that has been selected.
+
+See Displaying a Ground Model on the GeoPlan for further information.
+
+Cross section line elevations updated from the ground model *
+Previously, Cross section line elevations could only be updated by sampling the ground model using the Update from ground model option in the Model menu. But now the elevations for existing vertices can also be updated by sampling the ground model using a new Update from Ground Model button in the Section Editor. The updated levels will be displayed in the editor's grid and section profile graph.
+
+See Updating Network Objects from the Ground Model for further information.
+
+Simulations status set to incomplete when access to an Autodesk licence is lost
+If you use an Autodesk licence, access to it is required when running simulations. Previously, if access to the licence was lost, because for example, you signed out of your Autodesk account, the simulation stopped and the simulation status was set to completed. As this status was potentially confusing, the status of a simulation will now be set to incomplete when access to the licence is lost. Simulation results are still available until access is lost, and a message is still included in its log that provides the reason for its status.
+
+Graph trace colours for Alert definitions *
+To let you choose a trace colour for a threshold in a results graph, a new Graph trace property has been added to the alert definition list.
+
+A trace colour can be chosen for any alert definition that includes a Comparison operator and has a Target type B set to <FIXED VALUE>. You can either choose a colour from the displayed palette or from a Windows Colours window.
+
+
+
+Example of an Alert Definition List with Graph traces set for 'Rise', 'Fall' and 'High' alerts definitions
+
+Note that for display purposes unused columns have been omitted from the grid.
+
+
+
+Results graph for a conduit showing Flow, and US and DS total head attributes, and thresholds for 'Fall' and 'Rise' Alert definitions
+
+If you have set up any custom graphs in ICMLive Configuration Manager for objects with time varying data that an alert would apply to, the selected trace colour will also be used for a threshold in custom graphs in ICMLive Operator Client if the applicable custom graphs are included in the graph export page of the manifest.
+
+If an action list is attached to a manifest, and the action list includes a custom graph, then for any alert that triggers an email to be sent, the graph colour for the alert threshold in the email will be same as the Graph trace color selected in the alert definition list.
+
+
+
+Example of a Custom Graph in ICMLive Operator Client including thresholds for 'High', 'Rise' and 'Fall' Alert definitions
+
+
+
+Example of an Action email containing a Custom Graphs with thresholds for 'High', 'Rise' and 'Fall' Alert definitions
+
+Annual exceedance probabilities (AEP) for the NOAA Storm Generator
+When you now select annual maximum times series data on the Rainfall data page, a list of annual exceedance probabilities (AEP) is displayed on the Event page.
+
+Previously these would have been incorrectly listed as annual recurrence intervals (ARI).
+
+CNSWMM runoff volume model for InfoWorks subcatchments *
+A new runoff volume model - CNSWMM - is now available for InfoWorks subcatchments. This model is based on the SWMM (Storm Water Management Model) Curve Number infiltration model developed by the US Environment Protection Agency (EPA). This model is designed for simulations using multiple storms and should provide comparable results to the Curve number infiltration model that is available for SWMM networks.
+
+In order to use this model, a new option CNSWMM has been added to the Runoff volume type field for a runoff surface. Runoff surfaces are associated with land use objects. Only one runoff surface whose Runoff volume type is set to CNSWMM may be associated with a single land use object, and a land use that has one runoff surface whose Runoff volume type is set to CNSWMM can only be associated with other runoff surfaces with a Runoff volume type set to Fixed. See Subcatchments for information about the relationship between subcatchments, land uses, and runoff surfaces, and Runoff Volume Models for information about the various models available.
+
+To use the CNSWMM runoff volume model in a simulation, you must specify a Curve number and a Drying time for the relevant subcatchment. Drying time is a new property for a subcatchment and it is only available if a land use, which is associated with the subcatchment, has one runoff surface whose Runoff volume type is set to CNSWMM.
+
+Export and import of SWMM5 infiltration data to InfoWorks subcatchments *
+When you export subcatchment data from an InfoWorks network to a SWMM5 text file, the Drying time and Curve number properties, if set, are now exported to the DryTime and CurveNo fields in the [INFILTRATION] section of the SWMM5 file. See SWMM5 Network Export from an InfoWorks Network for details.
+
+Similarly, when you import data from a SWMM5 text file to an InfoWorks network, the SWMM5 DryTime value, if included, is now imported from the [INFILTRATION] section of the SWMM5 file to the Drying time field for the relevant subcatchment. Previously this value would have not been imported as there was no equivalent in ICM. Note that the SWMM5 CurveNo value, if present, is still imported to a subcatchment's Curve number field. See SWMM5 Conversion - Subcatchments for details.
+
+New SCS runoff models for SWMM subcatchments *
+Previously, the only runoff model that was used for a SWMM simulation was the US Environmental Protection Agency (EPA) SWMM non-linear reservoir runoff routing model, which was automatically applied by ICM when simulations were run. However, two new runoff models, SCS_curvilinear and SCS_triangular, are now available. These are Natural Resources Conservation Service (formerly known as the Soil Conservation Service or SCS) runoff routing models that respectively use a curvilinear or triangular hydrographic shape for their unit hydrograph. See Subcatchments for details.
+
+To let you choose a runoff model, a new Runoff model type field has been added to the SWMM subcatchment properties. If you choose either of the new models, an SCS runoff section is displayed in the property sheet, which lets you specify the information required to model the selected type of SCS runoff. The new SCS runoff fields include Time of concentration, Hydraulic length, Shape factor and Initial abstraction type. The Initial abstraction type gives you a choice of Depth or Factor, and depending on which option you choose, an Initial abstraction or an Initial abstraction factor field is displayed. You can either specify the Time of concentration or, if the system default flag (#D) is set, ICM will calculate it for you using the lag equation. See Subcatchments for details of this and other calculations, and Subcatchment Data Fields (SWMM) for descriptions of the new properties.
+
+As the SCS curvilinear and SCS triangular models require that a Curve number type of infiltration model is used, the Infiltration type property is automatically set to Curve_number when either of these options are chosen.
+
+The default Runoff model type is SWMM, therefore you do not need to update any of your existing subcatchment data, unless you would like to use one of the new runoff models.
+
+SCS Hydrology runoff routing data imported from XPX files *
+SCS Hydrology runoff routing data can now be imported from XPSWMM/XPStorm XPX files to subcatchments in a SWMM network. The SCS data is imported to the Runoff model type, Time of concentration, Shape factor, Initial abstraction type and Initial abstraction or Initial abstraction factor fields as well as the Curve number field for the appropriate subcatchment. See XPSWMM/XPStorm Conversion Notes (SWMM) for details.
+
+Initial abstraction exported from SWMM subcatchments to SWMM5 text files *
+Initial abstraction is now exported from subcatchments in a SWMM network to the [Innovyze_UnitHydrograph] section in a SWMM5 text file. See SWMM5 Export - Conversion Notes for details.
+
+Importing SCS subcatchment data from XPSWMM/XPStorm data to an InfoWorks network *
+Previously when importing subcatchment data from an XPX file to an InfoWorks network, SCS relevant subcatchment data was only imported if the subcatchment was attached to a polygon. If the subcatchment was not attached to a polygon, only node data was imported. As subcatchments do not require a polygon in XPSWMM and XPStorm, this restriction has been removed, and relevant SCS subcatchment data is now also imported from an XPX file.
+
+See Importing XPSWMM/XPStorm Data to (InfoWorks Networks) and XPSWMM/XPStorm Conversion Notes (InfoWorks) for further information about importing data from XPX files.
+
+Importing roughness zone data from XPSWMM/XPStorm XPX files *
+Previously, data applicable to ICM roughness zones was imported from an XPX file to an InfoWorks or SWMM network as a porous polygon. This is no longer the case and such data is now imported as a roughness zone in ICM.
+
+See XPSWMM/XPStorm Conversion Notes (InfoWorks) and XPSWMM/XPStorm Conversion Notes (SWMM) for further information.
+
+Format change for a Roughness zone ID when importing from XPSWMM/XPStorm XPX files *
+Previously, the ID for a roughness zone was imported from the Layer Name, Layer ID and Polygon ID fields in an XPX file and took the format <Layer name>_<Layer ID>_<Polyline ID>. This has now changed and the ID is now imported from the Landuse ID and Count XPX fields, and has the format <Landuse ID> _ <Count>.
+
+See XPSWMM/XPStorm Conversion Notes (InfoWorks) and XPSWMM/XPStorm Conversion Notes (SWMM) for further information.
+
+Manning's roughness imported from XPSWMM/XPStorm data *
+Manning's roughness that is set to constant in an XPX file is now imported to the Roughness (Manning's n) property for a Roughness zone in an InfoWorks or SWMM network.
+
+See XPSWMM/XPStorm Conversion Notes (InfoWorks) and XPSWMM/XPStorm Conversion Notes (SWMM) for further information.
+
+Precision increase for RTC Regulator Rate of change and Range values *
+Real time control (RTC) allows the state of ancillary regulator structures in an InfoWorks network, such as pumps, to be changed by controlling values such as depth or velocity.
+
+In order to specify a more precise flow, depth or level value for a Rate of change (Positive or Negative) for a regulator, or a change in flow, depth or level value for Range Values (Maximum and Minimum) in the RTC Editor, the number of decimal places that are stored for the value has been increased from three to eight.

@@ -1,0 +1,66 @@
+What's New in Version 7.0 - May 2016
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 7.0 which were not available in previous versions.
+
+New water quality features
+1D diffusion is now supported by the 1D simulation engine. After advection of determinants has been calculated, the 1D engine can calculate the diffusion of the selected determinants along pre-determined links (river reaches, bridges (expansion and contraction), channels and conduits) in your network. You can choose whether the diffusion should be simulated based on estuary or river conditions. See 1D Diffusion for further information.
+
+The GPU 2D Engine now supports the following features:
+
+Water quality processes (built-in and user defined)
+Water quality decay pollutants
+Third party geocoding services now accessible
+It is now possible to find addresses within InfoWorks ICM using web map applications from Google™, Microsoft© Bing™ or a Nomination provider. Use the Online Find Options (Geocoding) to specify the geocoding options, and the  (GeoPlan Find) and the (Go To XY Coordinates) toolbar tools to search for an address.
+
+Ability to read alphanumeric time series data into a TSDB
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+It is now possible to define lookup tables, which map alphanumeric text from imported time varying data into numerical values that can be recognised by InfoWorks ICM, and then assign the tables to the relevant data streams in the TSDB.
+
+See Time Series Database for further information.
+
+The Clark Runoff Routing Model now available for subcatchments
+The choice of runoff routing models, which determines how quickly the rainfall enters the drainage system from the catchment, has been extended to include the Clark routing model which uses the Clark unit hydrograph method. Choosing which type of runoff routing model is to be applied to a particular subcatchment is determined in the Subcatchment data fields property window or grid.
+
+Runoff and ground water in subcatchments can now drain to different nodes
+SWMM5 allows the user to specify different destinations for ground water and runoff; now InfoWorks ICM provides the same functionality. If a ground infiltration object is selected for a subcatchment, then it is possible to choose to which node the ground water will flow.
+
+If no node is selected, then the ground water will drain to the same node as the runoff. See the Subcatchment data fields property window or grid for further information.
+
+Simplified method of setting a subcatchment's drainage destination
+To simplify the specification of the drainage destination for a subcatchment, you now choose which type of object is to be used as the drainage destination, and only the applicable fields are then enabled. See the new Drain to field in the Subcatchment data fields topic for further information.
+
+Navigate to a subcatchment's drainage destinations
+You can now use the To associated object navigation option to display the properties for a subcatchment's drainage destination. See Navigating Round Associated Objects for information about this navigation option.
+
+Rainfall shown for nodes connected to a 2d element
+For nodes connected to a 2d element without an associated subcatchment, the hyetograph on pick graphs now shows the rainfall for the associated 2d element.
+
+Support for ArcGIS 10.4
+InfoWorks ICM now supports ArcGIS version 10.4 when using the ArcGIS Engine/ArcGIS Desktop map control.
+
+See Changing the Current Map Control for further information on supported map controls.
+
+Horizontal scrolling in long section views
+InfoWorks ICM InfoNet now enables you to scroll to horizontally in a long section view using the Ctrl + Page Up (scroll left) or Ctrl+Page Down (scroll right) keyboard keys.
+
+User-definable conveyance data
+A new Conveyance Data Editor enables user-definable conveyance data to be specified for river reaches. Using the editor, you can either type in the values you want to use or copy the conveyance data calculated by InfoWorks ICM, which you can then edit as required. These are saved as user-defined conveyance data which is used by InfoWorks ICM, in preference to the calculated data, for that river reach.
+
+GPU performance improvements
+The performance of the GPU engine has now improved and its processing time is now approximately 40% quicker (depending on model setup and machine specification) than in Version 6.5. Note that it is the GPU engine that is quicker; all other aspects of running a simulation, such as compiling the results, remain the same.
+
+SQL Expressions added to TVD Connectors
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+SQL expressions can now be added to TVD connectors, allowing data in a TSDB to be transformed into a value which is appropriate for your model. See TVD connector data fields and TVD Connector - SQL Expression Dialog for further information.
+
+Improvements to Find in database
+Finding database items is now quicker. A new option - Match whole field - limits the extent of the search, speeding up the search process. In addition, the order in which you specify the search criteria is reversed. See Find in Database Dialog for further information.
+
+New results attribute "REFH_C" for soil moisture content
+It is now possible to tell which value for soil moisture content has been used in simulations that use the ReFH model. There is a possible difference between the values used for the soil moisture content attribute, depending on whether or not state files have been used. So that you can tell which value for soil moisture content has been used in a particular simulation, the value is now shown as "REFH_C" in simulation results output.
+
+Finding a column in a grid
+Finding one of many columns in a grid table is now easier. A Find column option on the context menu for any column header opens the Find Column In Grid Dialog, through which you can choose the column you are looking for from a drop-down list.

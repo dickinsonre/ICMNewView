@@ -1,0 +1,195 @@
+What's New in Version 6.5 - November 2015
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 6.5 which were not available in previous versions.
+
+Ability to run a script before a TSDB update
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Script and Script timeout fields have been added to the Data Sources tab of the Time Series Database object. These allow users to run third party models in InfoWorks ICM, carry-out some data manipulation or retrieve some data from ftp sites. The specified script(s) may be used to manipulate and / or put the data into an SQL Server database, for example. These updates are then retrieved and placed into the TSDB object when the TSDB is updated and can subsequently be used in simulations.
+
+See Time Series Database for more information.
+
+Batch CSV now supported for scalar TSDB
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A new data source type, Batch CSV, has been added to scalar TSDBs, for importing multi-column CSV files into a TSDB. The Filename/Foldername in the Data Sources tab should be set to a pattern that will match the data file names, including the full directory path e.g. D:\Weather data\*.csv. In the Observed or Forecast tab, the Stream name should match the name of the first field in the csv file. All files are processed during the data update and then moved to an archive folder in the same directory. Logging is written to a daily log file, also in the same directory.
+
+See Time Series Database for more information.
+
+Improved modelling of SUDS/LID structures in subcatchments
+Based on SWMM (Storm Water Management Model) version 5.1.010, additional fields have been added to subcatchment properties to enable the modelling of Sustainable Urban Drainage System (SUDS) / Low Impact Development (LID) structures such as permeable pavements and reed beds. In addition to specifying the types and quantity of the structures within a subcatchment area, it is also possible to specify the type of SUDS Control which apply to the structure, the percentage of initial saturation, the impervious area and the area affected, as well as indicating where the outflow is to drain to. See Subcatchment Data Fields for further information about the new fields.
+
+The SUDS Controls are a set of parameters which define how the outflow from the SUDS/LID structure is modelled. A SUDS control object can be defined by the user or imported using the ImportModelfrom SWMM5 text file option from the Network menu. See SUDS Controls and SUDS Control Data Fields for further information about the defining the object or SWMM5 Conversion - Subcatchments for import information.
+
+Connect a subcatchment laterally to multiple links
+A subcatchment can now drain laterally to multiple links, as an alternative to a single node or a single link. This is intended to be used primarily for rural subcatchments draining into river reaches. Multiple links can be specified using the Lateral Links field in a subcatchment's properties. See Subcatchment Data Fields for further information.
+
+A subcatchment can now drain to another subcatchment
+A subcatchment can now drain to another subcatchment, allowing, in particular, SUDS/LIDs to drain to a subcatchment. The subcatchment, which is to receive the outflow, can be specified in the To subcatchment ID field in a subcatchment's properties. See Subcatchment Data Fields for further information.
+
+Routing between surfaces within a subcatchment
+Pervious surfaces in a subcatchment can now drain fully or partly to impervious surfaces in the same subcatchment, and vice-versa. The proportion of the runoff that drains to other surfaces can be specified, the remainder being sent directly to the outlet. The routing is set using the Internal Routing field in a subcatchment's properties. See Subcatchment Data Fields for further information.
+
+New tool for displaying conveyance curves
+A new Geoplan tool, Conveyance graph pick, displays a graph, which plots conveyance against elevation, for a selected river reach or bridge cross-section. This tool enables you to:
+
+view the shape of the conveyance curve for the selected section in order to check that it is a monotonically increasing function of depth/level
+compare the shape of the conveyance curve of the selected section against the conveyance curves of neighbouring sections
+You can also choose how to display the graph using the Conveyance Graph Properties Dialog.
+
+See Conveyance Graph and Conveyance Graph Properties for details.
+
+Image logos not displayed in preview panes (64 bit systems only)
+It is not possible to display a Rich Text Format (RFT) image in the Logo preview panes in the 64 bit versions of InfoWorks ICM. Text is not affected and the logos can still be viewed using Print preview from the File menu.
+
+See Geoplan Print Dialog and Default Logo Dialog for details.
+
+Improved method of importing and exporting rainfall events
+The process of importing time varying data (Rainfall, Temperature, Wind, Evaporation, Solar Radiation and Soil Moisture Deficit), contained in multiple InfoWorks ICM format CSV files, into a single rainfall event, has been simplified. Previously, you imported the first TVD file which was to comprise the event, and then imported each of the TVD files, which were also to be part of the same event, separately. Now, you can import the first TVD file and then select multiple TVD files to be imported into the event.
+
+When exporting a rainfall event, a separate CSV file is now created for each type of TVD contained in that event.
+
+See Importing and Exporting Rainfall Events for details.
+
+Lateral friction and headloss coefficients in linear structures (2D)
+The equations, which are used to calculate the lateral friction and the headloss coefficients for 2D linear structures, have been updated in the Help to reflect how they are used by InfoWorks ICM.
+
+See the Technical Overview in the Base Linear Structures (2D) for details.
+
+Simulation Parameter Inflow-based link at manholes updated
+As the Simulation Parameter, which enables a link between the 1D and 2D network, also applies to outfalls, this parameter has been updated and renamed from Inflow-based link at manholes to Inflow-based node-2d link at manholes.
+
+See Simulation Parameters for details.
+
+Improvement to the display of a flood section (2D)
+Previously, if points in the flood section did not fall within the ground model, then the flood section may have been displayed with an undesirable ‘stepping’ effect for slopes with no water level:
+
+
+
+Example of a Flooding Section Window (Previous Version)
+
+The display of the flood section has been improved to remove this 'stepping' effect:
+
+
+
+Example of a Flood Section Window (Version 6.5)
+
+
+Improvement to the display of a long section
+In previous versions of InfoWorks ICM, an undesirable ‘stepping’ effect was displayed in the Long Section Window if the selected run included any slopes with no water level:
+
+
+
+Example of a Long Section Window (Previous Version )
+
+The display of the long section has been improved to remove this 'stepping' effect:
+
+
+
+Example of a Long Section Window (Version 6.5)
+
+Copy a network without any Commit History
+It is now possible to copy a selected network to a new network. The new network will contain everything in the copied version, including scenarios, but without any commit history.
+
+See Commit History for details.
+
+New search option for the RTC Editor
+A new option Find Regulator in List, located in the RTC Window Editor's popup menu, enables a specific regulator to be found from all the regulators in the current scenario.
+
+See RTC Window Editor for details.
+
+New Restore all option for the Recycle Bin
+A new Restore all option, which enables all Database Items to be restored from the recycle bin to their original location within the Master Database, is now available.
+
+See Recycle Bin for details.
+
+Regulator attributes added to Custom Graphs
+It is now possible to further customise what's displayed in the result graphs for the Object Per Page and Simulation Per Page Reports, with the option to include (if applicable) the following attributes on the axes:
+
+Regulator state
+Regulator state (opening)
+Regulator state (flow)
+Regulator state (depth above min)
+Pump state
+Variable speed
+Note that these attributes are only available if an appropriate regulator was included in the simulation.
+
+See Custom Graph for information about customising results graphs.
+
+Ability to lock the positions of the toolbars
+It is now possible to lock the toolbars to their current positions on the InfoWorks ICM main window by selecting the Customise toolbars...option from the Tools menu, and then checking the Lock positions box. This prevents accidental moving of the toolbars by users.
+
+See Customise Dialog for details.
+
+Improvement to the speed of 2D network validation times
+The process by which InfoWorks ICM performs the validation checks on a 2D network has changed, improving the speed of the validation.
+
+Threshold Height field added for damage receptors
+A new data field, Threshold height, has been added for damage receptors. The purpose of this field is to represent the situation where the floor of a property is higher or lower than ground level, and can be used when actual floor levels are not available. The threshold height is then used to calculate the maximum depth for the damage receptor which can subsequently be used in risk calculations.
+
+See Damage Receptor Data Fields and Damage Receptor Results Data Fields for further information.
+
+Export results from multiple simulations
+A new menu option, Export to GIS is now available in the Results menu, which enables results from one or more simulations to be exported to MIF, SHP, or TAB file format or to a Geodatabase. Previously, it was only possible to export results from one simulation at a time.
+
+Simulations for export are selected in the Export to GIS, dialog which is displayed after an option is selected from the ResultsExport to GIS submenu.
+
+See Exporting Results to GIS for details.
+
+SQL Enhancement
+It is now possible to format datetime fields for display using the new functions DATEFORMAT(), TIMEFORMAT() and DATETIMEFORMAT().
+
+The use of Prompts has been enhanced by allowing the SQL PROMPT TITLE and PROMPT LINE commands to use a variable as an argument, instead of restricting the user to a constant value. See the help topic, SQL in InfoWorks ICM, ICMLive Configuration Manager and InfoAsset Manager, for details.
+
+New GeoPlan tools option available from the GeoPlan menu
+A new menu option, GeoPlan tools is now available in the GeoPlan menu, which displays the options that are used primarily when working on the GeoPlan Window. These options are also available on the GeoPlan Toolbar. See the GeoPlan Menu and the Geoplan Toolbar for further information about the GeoPlan Window options.
+
+Edit flags can be accessed from the Tools menu
+It is now possible to select which user defined flag is to be used as default during an editing operation from the Tools menu as well as from the Edit Toolbar.
+
+See Data Flags for more information.
+
+TUFLOW import now supported
+TUFLOW network data (1D) can now be imported into InfoWorks ICM using MapInfo Interchange File (MIF) format files. See Importing Network Data and Importing TUFLOW Network Data for further information.
+
+SUD/LID structures are now represented using infiltration of river reaches and bridges
+Additional fields have been added to the database tables for river reaches and bridge expansions/contractions to enable the representation of Sustainable Urban Drainage (SUD) / Low Impact Development (LID) structures such as permeable pavements and vegetative swales. These fields enable a base height and a base and side infiltration loss co-efficient to be specified in the river reach or bridge object's property sheet. See River Reach Data Fields and Bridge Data Fields for details of the database tables and Property Sheets for further information about viewing an object's data.
+
+ReFH2 now supported
+InfoWorks ICM now interfaces with the new version of the rainfall runoff model, ReFH2, from Wallingford HydroSolutions (WHS), enabling the calculation of model parameters from catchment descriptors in subcatchments as well as the calculation of initial conditions parameters in rainfall events.
+
+It is now possible to choose whether the initial conditions for soil moisture and baseflow should be calculated based on the original version of the runoff model (ReFH), the new version (ReFH2), or be specified by the user.
+
+See Catchment Initial Conditions and Rainfall Generator Dialog for information about the using the model to calculate initial conditions parameters in Rainfall events.
+
+To use ReFH2 in InfoWorks ICM the ReFH2 software must be installed on the same PC as InfoWorks ICM, and a licence must be obtained from WHS. The ReFH2 software must be available when the relevant calculations are performed for subcatchments and rainfall events. However, the ReFH2 software does not have to be installed on the PC that is running the simulation.
+
+2D Line Source objects
+Inflow can be injected to a 2D zone not only via individual points but now also through lines. The 2D Line Sources are used to define the location of a flow-time boundary distributed along a line within a 2D Zone. The 2D line source objects work in the same way and provide the same type of results as 2D point objects, but are included in the 2D meshing as break lines. Inflow associated with a line source discharges to the 2D mesh element in which the line is located.
+
+See 2D Line Source for further information about the object, 2D Line Source Data Fields for details of its database tables and Property Sheets for further information about viewing an object's data.
+
+Improved behaviour of river banks linked to 2D meshes
+If the Lower 2d mesh element ground levels higher than adjacent bank levels box is not checked on the Mesh 2D Zones Dialog and there are banks that are below adjacent elements, then the simulation engine raises the bank level to the element level in order to avoid artificial flow generation on the mesh. Previously, this was done by simply raising any bank vertex that was below the adjacent mesh element ground level, but this could result in portions of the bank that were not below the element nevertheless being raised. This behaviour has been improved, and vertices are now inserted within the engine so that the specified bank levels are always respected except when they are below the mesh.
+
+Wider application of improved method for linking 1D and 2D networks
+In version 6.0, a new method was provided for linking 1D and 2D networks at nodes where the flow is governed by a head discharge table. This method has been extended to all types of linkage between nodes and 2D zones. It is controlled by the Inflow-based link at manholes Simulation parameter.
+
+Enhancements to the generic CSV time-varying data importer
+The generic CSV file importer for time-varying data such as rainfall and inflow has been improved. The main enhancement is that multiple columns of data in a CSV file are now imported as multiple profiles within a single object, rather than as separate objects.
+
+Ability to choose to 'Use 2D Elevations instead of depths' at a node level
+The ability to use elevations instead of depths when calculating exchange of water at manholes was introduced in version 2.5, in order to address the problem of oscillating flows due to ground level discrepancy, but all nodes in the network were required to use the same approach. It is now possible to use elevations at some nodes and depths at others.
+
+Improvements to 2D summary log
+The volume balance summary report has been improved. It now presents an itemisation of the all the inflows, outflows and net inflows by category. Percentages of these quantities are also shown, and the volume balance error percentage is now based on the sum of inflows and outflows.
+
+Urban Pollution Management (UPM) tool now implemented
+The Urban Pollution Management (UPM) tool from InfoWorks CS has been implemented in InfoWorks ICM, in order to allow InfoWorks CS models to be converted into InfoWorks ICM models more easily.
+
+WMS Enhancements for MapXtreme GIS Controls
+A number of additional options are now available to control the display of Web Mapping Service (WMS) layers. The user may now specify the Map Image Format, Background Colour and Transparent properties for the WMS layer. WMS layers will automatically be displayed in the GeoPlan coordinate system, provided that the coordinate system is available. This avoids the need to create additional TAB files to configure the display of WMS layers. See the Web Map Service Properties Dialog for further information.
+
+Simultaneous editing of settings for multiple GIS layers
+The GIS Layer Control dialog now supports the simultaneous editing of settings for multiple layers. Modification of the Visible, Selectable, Editable, Zoom Levels and Properties options now affects all the layers currently highlighted in the GIS Layer Control Dialog.

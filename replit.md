@@ -126,3 +126,18 @@ Preferred communication style: Simple, everyday language.
 
 **Fonts**:
 - **Google Fonts**: Inter (UI font) and JetBrains Mono (code font) loaded from CDN
+
+## Recent Changes
+
+### November 2024
+- **Version 1.5 Added (February 2011)**: Comprehensive historical version with 24 features including 2D Infiltration Model, 2D Water Quality Model, SQL enhancements, River Reach building improvements, meshing enhancements, and extensive usability features
+- **Version 2025.4 Added**: Complete version with 10 features including InfoWorks ICM Viewer, 2D Mesh Element Histograms, Muskingum routing, and Ruby scripting enhancements
+- **Placeholder Versions Created**: Structured placeholder entries for 14 versions (2025.3, 2025.2, 2025.1, 2025.0, 2024.4, 2024.3, 2024.1, 2024.0, 11.0, 10.5, 10.0, 9.5, 9.0, 2.0) awaiting user-provided content
+- **Timeline Coverage**: Application displays ~25 version entries from 2026.2 back to 1.5 (February 2011). Currently 8 versions have full content, 14 are placeholders, and 3 have partial content. User can provide "What's New" documentation to populate remaining versions.
+
+## Data Structure
+
+**Version Data**: Stored in `server/data/versions.ts` with structured format:
+- Each version contains: id, version number, release date (ISO 8601 format), and features array
+- Each feature contains: id, title, description, and category
+- Categories include: Product, Development, Hydrology, Meshing, Results, SWMM, Cloud, Integration, Administration, Performance, Modeling, Visualization, Water Quality, Data Management, Usability, Tools, Version Control

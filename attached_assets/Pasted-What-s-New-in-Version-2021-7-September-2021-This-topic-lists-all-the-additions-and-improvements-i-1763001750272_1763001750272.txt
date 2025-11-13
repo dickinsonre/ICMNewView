@@ -1,0 +1,19 @@
+What's New in Version 2021.7 - September 2021
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2021.7 which were not available in previous versions.
+NOAA rainfall generator
+The new NOAA ATLAS 14 Rainfall Generator can be used to download data from the NOAA's Precipitation Frequency Data Server (PFDS) to generate NOAA Atlas 14 precipitation frequency estimates for specified locations within the United States. The generated storm can be based on the NOAA ATLAS 14 or NCRS Regional systems for temporal distribution, and average recurrence intervals and durations for the NOAA design rainfall event can also be specified using the rainfall generator.
+
+Expiry warning for Thales licences
+If you are using a Thales license, a warning message will now be displayed by default when InfoWorks ICM is started, if Thales licence is within one month of its expiry date. When the license is within a week of its expiry date, the message will be shown daily.
+
+If you do not want the warning displayed, you can either uncheck the Remind me later option on the warning dialog, or use the Licence expiry date reminder option on the General Page of the Options Dialog to disable the display of the message.
+
+InfoWorks About box
+The About box has been updated and now displays licence agreement information about your current InfoWorks ICM installation, the version number of the installed software, and the licence name, which is read from the dongle or server.
+
+Further information, such as the licence number, the version of the operating system you are using and the name and location of the master database, which was previously displayed in the About box, is now displayed in a new Additional Information window. This window can be displayed by clicking on the new Additional Information button in the About box.
+
+Importing SCS runoff data from XPSWMM/XPStorm to InfoWorks networks
+Subcatchments that use an SCS Hydrology routing method in XPSWMM/XPStorm can now be imported to InfoWorks networks. Like other subcatchment data from an XPSWMM/XPStorm xpx file, these will also be imported as Subcatchment, Runoff surface and Land use objects in ICM.
+
+See Importing XPSWMM/XPStorm Data to InfoWorks Networks for general information about how to import XPSWMM/XPSTORM xpx files and XPSWMM/XPStorm Conversion Notes (InfoWorks) for conversion information.

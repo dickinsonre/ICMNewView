@@ -1,0 +1,42 @@
+What's New in Version 2021.8 - October 2021
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2021.8 which were not available in previous versions.
+2D Boundary objects for SWMM networks
+2D Boundary objects can be used to define alternative boundary line conditions along a section of a 2D Zone boundary when undertaking 2D Modelling. The boundary condition defined for this object will override the 2D Zone boundary type where the boundary line and polygon boundary coincide. All of the 2D Zone boundary types (Vertical wall, Critical condition, Supercritical condition, Dry or Normal condition) are available for 2D boundary lines as well as additional boundary line types of Inflow, Level or Level & Head/discharge.
+
+For Inflow or Level boundary line types, the inflow or level hydrograph is associated with the 2D Boundary via an Inflow or Level event, in the same way as inflows and levels are associated with nodes. For a Level & Head/discharge type of boundary, a head unit flow must be associated with the 2D Boundary object (see below).
+
+Head unit flow objects for SWMM networks
+A Head unit flow object has been added to SWMM networks. This enables a 2D Boundary object, whose Boundary line type property is set to Level & Head/discharge, to be associated with a head unit flow table. A profile in a Level event provides the depth of water at the boundary line. This depth, minus the depth at the element(s) attached to a 2D boundary line, is used to calculate the head for each 2D boundary line face. Based on the selected head unit flow table, a unit flow or flow per length is calculated on each face, which will be scaled to the face length to obtain the resulting flow entering the 2D domain.
+
+Importing 2D Boundary and Roughness zone objects from XPSWMM and XPStorm data
+2D boundary and Roughness zone objects can now be imported from XPSWMM and XPStorm xpx files to InfoWorks or SWMM networks. See Importing XPSWMM/XPStorm Data to InfoWorks Networks and Importing XPSWMM/XPStorm Data to SWMM Networks for information about how to import data from xpx files and XPSWMM/XPStorm Conversion Notes (InfoWorks) and XPSWMM/XPStorm Conversion Notes (SWMM) for conversion information.
+
+Importing InfoWorks IC zone - hydraulic (2D) objects from XPSWMM and XPStorm data
+IC zone - hydraulic (2D) objects can now be imported from XPSWMM and XPStorm xpx files to InfoWorks networks. See Importing XPSWMM/XPStorm Data to InfoWorks Networks for information about how to import data from xpx files and XPSWMM/XPStorm Conversion Notes (InfoWorks) for conversion information.
+
+Importing Inflow and Level events from XPSWMM and XPStorm data
+Data from XPSWMM and XPStorm xpx files can now be imported to Inflow and Level events for InfoWorks and SWMM networks. See Importing Event Data for further information.
+
+Property sheets for asset network objects
+Property sheets for asset network objects were previously displayed, by default, in a tabbed modal sheet. This has changed and now, by default, they will be displayed in the Property Editor in the Object Properties Window.
+
+You can change the default setting by removing the check from the Use property editor for asset network objects option in the General Page of the Options dialog.
+
+Help menu
+The order of the options in the Help menu has been changed so that the Help option is now the first item in the list. Previously, it was Desktop analytics but this now appears further down the list of options.
+
+Job progress details for SWMM 2D simulations
+Details of any job that includes applicable 2D SWMM network objects are now displayed in the Job progress window. Information about the Minimum 2D timestep, 2D Zone ID, Element ID, Wet area, Inundated area, Max wet area, Max inundated area, 2D volume, 2D volume error, 2D rainfall, 2D average inflow and 2D average outflow, if relevant, will now be shown in the window.
+
+In addition, Timestep details will also be displayed for any job that includes a SWMM network.
+
+Changes to the PRN file
+The date and time on the "Start of run" record in a PRN results text report is now displayed in ISO 8601 format and includes the time zone offset from UTC. However, simulations will still report using local time.
+
+The licence number is no longer included in the report title or header.
+
+TCP/IP connection to a local agent via ICM Exchange
+It is now possible to use TCP/IP to connect to a local agent using ICM Exchange. See the ICM Exchange documentation for further information.
+
+Authentication required for a workgroup data server
+By default, a workgroup data server now requires users to be authenticated. See the Workgroup Data Server Administration Guide for further information.

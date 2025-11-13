@@ -1,0 +1,52 @@
+What's New in Version 2023.0 - March 2022
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2023.0 which were not available in previous versions.
+Autodesk licences for InfoWorks ICM
+You can now use an Autodesk licence to run InfoWorks ICM. Two types of licences - Standard or Ultimate -are now available. These let you access the modelling capabilities of InfoWorks ICM although there are some minor restrictions. See the Autodesk Licence topic for further information.
+
+When you start InfoWorks ICM for the first time, an Autodesk Sign in window is displayed. This verifies your licence and lets you use InfoWorks ICM. See the Getting Started topic for further information.
+
+Inserting a new node into an existing link in SWMM networks
+When adding a new node in a SWMM network, either on the GeoPlan or Long Section Window, the Split box in the Create New Node dialog is now enabled if the new node is being inserted into an existing link. Adding a check in the box will split the current link to create two links, each connected to the new node. If the new node intersects more than one link, the link to be split can be selected from a dropdown list. A flag can also be selected from a dropdown list, which will be applied to the start and end node and the upstream and downstream elevation properties for the applicable links.
+
+The new link will have same name as the existing one but with a ! appended to it. All other parameters will be the same as the existing link, except for the End node and the Downstream elevation for the updated link and the Start node and Upstream elevation of the new link. The name of the new node is assigned to the end node property for the updated link and the start node property for the new link. The elevation properties are:
+
+Calculated by splitting the existing elevation based on where the new node is placed in the existing link if the #D flag is not set in the Create New Node dialog.
+Assigned the #D flag if the #D flag set is set in the Create New Node dialog.
+See Digitising Network Objects for further information.
+
+Terrain-sensitive meshing for SWMM 2D zones
+Terrain-sensitive meshing, which is used to increase the resolution of the mesh in areas that have a large variation in height, without increasing the number of elements in relatively flat areas, is now available for 2D zones in a SWMM network. Two new properties have been added to a 2D zone object:
+
+A Terrain-sensitive meshing box which, when checked, applies terrain-sensitive meshing during the mesh generation process
+A Maximum height variation field that lets you to specify the maximum height variation that is permitted within a single triangle.
+See the 2D Mesh Generation Methodology topic for information about how terrain-sensitive meshing is used in the mesh generation process.
+
+Terrain-sensitive meshing usage indicated in mesh summary and log for InfoWorks 2D zones
+Whether or not terrain-sensitive meshing is applied when a 2D mesh is created is now indicated in the mesh log or mesh summary for a 2D zone in an InfoWorks network. If it is applied, the specified maximum height variation used will also be included.
+
+The summary is displayed by selecting the  button located next to the relevant 2D zone's Mesh summary field, while the log is displayed by clicking the Show log button in the Manage Mesh Results dialog.
+
+Consistent selection of zones for attribution for clip meshing
+When using the clip meshing method of mesh generation, the attribution of mesh vertex elevations from Mesh Zones and Mesh Level Zones has changed for any vertices shared between two zones (i.e. when two zones are adjacent with at least partly aligned boundaries).
+
+Previously, there was no consistency to which zone was selected for attribution during mesh generation, and repeating the same clip meshing job would result in different vertex attribution each time. Now the zone selected for attribution is dependent on the order that the zones are created, with a Mesh Level Zone always taking preference over a Mesh Zone. This provides consistent attribution when a mesh job is repeated. This change does not affect the mesh element elevations or results of a 2D simulation but you should notice the different levels when an element is inspected via the 2D Zone Mesh Element Properties dialog.
+
+In addition, the mesh log is simplified. Instead of a line for each affected vertex, which were often duplicated for many of the vertices, there is now a single warning in the log for each pair of "touching" zones. A list of the affected vertices, without duplicates, and ordered by X-coordinate, is also included. Show me
+
+An example of a mesh log from before the change:
+
+Before Example
+
+An example of a mesh log after the change:
+
+After Example
+
+
+Importing HEC-RAS data
+When importing HEC-RAS data into InfoWorks networks, the import error messages now include the line number and associated text, from the HEC-RAS prj or g01 file, that caused the error to occur.
+
+Importing XPSWMM/XPStorm evaporation data to SWMM Climatology
+It is now possible to import evaporation data from XPSWMM/XPStorm XPX files to SWMM Climatology database items. See Importing XPSWMM/XPStorm Data to SWMM Networks for details about how to import the data and XPSWMM/XPStorm Conversion Notes (SWMM) for information about the imported data.
+
+Resizeable Additional Information window
+You can now change the size of the Additional Information window. This window is displayed when you select the About InfoWorks... option from the Help menu and then click the Additional Information button.

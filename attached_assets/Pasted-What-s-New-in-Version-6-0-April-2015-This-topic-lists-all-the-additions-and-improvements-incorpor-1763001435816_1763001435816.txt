@@ -1,0 +1,277 @@
+What's New in Version 6.0 - April 2015
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 6.0 which were not available in previous versions.
+
+Sediment modelling in river reaches
+It is now possible to model sediment transport in river reaches. In order to support sediment modelling, the following functionality has been added to InfoWorks ICM:
+
+Sediment grading object in links grid
+The Sediment Grading allows bed material distribution to be defined by specifying the proportion of each sediment fraction that is present. Sediment grading can be viewed and edited in the Sediment grading window of the Links Grid.
+
+The Sediment grading is associated with a River Reach or Bridge by referencing the grading object using river reach/bridge grading data fields.
+
+Three-layered bed composition
+Bed sediment is treated as three separate layers: an active layer at the surface of the river bed, a deposited layer below it and the parent bed material below the deposited layer. The active layer thickness is set in the network and does not change. For erosion the material eroded from the active layer is replaced by an equal quantity of material taken from the layer below (the deposited layer if present or the parent material otherwise). In the case of deposition, the material being added into the active layer is matched by an equal volume of material passed from that layer into the deposited layer.
+
+To support this functionality the following data fields have been added:
+
+Water Quality and Sediment Parameters
+
+Active layer depth method (1D) - used to set the method by which the active layer depth is calculated:
+Explicit - use value specified in the reach Active layer depth field
+D50 - active layer thickness calculated as d50 material size multiplied by Active layer depth factor specified for reach
+D90 - active layer thickness calculated as d90 material size multiplied by Active layer depth factor specified for reach
+River Reach Data Fields and Bridge Data Fields
+
+Active layer depth factor - multiplying factor for calculating active layer thickness
+Active layer depth - active layer thickness
+Limit erosion rate - check this option to impose an upper limit on rate of erosion
+Max erosion rate - maximum rate of erosion that will be applied if Limit erosion rate is checked
+Max deposition rate - check this option to impose an upper limit on rate of deposition
+Limit deposition rate - maximum rate of deposition that will be applied if Limit deposition rate is checked
+User Defined Defaults have also been added for Active layer depth factor, Active layer depth, Max erosion rate and Max deposition rate.
+
+Data fields to allow limitation of erosion of bed level
+River Reach Data Fields and Bridge Data Fields have been added to allow limits to be imposed on the erodible depth of the river bed.
+
+Use the Limit erosion by field to select an option for defining at which level erosion will be prevented from occurring:
+
+Depth - erosion will be prevented from occurring below the depth specified, where depth is measured relative to section invert level
+Level - erosion will be prevented from occurring below the level specified
+Depth and Level - erosion will be prevented from occurring below both the depth and level specified
+Unlimited - erosion will not be limited
+Data fields to allow limitation of deposition depth
+River Reach Data Fields and Bridge Data Fields have been added to allow limits to be imposed on the depth of sediment that can be deposited above the original section depth.
+
+To impose a limit, check the Limit deposition depth option and specify a Deposition limit.
+
+Data fields to allow specification of bed updating method
+River Reach Data Fields and Bridge Data Fields have been added to allow a bed updating method to be selected.
+
+Select an option from the Bed updating field:
+
+Invert - sediment is deposited and eroded from the invert of the channel. Erosion of the original section will not occur
+Uniform - deposition and erosion will be modelled uniformly across the section
+1D initial conditions updated to include sediment masses for river reaches
+The Initial Conditions 1D Editor has been updated to include sediment masses for river reaches.
+
+See Initial Conditions 1D for further information.
+
+Results
+Additional water quality results have been included for river reach and bridge objects to support the new sediment modelling features.
+
+See Link Results Data Fields for further information.
+
+Velocity profile report
+The Velocity Profile Grid Report provides a detailed breakdown of flow, bulk velocity and wetted area for a selection of river reaches. Values are provided at each timestep for each river reach section as a whole and for individual panels that make up the sections.
+
+The report can be displayed in a grid view or exported to csv format.
+
+See the Grid Reports topic for further information.
+
+Custom columns in statistical reports
+It is now possible to define additional columns in the Statistics Templates for inclusion in Statistical Reports. These custom columns can be used to add descriptive text associated with each location. For example, for CSO reporting, custom columns could include information such as CSO Number and Permit ID.
+
+See the Statistics Templates topic for further details.
+
+Improvements to import of bridge data from InfoWorks RS
+The InfoWorks RS importer has been enhanced to include generation of InfoWorks ICM bridge objects from InfoWorks RS bridge data as part of the import process.
+
+See Importing InfoWorks RS Network Data for details.
+
+Bridge linear structures - ability to sample invert levels from ground model
+The Update from ground model functionality has been extended to include updating of Bridge Linear Structure (2D) objects with irregular invert level.
+
+Invert level values at existing vertices can be updated from a selected ground model. In addition, new vertices can be inserted between existing vertices. The Invert level of new vertices is set from the ground model and Opening height and Deck thickness values are calculated by linear interpolation.
+
+See Updating Network Objects from the Ground Model for further information.
+
+Long section enhancement - River Reach sections grid
+It is now possible to display a grid view of river reach sections from the Long Section Window.
+
+The River reach sections grid displays information on all of the river reach sections currently displayed in the Long Section Window.
+
+Ability to export an MXD file when exporting to ESRI ArcMap format
+An option to export an MXD file has been added to the GIS Export Dialog used when exporting a network or results to ESRI ArcMap format.
+
+See Export to GIS File Format and Exporting Results to GIS for further information.
+
+Additional user fields
+In order to increase the amount of data that can be stored in user defined fields, the number of User Text and User Number fields has been increased from five of each type to ten of each type.
+
+Improved validation for inline banks
+Validation has been added to check that an Inline Bank object that has a 2D Zone ID specified is connected to an Outfall node.
+
+This improved validation will ensure that inline banks with a specified 2D Zone are modelled as a connection between 1D and 2D parts of the network and not as a 1D link.
+
+Validation efficiency improvements
+Efficiency improvements have been made to the validation of 2D mesh zones and their associated objects.
+
+These improvements may significantly reduce the time taken to validate networks containing a large number of 2D objects.
+
+Efficiency improvements for export of 2D elements to GIS
+Efficiency improvements have been made to the GIS Export of 2D elements.
+
+These improvements may significantly reduce the export time of 2D meshes containing a large number of elements.
+
+New flow limiting results at 2D nodes
+When modelling 2D inlets, flow capping is applied to limit exchange between the 2D and 1D network in situations where inflow at the node would exceed volume contained in the 2D element at any given timestep. This may occur if the 2D element that the inlet node is located within is too small.
+
+In version 5.5, Duration of flow limiting and Flow limited results were added for 2D inlets to aid in identifying the locations at which flow limiting occurs.
+
+In this version, further node results fields have been added to help identify locations at which the capping procedure has a significant effect on simulation results.
+
+Total cumulative limited volume - indicates the severity of the capping procedure (over the entire simulation) as a volume
+Cumulative limited volume - indicates the severity of the capping procedure (at each timestep) as a volume
+Cumulative limited volume rate - rate of change of cumulative limited volume, derived from the Cumulative limited volume results
+The Cumulative limited volume and Cumulative limited volume rate results are only applicable to simulation using the Timestep log option on the Run Diagnostics Dialog.
+
+Improved method for linking 1D and 2D networks
+A new Simulation Parameter has been added to allow a new linking method to be used between the 1D and 2D network.
+
+Check the Inflow-based link at manholes option to use the new linking method (applicable to 2D nodes where flow is governed by a head discharge table). When this method is used, the maximum flow that can be exchanged between the 1D and 2D network is based on the net inflow into the element, rather than the volume in the element. This should reduce discrepancies between head in the 2D mesh and inflow to the 1D network, particularly in cases where 1D nodes are located within small elements.
+
+See Simulation Parameters for details.
+
+Note: The Inflow-based link at manholes simulation parameter will be checked by default for all new networks.
+Maximum erosion and deposition rates for 2D suspended sediment transport
+New fields have been added to the Water Quality and Sediment Parameters to allow maximum erosion and deposition rates to be specified for 2D suspended sediment.
+
+The following fields have been added to the sediment parameters under the 2D erosion/deposition model section:
+
+Limit erosion rate - check this option to impose an upper limit on rate of erosion
+Max erosion rate - enabled if Limit erosion rate is checked. Rate of erosion of suspended sediment will be limited to the value specified.
+Limit deposition rate - check this option to impose an upper limit on rate of deposition
+Max deposition rate - enabled if Limit deposition rate is checked. Rate of deposition of suspended sediment will be limited to the value specified.
+Limitations will be applied to each sediment fraction in the case of independent fractions, or to the composite erosion rate for dependent fractions.
+
+Elevation results for 2D network results lines and polygons
+New water elevation results have been added to Network Results Line (2D) and Network Results Polygon (2D) objects.
+
+Highest elevation, Lowest elevation, Maximum highest elevation and Minimum lowest elevation are now displayed in the results grids and property sheets.
+
+See Network Results Object Results Data Fields for further details.
+
+Time varying results in SQL expressions
+It is now possible to run SQL queries that analyse results across simulation timesteps. This is achieved by running aggregate functions on the results. To process time varying results, use the prefix tsr (time series result) in the expression.
+
+For example: all(tsr.depnod > 16) returns true if the level result for all timesteps is greater than 16.
+
+This functionality can also be used in the GIS Export of SQL expressions for 2D mesh elements.
+
+See the Time Series Results chapter of the SQL in [%=Variables.Product3%], [%=Variables.Product6%] and [%=Variables.Product4%] technical note for details.
+
+Improvement to pick graph/grid display of unset elevations
+In previous versions of InfoWorks ICM, unset elevations (for example, downstream of a free outfall), were displayed as a large negative number in the pick graphs and pick grids.
+
+In this version, unset elevations are displayed as a null value in grids and are not displayed on graphs.
+
+Initial state simulations – 2D sediment transport support
+Initial state simulations can now be used to provide initial condition data for bed sediment.
+
+(In previous versions of ICM, the sediment data was not included in the state file.)
+
+Engine enhancement - improved switching between weir and orifice flow for structures
+An engine improvement has been made to the modelling of structures (orifice, weir, sluice, siphon and screen objects).
+
+In previous versions of InfoWorks, the simulation engine applied weir equations when upstream depth at or below the height of the structure and orifice equations when upstream depth greater than the height of the structure. Switching between the weir and orifice modes could lead to discontinuities in flow for structures with substantially different primary and secondary discharge coefficients.
+
+In this version, the engine has been improved to return whichever flow mode results in the lower flow when upstream depth is greater than the height of the structure. This change reduces discontinuities in flow with the potential to significantly reduce simulation times.
+
+Note: differences in results between simulations run in version 6.0 and simulations run in previous versions may occur due to these changes.
+
+Enhancements to the copying and pasting of global and network preferences - ability to merge choice lists
+Choice lists can be global (database-wide) or network preferences. It is now possible to copy and paste choice lists separately from other preferences. Network choice lists may be copied to database choice lists and vice versa.
+
+The AdvancedPaste choice lists (merge) option has been added to the context menu of network and master database objects in the Explorer view.
+
+The Copy global preferences context menu option that was available for the master database object has been renamed Copy as it now can be used to paste in a subsequent step either global preferences (without the choice lists) or choice lists (global or network preferences) only.
+
+See Merging (Copying) Choice Lists for more information.
+
+Ability to view and manage object relationship in one window (Object Browser Window)
+The Object Browser Window is a new docking window that has been introduced exclusively for InfoAsset Manager networks. Using this window, users can inspect object relationships in InfoAsset Manager networks and manage related objects in a convenient manner. The window is accessed via the Window menu or via context menu from the GeoPlan and Network Object Grid Windows.
+
+To show an object and its related objects in the Object Browser Window, right click the object in the Geoplan, or an object row in the relevant Network Object Grid Window and select Browse related from the context menu. Related objects are shown in a tree view. The selected object is at the root of the tree and related objects are grouped below by relationship purpose.
+
+A context menu is available for objects and relationship groups. It allows users to perform tasks such as viewing object properties, viewing the commit history, finding the object on the GeoPlan or creating new objects. See Using the Object Browser Window for more information.
+
+2D engine enhancement - Multi GPU support
+The 2D engine has been improved so it can run on multiple GPU cards in parallel (one simulation per card). This means that the engine can now be used not only on standard desktop machines but also on GPU clusters. In previous versions of InfoWorks ICM only a single GPU could be used to perform 2D simulations and if a machine had multiple GPU cards only the one with the highest specification would have been used for the simulations.
+
+The engine will cycle through the specified cards in the order specified, and pick one to use. The criteria to select a card will be based on the memory available in the card. The engine will loop through the cards in the order specified by the user and select the one with the highest free memory.
+
+Configuration takes place in the Agent Options Dialog which is accessible via the Manage Job Agents Dialog. It involves the use of keywords (GPUUSE, GPUAVOID and GPUANY). See Manage Job Agents Dialog for further details.
+
+Integration with web mapping software
+The View online option has been added to the GeoPlan context menu and provides full integration with common web map services / software such as Google™Maps, Google™ Street View, Microsoft™ Bing and OpenStreetMap. It is also possible to use a user-defined URL. Please note that a connection to the Internet is required.
+
+Click on the desired object or location on the GeoPlan, then invoke the View online menu option and select the service of your choice. The online map will launch in the default browser, highlighting the object or location that has been clicked on the GeoPlan.
+
+It is possible to control which web map services are available for selection on the GeoPlan context menu by configuring the related options in the Online Map Options Dialog. To launch this dialog, click the new Online Map Options button of the GeoPlan page of the Options dialog.
+
+Please note that when no map control is specified, it is necessary to set a projection system to be able to use online maps. This is done via the new Set Online Maps Projection... option available on the GeoPlan menu.
+
+Refer to Integration with Web Mapping Software for more information.
+
+Ability to hide object layers in the grid of the layers and themes page of the GeoPlan properties dialog.
+The Only show displayed layers option has been added to the Layers and Themes tab of the GeoPlan Properties dialog. Enabling this option will hide from the Object Layer grid the layers that are not currently selected for display in the GeoPlan This functionality has been implemented to help users eager to de-clutter the Layers and Themes page.
+
+See GeoPlan Properties - Layers and Themes Page for further details.
+
+Ability to hide specific tabs on network grid windows
+Usability of Network Object Grid Windows has been improved by allowing specific tabs in the grids to be hidden.
+
+Right click on the grid window tab and select the new Hide this tab option from the context menu to hide the current tab.
+
+Increase in SQL editor character limit
+The limit of 32768 characters has been increased to 2 billion in the SQL editor present on the SQL Dialog to allow longer queries to be specified.
+
+Enhancements to grids containing results of SQL queries
+SQL Results Grids (grids containing the results of SQL queries) now function in the same way as Network Object Grid Windows , i.e. they share their selections with the rest of the windows representing the network such as the GeoPlan Window and the Long Section Window . Thus, for example, if the GeoPlan Window is opened, selecting one or more rows in the SQL Results Grid will also select the corresponding network object(s) in the GeoPlan.
+
+TSDB - Display of available tables when connecting to an external data source
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A usability improvement has been made to the Observed and Forecast grids in the Time Series Database.
+
+When connecting to an external database, such as SQL Server or Oracle, a dropdown list of available external source tables/column names is now displayed in the TSDB grid cells that reference table data.
+
+Spatial TSDB - addition of NetCDF as a radar data format
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+It is now possible to choose NetCDF as an observed or forecast data file format when configuring a Spatial Time Series Database.
+
+Improved display of null results for TVD connectors
+In previous versions of InfoWorks ICM, missing results values at TVD connectors were displayed as zero values.
+
+In this version, missing results are now displayed as blank values in grids, and property sheets, and as gaps in the traces on graphs. Missing results values are exported to csv as the value -9998.
+
+New Database Item to support CSO monitoring and reporting in Infinity System
+Infinity System Configuration objects are a new type of database item that reside in the Model Group. The Infinity System Configuration object contains the InfoWorks ICM runs, statistics templates and model group items that will be available in Infinity System for CSO monitoring and reporting.
+
+Please note that Infinity System is an Innovyze product that is licensed separately from InfoWorks ICM. Contact Innovyze or refer to the Infinity System help for more information.
+
+Enhancements to InfoWorks ICM Agent
+Improvements have been made to the InfoWorks ICM Agent service so that it is more robust when under heavy load with multiple simultaneous requests from local and remote agents attempting to upload states and results. These enhancements reduce the number of failed simulations that may occur due to errors relating to agents being unable to upload states/results to the server.
+
+
+
+What's New in Version 1.5 - February 2011
+
+What's New in Version 2.0 - August 2011
+
+What's New in Version 2.5 - February 2012
+
+What's New in Version 3.0 - August 2012
+
+What's New in Version 3.5 - February 2013
+
+What's New in Version 4.0 - June 2013
+
+What's New in Version 4.5 - December 2013
+
+What's New in Version 5.0 - May 2014
+
+What's New in Version 5.5 - November 2014

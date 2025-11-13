@@ -1,0 +1,198 @@
+What's New in Version 3.5 - February 2013
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 3.5 which were not available in previous versions.
+
+Support of Live Data
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Scalar and Spatial Time series databases (TSDBs) are new objects providing an intermediate store between external data sources (such as SCADA/telemetry or RADAR) and an InfoWorks ICM run.
+
+Standard events (e.g. rainfall event, level event, inflow, flow survey etc) can be imported into scalar time series data using the Import event data to Time Series Database dialog. Scalar time series databases do not contain any initial conditions, therefore Catchment Initial Conditions objects have been introduced. These objects are used to assign initial hydraulic, infiltration and water quality values to catchments at the start of a simulation and are meant to be used in conjunction with time series databases only (NOT standard events).
+
+Spatial time series databases are configured in the Spatial Time Series Database configuration dialog. Grib1, Grib 2, NEXRAD (DPR), NIMROD, shapefile and X-MP are amongst the supported formats and it is possible to crop to coordinate bounds, which may be useful in the case of large images. Additionally, Spatial Rain Zones, a new type of polygon object, can be used to restrict the area on the GeoPlan over which spatial rain will be applied and displayed.
+
+Spatial Rain Sources are new polygon objects that can be used to define the priority and time of application of different sources of spatial rain data. Their use is optional and overrides the priority set in the Schedule Hydraulic Run View.
+
+When setting up simulations, users have now the choice to either use standard event data or time series data from scalar and/or spatial time series databases. The configuration occurs in the Schedule Hydraulic Run View that has been enhanced to encompass the new functionality. A Use TSDB check box allows users to switch between the use of standard events and the use of time series databases. When one or more time series databases are selected for a run, the TSDB Options dialog allows the selection of user edits for use.
+
+To account for this new functionality, the Copy Simulation Results dialog which is displayed when copying between databases has been enhanced. Its title bar reflects the nature of the items being copied and there are new options for time series databases. See Copying of Simulation Results, Ground Models and Time Series Databases Dialog for more information.
+
+Regulator events
+A new type of event has been added. Regulator events are used to provide direct and indirect control of regulator structures e.g. weir crest levels, pump switching, pump speed etc and can be used instead of Real Time Control (RTC), or to override RTC when directly controlling a regulator.
+
+See Regulator Events for more details.
+
+Manual breaches in banks and linear structures
+It is now possible to model manual breaches in river reach banks, inline banks and 2D base linear structures.
+
+Breaches are modelled by using Real Time Control (RTC) definitions to specify vertical movement of points along the bank/linear structure with respect to time.
+
+The RTC definitions to be used at section points are specified in the Sections Editor of the bank or linear structure.
+
+See Modelling Breaches in Banks and Linear Structures for details.
+
+Bridges in 2D linear structures
+The new Bridge Linear Structure (2D) network object is used to define bridge opening and deck dimensions, discharge coefficients and location relative to the starting point of a referenced base linear structure. The bridge objects are merged into the base linear structure and can be viewed as a line object overlaying the linear structure in the GeoPlan Window. 2D bridges are also displayed in the 3D Network Window and in the section editor of the 2D base linear structure.
+
+See Bridge Linear Structure (2D) for further information.
+
+Flow type field for 2D sluice structures
+A new Flow type field has been added to 2D sluice structures to allow method of flow calculation to be selected.
+
+To maintain backwards compatibility, if Flow type is not set, the Fully controlled method will be assumed and a validation warning issued.
+
+See Sluice Linear Structure (2D) Data Fields for further information.
+
+Hydrogen Sulphide modelling
+A new water quality process has been implemented for this version to allow the buildup of Hydrogen Sulphide (H2S) in pipes and closed nodes to be modelled.
+
+To model H2S, check the Model Hydrogen Sulphide box in the QM Parameters Dialog. H2S can only be modelled when BOD is also modelled.
+
+See the Hydrogen Sulphide topic for further information.
+
+FHWA headloss type
+A new built-in headloss type for conduits has been added based on the Federal Highway Administration Inlet and Access Hole Energy Loss Method as described in the FHWA HEC 22 Urban Drainage Manual.
+
+FHWA now appears as an option in the US headloss type and DS headloss type fields for conduits and a new Benching method field has been added to nodes.
+
+FHWA headloss may be used for closed conduits connected to manholes. See Headloss Curves for further information.
+
+Note:
+In order to use the FHWA headloss condition for networks created in versions of InfoWorks ICM prior to version 3.5, it is necessary to validate the network. Validating the network will update the built-in headloss curves to include the FHWA curve type.
+
+Episode collections
+An Episode Collection is a new database item used to store and view start and end times of events that occur in the network.
+
+Episode times can be automatically generated from exceedance statistics generated by statistical reports, imported from csv files or manually edited.
+
+The Episode Collection can be subsequently used to generate an extreme value analysis Custom Graph.
+
+Extreme Value Analysis Custom Graph
+A new type of Custom Graph has been added. The Extreme Value Analysis graph report is used to fit a selected statistical distribution to peak values of a specified attribute at a specified location. Peak values are determined from simulation results/time varying data and an Episode Collection.
+
+Multiple traces, graphs and pages can be set up in the same report in the same way as for flexible reports.
+
+See Custom Graphs for details.
+
+Water levels for banks displayed when using cross section pick tool
+Improvements have been made to the information displayed when using the cross section pick tool New Cross Section on a river reach bank.
+
+Graph traces representing the water levels and ground levels on each side of the river reach bank are now included on the cross section view. Options to change the colour and visibility of the traces are available.
+
+See the Cross Section Window topic for further information.
+
+HEC-RAS Exporter
+It is now possible to export network objects to a HEC-RAS geometry file.
+
+The exporter currently supports the export of: river reaches and storage areas. Partial export of bridge objects is also supported.
+
+See HEC-RAS Network Export for further details.
+
+RTC time controls specified in seconds
+The RTC Window Editor and RTC Grid Editor have been improved to allow times to be specified in the format hh:mm:ss.
+
+In previous versions, times were specified to the nearest minute in the format hh:mm.
+
+Graph reports and custom graphs improved to include network results objects and 2D linear structures
+Results for Network Results Objects and 2D linear structures can now be graphed using Graph Reports and Custom Graphs.
+
+Statistical reports improved to include network results objects and 2D linear structures
+Statistics templates have been updated to allow Network Results Objects and 2D linear structures to be selected as locations for which statistical summary data is to be produced.
+
+See Statistics Templates and Producing Statistical Reports for further details.
+
+Enhancements to network results objects
+The following enhancements have been made to the Network Results Objects introduced in version 13.0:
+
+Water quality results can now be obtained from the 2D network results objects.
+Network results point (1D) objects can now be associated with a bridge opening. Click on a bridge opening when creating the point to automatically populate the Bridge opening ID and Distance from upstream end fields of the point (describing the opening to be interrogated and the position of the point along the opening).
+Ability to gauge objects other than links
+In previous versions of InfoWorks ICM, a selection list of links in the network to be gauged could be included in the Schedule Hydraulic Run View.
+
+In this version, the object types that can be gauged has been extended to also include: nodes, subcatchments, network results objects and 2D linear structures. Results for these gauged objects will be stored at the gauge timestep, which is usually more frequent than the results timestep.
+
+See Schedule Hydraulic Run View for further information.
+
+Run scheduler option to start run from initial state time
+A new Start running from state time option has been added to the Schedule Hydraulic Run View.
+
+If this option is checked, the engine will start each simulation at the time at which state information was saved for the initial state simulation.
+
+If the simulation start time is set to a time before the initial state save time, results from the initial state simulation will be merged with results from the current simulation:
+
+Results before the initial state save time will come from the initial state simulation
+Results starting from the initial state save time will come from the current simulation
+If the simulation start time is set to a time after the initial state save time, the simulation will be run from the initial state save time until the end time specified in the run view.
+
+Engine performance enhancements
+Engine performance enhancements have been made for this version of InfoWorks ICM:
+
+Improvements to the 1D hydraulic simulation code to improve speed of simulations
+Improvements to load times for 2D networks in the simulation engine
+Improvements to the exchange of data between GPU and CPU for 2D GPU simulations
+The changes made have the potential to reduce simulation time significantly, particularly for large networks.
+
+Improvements to GPU functionality
+Improvements have been made to the GPU engine to include support for some object types that were previously only supported by the CPU engine.
+
+GPU engine support for network results objects - the GPU engine now supports Network Results Objects.
+GPU engine support for 2D linear structures - the GPU engine now supports Base Linear Structure (2D), Sluice Linear Structure (2D) and Bridge Linear Structure (2D) objects.
+Note: When using a GPU card for carrying out 2D calculations, it is recommended that the latest available NVIDIA driver for the GPU card is installed.
+Print layouts
+Print Layouts provide a flexible method of customising printed output.
+
+Layouts are edited in the Print Layout View which is used to arrange frames of different content type, (such as GeoPlan, Text and Image frames), on a page. The frame settings and positions can then be saved as a template in the tree view for subsequent use.
+
+When viewing and editing a print layout, currently open GeoPlan and Long Section windows are listed as data views in the layout view. These data views can be selected to provide the content to be displayed in frames of the appropriate type.
+
+See the Print Layouts section for further details.
+
+Custom actions
+Custom actions can be used as shortcuts to run tasks that are regularly performed on networks in the database. Two types of custom action have been implemented: user actions specific to individual users and shared actions available to all database users.
+
+Each action can be customised to emulate the effect of dropping a tree object onto the current GeoPlan Window, or dropping a workspace object onto the main window. Alternatively, a Ruby script can be associated with the action.
+
+Custom actions are run by selecting the action from the Actions Menu or from one of the Custom Actions Toolbars.
+
+Snap mode implemented for Distance Tool
+The Distance Tool , selectable from the GeoPlan Tools Toolbar, has been enhanced to allow snapping to network objects when Snapping Mode is turned on.
+
+SQL queries - spatial searches between network layers
+In previous versions of InfoWorks ICM it was possible to carry out spatial queries between network objects and objects in a GIS layer.
+
+In this version it is now also possible to carry out spatial queries between any two network layers or between a network layer and a background network layer.
+
+See SQL and Spatial Searches for details.
+
+Note: The implementation of this functionality has resulted in a change to the terminology used in spatial queries. The prefix 'spatial.' is now used instead of 'gislayer.' However, queries created in older versions of InfoWorks ICM using the 'gislayer.' prefix will still work.
+SQL dialog usability improvements
+The following improvements have been made to the SQL Dialog:
+
+The Field and Object Type lists are now sorted alphabetically
+Selecting an item from the field list now inserts the field at the current cursor location (overwriting any selected text), rather than at the end of the query.
+Option to hide auto labels when object not visible
+A new option has been added to the GeoPlan Properties Dialog.
+
+Check the Hide 0% visibility labels option on the GeoPlan Properties - Auto Labels and Tooltips Page to hide auto labels on the GeoPlan Window of network objects that are not currently visible due to theme settings.
+
+Export to shapefile - projection files exported
+When exporting network object data to shape file .SHP format, (whether via the Open Data Export Centre or the NetworkExportTo SHP files... menu option), projection .PRJ files are now exported if projection information is available.
+
+See Export to GIS File Format for further details.
+
+Support for REST interfaces in ArcGIS Server 10.1
+When using ArcObjects map control it is now possible to display map services from an ArcGIS 10.1 server via the REST interface. (ArcGIS 10.1 client required.)
+
+Grid filters saved in workspaces
+An improvement has been made to Workspaces: filters applied to grids at the time of saving a workspace are now saved and restored when the workspace is reopened.
+
+Validation usability improvement
+When double-clicking on a validation message in the Output Window, the property sheet for the network object that the message refers to is displayed in addition to the grid view.
+
+Ability to re-size GeoPlan Find Dialog and Layer Theme Editor
+The GeoPlan Find Dialog and Layer Theme Editor windows are now re-sizable and the new sizes remembered. This improvement has been implemented in order to support screen text display set at greater than 100%.
+
+Improvement to GIS Layer Information Dialog
+When the GIS Layer Information Dialog is resized, the new size is now remembered.
+
+(In previous versions of InfoWorks ICM, the dialog reverted to its original size every time a new GIS object was selected.)

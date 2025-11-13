@@ -476,5 +476,156 @@ export const versionsData: Version[] = [
         category: "General"
       }
     ]
+  },
+  {
+    id: "1.5",
+    version: "1.5",
+    releaseDate: "2011-02-01",
+    features: [
+      {
+        id: "1.5-3d-display",
+        title: "3D Network Window Display Improvements",
+        description: "Enhanced 3D visualization with improved bridge opening display (holes cut into bridge faces) and 2D mesh elements now drawn as horizontal elements with risers for accurate representation.",
+        category: "Visualization"
+      },
+      {
+        id: "1.5-skew-bridges",
+        title: "Skew Bridges",
+        description: "New fields added for modeling skew bridges including Skew angle field for bridge deck angle specification and Skew openings and piers field for opening orientation.",
+        category: "Modeling"
+      },
+      {
+        id: "1.5-2d-infiltration",
+        title: "2D Infiltration Model",
+        description: "New 2D infiltration model allowing soil infiltration modeling in previously impervious 2D zones using Infiltration Surface objects with constant, fixed, or Horton infiltration models.",
+        category: "Hydrology"
+      },
+      {
+        id: "1.5-water-quality",
+        title: "Enhanced Water Quality Modeling",
+        description: "Water quality modeling now available in 2D networks with advection and diffusion of pollutants from river banks, manholes, point sources, and external boundaries. Water Quality Model also updated to support non-prismatic conduits including river reaches and bridges.",
+        category: "Water Quality"
+      },
+      {
+        id: "1.5-isis-import",
+        title: "ISIS .dat File Import",
+        description: "Limited support added for importing network data from ISIS .dat files including river section data and spill data with geo-referencing.",
+        category: "Data Management"
+      },
+      {
+        id: "1.5-river-reach-tools",
+        title: "River Reach Building Improvements",
+        description: "Major enhancements including renamed objects (Cross Section Lines, Bank Lines), editable/uneditable river data options, automatic roughness updates, cross section line generation, and join reaches tool.",
+        category: "Modeling"
+      },
+      {
+        id: "1.5-interpolation",
+        title: "Enhanced Interpolation Tool",
+        description: "Improved section interpolation with support for multiple sections and custom chords to map specific features between sections for better accuracy.",
+        category: "Modeling"
+      },
+      {
+        id: "1.5-section-highlighting",
+        title: "Section Highlighting on GeoPlan",
+        description: "River and bridge sections now temporarily highlighted on GeoPlan when opening section editors, improving usability for object identification.",
+        category: "Usability"
+      },
+      {
+        id: "1.5-polygon-tools",
+        title: "Enhanced Polygon Tools",
+        description: "Ability to change line/polygon types, improved crop overlapping polygons functionality supporting river reaches, bridges, storage areas, and complex polygons.",
+        category: "Modeling"
+      },
+      {
+        id: "1.5-mesh-diagnostics",
+        title: "2D Mesh Diagnostics and Improvements",
+        description: "New read-only Mesh summary field storing meshing information and validation warnings. Better handling of undefined elevation areas with error reporting, and element adjustment at river banks now performed during meshing instead of simulation time.",
+        category: "Meshing"
+      },
+      {
+        id: "1.5-mesh-manholes",
+        title: "Improved Meshing at Manholes",
+        description: "Mesh triangles now aggregated at 2D manholes with new 2D element area factor field to reduce water balance problems and improve stability.",
+        category: "Meshing"
+      },
+      {
+        id: "1.5-ground-model-display",
+        title: "Ground Model Display in Section Editors",
+        description: "Ground Model trace can now be displayed on all property sheet section editors when ground model is loaded onto GeoPlan.",
+        category: "Visualization"
+      },
+      {
+        id: "1.5-sql-enhancements",
+        title: "SQL Enhancements",
+        description: "Major SQL improvements including ORDER BY clause, DISTINCT keyword, INSERT clause, new date/trigonometric functions, object ID field support, and flags as arrays.",
+        category: "Development"
+      },
+      {
+        id: "1.5-explorer-improvements",
+        title: "Explorer Window Enhancements",
+        description: "Multiple improvements including version control in Find pane, ID column display, enhanced Model Group icons, and image-enhanced object creation menu.",
+        category: "Usability"
+      },
+      {
+        id: "1.5-theme-management",
+        title: "Improved Theme Management",
+        description: "Layer Theme Editor enhanced to allow quick addition/removal of multiple theme ranges by holding down buttons.",
+        category: "Usability"
+      },
+      {
+        id: "1.5-area-measurement",
+        title: "Area Measurement Tool",
+        description: "Distance Estimation Tool enhanced to measure area in addition to length using polygon formation with CTRL+double-click.",
+        category: "Tools"
+      },
+      {
+        id: "1.5-data-flags",
+        title: "Enhanced Data Flag System",
+        description: "Data flag codes increased from two to four characters, plus new Find and Replace Flags functionality for updating imported network flagging systems.",
+        category: "Data Management"
+      },
+      {
+        id: "1.5-selection-tools",
+        title: "Selection Tool Improvements",
+        description: "Double-click now displays property sheets for multiple overlapping objects, works in Long Section and 3D windows, plus Backspace shortcut to clear selections.",
+        category: "Usability"
+      },
+      {
+        id: "1.5-version-control",
+        title: "Version Control Enhancements",
+        description: "Optional filters in Comparison dialog (Ignore flags, Ignore defaults, Use display precision) and ability to copy commit history to clipboard.",
+        category: "Version Control"
+      },
+      {
+        id: "1.5-geoplan-improvements",
+        title: "GeoPlan Enhancements",
+        description: "Customizable GIS layer selection color, improved network object deletion controls with security options, and improved GeoPlan properties/themes saving.",
+        category: "Usability"
+      },
+      {
+        id: "1.5-access-import",
+        title: "Enhanced Access Database Import",
+        description: "Queries now available for selection in Feature dropdown list of Open Data Import Centre dialog alongside tables.",
+        category: "Data Management"
+      },
+      {
+        id: "1.5-gridded-ground-model",
+        title: "Gridded Ground Model Import",
+        description: "Support for importing gridded ground models from InfoWorks format .IGM files.",
+        category: "Data Management"
+      },
+      {
+        id: "1.5-user-permissions",
+        title: "Emergency Reset of User Permissions",
+        description: "Ability to reset user permissions for a master database and add users as administrators via emergency reset file from Innovyze.",
+        category: "Administration"
+      },
+      {
+        id: "1.5-google-earth",
+        title: "Google Earth Export Enhancement",
+        description: "New option to export only the currently displayed timestep when exporting to Google Earth KMZ format.",
+        category: "Integration"
+      }
+    ]
   }
 ];

@@ -1,0 +1,290 @@
+What's New in Version 3.0 - August 2012
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 3.0 which were not available in previous versions.
+
+Import from HEC-RAS files
+It is now possible to import network objects from HEC-RAS geometry files.
+
+The importer currently supports the import of: cross sections, interpolate sections, river reaches, storage areas and lateral structures attached to river sections. Partial import of bridge objects is also supported.
+
+See Importing HEC-RAS Geometry Files for details.
+
+New functionality - Cross Section Window and New Cross Section toolbar button
+The New Cross Section tool (), has been added to the GeoPlan Tools toolbar to allow users to visualise the changes in water levels for a selected section (river reach section, river reach bank, bridge section or inline bank) in the new Cross Section Window. Before this version of InfoWorks ICM, users wanting to visualise the water levels at a cross section had to first start the simulation replay, then open the River Section Editor and select the cross section of interest. The River Section Editor being modal, users had no control of the software whilst it was open and would have missed the start of the simulation. The Cross Section Window is modeless, therefore it can be open for a section before the simulation replay is initiated. The Cross Section Window is very similar to the Long Section Window and it is possible to display data for the next downstream or upstream river reach section by respectively using the Move Downstream and Move Upstream options from the context menu.
+
+Multiple sets of catchment descriptors for ReFH/FEH events
+The ReFH and FEH design rainfall generators have been updated to allow multiple ReFH/FEH catchments to be defined in a single rainfall event. Profiles generated for each catchment can be viewed in the event grid editor view.
+
+In addition, further enhancements have been made to allow the association of rain gauge boundaries with each catchment.
+
+New network results objects
+New network results point, line and polygon objects have been added. These objects are used to interrogate results within the network:
+
+1D network results points are associated with a link to produce results at a point within the 1D network
+2D network results point/line/polygon objects are used to produce results within a 2D mesh
+In previous versions, Results Analysis Objects could be used as a tool to query results that had already been generated for the 2D network.
+
+As the new results objects are included as part of the network, results are generated for them by the simulation engine and are therefore more accurate than those produced by the old style results analysis objects.
+
+Resample ground levels within 2D zones without re-meshing
+The Resample 2D Zone Elevations functionality allows the ground level of 2D mesh elements within selected 2D zones to be recalculated without the need to re-mesh the zones. The new ModelMeshingResample 2D zone elevations... menu option displays the Resample 2D Zone Elevations Dialog. New ground levels for existing mesh elements are calculated by sampling the ground model selected in the dialog.
+
+See 2D Meshes for more information.
+
+Mesh zone ground level modification at meshing time
+Mesh zones can be used to define areas in the 2D mesh in which ground levels are to be adjusted.
+
+In previous versions of InfoWorks ICM ground level adjustment of 2D mesh elements within mesh zones was carried out during simulation time and therefore could be viewed for simulation results, but not for the model prior to simulation.
+
+In this version, adjustments are carried out during meshing time allowing adjustments to be seen in the 3D Network Window and in the 2D Zone Mesh Element Properties Dialog for both the model and simulation results.
+
+Note:
+For meshes created prior to version 3.0, level adjustment will still be displayed in simulation results only.
+
+See Mesh Zones for further information.
+
+Blockage field for 2D linear weir structures
+A new field has been added to 2D linear weir structure objects.
+
+The Blockage field is used to specify the proportion of the weir that is blocked (proportion of weir that flow can not pass over).
+
+See Linear Structure (2D) Data Fields and Linear Structures (2D) for details.
+
+Sluices in 2D linear structures
+The new Sluice Linear Structure (2D) network object is used to define sluice gate dimensions, coefficients and location relative to the starting point of a referenced base linear structure. The sluice objects are merged into the base linear structure and can be viewed as a line object overlaying the linear structure in the GeoPlan Window. 2D sluices are also displayed in the 3D Network Window and in the section editor of the 2D base linear structure.
+
+(Note that the Base Linear Structure (2D) was previously named Linear Structure (2D), but has been renamed in this version to avoid ambiguity.)
+
+See Sluice Linear Structure (2D) for further information.
+
+New water quality features
+The following new water quality processes have been implemented for this version:
+
+Algae: growth and decay of dissolved and attached algae can now be modelled. Dissolved algae represents microscopic organisms that are in suspension and are liable to movement by currents. Attached algae represents algae living on the surface of the bed. Time varying profiles of dissolved and attached algae can be defined in the Pollutograph Event. To model algae, select the ALG options in the QM Parameters Dialog. Algae can only be modelled when Dissolved Oxygen is also modelled.
+Macrophytes: growth and decay of macrophytes can now be modelled. To model macrophytes, check the Model macrophytes box in the QM Parameters Dialog. Macrophytes can only be modelled when algae is also modelled.
+Silicate: the silicate determinant is used to model the variation of silicate as a nutrient available to algae and plants. A time varying profile of silicate concentration can be defined in the Pollutograph Event. To model silicate, select the Silicate option in the QM Parameters Dialog. Silicate can only be modelled when algae is also modelled.
+Adsorbed phosphorus: when modelling Algae and Macrophytes, nutrient limitation factors due to phosphates will be calculated if phosphorus is modelled. Attached TPH is now used to model adsorbed phosphorus - phosphorus adsorbed onto the surface of sediment particles.
+Solar radiation: solar radiation affects the light induced growth limitation factor of algae and macrophytes. A singe solar radiation profile can now be defined in the Rainfall Event Editor.
+Detrital pollutants: detrital pollutants model detrital material from the death of plants. Decay of detritus is modelled when modelling algae and macrophytes. Time varying profiles of detrital pollutants can also be defined in the Pollutograph Event.
+See the Water Quality Simulations section for further details.
+
+Pollutograph CSV export/import
+It is now possible to export/import pollutograph data to/from InfoWorks format CSV files.
+
+Right click on the pollutograph and select Export > to CSV... from the context menu to export a file for each determinant with data.
+
+Exported files can be used to create a new pollutograph or to update an existing pollutograph by using the Import > from InfoWorks format CSV file... context menu option.
+
+See Importing Event Data, Exporting Event Data and Events - CSV File Formats for details.
+
+New validation check for bridge openings
+New network validation has been added to check that the bridge referenced by a bridge opening (as defined by the Bridge US node ID and Bridge link suffix fields of the bridge opening) exists in the network.
+
+New Distance and dimension annotation functionality
+AutoCAD text annotations can now be imported into InfoWorks ICM. This is a useful feature for AutoCAD files with text annotations containing information on the location of network objects in relation to buildings or other structures / assets in the network. This is achieved by using general lines . When AutoCAD data is imported into an InfoWorks ICM network, users should select the General Line object for the layers containing annotations and specify which general line field (usually Length, but it can also be a user text or user number field) the text annotations are to be imported into. See Import from AutoCAD Dialog topic for further details.
+
+By setting up custom autolabels, users can display the text annotations on the GeoPlan Window and print the GeoPlan or make a screenshot of it, as required. In case of discrepancy or inaccuracy between the annotation value and the real distance, the new Make Measured Length tool (Make Measured Length tool) from the More GeoPlan Tools toolbar can be used to adjust the geometry of a general line to match the value that is in the field that was selected for annotation import. See Displaying AutoCAD text annotations and adjusting values for further details.
+
+As part of these enhancements, the Arrow Style property has been added to line-geometry object attributes so that line-based network objects such as general lines can now be represented on the GeoPlan as lines with double headed arrows. See Layer Theme Editor for more information.
+
+Message Log Window
+A new message window has been added. The Message Log Window contains details of all popup messages that have been displayed since the current instance of the application was started.
+
+To turn display of the window on/off, select Message log window from the Window menu or use the  toolbar button on the Docking Windows toolbar.
+
+Ability to save simulation state at specified time and date
+The Schedule Hydraulic Run View has been updated with new Save state options in order to allow the state of a simulation to be saved at a specified time and date. The saved state can then be used to provide initial conditions for subsequent simulations. (Previously, only the end state of a simulation could be saved.)
+
+Option to disable rainfall smoothing
+By default InfoWorks applies a simple moving average smoothing to rainfall to allow for spatial variation.
+
+A new Apply rainfall smoothing option has been added to the Schedule Hydraulic Run View. Uncheck this option to disable rainfall smoothing for the simulation.
+
+See Spatially Varying Rainfall for more information.
+
+Improvements to GPU functionality
+A suitable GPU card can be used to improve performance of 2D simulations. Options for using the card are set in the GPU tab of the 2D Parameters Dialog.
+
+Enhancements made to the GPU functionality in this version are:
+
+Improved feedback in the simulation log - Not all functionality is supported by the GPU. If non-supported functionality is present in the network and either the Always or If suitable card is available option is selected, the simulation will now fail and an error indicating the reason for the failure will be displayed in the simulation log. (See 2D Parameters for details of non-supported functionality.)
+
+Improved feedback in the simulation progress window - GPU status is now displayed in the Simulation Progress Window as either Not in use or Active.
+
+GPU engine support for 2D Infiltration - The GPU engine now supports 2D infiltration functionality. (In previous versions, 2D infiltration was only supported by the CPU engine.)
+
+Note: When using a GPU card for carrying out 2D calculations, it is recommended that the latest available NVIDIA driver for the GPU card is installed.
+Improved 2D feedback in simulation progress window
+New fields have been added to the Simulation Progress Window.
+
+The Minimum 2D timestep, 2D zone ID and Element ID fields provide feedback regarding the minimum timestep calculated for 2D zones in order to achieve stability, and the location of the element at which the minimum timestep was calculated.
+
+The GPU status field provides feedback on whether the GPU engine is being used.
+
+Water quality simulation - performance enhancement
+When modelling Dissolved Oxygen, it is no longer necessary to select the TW ( temperature) determinant in the QM Parameters Dialog if temperature modelling is not required.
+
+When TW is not selected, the water quality engine uses the Constant temperature value set in the Water Quality Parameters in the dissolved oxygen process.
+
+This can lead to improved simulation times as the temperature process is not enabled and there is one less advected quantity to be modelled.
+
+Compression of 2D zone mesh data
+2D zone mesh data is now compressed when stored in the network.
+
+This has the potential to significantly reduce the storage space required for networks containing large 2D zones and to speed up version control operations on them.
+
+Drag and drop model group to network
+Drag and drop of model groups onto the GeoPlan will now apply all applicable database items in the group to the currently open network.
+
+For further information and details regarding special cases, see the Model Groups topic.
+
+Ability to choose scenario and version when exporting networks
+It is now possible to select the scenario to be exported when exporting networks and other version controlled items to external files. The version of the scenario to be exported can also be selected.
+
+To use this functionality, right-click on a network in the tree view and select an export option from the context menu. This will display the Select Network Version and Scenario Dialog. Choose the scenario to be exported from the dropdown list in the dialog. Click on the # button in the network selection box to display a Select Commit Dialog, from which a version can be selected.
+
+For further information on exporting networks, see the Exporting Network Data section.
+
+Open Data Export Centre - Append to existing data option
+The ability to append data to existing files has been added to the Open Data Export Centre.
+
+Check the new Append to existing data option to add exported records to an existing file/table instead of creating a new file/table.
+
+See Open Data Export Centre Dialog for further information.
+
+SQL Enhancements
+The following enhancements have been made to the SQL functionality.
+
+See SQL Syntax and SQL in InfoWorks ICM and InfoAsset Manager for further information.
+
+New SQL GAMMALN function
+A new SQL function has been added:
+
+GAMMALN(x) calculates the natural logarithm of the gamma function, Γ(x).
+
+The function will return NULL if x<=0.
+
+New date/time processing functions
+The following date/time processing functions have been added:
+
+NUMTOMONTHNAME(n) - returns the month name given an integer from 1 to 12.
+
+NUMTOSHORTMONTHNAME(n) - returns the short version of a month name (e.g. Jan) given an integer from 1 to 12.
+
+TODATE(year,month,day) - returns the date given the year month and day as integers.
+
+TODATETIME(year,month,day,hours,minutes) - returns the date given the year, month, day, hour and minute as integers.
+
+Support for booleans in prompt grids
+If the value of a scalar is true or false it will now be displayed in the SQL prompt grid as a check box; checked for true, unchecked for false.
+
+It is also possible to force a line to display a check box by using the keyword BOOLEAN e.g.
+
+LET $d = true; PROMPT LINE $d '' BOOLEAN; PROMPT DISPLAY
+
+Option to use system fonts
+A new option has been added to the General tab of the Options Dialog.
+
+Check the Use system theme fonts for dialogs and grids option to use fonts defined in the system theme for all dialogs, property sheets and grids.
+
+Graph printing improvements
+A Unit combo box has been added to the Trace Style dialog for line width and symbol size to allow users to select different units when configuring separate printer settings. Available values are Points (default) and Pixels.
+
+In earlier versions, the units for line width and symbol size for both screen and printer were pixels, which vary dramatically in size in each case. As a result, screen and printer line thicknesses would generally not match even if identical settings had been selected for both outputs.
+
+The default display units are now points, which are virtually device-independent and are very similar to pixels for on-screen viewing. This means that using the default settings, the screen and printer line thicknesses are virtually the same, although there may be small discrepancies due to rounding.
+
+For users who have previously specified defaults with different printer settings to get around this issue, it is recommended to keep these settings. In such cases, the units for the printer settings will be kept as pixels (the old implicit units, which are only provided for backwards compatibility), so that lines do not suddenly start printing out much thicker than before.
+
+Enhancements to navigation functionality
+A new Show all in grid option has been added to the navigation context menu.
+
+Select this option to display a grid window containing all objects that are connected or related to the current object.
+
+See Navigating Round Related Objects for further information.
+
+Increased coordinate precision displayed in status bar
+The display precision of the cursor location coordinates shown in the Status Bar now increases when zooming closely into the network.
+
+Coordinates are displayed at up to six decimal places, with number of decimal places depending on zoom.
+
+Long section enhancements
+The following improvements have been made to the long section functionality:
+
+Option to display horizontal grid lines
+Display of horizontal grid lines can now be turned on and off using the new Show horizontal gridlines option on the Layout tab of the Section Properties Dialog.
+
+(Also applies to flooding sections and cross sections.)
+
+New chainage type option
+The option to select a Chainage type has been added to the Content tab of the Section Properties Dialog. The following methods of displaying link lengths in the long section can be selected:
+
+Specified - display long section using the specified length for the link. The next node or link will start from the point specified by that distance. (This method was used in previous versions of InfoWorks ICM.)
+Geographical - display long section based on any internal chainage found for the link. Use when displaying river reaches to show chainage between river sections taking into account user specified section spacing.
+Schematic - display long section with nodes at regular intervals to generate a schematic layout. Use to avoid node overlaps around shorter links when real lengths of links are varied.
+Note: For clarity, subsequent to the initial implementation of this feature in version 3.0, changes have been made to the descriptions of the above options. The chainage type option has been renamed to 'Displayed link length' and the display methods are now shown as 'Link length', 'From section spacings' and 'Regular'.
+Improvements to handling of null elevations
+In previous versions of InfoWorks ICM, pipes with missing invert levels were not drawn on the long section window.
+
+In this version, if a pipe has one missing invert level, it is drawn on the long section as a horizontal line using the known invert level. The line is coloured at the end with the known level, but not at the end where the level is missing.
+
+In addition, when displaying long sections for river reaches, outfalls no longer force the y range to zero.
+
+Improvements to display of flood sections
+When creating a flooding section, the path of the section is now displayed on the GeoPlan as a dashed blue line with blue squares at section points. The points are drawn in a lighter shade of blue at the first point to a darker shade of blue at the last point to indicate the direction of the section.
+
+A strip plan of the drawn section, identifying the position of the points along the section, is displayed at the top of the Flooding Section Window.
+
+Improved export to AutoCAD DWG
+Improvements have been made to the long section to AutoCAD exporter.
+
+Dimensions in the exported DWG are now accurate and all axis and label text is exported. (Previously only the text visible on the long section at the time of export was exported.)
+
+AutoCAD 2013 support
+InfoWorks ICM now supports import from AutoCAD 2013 format files. In addition DWG files generated from section and GeoPlan export are now in AutoCAD 2013 format.
+
+Graphing enhancements
+The following improvements have been made to graphs:
+
+Persistence of default page orientation
+InfoWorks ICM now stores the print page orientation parameter between instances (saved on exit), therefore if users set the orientation to landscape, it does not get reset to the default portrait orientation. This affects all views and graphs except the Geoplan Window, which has its own orientation settings (see GeoPlan Print Dialog).
+
+More user control over time axis label display
+The user now has more control over the format of the time axis for axes with absolute times. New configuration options have been added to the he X axis tab of the Graph Properties Dialog to allow label customisation (date repeat, include / exclude year, use of long date format).
+
+Ability to change the Y axis decimal precision
+It is now possible for users to change the number of decimal places on graph Y axes thanks to two new options that have been added to every Y axis tab of the Graph Properties Dialog. To change the number of decimal places, untick the Default precision checkbox which is enabled by default and select or type in the desired number of decimal places in the Decimal places combo box. This functionality is also available for the X axis in the case of scatter graphs.
+
+Axis scaling saved in graph default properties
+Saving graph property defaults now includes saving of axis settings based on the axis title.
+
+Click the Default... button on the Graph Properties Dialog to save the current settings as default. Subsequent graphs of the same attribute type will use the same default axis.
+
+Interpolated values in graph tooltips
+In previous versions of InfoWorks ICM, values at data points on a graph could be displayed in a tooltip by hovering the cursor over the data point.
+
+This functionality has now been extended to display an interpolated value when hovering over a trace between data points. Interpolated values are denoted in the tooltip by an asterisk.
+
+See Graph View for further information.
+
+Auto-label graph traces at current simulation time
+When viewing Results on Graph Views it is now possible to display auto-labels showing trace values at the current time of simulation.
+
+Right click on the Graph View and select Auto-label traces from the context menu to display the labels.
+
+Font and text size control for graph key
+The General page of the Graph Properties Dialog has been updated to include options for setting the font style and text size of the graph key.
+
+Improvements to Custom Graphs
+The functionality present in the Graph Properties Dialog has been made available for Custom Graphs. The Graph Properties dialog is accessible via the Graph properties option of the Custom Graph View context menu. This dialog allows all the usual graph settings to the applied to the current graph view. Display settings that can be set or modified include axis labels, ranges, tiles and decimal precision, trace properties and overall title and styles. It is important to note that settings set or changed using this dialog will only apply to the current view of the graph, and that these are not persisted.
+
+Option to set display precision of SQL values in labels
+A new Display precision dropdown box has been added to the SQL Page used to add and edit theme SQL expressions.
+
+Use this dropdown to select the number of decimal places to be shown when displaying theme SQL expression results in labels.
+
+Ability to open older format databases read-only
+It is now possible to open databases (transportable or guest databases) created in previous versions of InfoWorks ICM as read-only without the need for updating. Objects from the read-only database can then be copied to the current master database.
+
+This functionality applies to version 2.0 and version 2.5 databases for this release. A database format older than version 2.0 will require an update before it can be opened.
+
+All older format databases will require an update before they can be opened as the current database.
