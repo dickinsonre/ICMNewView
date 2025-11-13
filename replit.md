@@ -46,6 +46,7 @@ The application's design emphasizes dynamic content delivery over static files, 
 ## Recent Changes
 
 ### November 2024
+- **Version 2025.1 Updated (May 2024)**: Completed with 7 comprehensive features including cloud capabilities continuation, CNSWMM infiltration model for 2D simulations (combines curve number model with initial losses), cloud download robustness improvements, Download from cloud job type, SWMM5 Groundwater import/export enhancements (blank/asterisk field handling), and new validation messages for Groundwater threshold (W22219) and Roughness definitions (W2504).
 - **Version 2025.0 Updated (April 2024)**: Major release completed with 31 comprehensive features including extensive cloud capabilities (TSD objects in cloud, TVD connectors, spatial rain sources/zones, Run view TSD options), comprehensive Results Manager enhancements (download/delete options, export improvements for files/GIS/contours/reports, toolbar updates), ground model size limit increase (2GB to 5GB), new Culvert 2D conduit type, 2D Line Connect for flow exchange boundaries, Level in 2D Zone result updates, bank spill performance improvements, conduit shape restriction removal, licence wizard updates, concurrent Innovyze/Autodesk installations, engine compiler updates, water quality performance improvements, TSDB/Workgroup Server naming changes, CUDA 11.7 update, and InfoWorks Exchange documentation integration.
 - **Version 2025.2 Updated (July 2024)**: Completed with 5 comprehensive features including cloud capabilities continuation, Export 2D to Raster tech preview (TIFF format for GIS import), Cloud Simulation Quota dialog, SWMM5/InfoSWMM import logs improvements, and 2D depth noise filter for reducing numerical noise.
 - **Version 2025.3 Updated (September 2024)**: Completed with 6 comprehensive features including cloud capabilities continuation, RPA grid report export to Info360 Asset (with Asset ID and Surcharge due to flow columns), Buildings Drainage contribution for SUDS/LID modeling, Buildings Perimeter option for Exceedance flow type, SWMM Additional DWF Baseline renamed to Base flow, and State search radius/power parameter help updates.
@@ -57,13 +58,13 @@ The application's design emphasizes dynamic content delivery over static files, 
 - **Data Deduplication**: Removed duplicate version entries (8.5, 9.0, 9.5, 10.0, 10.5, 11.0) keeping the most complete data. Automated deduplication script created to prevent future issues.
 - **Automated Version Sorting**: Sort script maintains chronological order of all versions by releaseDate (descending). All 45 versions properly ordered from 2026-06-01 (newest) to 2011-02-01 (oldest).
 - **Dynamic UI Counts**: All UI displays dynamically calculate version and feature counts from actual data, ensuring accuracy.
-- **Timeline Coverage**: Application displays 45 version entries from 2026.2 back to 1.5 (February 2011). COMPLETE CONTINUOUS COVERAGE from Version 1.5 (Feb 2011) through Version 2023.2 (Oct 2022) with partial coverage for future releases (2024-2026). **Total: 45 versions, 740 features, 14+ years of continuous coverage.**
+- **Timeline Coverage**: Application displays 45 version entries from 2026.2 back to 1.5 (February 2011). COMPLETE CONTINUOUS COVERAGE from Version 1.5 (Feb 2011) through Version 2023.2 (Oct 2022) with partial coverage for future releases (2024-2026). **Total: 45 versions, 746 features, 14+ years of continuous coverage.**
 
 ## Data Structure
 
 **Version Data**: Stored in `server/data/versions.ts` with structured format including version ID, release date, and comprehensive feature arrays with categories for filtering. The versionsData array is maintained in descending chronological order by releaseDate for proper timeline rendering.
 
-**AI Chat Context**: Both Claude Sonnet and DeepSeek chat assistants receive all 740 features across 45 versions as system context, enabling accurate historical queries about any feature or version from 2011 to present.
+**AI Chat Context**: Both Claude Sonnet and DeepSeek chat assistants receive all 746 features across 45 versions as system context, enabling accurate historical queries about any feature or version from 2011 to present.
 
 ## Maintenance
 

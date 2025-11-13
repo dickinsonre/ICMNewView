@@ -338,10 +338,46 @@ export const versionsData: Version[] = [
     releaseDate: "2024-05-01",
     features: [
       {
-        id: "2025.1-placeholder",
-        title: "Version 2025.1 Features",
-        description: "Features for version 2025.1 - May 2024. Please provide the full 'What's New' content to populate this version.",
-        category: "General"
+        id: "2025.1-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.1-cnswmm-infiltration",
+        title: "CNSWMM Infiltration Model for 2D Simulations",
+        description: "New CNSWMM infiltration model for InfoWorks networks combines CNSWMM curve number model with initial losses. New CNSWMM option added to Infiltration type property for Infiltration Surface (2D) objects. Added properties: Initial abstraction factor (defines initial loss), Curve number, and Drying time. Initial conditions 2D modified to enable CNSWMM modeling with new CNSWMM antecedent moisture condition property representing initial soil moisture condition before rainfall event. Requires database update to 2025.1.",
+        category: "Modeling"
+      },
+      {
+        id: "2025.1-cloud-download-robust",
+        title: "Downloading Data from the Cloud",
+        description: "Software now more robust when data transferred from cloud is not fully downloaded correctly.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.1-download-job-type",
+        title: "Job Type - Download from Cloud",
+        description: "New Download from cloud job type created for each simulation selected for results download. Job status viewable in Job Control window.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.1-swmm-groundwater",
+        title: "SWMM5 Groundwater Import and Export Enhancements",
+        description: "Import behavior changed: Egwt, Ebot, Egw, and Umc fields that are blank or * in SWMM5 GROUNDWATER section now imported as blank (no value) instead of 0 in subcatchment Groundwater threshold, Aquifer elevation, Aquifer initial ground water elevation, and Aquifer initial ground water moisture content fields. During simulation, fields assigned values from associated Aquifer. Export behavior: Fields without values now exported as * in SWMM5 file.",
+        category: "SWMM"
+      },
+      {
+        id: "2025.1-groundwater-validation",
+        title: "Validation Message for Groundwater Threshold",
+        description: "New warning message W22219 displayed when Groundwater threshold set to 0 in SWMM subcatchment.",
+        category: "SWMM"
+      },
+      {
+        id: "2025.1-roughness-validation",
+        title: "Validation Message for Roughness Definitions",
+        description: "New warning message W2504 displayed when Roughness definition object specified for InfoWorks or SWMM 2D zone but object does not exist in current network.",
+        category: "Validation"
       }
     ]
   },
