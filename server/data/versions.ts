@@ -1798,6 +1798,12 @@ export const versionsData: Version[] = [
         category: "Usability"
       },
       {
+        id: "10.0-config-menu-object-properties",
+        title: "Configuration Menu in Object Properties Window",
+        description: "Reset option on Configuration menu now includes current object name whose layout can be reset. Save option renamed to Save locally. DReset all option removed (use Factory defaults layout in Manage Layout dialog instead to reset all user-defined local layouts).",
+        category: "Usability"
+      },
+      {
         id: "10.0-enable-disable-sub-theme",
         title: "Enable/Disable Sub Theme from Thematic Key Window",
         description: "Can enable/disable sub themes from Thematic Key window using Enable context menu option. Disabled sub themes not displayed on GeoPlan, name greyed with disable icon.",
@@ -1814,6 +1820,12 @@ export const versionsData: Version[] = [
         title: "GeoPlan Layer Sorting Enhancement",
         description: "Map layer sorting improved - up to 5 times quicker for layers to be displayed in GeoPlan.",
         category: "Performance"
+      },
+      {
+        id: "10.0-opc-data-sources-deprecated",
+        title: "OPC Data Sources Deprecated",
+        description: "OPC (data source connection to OPC-compliant SCADA system via SCADAMaster or Infinity System) can no longer be used as data source Type in time series databases. New Infinity System Configuration objects cannot be added, however existing ISC objects and associated functionality still supported.",
+        category: "General"
       },
       {
         id: "10.0-scenarios-clipboard-copy",
