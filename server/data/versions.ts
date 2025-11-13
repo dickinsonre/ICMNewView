@@ -258,10 +258,40 @@ export const versionsData: Version[] = [
     releaseDate: "2024-09-01",
     features: [
       {
-        id: "2025.3-placeholder",
-        title: "Version 2025.3 Features",
-        description: "Features for version 2025.3 - September 2024. Please provide the full 'What's New' content to populate this version.",
-        category: "General"
+        id: "2025.3-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.3-rpa-info360",
+        title: "Return Period Analysis (RPA) Grid Report Export to Info360 Asset",
+        description: "For Autodesk licence users, results data from RPA report view can now be exported and automatically uploaded to Info360 Asset. New Export Info360 button added to Return Period Analysis Grid Report dialog. RPA report view now includes Asset ID column (displays Asset ID if specified for conduit) and Surcharge due to flow column (checkbox indicates surcharge is due to flow).",
+        category: "Results"
+      },
+      {
+        id: "2025.3-buildings-drainage",
+        title: "Buildings - Drainage Contribution for SUDS/LID Modeling",
+        description: "Can now model impact of SUDS structure (e.g., rain barrel) without using SUDS control object. New Drainage contribution property specifies percentage of roof runoff entering drainage system via building's Drains to object, included in total outflow calculation. Remaining percentage is lost and excluded from total outflow. Requires database update to 2025.3.",
+        category: "Modeling"
+      },
+      {
+        id: "2025.3-buildings-perimeter",
+        title: "Buildings - Perimeter Option for Exceedance Flow Type",
+        description: "New Perimeter option available for Exceedance flow type. When selected, storm runoff from building's roof exceeding Capacity limit is directed to building boundary and included in 2D simulation. Allows modeling exceedance in 2D mesh without directing to node location.",
+        category: "Modeling"
+      },
+      {
+        id: "2025.3-swmm-base-flow",
+        title: "Name Change for Additional DWF Baseline Property in SWMM Nodes",
+        description: "For consistency with DWF section naming in SWMM nodes, Baseline property for Additional DWF properties renamed to Base flow. No change to behavior.",
+        category: "SWMM"
+      },
+      {
+        id: "2025.3-state-help-updates",
+        title: "State Search Radius and State Power Parameter Help Updates",
+        description: "Descriptions of State search radius and State power parameter fields in InfoWorks and SWMM 2D Parameters dialog updated for clarity. New Initial State Interpolation topic added to help providing further information about how these parameters are used.",
+        category: "Documentation"
       }
     ]
   },
