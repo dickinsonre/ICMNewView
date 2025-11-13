@@ -16,3 +16,27 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export const featureSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  category: z.string(),
+});
+
+export const versionSchema = z.object({
+  id: z.string(),
+  version: z.string(),
+  releaseDate: z.string(),
+  features: z.array(featureSchema),
+});
+
+export type Feature = z.infer<typeof featureSchema>;
+export type Version = z.infer<typeof versionSchema>;
+
+export const chatMessageSchema = z.object({
+  role: z.enum(["user", "assistant"]),
+  content: z.string(),
+});
+
+export type ChatMessage = z.infer<typeof chatMessageSchema>;
