@@ -465,6 +465,127 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "3.5",
+    version: "3.5",
+    releaseDate: "2013-02-01",
+    features: [
+      {
+        id: "3.5-tsdb",
+        title: "Time Series Database (TSDB) Support for Live Data",
+        description: "New Scalar and Spatial Time Series Databases providing intermediate store between external data sources (SCADA/telemetry/RADAR) and simulations. Supports multiple formats (Grib1/2, NEXRAD, NIMROD, shapefile, X-MP) with Spatial Rain Zones and Spatial Rain Sources for priority control and area restriction.",
+        category: "Data Management"
+      },
+      {
+        id: "3.5-regulator-events",
+        title: "Regulator Events",
+        description: "New event type for direct and indirect control of regulator structures including weir crest levels, pump switching, and pump speed, usable instead of or to override Real Time Control (RTC).",
+        category: "Modeling"
+      },
+      {
+        id: "3.5-manual-breaches",
+        title: "Manual Breaches in Banks and Linear Structures",
+        description: "New capability to model manual breaches in river reach banks, inline banks, and 2D base linear structures using RTC definitions to specify vertical movement of points along structures with respect to time.",
+        category: "Modeling"
+      },
+      {
+        id: "3.5-2d-structures",
+        title: "Enhanced 2D Linear Structures",
+        description: "New Bridge Linear Structure (2D) objects for bridge opening/deck dimensions and discharge coefficients, plus new Flow type field for 2D sluice structures to select flow calculation method with backward compatibility support.",
+        category: "Modeling"
+      },
+      {
+        id: "3.5-h2s-modeling",
+        title: "Hydrogen Sulphide (H2S) Modeling",
+        description: "New water quality process to model H2S buildup in pipes and closed nodes when BOD is modeled, expanding water quality simulation capabilities.",
+        category: "Water Quality"
+      },
+      {
+        id: "3.5-fhwa-headloss",
+        title: "FHWA Headloss Type",
+        description: "New built-in headloss type based on Federal Highway Administration Inlet and Access Hole Energy Loss Method (FHWA HEC 22 Urban Drainage Manual) for closed conduits connected to manholes with new Benching method field for nodes.",
+        category: "Modeling"
+      },
+      {
+        id: "3.5-episode-eva",
+        title: "Episode Collections and Extreme Value Analysis",
+        description: "New Episode Collection database items for storing/viewing event start/end times with automatic generation from exceedance statistics, CSV import, or manual editing. New Extreme Value Analysis Custom Graph fits statistical distributions to peak values from simulation results and Episode Collections.",
+        category: "Results"
+      },
+      {
+        id: "3.5-cross-section-banks",
+        title: "Cross Section Tool Water Level Display for Banks",
+        description: "Enhanced cross section pick tool to display graph traces for water levels and ground levels on each side of river reach banks with color and visibility options.",
+        category: "Visualization"
+      },
+      {
+        id: "3.5-hecras-export",
+        title: "HEC-RAS Network Export",
+        description: "New ability to export network objects to HEC-RAS geometry files including river reaches, storage areas, and partial bridge export, complementing existing import functionality.",
+        category: "Integration"
+      },
+      {
+        id: "3.5-rtc-seconds",
+        title: "RTC Time Controls in Seconds",
+        description: "RTC Window Editor and RTC Grid Editor enhanced to allow time specification in hh:mm:ss format instead of previous hh:mm minute-precision format.",
+        category: "Modeling"
+      },
+      {
+        id: "3.5-network-results-enhancements",
+        title: "Network Results Objects and 2D Linear Structures Integration",
+        description: "Comprehensive integration enabling network results objects and 2D linear structures in graph reports, custom graphs, and statistical reports. Water quality results now available from 2D network results objects, with bridge opening association for 1D network results points.",
+        category: "Results"
+      },
+      {
+        id: "3.5-gauging-expansion",
+        title: "Expanded Object Gauging",
+        description: "Gauging capability extended beyond links to include nodes, subcatchments, network results objects, and 2D linear structures with results stored at more frequent gauge timestep.",
+        category: "Results"
+      },
+      {
+        id: "3.5-initial-state-time",
+        title: "Run Scheduler Initial State Time Option",
+        description: "New 'Start running from state time' option allowing simulations to start from initial state save time with automatic result merging from initial state and current simulations based on time relationships.",
+        category: "Modeling"
+      },
+      {
+        id: "3.5-engine-performance",
+        title: "Engine Performance Enhancements",
+        description: "Significant performance improvements including faster 1D hydraulic simulation code, reduced 2D network load times, and optimized GPU/CPU data exchange for 2D GPU simulations, particularly benefiting large networks.",
+        category: "Performance"
+      },
+      {
+        id: "3.5-gpu-improvements",
+        title: "GPU Engine Expanded Support",
+        description: "GPU engine now supports Network Results Objects and all 2D linear structures (Base, Sluice, and Bridge Linear Structures), previously only available on CPU engine.",
+        category: "Performance"
+      },
+      {
+        id: "3.5-print-layouts",
+        title: "Print Layouts",
+        description: "New flexible print layout system with Print Layout View for arranging frames of different content types (GeoPlan, Text, Image) on pages with saveable templates for customized printed output.",
+        category: "Usability"
+      },
+      {
+        id: "3.5-custom-actions",
+        title: "Custom Actions",
+        description: "New user and shared custom actions as shortcuts for regularly performed network tasks, emulating tree/workspace object drops or associating Ruby scripts, accessible via Actions Menu or Custom Actions Toolbars.",
+        category: "Development"
+      },
+      {
+        id: "3.5-sql-enhancements",
+        title: "SQL Spatial Query Enhancements",
+        description: "Spatial queries now possible between any two network layers or between network and background layers (not just GIS layers). SQL Dialog improvements include alphabetical field sorting and cursor-location field insertion with new 'spatial.' prefix replacing 'gislayer.' (backward compatible).",
+        category: "Development"
+      },
+      {
+        id: "3.5-gis-usability",
+        title: "GeoPlan and GIS Usability Improvements",
+        description: "Distance Tool snap mode, auto-label hiding for invisible objects, shapefile export with projection files, ArcGIS Server 10.1 REST interface support, grid filters saved in workspaces, validation property sheet display, and re-sizable dialogs (GeoPlan Find, Layer Theme Editor, GIS Layer Information).",
+        category: "Usability"
+      }
+    ]
+  },
+  {
     id: "3.0",
     version: "3.0",
     releaseDate: "2012-08-01",

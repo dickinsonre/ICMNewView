@@ -1,0 +1,58 @@
+What's New in Version 2021.4 - May 2021
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2021.4 which were not available in previous versions.
+
+Roughness definitions
+Roughness definitions are now available for InfoWorks networks. These are non-visual polygon objects that enable roughness to be defined as a function of depth in the mesh elements of 2D Zones. The roughness value (Manning's n) in the mesh elements will change dynamically during a simulation according to the roughness definition function.
+
+Up to three roughness (Manning's n) and two depth thresholds parameters can be specified, which will be applied to mesh elements within any 2D Zones and/or Roughness Zones that the Roughness definition is associated with.
+
+If more than one roughness value is specified for the roughness definition, the additional roughness values are set at specific depth thresholds. For roughness definitions with multiple roughness values, the roughness is defined as a smoothed step function where the transition between roughness values follows a cubic spline.
+
+See the Roughness Definitions and Roughness Definition Data Fields topics for further information.
+
+A new Roughness definition field has also been added to the properties for 2D Zones and Roughness Zones that allows you to select a Roughness definition object to be used when generating a mesh for a zone. Previously, the Roughness (Manning's n) field provided the roughness information; this field has been retained for backwards compatibility and will only be enabled if no roughness definition object is selected in the Roughness definition field.
+
+Finite Volume Solution Model for InfoWorks conduits
+A new solution model option, Finite Volume, is now available for conduits in an InfoWorks network. It has been developed to help model complex trans-critical flow scenarios, in particular resolving hydraulic jumps that can occur within a conduit. See the Hydraulic Theory topic for further information about this new solution model.
+
+If you want to use the Finite Volume solver in a simulation, ensure that the Solution model is set to FiniteVolume in the properties for the applicable conduits.
+
+This is a prototype solver which is being made available to users; results should therefore be verified before being used for engineering purposes.
+
+Malaysia HP1 2015 rainfall
+Design rainfall now includes a new Malaysia Rainfall HP1 2015 option. It is based on the updated methodology described in the Hydrological Procedure No 1 (Revised and Updated 2015) from the Government of Malaysia, Department of Irrigation and Drainage, and includes two new fields, ARF and Climate change factor, which are used to determine the areal reduction factor and climate change factors to be applied to the design rainfall.
+
+In addition, the Area is now used to specify the size of the catchment area that rainfall is to be generated for, the choice of ARI (average return interval in years) has been extended to include the options - 0.16, 0.25 and 200, and the choice of Locations has been updated so that you can now select one of the five rainfall regions that determine which temporal pattern is to be used. And, whilst you are still required to supply the IDF polynomial equation coefficients, these are now for λ, Ƙ, θ and Ƞ, which are used in the updated rainfall intensity equation.
+
+See the Design Rainfall Generators and the Rainfall Generator Dialog topics for further information.
+
+HYDX importer
+Previously XPRAFTS nodes of type 134 were imported as Break types of nodes in InfoWorks ICM. Now, if an XPRAFTS 134 type of node is connected to the network, it will be imported as a Manhole type of node; unconnected XPRAFTS 134 type of nodes will still be imported as Break nodes.
+
+Also, the Ground level of a node is now set to the invert value of the imported upstream or downstream channel type of link plus the highest depth of the link's associated channel profile.
+
+See Importing XPRAFTS Data for further information.
+
+Importing XPSWMM/XPStorm data to InfoWorks networks
+Network data from XPSWMM and XPStorm xpx files can now be imported into InfoWorks networks. See Importing XPSWMM/XPStorm Data to InfoWorks Networks and XPSWMM/XPStorm Conversion Notes (InfoWorks) for further information.
+
+2D Nodes (SWMM networks)
+A new property, Flooding discharge coefficient, has been added to SWMM nodes that enables you to specify the discharge coefficient for the orifice flow equations used for calculating flooding at 2D nodes. If no value is specified, the default coefficient of 0.5 will be used.
+
+Importing 2D objects from XPSWMM/XPSTORM to SWMM networks
+It is now possible to import 2D objects from xpx format files from XPSWMM/XPSTORM to polygon objects in SWMM networks.
+
+See Importing XPSWMM Data to SWMM Networks for general information about how to import XPSWMM/XPSTORM xpx files and XPSWMM Conversion Notes (SWMM) for import information.
+
+Displaying the sum and average value of selected cells in network object grid windows
+The sum and average value of applicable numeric network object properties or results, such as area or flood volume, can now be displayed in the status bar when the Autosum (  ) option is selected from the Grid menu or the Modelling Grid Windows toolbar, and the relevant cells are selected in the network object or results grid window. See Editing Data in the Network Object Grid Window for further information.
+
+Roughness Zones for (SWMM networks)
+Roughness Zones can now be added to SWMM networks to divide 2D Zones into regions of different roughness, and are automatically included in the mesh generation process when creating a 2D mesh.
+
+See Roughness Zone Data Fields (SWMM) for information about defining roughness zones for SWMM networks.
+
+Mesh Level Zones for (SWMM networks)
+Mesh Level Zones can now be added to SWMM networks to divide 2D Zones into regions in which mesh element elevations are to be modified based on ground model elevations or user-defined values, providing a more detailed representation of structures such as roads and embankments. Mesh Level Zones are included as part of the mesh generation process when creating a 2D mesh.
+
+See Mesh Level Zone Data Fields (SWMM) for information about defining mesh level zones for SWMM networks.

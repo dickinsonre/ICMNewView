@@ -1,0 +1,89 @@
+What's New in Version 2021.6 - August 2021
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2021.6 which were not available in previous versions.
+Results selectors for InfoWorks networks
+A new database item, Results selector (), now is available for InfoWorks networks. This item is used to limit the results generated from a run to only include the attributes you are primarily interested in. The Result Selection dialog can be used to choose which type of results (Hydraulic, Water quality or 2D results), which class of results, such as rivers and subcatchments, which type of attribute (All, Summary, Times series or Gauge) as well as the individual attributes you want results to be generated for.
+
+The Schedule Hydraulic Run View has been updated to include a new dropbox for a results selector item. Only one results selector item can be included in a run, which becomes read-only after the run is complete. The results from a simulation that includes a results selector item can be viewed using the usual methods for viewing simulations results.
+
+Result export to GIS for Return periods and Durations
+Previously, if a Return period or Duration in a rainfall event had a value less than 1, then these values were exported as NULL when time varying and/or maximum results were exported to GIS files. This has now been rectified, and these values are now correctly exported as floating integers.
+
+Quicker validation for mesh zones
+The time required to validate a network that contains thousands of mesh zones has been reduced significantly.
+
+Quicker pre-processing for 2D simulations
+Pre-processing times for 2D simulations with large numbers of elements has been reduced by more than 90%.
+
+Culvert inlets
+The behaviour of culvert inlets has been improved to account for the presence of base flow in the barrel conduit when using Equation B. This should eliminate oscillations that sometimes prevented initialisation from finding a steady state.
+
+Culvert outlets
+The behaviour of culvert outlets has been improved to account for supercritical cases. The implementation of the switch between free flow and headloss (drowned) conditions for the culvert outlet and what happens in the free condition has changed.
+
+The free flow condition applies if the downstream depth plus the calculated headloss is below the lower of critical (yc) or normal (yn) depth in the barrel; previously a supercritical case, where yn < yc, was not accounted for. The free flow condition now behaves the same as a free boundary between a link end and a node, whereas, the previous implementation would overestimate the depth in the barrel because it also applied a headloss to the critical depth.
+
+The status values for a culvert outlet have been updated to reflect these changes. A value of 8 is now assigned for a subcritical free discharging culvert outlet and a value of 32 when the free flow condition is limited to the pipe full value.
+
+Chicago rainfall generator
+A new Chicago design rainfall generator is now available, which is based on the Keifer and Chu (1957) method for determining a synthetic hyetograph. See the Rainfall Generator Dialog for further information.
+
+Malaysia HP1 (2015) rainfall generator
+The minimum Duration that can be specified for a Malaysia HP1 (2015) storm has been set to 5 minutes while the maximum can be 4320 minutes, 72 hours or 3 days. A warning message will be displayed if the specified duration(s) fall outside the permitted range. See the Rainfall Generator Dialog for further information.
+
+Desktop analytics
+A new option, Desktop analytics, has been added to the Help menu. Selecting this option displays the Desktop analytics dialog, which can be used to opt in (default) or out of allowing Innovyze to collect data about your use of InfoWorks ICM. Opting in allows the data we collect to be used to help improve our products' features, performance and quality.
+
+Default option change for GPU cards for InfoWorks 2D simulations
+As it is likely that a GPU card is to be used when performing 2D simulations for InfoWorks networks, the default GPU card usage option has changed from Never to If suitable card is available in the GPU tab of the 2D Parameters Dialog. The order of the options has also been updated and the default option - If suitable card is available - is now listed first.
+
+If a GPU card is to be used for 2D simulations, an error message will be displayed in the simulation log file if a suitable GPU card is not found.
+
+Note: When using a GPU card for carrying out 2D calculations, it is recommended that the latest available NVIDIA driver for the GPU card is installed.
+
+As with previous versions of ICM, the GPU status is displayed in the Job Progress Window as either Not in use or Active when a 2D simulation is running.
+
+GPU cards for SWMM 2D simulations
+A suitable GPU card can be used to improve performance of 2D simulations. There are three options for using the card - Never, If suitable card is available (default) or Always - which are set in the GPU tab of the 2D Parameters Dialog (SWMM). An error message will be displayed in the simulation log file if a suitable GPU card is not been found.
+
+Note: When using a GPU card for carrying out 2D calculations, it is recommended that the latest available NVIDIA driver for the GPU card is installed.
+
+When a 2D simulation is running, the GPU status will also be displayed in the Job Progress Window as either Not in use or Active.
+
+Boundary types for SWMM 2D Zones
+A new property, Boundary type, which enables you to choose what type of boundary condition (Vertical wall, Critical condition, Supercritical condition, Dry or Normal condition) is to be applied to a 2D Zone, is now available for SWMM networks. A Porous Wall or a Porous Polygon, which is collinear with the boundary of the 2D Zone, will override the boundary condition of the 2D Zone along the coincident portion of the boundary. See the 2D Zones Data Fields (SWMM) topic for further information.
+
+Outfall type of SWMM Nodes
+Previously, an outfall type of node in a SWMM network was an end node that could only have one link connected to it. In this version of ICM, an outfall node is no longer considered an end node so can now be located upstream of another node, and can also have multiple links connected to it. This also means that the network will no longer fail validation if an outfall node is connected to more than one link.
+
+Roughness definitions for SWMM networks
+Roughness definitions are now available for SWMM networks. These are non-visual polygon objects that enable roughness to be defined as a function of depth in the mesh elements of 2D Zones. The roughness value (Manning's n) in the mesh elements will change dynamically during a simulation according to the roughness definition function.
+
+Up to three roughness (Manning's n) and two depth thresholds parameters can be specified, which will be applied to mesh elements within any 2D Zones and/or Roughness Zones that the Roughness definition is associated with.
+
+If more than one roughness value is specified for the roughness definition, the additional roughness values are set at specific depth thresholds. For roughness definitions with multiple roughness values, the roughness is defined as a smoothed step function where the transition between roughness values follows a cubic spline.
+
+See the Roughness Definitions and Roughness Definition Data Fields (SWMM) topics for further information.
+
+A new Roughness definition field has also been added to the properties for 2D Zones and Roughness Zones that allows you to select a Roughness definition object to be used when generating a mesh for a zone. Previously, the Roughness (Manning's n) field provided the roughness information; this field has been retained for backwards compatibility and will only be enabled if no roughness definition object is selected in the Roughness definition field.
+
+Water quality results for SWMM Statistics templates
+Water quality results can now be included in a Statistics template for a SWMM network. The Attribute field is now editable when the list water quality attributes box is checked, allowing you to specify the name of a pollutant whose water quality result attributes are to be included in a statistical report. When the template is used to generate the statistical report, the specified water quality attributes are displayed in the units that were specified for the pollutants. If any of the specified water quality attributes are not included in the report, these will be listed in the log file that is produced when the report is generated.
+
+Importing links from XPSWMM/XPStorm data to InfoWorks networks
+Previously, the US invert level in ICM for an InfoWorks conduit or channel was imported as the value of the XPSWMM/XPStorm ZP1 field minus the value of the Z (US node) field, and the DS invert level as the value of the ZP2 field minus the value of the Z (DS node) field. These have been updated and only the values of the ZP1 and ZP2 fields are now imported to the US invert level and DS invert level for conduits and channels.
+
+Similarly, the Invert level for an orifice or a sluice was imported as the value of the XPSWMM/XPStorm ZP field minus the value of the Z (US node) field. This has also been updated and only the value of the XPSWMM/XPStorm ZP field is now imported as the Invert level for an orifice.
+
+The Initial level for an ICM user-defined control imported from XPSWMM/XPStorm data was previously set to 0. This has also been updated and now the Initial level is imported as the value of the XPSWMM/XPStorm Z (US node) field.
+
+See XPSWMM/XPStorm Conversion Notes (InfoWorks) for further information.
+
+Importing subcatchment data from XPRAFTS
+You can now choose whether or not XPRAFTS First and Second Subcatchments should be imported into ICM as one combined subcatchment or as two individual subcatchments. The Import XPRAFTS dialog has been updated to include a Combine 1st and 2nd subcatchments into a single polygon (default) and a Split 1st and 2nd subcatchments to separate polygons option.
+
+The subcatchments can only be combined if the polygon geometry for both subcatchments is the same and if neither of their runoff surface type is set to Impervious=100 or Pervious=0 in the XPX file being imported.
+
+When the XPRAFTS First and Second Subcatchments are imported as a combined subcatchment, only properties from the First Subcatchment are normally imported. However, two runoff surfaces will be created; one for each subcatchment. See the Importing XPRAFTS Data for further information.
+
+Assimilation deprecation
+This database item has been deprecated to accommodate expanding functionality in other areas. Any existing Assimilation items will still be visible in the Explorer Window but no new Assimilation items can be added to the database or used in a new or existing run.

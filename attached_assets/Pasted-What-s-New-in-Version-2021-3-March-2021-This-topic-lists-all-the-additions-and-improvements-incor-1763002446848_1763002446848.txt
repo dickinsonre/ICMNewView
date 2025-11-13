@@ -1,0 +1,54 @@
+What's New in Version 2021.3 - March 2021
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2021.3 which were not available in previous versions.
+
+Multiple timestep intervals for the FEH2013 Rainfall Generator
+The design rainfall generator for FEH2013 now allows you to specify multiple timestep intervals, in either seconds or as a percentage (%). Each Timestep must be separated by a comma, and must have a corresponding Duration set for it. Multiple durations must also be separated by commas.
+
+When multiple timesteps and durations are set, the resulting rainfall time series will show event data entries for each duration with a timestep spacing equal to the specified value.
+
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Minute granularity for observed and forecast ASCII and Binary Grid format files
+Observed and forecast ASCII and Binary Grid format files with minute granularity can now be included in a spatial TSDB. See the Spatial Time Series Database Configuration topic for information about the file format for files with minute granularity.
+
+Importing HYDX data
+Compartment nodes, defined in the CMP_IDE fields of the HYDX Knooppunt.csv, can now be imported as storage nodes in InfoWorks ICM. See the Knooppunt section in the HYDX Conversion Notes topic for further information.
+
+The muilprofiel conduit shape (MVR), which was previously imported as an asymmetric type of a user-defined shape is now imported as a symmetric user defined shape. See the Shape section in the HYDX Conversion Notes topic for further information.
+
+Previously if PMP_AN1 and PMP_AF1 from Kunstwerk.csv were equal to zero, the data was imported as vortex type of user-defined control object. However, this is no longer the case. If no values are included in Kunstwerk.csv for PMP_AN2 and PMP_AF2, then the values for PMP_AN1 and PMP_AF1 are imported as the Switch on level and Switch off level for a pump. See the Pump section in the HYDX Conversion Notes topic for further information.
+
+2D modelling for SWMM networks
+2D Simulations, which provide more detailed flood analysis of defined areas in the network, are now available for SWMM networks. During a run, a 2D simulation will be automatically performed for any network that contains at least one 2D Zone.
+
+2D Zones allow you to define areas of particular interest for which more detailed analysis is required, and you can use 2D Mesh Zones to divide a 2D Zone into different regions of mesh resolution. Porous polygons, which represent enclosed walls with a specified porosity and height, can also be included in a 2D simulation. 2D Zones, 2D Mesh Zones and Porous Polygons are all used as part of the mesh generation process carried out when modelling 2D flows.
+
+A new Meshing option has been added to the Model menu, from which you can select the Mesh 2D zones... option to display the Mesh 2D Zones dialog. In this dialog, you can choose if network objects or digitised GIS data representing voids, break lines and wall data are to be read from a GIS file, a GeoPlan layer or selected polygons or polylines in the GeoPlan, or you can choose to exclude them from the mesh. You can also select which ground model is to be used for calculating heights of mesh element vertices, and start the mesh generation process using the clip meshing method. A mesh job will be created for each zone selected for meshing, and the Schedule Job(s) dialog is automatically displayed to allow you to select where and when to run the jobs.
+
+Once the mesh generation is complete, you can use the new Load mesh job results... option from the Model | Meshing menu to display the Manage Mesh Results dialog from which you can review the mesh logs of meshing jobs and load meshes to the network.
+
+The visual effects, such as colour and visibility, for 2D elements on the GeoPlan Window can be controlled from the Elements Page of the GeoPlan Properties, and you can view 2D mesh elements properties on the GeoPlan using the GeoPlan toolbar's properties tool ().
+
+To model the exchange of flood water between the collection system and a 2D meshed area, the network must contain 2D nodes. During a 2D simulation, flooding from the collection system to the mesh is modelled at 2D node locations. The Flood type property for Junction types of nodes determines how flooding at a junction node is handled during a 2D simulation. If set to Lost, flood water is lost from the system, however, if set to 2D, the discharge between surface storage on the 2D mesh and the junction is calculated using orifice equations. See Defining 2D Nodes for further information.
+
+A new button, 2D parameters, has been added to the SWMM Schedule Hydraulic Run View. This displays the 2D Parameters dialog, which is used to view and edit tolerance parameters and advanced parameters for use in 2D simulations.
+
+Results from a 2D simulation can be displayed as themes on the GeoPlan Window, in Time Varying Results Grids and Graph Views, and on a Long Section Window. See Displaying 2D Simulation Results for more details.
+
+Total head and maximum Total head results for 1D network result point objects
+Two new results, Total head and Maximum Total head have been added for 1D network results point result objects. See the Network Results Object Results Data Fields topic for further information.
+
+Summary area result for 2D permeable zones
+As the areas of 2D Permeable Zones in InfoWorks networks, for which results are generated during a simulation, may be different to the actual areas enclosed by the 2D permeable zone polygons, a new summary Area in 2D Zone result is now available. See the Permeable Zones (2D) Results Data Fields topic for further information.
+
+Green-Ampt Soil moisture deficit (%) reset to zero during 2D simulations
+During a 2D simulation that includes an infiltration surface which models Green-Ampt infiltration in an InfoWorks network, the simulation engine now resets the soil moisture deficit (SMD) result for the 2D zone to 0, if the SMD becomes negative during the simulation.
+
+Area-averaged subcatchment rainfall for SWMM networks
+A new Use area-averaged rain option has been added to subcatchments in SWMM network. When using spatial rainfall, either from events or TSDB, subcatchments are matched, by default, to the rainfall polygon that contains the centroid of the subcatchment. For very large subcatchments and/or high resolution (radar) rainfall data, where the subcatchment overlaps multiple rainfall polygons, this can mean that the simulated subcatchment rainfall is not representative of the rainfall over the subcatchment as a whole. Check the Use area-averaged rain option to calculate rainfall for the subcatchment as the area-average of the rainfall of all rainfall polygons that overlap the subcatchment.
+
+See the Using Spatial Rainfall in SWMM Simulations and TVD Connectors topics for further details.
+
+Simulation engine for InfoWorks simulations updated to support SWMM v5.1.015
+The SWMM5 components that are included in the engine for InfoWorks simulations have been updated to SWMM 5.1.015.

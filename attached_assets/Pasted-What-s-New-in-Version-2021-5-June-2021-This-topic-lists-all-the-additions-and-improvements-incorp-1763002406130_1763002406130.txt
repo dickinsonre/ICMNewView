@@ -1,0 +1,44 @@
+What's New in Version 2021.5 - June 2021
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2021.5 which were not available in previous versions.
+
+12D TIN Ground Models
+TIN ground models can now be imported from 12DA files with USC-2, BOM text encoding as well as from 12DA files with the original encoding.
+
+Recycle bin
+In previous releases, InfoWorks ICM counted of the number of items contained in the recycle bin and displayed this number, in brackets, to the right of the recycle bin icon. However, as the counting operation could impact on the performance of InfoWorks ICM, particularly if the bin contained a hierarchy of large database items, this no longer occurs, and an asterisk (*) is now displayed to the right of the recycle bin icon if the bin contains any deleted items.
+
+Default flags for SWMM Conduits upstream and downstream elevations
+A default data flag (#D) can now be set for the Upstream elevation and the Downstream elevation properties for a conduit in a SWMM network. If set, the Upstream elevation will be populated with the value specified for the Invert elevation of the upstream node that the conduit is connected to, and the Downstream elevation will be populated with the Invert elevation value of the downstream node that the conduit is connected to.
+
+Spatially varying rainfall for 2D mesh elements in SWMM networks
+Spatially varying rainfall and evaporation can now be applied to 2D mesh elements when carrying out 2D simulations for a SWMM network. To facilitate this, four new properties have been added to 2D zone objects:
+
+an Apply rainfall etc directly to mesh elements box that, if checked, ensures that rainfall profiles and their corresponding evaporation profiles are applied to 2D mesh elements in the 2D zone
+an Apply rainfall etc field that lets you choose if the application of rainfall and evaporation will be applied to the entire mesh or only to mesh elements outside of the applicable subcatchment boundary
+a Rainfall profile field that enables you to specify which rainfall profile is to be applied to the mesh elements in the 2D zone
+a Rainfall percentage field that allows to specify the percentage of the rainfall depth that will fall directly onto the ground within the 2D zone
+See 2D Zone Data Fields for further information about these properties, and Spatially Varying Rainfall in SWMM Networks, Using Spatial Rainfall in SWMM Simulations and Rain Gauge Boundaries for further information about how spatially varying rainfall is applied to 2D mesh elements in SWMM networks.
+
+Porous Walls for SWMM networks
+Porous Walls can now be added to SWMM networks. These are lines that represent walls with a specified porosity and height and are included as part of the mesh generation process when creating a 2D mesh.
+
+See Porous Wall Data Fields (SWMM) for information about defining porous walls for SWMM networks.
+
+Importing XPSWMM/XPStorm data to InfoWorks networks
+The types of InfoWorks network objects for which network data from XPSWMM and XPStorm xpx files can be imported to has been extended, and now includes Subcatchment, Runoff surface, Land use, Build-up/washoff land use, and RTK hydrograph types of subcatchment objects as well as Orifice, Sluice, Flap valve and User-defined Control types of link objects. 2D network data from xpx files can also be imported to Polygon, Porous polygon, Mesh zone, Mesh level zone and 2D zone types of polygon objects in ICM.
+
+See Importing XPSWMM/XPStorm Data to InfoWorks Networks and XPSWMM/XPStorm Conversion Notes (InfoWorks) for further information.
+
+2D zone rendering in the 3D Network Window
+Previously, if the 3D Network Window displayed a network which contained 2D zones with mesh level zones, then the transition between a mesh level zone that contained an elevation factor, and one that did not, was not being rendered smoothly when the Smoothed option was selected in the 3D Network Window Properties dialog. This has now been corrected and the transition between the mesh level zones will now be smooth.
+
+Pollutant units displayed for SWMM results
+The units used for modelling pollutants in SWMM networks are now included in the applicable simulation results grid windows and property sheets for links, nodes and subcatchments. These will also be displayed in the grid or graph views of the results. To enable the display of the units, two new units for quantifying pollutants, PCC (Pollutant count/l) and PCU (Pollutant ug/l), have been added to the list of units available for ICM. These are in addition to the PC (Pollutant mg/l) unit that is still available.
+
+Water quality results for SWMM networks
+Water quality results for pollutants in SWMM networks are now, by default, displayed in groups of time-varying and maxima results in the applicable simulation results property sheets for links, subcatchments and nodes (note that maxima results for nodes are not currently calculated for SWMM networks). In the results grid windows, the time-varying and maxima water quality results for each pollutant are displayed adjacent to each other. You can change the layout of the results in the object property window or the grid window if required.
+
+Importing 2D objects from XPSWMM/XPSTORM to SWMM 2D zones
+XPSWMM/XPStorm 2D polygon data, in xpx format files, which has its Default Area Type is set to 'Inactive' will be imported as a 2D Zone object in SWMM networks.
+
+See Importing XPSWMM/XPStorm Data to SWMM Networks for general information about how to import XPSWMM/XPSTORM xpx files and XPSWMM/XPStorm Conversion Notes (SWMM) for conversion information.

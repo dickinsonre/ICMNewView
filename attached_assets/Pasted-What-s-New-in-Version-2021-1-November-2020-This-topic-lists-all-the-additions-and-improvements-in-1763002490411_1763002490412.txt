@@ -1,0 +1,265 @@
+What's New in Version 2021.1 - November 2020
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2021.1 which were not available in previous versions.
+
+Version numbering
+To keep in line with other Innovyze products, the version numbering has changed. This version is now 2021.1; it would have been 11.5 under the previous version numbering system.
+
+Meshing generation
+As the clip meshing method of mesh generation excels in comparison to classic meshing when it encounters highly complex geometry with a vertex density far greater than the desired mesh element density which helps it to be, on average, four times faster than the classic method, clip meshing has been made the default Mesh generation option for all new 2D Zones in a new network.
+
+It is possible to switch between Clip meshing and Classic in the 2D Zones properties for any new or existing 2D Zones by changing the Mesh generation setting. If you wish to make Classic meshing the default for all new 2D zones or any existing 2D zones whose data flag is set to #D, you can do so by changing the user-defined defaults for that network. If the Mesh generation property has not been set, a warning is issued and the classic method will be used when the mesh is generated.
+
+An outline of the clip meshing process, and information about the differences in the meshing methods including which factors contribute to a faster processing speed and what aspects of a meshing job should be considered when choosing which method to use, is contained in the 2D Mesh Generation Methodology topic.
+
+Thales licence
+When configuring a workgroup agent you can now choose a Thales type of licence for the remote agent. A Thales option has been added to the Licence type field, and when selected, the Engine size field is enabled, allowing you to choose the appropriate size (number of nodes / elements that can be processed by the Thales licence) from a dropdown list. When an engine size is selected, the code for it is displayed in the read-only Code field. See the Manage Job Agents dialog for further information.
+
+Workgroup master database groups
+Workgroup master databases can now be assigned to groups. When creating or opening a workgroup master database, the New... button on the Open Master Database dialog now displays a New Master Database dialog that enables you to:
+
+select or create a new group which the master databases can belong to
+specify the name for a new database
+A new Group field has also been added to the Open Master Database dialog from which you can select a particular group from a list of groups already defined. If you select a group, then the entries in the dropdown list in the Database field will be restricted to the names of the master databases assigned to the selected group.
+
+See the Master Database topic for information about creating and opening master databases.
+
+Note that workgroup master databases require that the Workgroup Data Server software is installed and running as a service on the machine hosting the database.
+
+Excluded object select
+A new Excluded object select tool allows you to select excluded objects (objects that are present in the base network but not in the current scenario) from the GeoPlan. This is a toggle function can be accessed either from the Selection toolbar () or the Selection menu.
+
+When the tool is on, it can also be used with some of the GeoPlan functions such as the Polygon select and Trace and select links downstream/upstream as well as a number of Selection functions, including, Select all objects, Refine selection and Select isolated nodes . The GeoPlan Menu, Selection Menu and InfoWorks ICM Toolbars help topics indicate which functions can be used when the Excluded object select function is on.
+
+Restore selected excluded objects for scenarios
+You can now select which excluded objects (objects that are present in the base network but not in the current scenario) you want to restore.
+
+You can use the new Excluded object select tool to select from the scenario GeoPlan the excluded objects that you want to restore while a Restore selected excluded objects function restores them to the current scenario. The Restore selected excluded objects function can be accessed via the Scenarios option in the Network menu or from the Scenarios toolbar.
+
+Extending cross sections
+Selected cross sections can now be automatically extended using the GeometryExtend cross sections... option from the Model menu. A new Extend Selected Cross Section Dialog enables you to choose which cross sections (left, right or both) are to be extended and the distance they are to be extended by. If one or more bank lines are also selected, you can choose to extend the selected cross sections to the intersections with the applicable bank lines, providing the bank lines are located within the specified distance. If any bank line is located outside of the specified distance, the cross sections can still be extended by the specified distance.
+
+If a ground model has been loaded onto the GeoPlan, you can choose to set the maximum spacing between the new vertices on the extended cross sections. You can also choose if any new cross section vertices will have their elevation set according to the ground model heights. This is an extremely useful feature if you have surveyed data for e.g. a main river channel and you want to use ground model data to generate elevations across the floodplain.
+
+See the Extending Selected Cross Sections topics for further information.
+
+Straightening lines
+Selected lines in an InfoWorks network can now be straightened between their start and end points or straightened perpendicular to a selected link using the GeometryStraighten selected lines... option from the Model menu. See the Straighten Selected Lines topic for further information.
+
+Weighting choice for Manning's roughness
+During a run, the simulation engine uses the equivalent roughness concept to provide a roughness value for a wetted perimeter that has more than one roughness value. Previously, it weighted perimeters by 1/n, regardless of whether you specified, in a relevant object's properties, 1/n (MANNING) or n (N) to represent roughness. However, some other products, such as HEC-RAS, weight by n. Therefore, to ensure that the same calculations can be performed when modelling in ICM, a new Weight Manning roughness by n check box has been added to the simulation parameters that allows you to choose if Manning's roughness should be weighted by n.
+
+To ensure the integrity of previous runs, the Weight Manning roughness by n box is unchecked by default, indicating that Manning's roughness will be weighted by 1/ n.
+
+TIN ground models
+TIN ground models can now be imported from 12D, XPTIN and LandXML formatted files. See Importing and Exporting TIN Ground Models for further information.
+
+You can now also use LandXML files to create a new TIN ground model. Two new options - LandXML (Breakline, Definition) and LandXML (Contour, Datapoints) have been added to the Type field for External Data Sources. See the Creating a TIN Ground Model and the New External Data Item Dialog topics for further information.
+
+Ability to drain from a subcatchment to a 2D point source
+Previously it was not possible to apply outflows from a subcatchment directly to a 2D element; the hydrology aspects of a subcatchment could only be applied indirectly to the 2D mesh via a 1D object such as a node, one or more lateral links or another subcatchment. Therefore, in order to apply outflows directly to a 2D mesh, a new 2D point source option has been added to the Drains to property of a subcatchment. See the Subcatchment Data Fields topic for further information.
+
+Like the other subcatchment 'drains to' objects, drainage to 2D point sources will be represented on the GeoPlan as large arrows.
+
+Improved performance for 2D flood mapping
+In some 2D flood mapping cases, the flood contour performance improvement has been shown to be in excess of an order of magnitude faster, especially where large TIN surfaces are involved.
+
+Minimum depth for displaying flood extents on the GeoPlan
+A new field - Minimum calculated depth where theme applies (m)- has been added to the Layer Theme Editor for the Flood object layer. It allows you to specify the minimum 2D depth result elements to be considered for use in the flood theme. If the specified value is not exceeded in the 2D element depth results, then those elements will not be considered for the generation of the flood theme.
+
+Rendering for 2D zones in the 3D network window
+You can now choose how 2D zones mesh triangles are rendered in the 3D network window. Three options are available - Original (2D zones mesh triangles are displayed with their original, angular profile), Smoothed (2D zones mesh triangles are displayed with a smoothed profile across the mesh elements) or Do not show (2D zones mesh triangles are not displayed).
+
+If the Smoothed option is selected, additional options that determine the display of flood depths in the 2D zone are also available. These are Translucent water (determines whether or not water is displayed translucently) and Graded water level transition (determines whether water is displayed with a stepped or smoothed transition between the different water levels). There is also a Render 2D zone wireframe overlay option that allows you to choose whether or not the smoothed 2D zones bounding mesh triangle overlay is to be displayed in the window.
+
+Examples of all these options are included in the 3D Network Window Properties Dialog topic.
+
+New type of flap valve
+A new Valve type field, which allows you to choose between a Circular (default) or Rectangular type of flap valve, has been added to the proprieties for an InfoWorks network flap valve. If the rectangular type is selected, the dimensions of the flap valve can be specified using the new Width and Height fields. The dimension of a circular flap valve is still specified using the Diameter field. To ensure the integrity of the network data, any existing flap valves are set to the default Circular type. See the Flap Valve topic for further information.
+
+Water quality simulations
+When using a SWMM build-up/washoff model, it is now possible to run a water quality simulation where the Sweep end month / Sweep end day parameters are earlier than the Sweep start month / Sweep start day parameters.
+
+Day and night coliform decay
+To allow for the increased mortality of coliforms due to light intensity during the day, different values for a coliform determinate can now be specified for day and night. The T90 field in the Water Quality and Sediment Parameters is now used to specify the day value while a new T90 night field can be used to specify a night value. To model these different coliform values, a solar radiation profile must be included in a rainfall event. If the rainfall event does not include a solar radiation profile, the T90 night value will be used in a simulation. To ensure that the modelling of coliform decay is unchanged for existing (pre 2021.1) model networks, ICM will assume that T90 night = T90.
+
+Default values for diffusion in conduits
+The default values for 1D diffusion type, 1D diffusion d0, 1D diffusion d1 and 1D diffusion d2 user defined defaults in InfoWorks networks have been changed to River, 0, 0 and 0 respectively, as these more accurately reflect the parameters that are likely to be used if modelling diffusion for conduits in water quality simulations.
+
+For the same reason, the default value for 1D diffusion type for conduits has also been changed to River. Note that the defaults values for the 1D diffusion d0, 1D diffusion d1 and 1D diffusion d2 conduit parameters have not changed as these were already set as 0.
+
+Existing networks will retain the old user defined values (Estuary, 19.0, 10.0 and 0.0001) and these will still be applied to all conduits in existing networks with the system default data flag (#D) set on any of the diffusion fields. However, you can use the new user defined diffusion defaults values (River, 0, 0, 0) for conduits with the #D flag set in an existing network by either editing the default values or by clicking the Reset System Defaults button on the User Defined Defaults dialog, which resets all user defined defaults to the current default settings.
+
+For new networks, the new user defined defaults values (River, 0, 0, 0) will be used for conduit diffusion (unless you have changed them), and these will be applied to all conduits with default (#D) flag set for the diffusion fields.
+
+Deficit and Constant Loss Model for impervious surfaces
+Previously, an InfoWorks subcatchment's runoff surface with a Runoff volume type set to Defconloss (Deficit and Constant Loss Model) was restricted to pervious or unknown surfaces, and the associated network would fail validation if the Surface type was set to Impervious. This restriction has been removed and this model can now be used with any type of surface. However, as this model may not be the most appropriate one to use with an impervious surface, ICM will issue a validation warning message informing you of this.
+
+Maxima gutter spread results for InfoWorks nodes
+For nodes with a Flood Type set to Inlet, a new Max gutter spread field has been added to the Node Results properties. This result provides the maximum width of flow from the curb face to the extent of the water on the roadway during the simulation. The result will now also be included when exporting results of a simulation.
+
+Hong Kong rainfall (Historic)
+User-specified return periods, set in the User Defined Parameters a, b, c field are now rounded to 3 decimal places when the design rainfall hyetograph is generated.
+
+ICM Exchange
+Pollutograph data can now be imported from CSV files using ICM Exchange. See the ICM Exchange documentation for further information.
+
+Flow efficiency tables for InfoWorks manhole sag inlets
+A flow efficiency table can now be used to calculate flow through a sag type of inlet for InfoWorks manholes. To use this option, ensure that the Node type is set to Manhole and the Inlet input type is set to FLowEff, and then specify the appropriate table in the Inlet flow efficiency table field.
+
+Green-Ampt model improvements
+The Green-Ampt model has been improved and the recovery of the infiltration properties once the 2D surface becomes dry is now implemented. The processing of evaporation has also improved and soil will now drain when there is evaporation under dry weather or no rainfall conditions. In addition, in the 2D zone results, the Green-Ampt Time needed to drain upper zone result is set to zero if a negative value is calculated, and the Green-Ampt Soil moisture deficit (%) parameter has been updated so that the current value is reported as an output result.
+
+InfoWorks runoff surfaces with SCS runoff volume models
+As a Runoff routing value is not required for a runoff surface whose Runoff volume type is set to SCS, the Runoff routing value field will no longer be included in the property sheet for any runoff surface that uses the SCS volume model. Previously the Runoff routing value was included and would, incorrectly, return a validation message if no value was specified.
+
+HYDX network import
+The import of HYDX networks has been improved to more fully represent the source HYDX file contents.
+
+See the HYDX Conversion Notes topic for further information.
+
+Importing XPRAFTS Data
+Network data from XPRAFTS XPX files can now be imported into InfoWorks networks. See Importing XPRAFTS Data for further information.
+
+Importing rainfall events from XPX files
+Rainfall events can now be imported from XPRAFTS XPX files. See Importing and Exporting Rainfall Events for further information.
+
+Importing rainfall events from XPSWMM / XPStorm files
+Rainfall events can now be imported from XPSWMM / XPStorm files. See Importing and Exporting Rainfall Events for further information.
+
+Importing events from external SWMM5 time series files
+Events can now be imported from external SWMM5 time series files. See Importing Event Data and Importing and Exporting Rainfall Events for further information.
+
+Importing events from XPRAFTS XPX files
+Direct input runoff hydrographs from an XPRAFTS xpx file can now be imported into an Inflow event in ICM. See Importing Event Data for further information.
+
+Importing events from SWMM5 text files
+Interface files, referenced in the [FILES] section of a SWMM5 text file, can now be imported into Inflow events in ICM. See Importing SWMM5 Network Data to SWMM Networks and SWMM5 Conversion Notes for SWMM Networks for further information.
+
+Importing tags from SWMM5 text files
+The [TAG] section of a SWMM5 text file can now be imported into a SWMM network in ICM. See SWMM5 Conversion Notes for SWMM Networks for further information.
+
+Importing profiles from SWMM5 text files
+The [PROFILE] section of a SWMM5 text file can now be imported into a SWMM network in ICM as a Selection list. You can then set the imported profiles as the Branch ID for applicable link objects when the selection list is applied to the relevant SWMM network. See SWMM5 Conversion Notes for SWMM Networks and Selection Lists for further information.
+
+Importing labels from SWMM5 text files
+The [LABELS] section of a SWMM5 text file can now be imported into a SWMM network in ICM as a Label List. Formatting information as well as the label text and location will be imported as custom labels in the list. See SWMM5 Conversion - Subcatchments for further information.
+
+Importing infiltration data from SWMM5 text files
+Previously, when importing infiltration data from a SWMM5 text file to a SWMM network, which fields in ICM subcatchments the data was imported to was determined by which infiltration model was set for the network in the [OPTIONS] section. Now, if the [INFILTRATION] section of the file being imported contains any entries that have their last parameter set to a specific infiltration model, then this determines which subcatchment fields the infiltration data is imported to in ICM. If there is no entry for the last parameter, the infiltration model set in the SWMM5 [OPTIONS] section will still determine which fields the data is imported to.
+
+See SWMM5 Conversion Notes for SWMM Networks for further information.
+
+Importing conduit roughness type and values from SWMM to InfoWorks networks
+To ensure consistency, conduits, with a roughness defined as Manning's N in a SWMM network that are imported to InfoWorks networks, now have their Roughness type is set to N, and their corresponding roughness values are now imported to the Bottom roughness Manning's n and Top roughness Manning's n fields in the conduit properties.
+
+Previously, imported SWMM conduits would have had their Roughness type set to Mannings (1/n) and their corresponding roughness values converted to Bottom roughness Manning's 1/n and Top roughness Manning's 1/ n fields in the InfoWorks conduit properties.
+
+Selection operations for SWMM networks
+The following selection operations are now available for SWMM networks:
+
+Reverse selected links
+The direction of all currently selected links in a SWMM network can be reversed using the Selection operationsReverse links option from the Selection menu or using the  (Reverse selected links) tool from the Selection toolbar. See Editing Network Object Geometry for details about reversing the direction of a selection of links.
+
+Adjust selected values
+The replacement or adjustment of the value of one or more fields for a set of currently selected SWMM network objects can be performed using the Selection operationsAdjust selected values... option from the Selection menu. See Adjusting Parameters for Selected Objects for more information.
+
+Count selected objects
+The number of currently selected nodes, links, subcatchments, and points, included in the current selection, can now be counted and displayed in the Selection Count dialog.
+
+Save all nodes, links or subcatchments to a selection list
+All the nodes, links or subcatchment in the current SWMM network can now be saved as a new selection list, or by overwriting an existing selection list.
+
+These operations are performed using the Save all nodes selection..., Save all links selection... and Save all subcatchments selection... options from the Selection menu. See the Selection Menu for further information.
+
+SWMM subcatchments can drain to another subcatchment
+Previously, subcatchments only drained to nodes but a new Drains to field has been added to subcatchment's properties to allow you to choose whether the subcatchment is to drain to a node or another subcatchment. To ensure that any existing subcatchments properties are still valid, nodes have been assigned as the default for the Drains to field.
+
+In addition, the Receiving node ID field has been renamed to Outlet and its dropdown list is automatically populated with the the relevant object ids when an option is selected in the Drains to field.
+
+See the Subcatchments and the Subcatchment Data Fields (SWMM) topics for further information.
+
+Ground level property for SWMM nodes
+A new Ground level field has been added to the node properties. ICM can use the specified Ground level and Invert elevation values to calculate the maximum depth, which is required for processing simulations, providing the default data flag (#D) is set on the Max depth field.
+
+For all new nodes, the #D flag is set by default on the Max depth field and the Ground level value is set to 0, which can be changed if required. For existing nodes (i.e. ones created before this 2021.1 version of the software), no value is set for the Ground level.
+
+Nodes imported from XPSWMM will have the Max depth value calculated by subtracting the imported F_Z (invert elevation) value from the imported F_GRELEV (spill crest) value, while nodes imported from SWMM5 will have the Ground level value calculated by adding the imported values of Elev (Invert El.) and Ymax (Max. Depth).
+
+X and Y properties for SWMM subcatchments
+New X and Y fields have been added to the subcatchment properties that define the coordinates at the centre of the subcatchment boundary region. If the system default flag (#D) is set on these fields, ICM will calculate these co-ordinates for you.
+
+Spatially varying rainfall from rainfall events in SWMM networks
+InfoWorks ICM supports the use of spatially varying rainfall events to approximate the movement of a rainfall event across a subcatchment.
+
+Rainfall profiles can be applied within a rainfall event to geographical regions. The profile is then applied to any subcatchment whose centroid falls within the geographical region. When the rainfall profiles contain data defining their geographical region, InfoWorks ICM automatically uses this region data, and the subcatchment's Rain gage ID field is ignored.
+
+For more information on using geographical regions for rainfall events in SWMM networks, see Using Spatial Rainfall in SWMM Simulations.
+
+Worst case report for SWMM networks
+The Worst Case grid report, which displays the worst case for a chosen result parameter for nodes or a links over a number of simulations, is now available for SWMM networks. See the Grid Reports and Worst Case Report Dialog topics for further information.
+
+Statistical reports for SWMM networks
+Statistical reports, which provide a way of reporting on selected parameters for selected objects in a network, are now available for SWMM networks.
+
+Simulation summary reports for SWMM networks
+The Simulation Summary report, which enables the graphing of summary results, such as rainfall intensity and runoff, from several simulations against each other, is now available for SWMM networks.
+
+New results point grid window for SWMM networks
+The simulation results for time varying data for rain gages in a SWMM network can now be viewed from the New results point grid window. See the Rain Gage Results Data Fields (SWMM) for a description of the simulation results, the Results on Grid Windows, Results on Graph Views and Results toolbar topics for information about viewing results data, and Graph Reports for details about producing graphs of the results.
+
+Simulation engines updated to support SWMM v5.1.014
+The SWMM5 components that are included in the engines for InfoWorks and SWMM simulations have been updated to SWMM 5.1.014.
+
+Export of SWMM simulations to a SWMM5 file
+A SWMM network and any associated time varying database item, such as a rainfall event, which have been used in a SWMM run, can be exported from SWMM simulation to a file in the SWMM5 format. See the SWMM5 Export from a SWMM Simulation topic for further information.
+
+Export of X and Y properties for SWMM subcatchments to a SWMM5 file
+The X and Y subcatchment properties, which define the subcatchment's centre point, are now exported to the [Innovyze_Subcatchments_Centroids] section of a SWWM5 INP file. See the SWMM5 Export - Conversion Notes topic for further information.
+
+Simplify geometry for SWMM networks
+The Simplify Geometry dialog can now also be used for SWMM networks to correct and thin the current selection of subcatchment, polygon and link objects.
+
+Thinning is used to reduce the number of object vertices, potentially reducing data size significantly, thereby improving performance, while correction is used to edit the geometry of self intersecting polygons in such a way that the shape no longer intersects itself. See Simplifying Object Geometry for further information.
+
+Upstream / downstream network trace for SWMM networks
+You can now use the upstream / downstream network trace functions from the GeoPlan context menu to trace the path from any node or link selected in a SWMM network to the upstream / downstream extents of the network.
+
+Network overview for SWMM networks
+A network overview, which provides a comprehensive summary of the network, is now available for SWMM networks. See the Network Overview View and Network Summary topics for further information.
+
+Auto-suggestion feature for SWMM control rules editor
+An auto-suggestion feature has been added to the SWMM Control Rules Editor. It analyses the text as you type, compares it to the format rules for the control rules and provides suggestions for keywords, types of objects, attributes or types of values in a popup list. In addition to helping ensure that a correct term is used, it also allows you to quickly select one from the popup so that you do not even have to finish typing it.
+
+See the Control Rules Editor (SWMM) for further information.
+
+TVD connectors for SWMM networks
+A TVD connector primarily provides a link between data streams in a scalar Time Series Database (TSDB) and objects in the network. It reads data from the TSDB or from another TVD connector or uses a specified constant. This data may then be used as an input to a connected network object or to compare observed results and modelled results for a network object. You can even be add SQL expressions to a TVD connector, allowing data in a TSDB to be transformed into a value which is more appropriate for your model.
+
+TVD connectors can be digitised on the GeoPlan as a point or polygon object but their properties can only be edited via the polygons grid window or TVD Connector property sheet. When digitised as a polygon, rainfall data stream profiles from the scalar TSDB will be applied during a simulation as spatially varying data. For TVD connectors with point geometry, non-spatially varying TSDB rainfall profiles will be applied during the simulation to any subcatchment whose rain gage has a TVD connector assigned to it.
+
+See TVD Connectors, TVD Connector Data Fields (SWMM), Rain Gage Data Fields (SWMM) and Subcatchment Data Fields (SWMM) topics for further information.
+
+TVD Connectors results for SWMM networks
+Simulation results from TVD connectors are displayed on the polygon results grid and on the property sheet while viewing a replay of a simulation.
+
+TVD Connectors for SWMM control objects
+TVD connectors can also be used to control SWMM ancillary regulatory structures, such as pumps and weirs by providing a link between the data stream profiles in a TSDB and the SWMM control rule defined for the regulator.
+
+A new unit type, FRAC, has been added which allows you to specify a fraction between 0 and 1, which determines how much of the regulated variable, such as the opening of an orifice, is controlled.
+
+See Controlling Regulators using TVD Connectors (SWMM) for further information.
+
+
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Time series databases for SWMM networks
+Time series database (TSDB) objects that store scalar time varying data from external data sources, such as RADAR, can now be used as an alternative to events in a SWMM Run. Like events, time series databases () are independent of network type and therefore can be added using the Times series database option from the New InfoWorks or New SWMM context menus in the Explorer window. See the Time Series Database topic for further information about defining TSDBs.
+
+Importing SWMM Pollutographs
+Event data from SWMM Pollutographs can now also be imported to a scalar TSDB. See Importing Event Data To Time Series Databases for further information.
+
+Rainfields EA forecasts (Australia) for spatial TSDB
+The twelve hour, ensemble mean accumulation (EA) rainfall forecasts for mosaic domains at 10min temporal resolution from Rainfields can now be used in a spatial TSDB. To use this data, the NetCDF AUS.BOM option must be selected as the Data file format, and the appropriate file selected via the Select file... button.
+
+See the Spatial Time Series Database Configuration Dialog for further information about setting up a spatial TSDB and the Australian Bureau of Meteorology's Rainfields Rainfall Estimates and Forecasts User Guide for further information about its EA product.

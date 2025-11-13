@@ -1,0 +1,69 @@
+What's New in Version 2021.2 - February 2021
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 2021.2 which were not available in previous versions.
+
+FEH2013 Rainfall Generator
+The design rainfall generator for FEH2013 now allows you to specify your own timesteps, in seconds, for rainfall event data rather than automatically using the default 60 second one. When this value has been set in the new Timestep field, the resulting rainfall time series will show event data entries with a timestep spacing equal to the specified value.
+
+
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+Canadian GRIB 2 format radar data
+Forecast radar data in the GRIB2 format from the Canadian Meteorological Centre (CMC) is now supported by InfoWorks ICM. To include this type of data in a spatial TSDB, ensure that the Grib 1 (forecast) option (not Grib 2) is selected in the Data file format field in the Spatial Time Series Database Configuration dialog, and then configure the spatial TSDB as required.
+
+Importing gridded ground models from GeoTIFF
+Gridded ground models can now be imported from GeoTIFF tagged image file format (.tiff) or tagged image format (.tif) files.
+
+Importing InfoDrainage network data
+InfoDrainage network data can now be imported from files in the IDDX format. In addition, Hydograph Inflows can also be imported as an Inflow type of event from a IDDX file.
+
+InfoDrainage data can also be imported from Ruby scripts using ICM Exchange. See the ICM Exchange documentation for further information.
+
+Multi-coliforms modelling
+It is now possible to include more than a single coliform for water quality simulations. The choice of coliform pollutants for Diffusion coefficients now includes the options CF1 to CF4 (Coliform 1 to Coliform 4). The original COL (Coliforms) is still available but unlike the new coliform pollutants, this does not support coliforms attached to sediment fractions.
+
+The list of determinants for Decaying pollutants and User defined processes has been extended to include CF1DIS to CF4DIS for dissolved coliform pollutants 1 to 4, CF1SF1 to CF4SF1 for coliform pollutants 1 to 4 attached to sediment fraction 1, and CF1SF2 to CF4SF2 for coliform pollutants 1 to 4 attached to sediment fraction 2.
+
+See the Water Quality and Sediment Parameters for further information.
+
+The InfoWorks Pollutograph has also been updated to include the new coliform pollutants. Four new tabs, labelled C1D, C2D, C3D and C4D, have been added to the pollutograph event editor, allowing you to specify time varying concentrations for dissolved coliform determinants. Fixed potency factors for coliform determinants attached to sediment fractions can also be defined if applicable. Similarly, four new tabs that allow you to define time varying potency factors for attached coliform determinants, have also been added to the InfoWorks Pollutograph; these are labelled C1A, C2A, C3A and C4A.
+
+To enable the inclusion of the new coliform pollutants in a water quality simulation, the QM Parameter dialog has been updated to include coliform pollutants CF1 to CF4 in the list of pollutants to be modelled. The selected coliform pollutants will be modelled as dissolved pollutants and optionally as pollutants attached to sediment fraction 1 and/or sediment fraction 2. For 2D simulations, the Thresholds for 1-hourly water quality change grid on the Steady State tab in the 2D Parameters dialog now includes the new determinants CF1DIS to CF4DIS, CF1SF1 to CF4SF1, and CF1SF2 to CF4SF2 in its Variables column; the threshold values for which can be specified in the new Concentration Coliform column.
+
+The list of determinants in the Diagnostic dialog, which is used to specify diagnostic limits to check the computational accuracy of the simulations, has also been extended to include the new coliform pollutants CF1 to CF4.
+
+See the Water Quality Simulations topic for further information about how to setup and run a water quality model in an InfoWorks simulation. Information about results for coliform determinants in the water quality simulations are included in the Node Results Data Fields, Link Results Data Fields, Network Results Object Results Data Fields and the 2D Zone Results Data Fields topics.
+
+To support the modelling of the additional coliform pollutants, several new units of measurements - Coliform concentration, Coliform exponential decay, Coliform maximum decay rate, Coliforms (EC) and Coliforms (IE), and Coliform potency (CP) - have been added to InfoWorks ICM. See the Units Key topic for further information.
+
+Importing data from XPRAFTS data
+Retarding basin data can now be imported from XPRAFTS XPX files to a storage type of node in an InfoWorks network.
+
+Statistics templates
+The statistics template has been updated to include a new Network type dropdown list from which you can select the type of network (InfoWorks or SWMM) you want to produce a statistical report for. When you select the type of network, the items listed in the Location type will be limited to those that are applicable to the selected network type.
+
+In addition, for SWMM networks, you can now also include TVD Connector attributes in a statistical report.
+
+Mass unit factor for pollutant inflows for SWMM nodes
+To ensure that unit factors for mass types of pollutant inflows can be applied during a simulation to time varying data from scalar or spatial TSDBs as well as events, the Units factor, which was specified as part of the profile properties for a SWMM Pollutograph event, has been deprecated (but retained for backwards compatibility) and replaced by a new Mass units factor for each node's pollutant inflow. Like the units factor, the mass units factor is used for converting pollutant inflow values into mass units, and has a default value of 1. This means that unless you change the Mass units factor, any simulation re-runs or network exports that include existing SWMM Pollutographs will not be affected by the addition of the new factor.
+
+When importing model data from a SWMM5 text file, the 'Mfactor' in the [INFLOWS] section of the inp file is now imported to the Mass units factor column of the pollutant inflow grid for a SWMMnode. Previously it would have been imported to the Units factor in a SWMM Pollutograph event's profile properties.
+
+Similarly, when exporting a SWMM network to a file in the SWMM5 format, the values in the Mass units factor column of a node's pollutant inflow grid are exported to 'Mfactor' in the [INFLOWS] section of the exported file.
+
+Note that if a Units factor and a Mass units factor are specified, and both factors are set to a value other than 1, then both factors will be applied to the relevant pollutant inflow values for the applicable node during a simulation or when they are exported. A message will be included in the applicable log file that provides the name of the node and SWMM pollutograph for which the units factor has been applied twice.
+
+Rain gage boundaries for SWMM networks
+Rain gage boundaries, which are used to define areas for spatially varying rainfall, can now be specified for SWMM networks. See the Rain Gauge Boundaries topic for further information.
+
+Exporting SWMM network data to a SWMM5 file
+The subcatchment properties, Infiltration model and Soils, and the soil properties are now exported to the [INFILTRATION] section of a SWMM5 INP file. Previously, they were exported to the [Innovyze_Supplementary_Infiltration] section in an INP file.
+
+Simulation engine for SWMM simulations updated to support SWMM v5.1.015
+The SWMM5 components that are included in the engine for SWMM simulations have been updated to SWMM 5.1.015.
+
+General lines for SWMM networks
+General Line objects can now be added to SWMM networks. These will be used as part of the mesh generation process when 2D modelling is available for SWMM networks, and can be used to model features that act as break lines or walls in a 2D Zone.
+
+Flood type property for SWMM nodes
+A new Flood type property has been added for Junction types of nodes, which determines how flooding at a junction node will be handled when 2D simulations are available for SWMM networks.
