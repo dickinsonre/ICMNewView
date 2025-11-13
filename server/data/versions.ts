@@ -465,6 +465,169 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "6.0",
+    version: "6.0",
+    releaseDate: "2015-04-01",
+    features: [
+      {
+        id: "6.0-river-sediment",
+        title: "Sediment Modeling in River Reaches",
+        description: "Comprehensive sediment transport modeling with Sediment Grading objects, three-layered bed composition (active/deposited/parent), active layer depth methods (Explicit, D50, D90), erosion/deposition rate limits, bed level erosion limits, deposition depth limits, and bed updating methods (Invert, Uniform).",
+        category: "Water Quality"
+      },
+      {
+        id: "6.0-sediment-initial-conditions",
+        title: "1D Initial Conditions for Sediment",
+        description: "Initial Conditions 1D Editor updated to include sediment masses for river reaches, with additional water quality results for river reach and bridge objects.",
+        category: "Modeling"
+      },
+      {
+        id: "6.0-velocity-profile-report",
+        title: "Velocity Profile Grid Report",
+        description: "Detailed breakdown of flow, bulk velocity, and wetted area for river reaches at each timestep, provided for sections and individual panels with grid view and CSV export.",
+        category: "Results"
+      },
+      {
+        id: "6.0-custom-statistics-columns",
+        title: "Custom Columns in Statistical Reports",
+        description: "Define additional columns in Statistics Templates for descriptive text (e.g., CSO Number, Permit ID) in Statistical Reports.",
+        category: "Results"
+      },
+      {
+        id: "6.0-rs-bridge-import",
+        title: "InfoWorks RS Bridge Import and Ground Model Sampling",
+        description: "Enhanced RS importer generating ICM bridge objects from RS bridge data. Bridge Linear Structure (2D) objects with irregular invert level now updateable from ground model with vertex insertion and linear interpolation.",
+        category: "Integration"
+      },
+      {
+        id: "6.0-river-reach-sections-grid",
+        title: "Long Section River Reach Sections Grid",
+        description: "Display grid view of river reach sections from Long Section Window showing information for all sections currently displayed.",
+        category: "Visualization"
+      },
+      {
+        id: "6.0-export-enhancements",
+        title: "Export and Data Field Enhancements",
+        description: "MXD file export option for ESRI ArcMap format. User Text and User Number fields increased from five to ten of each type for expanded user-defined data storage.",
+        category: "Integration"
+      },
+      {
+        id: "6.0-validation-improvements",
+        title: "Validation Improvements",
+        description: "Inline bank validation ensuring 2D Zone ID specified banks connect to Outfall nodes. Significant efficiency improvements for 2D mesh zones and associated objects validation.",
+        category: "Data Management"
+      },
+      {
+        id: "6.0-gis-export-performance",
+        title: "GIS Export Performance for 2D Elements",
+        description: "Significant efficiency improvements reducing export time for 2D meshes with large numbers of elements.",
+        category: "Performance"
+      },
+      {
+        id: "6.0-flow-limiting-results",
+        title: "Enhanced Flow Limiting Results at 2D Nodes",
+        description: "New results fields for 2D inlets: Total cumulative limited volume, Cumulative limited volume (timestep), and Cumulative limited volume rate for identifying capping procedure severity.",
+        category: "Results"
+      },
+      {
+        id: "6.0-1d-2d-linking",
+        title: "Improved 1D/2D Network Linking Method",
+        description: "New 'Inflow-based link at manholes' simulation parameter using net inflow (instead of element volume) for maximum flow exchange, reducing head/inflow discrepancies for nodes in small elements. Enabled by default for new networks.",
+        category: "Modeling"
+      },
+      {
+        id: "6.0-2d-sediment-rates",
+        title: "2D Suspended Sediment Erosion/Deposition Rate Limits",
+        description: "Water Quality and Sediment Parameters now support maximum erosion and deposition rates for 2D suspended sediment transport with per-fraction or composite limitations.",
+        category: "Water Quality"
+      },
+      {
+        id: "6.0-2d-elevation-results",
+        title: "Elevation Results for 2D Network Results Objects",
+        description: "New water elevation results for Network Results Line (2D) and Polygon (2D): Highest/Lowest elevation, Maximum highest elevation, Minimum lowest elevation in results grids and property sheets.",
+        category: "Results"
+      },
+      {
+        id: "6.0-sql-time-series",
+        title: "Time Varying Results in SQL Expressions",
+        description: "SQL queries can analyze results across simulation timesteps using tsr (time series result) prefix with aggregate functions. Usable in GIS Export of SQL expressions for 2D mesh elements.",
+        category: "Development"
+      },
+      {
+        id: "6.0-display-improvements",
+        title: "Results Display Improvements",
+        description: "Unset elevations displayed as null in grids (not large negative numbers) and not shown on graphs. Missing TVD connector results displayed as blanks (not zeros) with gaps in graph traces and -9998 in CSV export.",
+        category: "Usability"
+      },
+      {
+        id: "6.0-initial-state-sediment",
+        title: "Initial State Simulations with Sediment Support",
+        description: "Initial state simulations now include bed sediment data in state files for 2D sediment transport initial conditions.",
+        category: "Modeling"
+      },
+      {
+        id: "6.0-structure-flow-engine",
+        title: "Structure Flow Engine Enhancement",
+        description: "Improved weir/orifice flow switching for structures (orifice, weir, sluice, siphon, screen) selecting lower flow mode above structure height, reducing discontinuities and potentially decreasing simulation times significantly.",
+        category: "Performance"
+      },
+      {
+        id: "6.0-choice-lists-merge",
+        title: "Choice Lists Merging Enhancement",
+        description: "Copy and paste choice lists separately from other preferences with 'Paste choice lists (merge)' option. Network choice lists copiable to database choice lists and vice versa.",
+        category: "Administration"
+      },
+      {
+        id: "6.0-object-browser",
+        title: "Object Browser Window for InfoAsset Manager",
+        description: "New docking window for inspecting object relationships in InfoAsset Manager networks with tree view, context menu for properties/commit history/GeoPlan find/object creation.",
+        category: "Visualization"
+      },
+      {
+        id: "6.0-multi-gpu",
+        title: "Multi-GPU Support for 2D Engine",
+        description: "2D engine runs on multiple GPU cards in parallel (one simulation per card) for GPU clusters and desktop machines. Engine selects card based on highest free memory with GPUUSE/GPUAVOID/GPUANY keywords via Agent Options Dialog.",
+        category: "Performance"
+      },
+      {
+        id: "6.0-web-mapping",
+        title: "Integration with Web Mapping Software",
+        description: "'View online' GeoPlan context menu option integrating Google Maps, Google Street View, Bing, OpenStreetMap, and user-defined URLs. Online Map Options Dialog configures available services. Set Online Maps Projection for projectionless networks.",
+        category: "Integration"
+      },
+      {
+        id: "6.0-ui-usability",
+        title: "GeoPlan and Grid Usability Enhancements",
+        description: "'Only show displayed layers' option for GeoPlan Layers/Themes grid. Hide specific tabs in Network Object Grid Windows via context menu. SQL Results Grids share selections with GeoPlan/Long Section Windows.",
+        category: "Usability"
+      },
+      {
+        id: "6.0-sql-editor-limit",
+        title: "SQL Editor Character Limit Increase",
+        description: "SQL Dialog editor character limit increased from 32,768 to 2 billion characters for longer queries.",
+        category: "Development"
+      },
+      {
+        id: "6.0-tsdb-improvements",
+        title: "TSDB Enhancements",
+        description: "External database connection displays dropdown list of available source tables/columns in TSDB grid cells. Spatial TSDB now supports NetCDF as observed or forecast radar data file format.",
+        category: "Data Management"
+      },
+      {
+        id: "6.0-infinity-system",
+        title: "Infinity System Configuration Objects",
+        description: "New database items in Model Group for CSO monitoring and reporting in Infinity System, containing ICM runs, statistics templates, and model group items.",
+        category: "Integration"
+      },
+      {
+        id: "6.0-agent-enhancements",
+        title: "ICM Agent Robustness Improvements",
+        description: "Enhanced Agent service robustness under heavy load with multiple simultaneous requests, reducing failed simulations from state/results upload errors.",
+        category: "Administration"
+      }
+    ]
+  },
+  {
     id: "5.5",
     version: "5.5",
     releaseDate: "2014-11-01",
