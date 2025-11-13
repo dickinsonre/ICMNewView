@@ -465,6 +465,115 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "7.0",
+    version: "7.0",
+    releaseDate: "2016-05-01",
+    features: [
+      {
+        id: "7.0-1d-diffusion",
+        title: "1D Diffusion for Water Quality",
+        description: "1D simulation engine now supports diffusion of determinants along pre-determined links (river reaches, bridges, channels, conduits) after advection calculation, with estuary or river condition options.",
+        category: "Water Quality"
+      },
+      {
+        id: "7.0-gpu-water-quality",
+        title: "GPU 2D Engine Water Quality Support",
+        description: "GPU 2D Engine now supports water quality processes (built-in and user-defined) and water quality decay pollutants.",
+        category: "Water Quality"
+      },
+      {
+        id: "7.0-geocoding",
+        title: "Third-Party Geocoding Services",
+        description: "Find addresses within InfoWorks ICM using web map applications from Google, Bing, or Nomination provider via Online Find Options (Geocoding) and GeoPlan Find/Go To XY Coordinates tools.",
+        category: "Integration"
+      },
+      {
+        id: "7.0-tsdb-alphanumeric",
+        title: "Alphanumeric Time Series Data in TSDB",
+        description: "Define lookup tables mapping alphanumeric text from imported time varying data into numerical values recognized by InfoWorks ICM, assignable to relevant TSDB data streams.",
+        category: "Data Management"
+      },
+      {
+        id: "7.0-clark-routing",
+        title: "Clark Runoff Routing Model",
+        description: "Clark routing model using Clark unit hydrograph method now available for subcatchments, extending runoff routing model choices for rainfall drainage timing.",
+        category: "Hydrology"
+      },
+      {
+        id: "7.0-groundwater-routing",
+        title: "Separate Groundwater and Runoff Drainage Destinations",
+        description: "SWMM5 functionality allowing different destinations for groundwater and runoff in subcatchments with ground infiltration objects. Groundwater can flow to different node than runoff.",
+        category: "Hydrology"
+      },
+      {
+        id: "7.0-subcatchment-drain-to",
+        title: "Simplified Subcatchment Drainage Destination",
+        description: "New 'Drain to' field simplifies drainage destination specification by choosing object type with only applicable fields enabled for that type.",
+        category: "Usability"
+      },
+      {
+        id: "7.0-subcatchment-navigation",
+        title: "Navigate to Subcatchment Drainage Destinations",
+        description: "'To associated object' navigation option displays properties for subcatchment's drainage destination, enhancing object relationship navigation.",
+        category: "Usability"
+      },
+      {
+        id: "7.0-node-rainfall-display",
+        title: "Rainfall Display for Nodes Connected to 2D Elements",
+        description: "Nodes connected to 2D elements without associated subcatchments now show rainfall hyetograph for associated 2D element on pick graphs.",
+        category: "Visualization"
+      },
+      {
+        id: "7.0-arcgis-10-4",
+        title: "ArcGIS 10.4 Support",
+        description: "Support for ArcGIS version 10.4 when using ArcGIS Engine/ArcGIS Desktop map control.",
+        category: "Integration"
+      },
+      {
+        id: "7.0-horizontal-scrolling",
+        title: "Horizontal Scrolling in Long Section Views",
+        description: "Ctrl+Page Up (scroll left) and Ctrl+Page Down (scroll right) keyboard shortcuts for horizontal scrolling in long section views.",
+        category: "Usability"
+      },
+      {
+        id: "7.0-conveyance-editor",
+        title: "User-Definable Conveyance Data Editor",
+        description: "New Conveyance Data Editor for specifying user-definable conveyance data for river reaches. Type values or copy/edit calculated conveyance data, saved as user-defined data used in preference to calculated data.",
+        category: "Tools"
+      },
+      {
+        id: "7.0-gpu-performance",
+        title: "GPU Engine Performance Improvements",
+        description: "GPU engine processing time approximately 40% faster than Version 6.5 (model/machine dependent). Simulation compilation time unchanged.",
+        category: "Performance"
+      },
+      {
+        id: "7.0-tvd-sql-expressions",
+        title: "SQL Expressions for TVD Connectors",
+        description: "Add SQL expressions to TVD connectors for transforming TSDB data into model-appropriate values via TVD Connector SQL Expression Dialog.",
+        category: "Development"
+      },
+      {
+        id: "7.0-find-improvements",
+        title: "Database Find Improvements",
+        description: "Faster database item finding with new 'Match whole field' option limiting search extent and reversed search criteria order.",
+        category: "Usability"
+      },
+      {
+        id: "7.0-refh-c-results",
+        title: "REFH_C Soil Moisture Content Results Attribute",
+        description: "New 'REFH_C' results attribute showing soil moisture content value used in ReFH model simulations, distinguishing state file usage differences.",
+        category: "Results"
+      },
+      {
+        id: "7.0-find-column",
+        title: "Find Column in Grid",
+        description: "Find Column In Grid Dialog accessible via column header context menu for easier column location in grid tables with drop-down selection.",
+        category: "Usability"
+      }
+    ]
+  },
+  {
     id: "6.5",
     version: "6.5",
     releaseDate: "2015-11-01",
