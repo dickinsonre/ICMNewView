@@ -465,6 +465,139 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2.5",
+    version: "2.5",
+    releaseDate: "2012-02-01",
+    features: [
+      {
+        id: "2.5-polygon-tools",
+        title: "Enhanced Polygon and Polyline Tools",
+        description: "Polygon cropping tool extended to include polylines, allowing all polygon and polyline objects to be cropped against each other. New Close Gaps and Overlaps tool for cleaning up polygons/polylines prior to 2D meshing.",
+        category: "Modeling"
+      },
+      {
+        id: "2.5-linear-structures",
+        title: "2D Linear Structure Objects",
+        description: "New Linear Structure (2D) object for representing wall and weir structures in 2D simulations, superseding the Porous Wall object (retained for backwards compatibility).",
+        category: "Modeling"
+      },
+      {
+        id: "2.5-general-point",
+        title: "General Point Object",
+        description: "New General Point object for storing surveyed point data to provide elevation data when creating TIN ground models.",
+        category: "Data Management"
+      },
+      {
+        id: "2.5-inlet-types",
+        title: "New Inlet Types",
+        description: "New UPC Grate inlet type (from Universitat Politècnica de Catalunya) as alternative to HEC-22 continuous grate, plus new Inlet 2D flood type allowing head discharge relationships between manholes and 2D mesh.",
+        category: "Modeling"
+      },
+      {
+        id: "2.5-grid-organization",
+        title: "Network Object Grid Window Reorganization",
+        description: "Grid windows reorganized by geometry types with new Lines and Points grids added, 2D grid removed with objects moved to Polygons/Lines/Points grids, River Lines grid consolidated into Lines grid.",
+        category: "Usability"
+      },
+      {
+        id: "2.5-rs-import",
+        title: "Enhanced RS CSV Importer",
+        description: "Expanded InfoWorks RS CSV import to include subcatchments, conduits (circular/rectangular/sprung arch), weirs, culvert inlets/outlets, open orifices, floodplain sections, and vertical sluices.",
+        category: "Data Management"
+      },
+      {
+        id: "2.5-agent-meshing",
+        title: "Improved Simulation Agent Meshing",
+        description: "Agent mesher enhanced to support GIS files and layers in meshing process, completely replacing old 'online' method that blocked UI during meshing. Includes more accurate ground level interpolation with sampling within triangles.",
+        category: "Meshing"
+      },
+      {
+        id: "2.5-terrain-sensitive",
+        title: "Terrain-Sensitive Meshing",
+        description: "New terrain-sensitive meshing option for 2D zones to increase mesh resolution in areas with large height variation while maintaining lower resolution in flat areas using iterative triangle splitting based on maximum height variation.",
+        category: "Meshing"
+      },
+      {
+        id: "2.5-2d-performance",
+        title: "2D Engine Performance Enhancements",
+        description: "Major performance improvements including spatial sorting of mesh triangles during meshing for memory clustering, aggregation of virtual element faces to reduce operations per timestep, and optimized bank connection activation.",
+        category: "Performance"
+      },
+      {
+        id: "2.5-custom-labels",
+        title: "River Section and 2D Element Results in Custom Labels",
+        description: "Custom labeling now supports river reach sections/banks and 2D zone mesh elements with sub-object results fields available in Custom Label Settings.",
+        category: "Results"
+      },
+      {
+        id: "2.5-ui-tools",
+        title: "UI and Usability Enhancements",
+        description: "New Move Selection tool for dragging objects on GeoPlan, adjustable field name width in Object Properties Window, scale bar display toggle option, and improved recycle bin with deletion date and user information.",
+        category: "Usability"
+      },
+      {
+        id: "2.5-version-control",
+        title: "Version Control Branch Deletion",
+        description: "Ability to delete branches of version controlled items (networks, etc.) by sending them to Recycle Bin via Explorer Window context menu.",
+        category: "Version Control"
+      },
+      {
+        id: "2.5-standalone-2d",
+        title: "Standalone 2D Simulations",
+        description: "2D simulations can now run without requiring a 1D network to be present, enabling pure 2D-only modeling.",
+        category: "Modeling"
+      },
+      {
+        id: "2.5-simulation-params",
+        title: "Enhanced Simulation Parameters",
+        description: "New 'Use 2D elevations instead of depths' parameter to handle ground level discrepancies between manholes and 2D mesh, preventing oscillating flows. Option to use initial states regardless of boundary condition matching.",
+        category: "Modeling"
+      },
+      {
+        id: "2.5-water-quality-init",
+        title: "Water Quality Initialization Changes",
+        description: "Number of initial state steps default changed from 3 to -1 (no initialization) as use of values > 0 is deprecated. Runoff-only simulation states can no longer be saved or used as initial states.",
+        category: "Water Quality"
+      },
+      {
+        id: "2.5-gauge-changes",
+        title: "Automatic Gauging Changes",
+        description: "Links connected to outfalls no longer automatically gauged to prevent unnecessary result data generation. Gauge results only generated for links in Additional Links to be Gauged selection list.",
+        category: "Results"
+      },
+      {
+        id: "2.5-log-enhancements",
+        title: "Simulation Log File Enhancements",
+        description: "Improved logging with unconverged object counts in timestep logs, better composite object reporting with meaningful suffixes, conditional 2D volume balance linkage errors, and enhanced 2D network loading feedback.",
+        category: "Performance"
+      },
+      {
+        id: "2.5-local-steady-state",
+        title: "Local Steady State Detection",
+        description: "2D engine now checks for local steady state in individual mesh elements rather than global zone-wide state, significantly improving simulation speed for large zones with independent flooded areas.",
+        category: "Performance"
+      },
+      {
+        id: "2.5-engine-improvements",
+        title: "Simulation Engine Improvements",
+        description: "New weir-based model for flood type 'Lost' improving stability and accuracy, improved conveyance calculations for Colebrook-White roughness removing pipe slope assumptions, and double precision for 2D level/depth initial conditions.",
+        category: "Performance"
+      },
+      {
+        id: "2.5-gis-enhancements",
+        title: "GIS and Mapping Enhancements",
+        description: "Web Map Service (WMS) images supported in MapXtreme GeoPlans, geographic coordinate transformations for ArcObjects/ArcEngine, feature dataset support in ArcObjects, and US survey feet option for gridded ground models.",
+        category: "Integration"
+      },
+      {
+        id: "2.5-autofilter",
+        title: "Autofilter in Grid Windows",
+        description: "Network object grid windows now support autofiltering with up to two simultaneous filters, allowing selective data display using comparison operators and values via new Filter Options dialog.",
+        category: "Usability"
+      }
+    ]
+  },
+  {
     id: "2.0",
     version: "2.0",
     releaseDate: "2011-08-01",
