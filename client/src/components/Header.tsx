@@ -5,9 +5,10 @@ import ThemeToggle from "./ThemeToggle";
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
+  onShowDocumentation?: () => void;
 }
 
-export default function Header({ onSearch }: HeaderProps) {
+export default function Header({ onSearch, onShowDocumentation }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between gap-4 px-6">
@@ -36,7 +37,12 @@ export default function Header({ onSearch }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" data-testid="button-info">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={onShowDocumentation}
+            data-testid="button-info"
+          >
             <Info className="h-5 w-5" />
           </Button>
           <ThemeToggle />

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, RefObject } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { Feature } from "./FeatureCard";
 
 interface Version {
+  id: string;
   version: string;
   releaseDate: string;
   features: Feature[];
@@ -13,9 +14,10 @@ interface Version {
 interface TimelineViewProps {
   versions: Version[];
   onFeatureClick?: (feature: Feature) => void;
+  versionRefs?: RefObject<Map<string, HTMLDivElement>>;
 }
 
-export default function TimelineView({ versions, onFeatureClick }: TimelineViewProps) {
+export default function TimelineView({ versions, onFeatureClick, versionRefs }: TimelineViewProps) {
   const [expandedVersion, setExpandedVersion] = useState<string | null>(versions[0]?.version || null);
 
   return (
@@ -24,7 +26,15 @@ export default function TimelineView({ versions, onFeatureClick }: TimelineViewP
       
       <div className="space-y-8">
         {versions.map((version, idx) => (
-          <div key={version.version} className="relative pl-20">
+          <div 
+            key={version.version} 
+            className="relative pl-20"
+            ref={(el) => {
+              if (el && versionRefs?.current) {
+                versionRefs.current.set(version.id, el);
+              }
+            }}
+          >
             <div className="absolute left-6 top-2 w-4 h-4 rounded-full bg-primary border-4 border-background ring-4 ring-border" />
             
             <div className="space-y-4">

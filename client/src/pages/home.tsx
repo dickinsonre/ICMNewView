@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import ChatSidebar from "@/components/ChatSidebar";
 import TimelineView from "@/components/TimelineView";
 import FeatureDetailModal from "@/components/FeatureDetailModal";
+import DocumentationSheet from "@/components/DocumentationSheet";
+import VersionNavigator from "@/components/VersionNavigator";
 import type { Feature } from "@/components/FeatureCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Version } from "@shared/schema";
@@ -11,6 +13,8 @@ import type { Version } from "@shared/schema";
 export default function HomePage() {
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showDocumentation, setShowDocumentation] = useState(false);
+  const versionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: versions, isLoading } = useQuery<Version[]>({
     queryKey: ["/api/versions"],
@@ -32,18 +36,38 @@ export default function HomePage() {
       )
   })).filter(version => version.features.length > 0);
 
+  const handleVersionNavigate = (versionId: string) => {
+    const element = versionRefs.current.get(versionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="flex h-screen flex-col">
-      <Header onSearch={setSearchQuery} />
+      <Header 
+        onSearch={setSearchQuery}
+        onShowDocumentation={() => setShowDocumentation(true)}
+      />
       
       <div className="flex flex-1 overflow-hidden">
         <ScrollArea className="flex-1">
           <div className="container py-8 px-6">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2">Release Timeline</h2>
-              <p className="text-muted-foreground">
-                Explore the latest features and improvements in ICM InfoWorks
-              </p>
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-3xl font-bold mb-2">Release Timeline</h2>
+                  <p className="text-muted-foreground">
+                    Explore the latest features and improvements in ICM InfoWorks
+                  </p>
+                </div>
+                {versions && versions.length > 0 && (
+                  <VersionNavigator
+                    versions={versions}
+                    onNavigate={handleVersionNavigate}
+                  />
+                )}
+              </div>
             </div>
 
             {isLoading ? (
@@ -58,6 +82,7 @@ export default function HomePage() {
               <TimelineView
                 versions={filteredVersions}
                 onFeatureClick={setSelectedFeature}
+                versionRefs={versionRefs}
               />
             )}
           </div>
@@ -72,6 +97,11 @@ export default function HomePage() {
         feature={selectedFeature}
         open={!!selectedFeature}
         onClose={() => setSelectedFeature(null)}
+      />
+      
+      <DocumentationSheet
+        open={showDocumentation}
+        onClose={() => setShowDocumentation(false)}
       />
     </div>
   );
