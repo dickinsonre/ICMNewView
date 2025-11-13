@@ -465,6 +465,193 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "7.5",
+    version: "7.5",
+    releaseDate: "2016-11-01",
+    features: [
+      {
+        id: "7.5-pdm-calibration",
+        title: "PDM Automatic Calibration",
+        description: "Automatic calibration of PDM Descriptor parameters for subcatchment runoff modeling using TSDB-supplied observed data via Nelder-Mead simplex minimization procedure.",
+        category: "Hydrology"
+      },
+      {
+        id: "7.5-refh-baseflow-scaling",
+        title: "ReFH Initial Baseflow Subcatchment Scaling",
+        description: "ReFH initial baseflow scaled proportionally to subcatchment area (not catchment). Options for Profile Properties, Rainfall Generator, and global settings with subcatchment-specific precedence via ReFH Subcatchment tab.",
+        category: "Hydrology"
+      },
+      {
+        id: "7.5-risk-analysis-export",
+        title: "Risk Analysis Results Export",
+        description: "Export results from risk analysis simulations and risk analysis result objects to GIS format files or via Open Data Export Centre.",
+        category: "Results"
+      },
+      {
+        id: "7.5-risk-analysis-sql",
+        title: "Risk Analysis in SQL Selections",
+        description: "Include risk analysis simulation and result object data in SQL queries via new 'risk' Field Type option for loaded GeoPlan networks.",
+        category: "Development"
+      },
+      {
+        id: "7.5-enhanced-3d-view",
+        title: "Enhanced 3D Network View",
+        description: "Improved performance and visual representation with realistic water/sky rendering. Displays whole network instead of restriction to currently-open GeoPlan area.",
+        category: "Visualization"
+      },
+      {
+        id: "7.5-piers-editor",
+        title: "Improved Piers Editor Usability",
+        description: "Bridge pier location/geometry editor enhanced with Pier ID selection list and graph display of selected Pier ID points.",
+        category: "Usability"
+      },
+      {
+        id: "7.5-refh-volume-conservation",
+        title: "ReFH Runoff Model Volume Conservation",
+        description: "Water balance closure method (Wallingford Hydro Solutions) modifying ReFH baseflow calculation to phase out direct runoff component contribution. ReFH remains event-based (not continuous).",
+        category: "Modeling"
+      },
+      {
+        id: "7.5-subcatchment-population-warnings",
+        title: "Subcatchment Population Value Warnings",
+        description: "HTML log file warnings for subcatchments with likely incorrect population values from address/census data due to invalid geometry. Supports Insert Vertices and spur removal corrections.",
+        category: "Data Management"
+      },
+      {
+        id: "7.5-job-progress-2d",
+        title: "Enhanced Job Progress Window for 2D Runs",
+        description: "New fields providing progress information for 2D zone elements during simulations in Job Progress Window.",
+        category: "Usability"
+      },
+      {
+        id: "7.5-damage-function-enhancements",
+        title: "Damage Function Grid Editor Enhancements",
+        description: "Generate multiple damage curves per receptor with different periods (start/end dates), up to 4 curves per period, linear/stepped interpolation methods, and up to 10 velocity-dependent curves in Damage Function Graph Dialog.",
+        category: "Modeling"
+      },
+      {
+        id: "7.5-insert-vertices-intersections",
+        title: "Insert Vertices at Intersections",
+        description: "New Geometry option automatically inserting vertices where polygon object boundaries (subcatchments, network polygons) intersect with GIS or network polygon objects.",
+        category: "Tools"
+      },
+      {
+        id: "7.5-geometry-simplification",
+        title: "Enhanced Object Geometry Simplification",
+        description: "Polygon thinning with spur removal (regions narrower than specified width) and area constraint ensuring polygons aren't over-thinned by reinstating vertices when area change exceeds limits.",
+        category: "Tools"
+      },
+      {
+        id: "7.5-feh2013-rainfall",
+        title: "FEH2013 Design Rainfall Generator",
+        description: "Generate rainfall events from Flood Estimation Handbook web service XML downloads via ReFH2 application (Wallingford HydroSolutions) producing appropriate rainfall hyetographs. Requires FEH web service access and ReFH2 license.",
+        category: "Hydrology"
+      },
+      {
+        id: "7.5-live-tsdb-alerts",
+        title: "Alerts on Live TSDB Data",
+        description: "Alert on real-time TSDB data (not just TVD connector results). New 'live_data' choice in Target field A/B for Alert Definition List extracting data when alert engine runs.",
+        category: "Data Management"
+      },
+      {
+        id: "7.5-tsdb-formats",
+        title: "New Spatial TSDB Data Formats",
+        description: "Binary grid format for observed/forecast data with Raw Binary File Configuration. FURUNO GRIB2 radar format support. Shanghai Met (forecast) radar format option.",
+        category: "Data Management"
+      },
+      {
+        id: "7.5-tide-sql-expression",
+        title: "TIDE SQL Expression for TVD Connectors",
+        description: "New SQL expression for TVD connectors calculating tidal harmonics during simulation runs via TVD Connector SQL Expression Dialog.",
+        category: "Development"
+      },
+      {
+        id: "7.5-2d-depths-coordinates",
+        title: "2D Depths in Coordinates Panel",
+        description: "GeoPlan Properties/Theme Visual tab option displaying 2D depths in Coordinates Panel on Status Bar when simulation results opened.",
+        category: "Visualization"
+      },
+      {
+        id: "7.5-suds-lid-enhancements",
+        title: "SUDS/LID Simulation Enhancements",
+        description: "SWMM SUDS/LID text report with control/performance summaries and SWMM5 errors. Water quality support (SWMM WQ LIDs component). Drain flow included in time-varying and non-time-varying subcatchment results.",
+        category: "Modeling"
+      },
+      {
+        id: "7.5-geodatabase-odic",
+        title: "Geodatabase Import via ODIC",
+        description: "Import Geodatabase tables using Open Data Import Centre (ODIC).",
+        category: "Integration"
+      },
+      {
+        id: "7.5-sql-array-flags",
+        title: "Array Field Flags in SQL Queries",
+        description: "Use data flags on array fields (e.g., river section data) in SQL queries.",
+        category: "Development"
+      },
+      {
+        id: "7.5-flood-contour-export",
+        title: "Batch Export of Maximum Flood Contours",
+        description: "Export maximum flood contours from multiple simulations to MapInfo MIF/TAB or ESRI Shape/ASCII Grid files via Results menu.",
+        category: "Results"
+      },
+      {
+        id: "7.5-template-network",
+        title: "Template Network Support",
+        description: "Define existing networks as templates (specific version or always latest). New networks based on template inherit all network objects from template at creation.",
+        category: "Administration"
+      },
+      {
+        id: "7.5-sediment-log-data",
+        title: "Sediment Data in Run Log Files",
+        description: "Summary sediment results in log files: cumulative mass balance, balance per fraction, deposit/initial/final bed levels per river section, and material sizes (multi-fraction models).",
+        category: "Results"
+      },
+      {
+        id: "7.5-gpu-multi-simulations",
+        title: "Multiple Simulations Per GPU Card",
+        description: "Run multiple simulations simultaneously on same GPU card (previously one per card). Job Agent automatically assigns simulations to cards with fewest assignments. Configurable via Agent Options Custom settings.",
+        category: "Performance"
+      },
+      {
+        id: "7.5-gpu-wq-diffusion",
+        title: "GPU Water Quality Diffusion for 2D Engine",
+        description: "GPU card support for 2D Water Quality Diffusion calculations via 2D Parameters dialog options.",
+        category: "Water Quality"
+      },
+      {
+        id: "7.5-conveyance-highlighting",
+        title: "User-Defined Conveyance Data Highlighting",
+        description: "River reach cross-sections with user-defined conveyance values displayed in bold in Conveyance Data Editor Sections list.",
+        category: "Usability"
+      },
+      {
+        id: "7.5-statistical-reports-version",
+        title: "Network Version Numbers in Statistical Reports",
+        description: "Statistical reports now include network version numbers for tracking and documentation.",
+        category: "Results"
+      },
+      {
+        id: "7.5-sql-nearest-option",
+        title: "SQL Spatial Search Nearest Option",
+        description: "New 'Nearest' option in SQL spatial searches finding nearest single object of selected type within specified distance.",
+        category: "Development"
+      },
+      {
+        id: "7.5-property-editor-features",
+        title: "Object Property Editor Usability Improvements",
+        description: "Return key invokes dialogs (Notes, Hyperlinks) instead of Ellipsis button. 'Open all groups' and 'Close all groups' popup menu options for expanding/contracting field groups.",
+        category: "Usability"
+      },
+      {
+        id: "7.5-alternative-coordinate-system",
+        title: "Set Alternative Coordinate System",
+        description: "Renamed from 'Set online map projection' for clarity. Specify online map projection system for databases without map control to enable online maps.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "7.0",
     version: "7.0",
     releaseDate: "2016-05-01",
