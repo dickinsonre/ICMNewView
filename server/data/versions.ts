@@ -155,6 +155,125 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2025.4",
+    version: "2025.4",
+    releaseDate: "2024-10-01",
+    features: [
+      {
+        id: "2025.4-viewer",
+        title: "Autodesk InfoWorks ICM Viewer",
+        description: "New viewer allowing users to view model data and analyze existing results without needing an Autodesk licence, only an Autodesk account required.",
+        category: "Product"
+      },
+      {
+        id: "2025.4-2d-histogram",
+        title: "2D Mesh Element Histograms",
+        description: "New feature to identify 2D mesh element areas smaller than specified minimum element size, helping detect model instability and simulation performance issues.",
+        category: "Meshing"
+      },
+      {
+        id: "2025.4-results-element",
+        title: "Results element 2D objects",
+        description: "Results Analysis database items can now contain read-only Results element 2D objects automatically generated from 2D Mesh Element Histogram for mesh inspection.",
+        category: "Results"
+      },
+      {
+        id: "2025.4-swmm-results",
+        title: "Results analysis for SWMM networks",
+        description: "Result analysis items now available for SWMM networks with Results point, line, polygon objects and Results element objects for 2D mesh interrogation.",
+        category: "SWMM"
+      },
+      {
+        id: "2025.4-muskingum",
+        title: "Muskingum output routing method for InfoWorks subcatchments",
+        description: "New Muskingum routing option for subcatchment outflow through notional reach with travel time and discharge weighting factor.",
+        category: "Hydrology"
+      },
+      {
+        id: "2025.4-rpa-export",
+        title: "Exporting Return Period Analysis grid report to CSV",
+        description: "New Export CSV button added to RPA report view for exporting results data to CSV files.",
+        category: "Results"
+      },
+      {
+        id: "2025.4-ruby-rpa",
+        title: "Exporting RPA data to CSV using Ruby scripting",
+        description: "New rpa_export Ruby script method for programmatically exporting RPA results to CSV.",
+        category: "Development"
+      },
+      {
+        id: "2025.4-ruby-rainfall",
+        title: "Adding design rainfall events using Ruby scripting",
+        description: "New new_synthetic_rainfall Ruby method for adding design rainfall events to models programmatically.",
+        category: "Development"
+      },
+      {
+        id: "2025.4-ruby-tsd",
+        title: "Adding TSD objects using Ruby scripting",
+        description: "New WSTSDObject class for adding TSD objects to database and accessing time series data via WSOpenTSD class methods.",
+        category: "Development"
+      },
+      {
+        id: "2025.4-state-performance",
+        title: "State file initialisation time improvement",
+        description: "Loading state files from simulations with different 2D meshes now 10-15 times faster, reducing initialisation time significantly.",
+        category: "Performance"
+      }
+    ]
+  },
+  {
+    id: "2025.3",
+    version: "2025.3",
+    releaseDate: "2024-09-01",
+    features: [
+      {
+        id: "2025.3-placeholder",
+        title: "Version 2025.3 Features",
+        description: "Features for version 2025.3 - September 2024. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "2025.2",
+    version: "2025.2",
+    releaseDate: "2024-07-01",
+    features: [
+      {
+        id: "2025.2-placeholder",
+        title: "Version 2025.2 Features",
+        description: "Features for version 2025.2 - July 2024. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "2025.1",
+    version: "2025.1",
+    releaseDate: "2024-05-01",
+    features: [
+      {
+        id: "2025.1-placeholder",
+        title: "Version 2025.1 Features",
+        description: "Features for version 2025.1 - May 2024. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "2025.0",
+    version: "2025.0",
+    releaseDate: "2024-04-01",
+    features: [
+      {
+        id: "2025.0-placeholder",
+        title: "Version 2025.0 Features",
+        description: "Features for version 2025.0 - April 2024. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
     id: "2025.5",
     version: "2025.5",
     releaseDate: "2024-11-01",
@@ -182,6 +301,32 @@ export const versionsData: Version[] = [
         title: "NetCDF File Formats for Spatial TSD Objects",
         description: "Extended support for NetCDF source projection formats. Data on Latitude Longitude grid with WGS84 datum can be imported using NetCDF AUS.BOM option.",
         category: "Data Management"
+      }
+    ]
+  },
+  {
+    id: "2024.4",
+    version: "2024.4",
+    releaseDate: "2023-11-01",
+    features: [
+      {
+        id: "2024.4-placeholder",
+        title: "Version 2024.4 Features",
+        description: "Features for version 2024.4 - November 2023. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "2024.3",
+    version: "2024.3",
+    releaseDate: "2023-09-01",
+    features: [
+      {
+        id: "2024.3-placeholder",
+        title: "Version 2024.3 Features",
+        description: "Features for version 2024.3 - September 2023. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
       }
     ]
   },
@@ -225,6 +370,110 @@ export const versionsData: Version[] = [
         title: "Increased Values for Equivalent Manning's n",
         description: "RAFTS routing model limits for Equivalent Manning's n increased from 0.01-0.1 to 0.001-2.0. Values above 0.25 trigger warnings. PERN values for >0.1 found by linear extrapolation.",
         category: "Hydrology"
+      }
+    ]
+  },
+  {
+    id: "2024.1",
+    version: "2024.1",
+    releaseDate: "2023-05-01",
+    features: [
+      {
+        id: "2024.1-placeholder",
+        title: "Version 2024.1 Features",
+        description: "Features for version 2024.1. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "2024.0",
+    version: "2024.0",
+    releaseDate: "2023-04-01",
+    features: [
+      {
+        id: "2024.0-placeholder",
+        title: "Version 2024.0 Features - Cloud Capabilities Introduction",
+        description: "Features for version 2024.0 - introduced cloud integration. Please provide the full 'What's New' content to populate this version.",
+        category: "Cloud"
+      }
+    ]
+  },
+  {
+    id: "11.0",
+    version: "11.0",
+    releaseDate: "2020-05-01",
+    features: [
+      {
+        id: "11.0-placeholder",
+        title: "Version 11.0 Features",
+        description: "Features for version 11.0 - May 2020. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "10.5",
+    version: "10.5",
+    releaseDate: "2019-12-01",
+    features: [
+      {
+        id: "10.5-placeholder",
+        title: "Version 10.5 Features",
+        description: "Features for version 10.5 - December 2019. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "10.0",
+    version: "10.0",
+    releaseDate: "2019-05-01",
+    features: [
+      {
+        id: "10.0-placeholder",
+        title: "Version 10.0 Features",
+        description: "Features for version 10.0 - May 2019. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "9.5",
+    version: "9.5",
+    releaseDate: "2018-11-01",
+    features: [
+      {
+        id: "9.5-placeholder",
+        title: "Version 9.5 Features",
+        description: "Features for version 9.5 - November 2018. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "9.0",
+    version: "9.0",
+    releaseDate: "2018-05-01",
+    features: [
+      {
+        id: "9.0-placeholder",
+        title: "Version 9.0 Features",
+        description: "Features for version 9.0 - May 2018. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
+      }
+    ]
+  },
+  {
+    id: "2.0",
+    version: "2.0",
+    releaseDate: "2011-08-01",
+    features: [
+      {
+        id: "2.0-placeholder",
+        title: "Version 2.0 Features",
+        description: "Features for version 2.0 - August 2011. Please provide the full 'What's New' content to populate this version.",
+        category: "General"
       }
     ]
   }
