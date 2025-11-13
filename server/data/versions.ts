@@ -400,6 +400,73 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.4",
+    version: "2021.4",
+    releaseDate: "2021-05-01",
+    features: [
+      {
+        id: "2021.4-roughness-definitions-infoworks",
+        title: "Roughness Definitions for InfoWorks Networks",
+        description: "Non-visual polygon objects define roughness as depth function in 2D Zone mesh elements. Manning's n changes dynamically during simulation. Up to three roughness values and two depth thresholds. Multiple roughness values create smoothed step function with cubic spline transitions. New Roughness definition field in 2D Zones and Roughness Zones properties. Legacy Roughness (Manning's n) field retained for backwards compatibility.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.4-finite-volume-solver",
+        title: "Finite Volume Solution Model for InfoWorks Conduits",
+        description: "New Finite Volume solution model option for InfoWorks conduits models complex trans-critical flow scenarios, resolving hydraulic jumps within conduits. Prototype solver - results should be verified before engineering use. Set Solution model to FiniteVolume in conduit properties to use.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.4-malaysia-hp1-2015",
+        title: "Malaysia HP1 2015 Rainfall Design",
+        description: "New Malaysia Rainfall HP1 2015 design option based on Hydrological Procedure No 1 (Revised and Updated 2015) from Malaysia Department of Irrigation and Drainage. New fields: ARF (areal reduction factor) and Climate change factor. Area specifies catchment size. Extended ARI options (0.16, 0.25, 200). Updated Locations for five rainfall regions determining temporal patterns. IDF polynomial equation coefficients required.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.4-hydx-importer",
+        title: "HYDX Importer Improvements",
+        description: "XPRAFTS node type 134 now imports as Manhole when connected to network (previously Break type). Unconnected type 134 nodes still import as Break. Node Ground level now set to upstream/downstream channel link invert value plus highest depth of channel profile.",
+        category: "Integration"
+      },
+      {
+        id: "2021.4-xpx-infoworks-import",
+        title: "Importing XPSWMM/XPStorm Data to InfoWorks Networks",
+        description: "Network data from XPSWMM/XPStorm xpx files can now be imported into InfoWorks networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.4-swmm-flooding-coefficient",
+        title: "2D Node Flooding Discharge Coefficient for SWMM",
+        description: "New Flooding discharge coefficient property for SWMM nodes specifies discharge coefficient for orifice flow equations calculating flooding at 2D nodes. Default coefficient: 0.5 if no value specified.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.4-xpx-swmm-2d-import",
+        title: "Importing 2D Objects from XPSWMM/XPStorm to SWMM",
+        description: "Import 2D objects from XPSWMM/XPStorm xpx format files to polygon objects in SWMM networks.",
+        category: "Integration"
+      },
+      {
+        id: "2021.4-grid-sum-average",
+        title: "Sum and Average Display in Grid Windows",
+        description: "Display sum and average values of selected numeric network object properties or results (area, flood volume, etc.) in status bar. Activated via Autosum option from Grid menu or Modelling Grid Windows toolbar when relevant cells selected in grid window.",
+        category: "Usability"
+      },
+      {
+        id: "2021.4-swmm-roughness-zones",
+        title: "Roughness Zones for SWMM Networks",
+        description: "Roughness Zones can now be added to SWMM networks to divide 2D Zones into regions of different roughness. Automatically included in mesh generation process when creating 2D mesh.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.4-swmm-mesh-level-zones",
+        title: "Mesh Level Zones for SWMM Networks",
+        description: "Mesh Level Zones divide SWMM 2D Zones into regions where mesh element elevations are modified based on ground model elevations or user-defined values. Provides detailed representation of structures (roads, embankments). Included in mesh generation process.",
+        category: "SWMM"
+      }
+    ]
+  },
+  {
     id: "2021.5",
     version: "2021.5",
     releaseDate: "2021-06-01",
