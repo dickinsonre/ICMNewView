@@ -400,6 +400,115 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2023.2",
+    version: "2023.2",
+    releaseDate: "2022-10-01",
+    features: [
+      {
+        id: "2023.2-overlapping-roughness-zones",
+        title: "Overlapping Roughness Zones with Priority-Based Meshing",
+        description: "Priority field for roughness zones enables clip meshing with overlapping zones. Lowest priority value takes precedence in overlapping areas. Mesh triangles assigned roughness based on zone priority, eliminating need for manual geometry editing. Requires priority assignment and unique values per 2D zone.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.2-mesh-size-limit-error",
+        title: "Mesh Size Limit Error Logging",
+        description: "New message in Mesh 2D zones log alerts when mesh data (vertices, edges, triangles, elements) exceeds storage limits based on aggregation and geometry complexity.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.2-ground-model-theme",
+        title: "Ground Model Theme Editor Enhancements",
+        description: "New Value Range section in layer theme editor with Restrict range box for Min/Max elevation specification. Editable Value count in Ranged Themes grid with automatic value calculation based on distribution type.",
+        category: "Visualization"
+      },
+      {
+        id: "2023.2-cross-section-ground-update",
+        title: "Section Editor Ground Model Elevation Update",
+        description: "New Update from Ground Model button in Section Editor samples ground model to update existing cross section line vertex elevations. Updated levels displayed in editor grid and section profile graph.",
+        category: "Tools"
+      },
+      {
+        id: "2023.2-autodesk-license-status",
+        title: "Simulation Status for Autodesk License Loss",
+        description: "Simulation status set to 'incomplete' (not 'completed') when Autodesk license access lost during run. Results remain available until access lost with log message explaining status.",
+        category: "Administration"
+      },
+      {
+        id: "2023.2-alert-graph-trace-colors",
+        title: "Graph Trace Colors for Alert Definitions",
+        description: "New Graph trace property for alert definitions with Comparison operator and <FIXED VALUE> Target type B. Choose trace colors from palette or Windows Colors. Applies to results graphs, ICMLive custom graphs, and action email graphs.",
+        category: "Visualization"
+      },
+      {
+        id: "2023.2-noaa-aep",
+        title: "Annual Exceedance Probabilities (AEP) for NOAA Storm Generator",
+        description: "Annual maximum time series data now displays annual exceedance probabilities (AEP) on Event page. Corrects previous incorrect display as annual recurrence intervals (ARI).",
+        category: "Hydrology"
+      },
+      {
+        id: "2023.2-cnswmm-runoff-model",
+        title: "CNSWMM Runoff Volume Model for InfoWorks Subcatchments",
+        description: "New CNSWMM runoff volume model based on EPA SWMM Curve Number infiltration. Designed for multi-storm simulations with comparable Curve number model results. Requires Curve number and new Drying time property. CNSWMM Runoff volume type option for runoff surfaces with land use associations.",
+        category: "Hydrology"
+      },
+      {
+        id: "2023.2-swmm5-infiltration-export-import",
+        title: "SWMM5 Infiltration Data Export/Import Enhancement",
+        description: "Drying time and Curve number exported from InfoWorks subcatchments to SWMM5 [INFILTRATION] section DryTime/CurveNo fields. SWMM5 DryTime imported to Drying time field (new equivalent in ICM). CurveNo import to Curve number maintained.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-scs-runoff-models",
+        title: "SCS Runoff Models for SWMM Subcatchments",
+        description: "SCS_curvilinear and SCS_triangular runoff models using Natural Resources Conservation Service unit hydrographs. New Runoff model type field with SCS runoff section: Time of concentration, Hydraulic length, Shape factor, Initial abstraction type (Depth/Factor). Automatically sets Curve_number infiltration type. Default remains SWMM model.",
+        category: "Hydrology"
+      },
+      {
+        id: "2023.2-xpx-scs-import",
+        title: "SCS Hydrology Data Import from XPSWMM/XPStorm",
+        description: "Import SCS runoff routing data from XPX files to SWMM subcatchments: Runoff model type, Time of concentration, Shape factor, Initial abstraction type/values, Curve number fields.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-swmm5-initial-abstraction-export",
+        title: "Initial Abstraction Export to SWMM5 Files",
+        description: "Initial abstraction exported from SWMM subcatchments to [Innovyze_UnitHydrograph] section in SWMM5 text files.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-xpx-scs-infoworks-import",
+        title: "SCS Subcatchment Import Without Polygon Requirement",
+        description: "Removed polygon attachment restriction for XPX import to InfoWorks networks. SCS subcatchment data now imported regardless of polygon association, matching XPSWMM/XPStorm behavior.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-xpx-roughness-zone-import",
+        title: "Roughness Zone Import from XPSWMM/XPStorm",
+        description: "XPX data applicable to ICM roughness zones now imported as roughness zones (not porous polygons) for InfoWorks and SWMM networks.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-xpx-roughness-id-format",
+        title: "Roughness Zone ID Format Change for XPX Import",
+        description: "Roughness zone ID format changed from <Layer name>_<Layer ID>_<Polyline ID> to <Landuse ID>_<Count>. Imported from Landuse ID and Count XPX fields instead of Layer Name/Layer ID/Polygon ID.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-xpx-mannings-roughness",
+        title: "Manning's Roughness Import from XPSWMM/XPStorm",
+        description: "Constant Manning's roughness from XPX files imported to Roughness (Manning's n) property for roughness zones in InfoWorks/SWMM networks.",
+        category: "Integration"
+      },
+      {
+        id: "2023.2-rtc-precision-increase",
+        title: "RTC Regulator Precision Enhancement",
+        description: "Decimal places for RTC Regulator Rate of change (Positive/Negative) and Range Values (Maximum/Minimum) increased from three to eight for more precise flow, depth, and level specifications.",
+        category: "Modeling"
+      }
+    ]
+  },
+  {
     id: "11.0",
     version: "11.0",
     releaseDate: "2020-05-01",
