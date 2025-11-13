@@ -5,8 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Sparkles, Cpu } from "lucide-react";
 import ChatMessage, { ChatMessageProps } from "./ChatMessage";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ChatSidebar() {
+  const { toast } = useToast();
   const [activeModel, setActiveModel] = useState<"claude" | "deepseek">("claude");
   const [claudeMessages, setClaudeMessages] = useState<ChatMessageProps[]>([]);
   const [deepseekMessages, setDeepseekMessages] = useState<ChatMessageProps[]>([]);
@@ -20,13 +23,15 @@ export default function ChatSidebar() {
     }
   }, [claudeMessages, deepseekMessages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: ChatMessageProps = {
       role: "user",
       content: input.trim(),
     };
+
+    const currentMessages = activeModel === "claude" ? claudeMessages : deepseekMessages;
 
     if (activeModel === "claude") {
       setClaudeMessages((prev) => [...prev, userMessage]);
@@ -37,11 +42,21 @@ export default function ChatSidebar() {
     setInput("");
     setIsLoading(true);
 
-    // TODO: remove mock functionality - replace with real API call
-    setTimeout(() => {
+    try {
+      const endpoint = activeModel === "claude" ? "/api/chat/claude" : "/api/chat/deepseek";
+      const response = await apiRequest(
+        "POST",
+        endpoint,
+        {
+          messages: [...currentMessages, userMessage]
+        }
+      );
+
+      const data = await response.json() as { message: string };
+
       const aiMessage: ChatMessageProps = {
         role: "assistant",
-        content: `This is a ${activeModel === "claude" ? "Claude Sonnet" : "DeepSeek"} response to: "${userMessage.content}". In production, this will connect to the actual AI API.`,
+        content: data.message,
         model: activeModel,
       };
 
@@ -50,8 +65,30 @@ export default function ChatSidebar() {
       } else {
         setDeepseekMessages((prev) => [...prev, aiMessage]);
       }
+    } catch (error) {
+      console.error("Chat API error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Sorry, I encountered an error. Please try again.";
+      
+      toast({
+        variant: "destructive",
+        title: "Chat Error",
+        description: errorMessage,
+      });
+
+      const chatErrorMessage: ChatMessageProps = {
+        role: "assistant",
+        content: errorMessage,
+        model: activeModel,
+      };
+
+      if (activeModel === "claude") {
+        setClaudeMessages((prev) => [...prev, chatErrorMessage]);
+      } else {
+        setDeepseekMessages((prev) => [...prev, chatErrorMessage]);
+      }
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const currentMessages = activeModel === "claude" ? claudeMessages : deepseekMessages;
