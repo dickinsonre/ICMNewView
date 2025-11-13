@@ -400,6 +400,37 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.7",
+    version: "2021.7",
+    releaseDate: "2021-09-01",
+    features: [
+      {
+        id: "2021.7-noaa-rainfall-generator",
+        title: "NOAA ATLAS 14 Rainfall Generator",
+        description: "New NOAA ATLAS 14 Rainfall Generator downloads data from NOAA's Precipitation Frequency Data Server (PFDS) for US locations. Generate precipitation frequency estimates with NOAA ATLAS 14 or NCRS Regional temporal distribution systems. Specify average recurrence intervals and durations for design rainfall events.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.7-thales-license-expiry",
+        title: "Expiry Warning for Thales Licences",
+        description: "Warning message displayed by default when Thales licence within one month of expiry (daily when within one week). Configurable via Remind me later option on warning dialog or Licence expiry date reminder option in General Page of Options Dialog.",
+        category: "Administration"
+      },
+      {
+        id: "2021.7-about-box-update",
+        title: "InfoWorks About Box Redesign",
+        description: "Updated About box displays licence agreement information, software version number, and licence name from dongle/server. Previous details (licence number, OS version, master database name/location) moved to new Additional Information window accessible via Additional Information button.",
+        category: "Usability"
+      },
+      {
+        id: "2021.7-xpx-scs-runoff-import",
+        title: "SCS Runoff Data Import from XPSWMM/XPStorm to InfoWorks",
+        description: "Import subcatchments using SCS Hydrology routing method from XPSWMM/XPStorm xpx files to InfoWorks networks as Subcatchment, Runoff surface, and Land use objects.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "2021.8",
     version: "2021.8",
     releaseDate: "2021-10-01",
