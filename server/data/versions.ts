@@ -465,6 +465,145 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "8.0",
+    version: "8.0",
+    releaseDate: "2017-05-01",
+    features: [
+      {
+        id: "8.0-tsdb-data-sources",
+        title: "New TSDB Data Sources: PI Web API and EA Rest API",
+        description: "Scalar TSDB data adaptor connects to PI or EA databases via PI Web API and EA Rest API application interfaces. UTC import for telemetry from PI, ClearSCADA, iHistorian fixing summer time offset issues.",
+        category: "Data Management"
+      },
+      {
+        id: "8.0-tvd-spatial-rainfall",
+        title: "TVD Connectors for Average Spatial Rainfall Queries",
+        description: "Create TVD connector with polygon geometry containing averaged spatial rainfall results from spatial TSDBs. Polygon can be located outside existing network with graph/grid result display.",
+        category: "Data Management"
+      },
+      {
+        id: "8.0-import-export-enhancements",
+        title: "Import/Export Enhancements",
+        description: "Ground model grid export to ESRI ASCII raster. Import multiple generic CSV files into single rainfall event. Enhanced CSV TVD import with cell-based profile naming and relative times support for rainfall events/flow surveys.",
+        category: "Data Management"
+      },
+      {
+        id: "8.0-custom-graphs-enhancements",
+        title: "Custom Graph Properties and X Axis Pages",
+        description: "New Properties page for Y-axis/parameters (attributes, titles, min/max values) and X Axis page for X-axis parameters (days/time, autoscale, axis colour). Edit all custom graph aspects directly in Custom Graph View. Current selections button for active network objects.",
+        category: "Visualization"
+      },
+      {
+        id: "8.0-sql-enhancements",
+        title: "SQL Function and River Reach Cross Section Queries",
+        description: "New LOOKUPFN stepwise/piecewise linear list function for time series. New river_section field type enabling SQL queries for river reach sections (combined with sim/tsr results). SQL themes support for text string/date results. Enhanced scenario notes navigation (Previous/Next buttons).",
+        category: "Development"
+      },
+      {
+        id: "8.0-flow-direction-visualization",
+        title: "Flow Direction Visualization and Results",
+        description: "Layer Theme Editor Direction range setting and Arrow angle attribute for 2D results. New flow direction summary results: MAXANGLE2D, MINANGLE2D, MAXHAZANGLE2D, MAXDEPTHANGLE2D, MAXVELDEPTHANGLE2D, MAXHAZSPEED2D, MAXHAZDEPTH2D. ANGLER unit type in degrees (not just radians).",
+        category: "Visualization"
+      },
+      {
+        id: "8.0-turbulence-modeling",
+        title: "Turbulence Modeling for 2D Simulations",
+        description: "Eddy viscosity modeling during 2D simulations. Turbulence Model (2D) associated with 2D Zones and Turbulence Zones (2D). Boundaries as break lines for triangulation. Time varying eddy viscosity results in 2D Zone and network results point (2D) results.",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-green-ampt-infiltration",
+        title: "Green-Ampt Infiltration for 2D Simulations",
+        description: "Green-Ampt infiltration modeling in 2D. Infiltration Surface (2D) GreenAmpt type with suction/conductivity/deficit parameters. Modified 2D initial conditions with Green-Ampt soil moisture deficit. Time varying results for deficit, moisture content, drain time, saturation flag.",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-groundwater-enhancements",
+        title: "Groundwater and Infiltration Enhancements",
+        description: "Ground infiltration profiles for time-varying events using Profile Properties or Ground infiltration record. New 'Node level affects groundwater' simulation parameter for destination node surcharge influence. Monthly evapotranspiration factors for groundwater model. Evaporative loss linear/constant options with new parameters.",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-sediment-river-reach",
+        title: "River Reach Sediment Depth and Net Deposition",
+        description: "Calculate sediment depth and net deposition per river reach section during simulation. Net deposition for Uniform bed updating. Renamed parameters: Bed offset → Section bed offset, Reach chainage → Section reach chainage.",
+        category: "Results"
+      },
+      {
+        id: "8.0-2d-modeling-improvements",
+        title: "2D Modeling Improvements",
+        description: "Ground slope term correction for steep slope calibration (constant slope vs discontinuous step). Infiltration zones no longer require infiltration surface association. 2D network result lines fully supported at 2D Zone boundaries. Cumulative flooding (TWODQCUMFLOOD) for 2D nodes in RPA/Flood Volume/Worst Case reports.",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-siphon-transitional-flow",
+        title: "Siphon Transitional Flow Regime",
+        description: "Hood soffit level parameter for siphons enabling transitional flow regime implementation as siphon becomes primed.",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-suds-enhancements",
+        title: "SUDS/LID Model Enhancements",
+        description: "Rain gardens require Seepage rate specification. Vegetative swales require Berm height >0. Revised infiltration/liner calculations for SUDS pond nodes using realistic segment-based side area calculation (replacing trapezoidal integral).",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-rtk-hydrograph-swmm5",
+        title: "RTK Hydrograph SWMM5 Import Extension",
+        description: "Extended RDK hydrograph SWMM5 import including maximum initial abstraction depths, recovery rates, and UH response depths (short/intermediate/long-term). RTK monthly profiles import from SWMM5 or Monthly RTK hydrograph object with ID-based override.",
+        category: "Integration"
+      },
+      {
+        id: "8.0-daylight-saving-support",
+        title: "Daylight Saving Time Support",
+        description: "Waste water and trade waste events account for local time changes (TSDB runs). RTC objects support daylight saving via Local Clock Time (LCT) and Local Clock Time Repeat (LCTR) ranges for regulatory structures (pumps, weirs).",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-evaporation-profiles",
+        title: "Evaporation Profiles for Subcatchments",
+        description: "Evaporation profiles now separate subcatchment parameter (previously only associated with rainfall profiles).",
+        category: "Hydrology"
+      },
+      {
+        id: "8.0-swmm5-export-enhancement",
+        title: "SWMM5 Export Non-Numeric Rainfall Profiles",
+        description: "Non-numeric rainfall profile IDs exported to Raingage field when exporting subcatchments to SWMM5 files.",
+        category: "Integration"
+      },
+      {
+        id: "8.0-rtc-editor-performance",
+        title: "RTC Editor Performance Improvements",
+        description: "Significantly improved processing performance for RTC window and grid editors, especially noticeable with large RTCs. Progress bar displayed when updating real-time control parameters for regulator structures.",
+        category: "Performance"
+      },
+      {
+        id: "8.0-orifice-diameter-flexibility",
+        title: "Orifice Diameter Flexibility",
+        description: "Orifice diameters can be set below 100mm. Validation warning issued for orifices smaller than 0.01m.",
+        category: "Modeling"
+      },
+      {
+        id: "8.0-trace-titles-custom-graphs",
+        title: "Trace Titles for Observed/Predicted Custom Graphs",
+        description: "Edit trace titles for predicted events in Observed/Predicted custom graphs via Trace Style dialog (Trace Properties button on Custom Graph View Layout page).",
+        category: "Visualization"
+      },
+      {
+        id: "8.0-differential-snapshot-handling",
+        title: "Differential Snapshot Renamed Object Handling",
+        description: "Importing differential snapshot files handles renamed objects with reference to previous ID.",
+        category: "Data Management"
+      },
+      {
+        id: "8.0-workgroup-database-versions",
+        title: "Workgroup Database Versions Display",
+        description: "Open Master Database dialog displays version numbers of workgroup databases available on host machine with product version in brackets.",
+        category: "Administration"
+      }
+    ]
+  },
+  {
     id: "7.5",
     version: "7.5",
     releaseDate: "2016-11-01",
