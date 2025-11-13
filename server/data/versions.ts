@@ -4046,10 +4046,328 @@ export const versionsData: Version[] = [
     releaseDate: "2011-08-01",
     features: [
       {
-        id: "2.0-placeholder",
-        title: "Version 2.0 Features",
-        description: "Features for version 2.0 - August 2011. Please provide the full 'What's New' content to populate this version.",
-        category: "General"
+        id: "2.0-workgroup-data-server",
+        title: "Workgroup Coordinator Renamed to Workgroup Data Server",
+        description: "Workgroup Coordinator renamed to Workgroup Data Server to avoid confusion with simulation agent coordinator.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-check-for-updates",
+        title: "Check for Updates from Help Menu",
+        description: "New Check for updates option in Help Menu opens Innovyze Website product updates page displaying latest software version for download.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-side-by-side-installation",
+        title: "Side-by-Side Installation of Workgroup Client and Agent",
+        description: "Major versions 1.5, 2.0 and later of Innovyze Workgroup Client and InfoWorks ICM agent can now be installed and used side-by-side. Agent service runs most recently installed version but can execute simulations for both current and older versions using matching simulation engine versions. Remote agents with multiple versions can serve clients with matching versions.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-multi-threading-control",
+        title: "Multi-threading Control for Simulation Jobs",
+        description: "Limit can be set on number of threads per individual simulation job and/or total threads for all concurrent jobs on an agent. Default limits total threads to number of cores and shares equally between concurrent jobs. Per-job limit set in Schedule Hydraulic Run View, per-agent limit in Agent Options dialog.",
+        category: "Performance"
+      },
+      {
+        id: "2.0-agent-network-shares",
+        title: "Improved Simulation Agent with Databases on Network Shares",
+        description: "Agent Manager now connects to database and runs simulations under User's account (not service account), allowing agent to read/write databases and results on network shares accessible to user without further configuration. Only works with default local pipe connection method (not TCP/IP). Coordinator may still need configuration for shared results on network shares.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-automatic-phase-in",
+        title: "Automatic Adjustment of Phase-in Time",
+        description: "Simulation engine now performs up to five initialisation phases to reduce initialisation failures in large river models. Each time initialisation fails, phase-in time multiplied by factor of 10 and restarted from initial dry condition.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-culvert-engine-update",
+        title: "Engine Update for Culvert Inlets and Outlets",
+        description: "Simulation engine updated to better represent culvert behavior in accordance with CIRIA Funders Report/CP/40 Hydraulic design of culverts, 1996. Technical note on Representation of Culverts in InfoWorks with worked examples added to help.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-bank-flow-stability",
+        title: "Bank Flow Stability Improvement",
+        description: "Bank flows now calculated once solution is converged to improve consistency between 1D and 2D model components. Previously calculated at solution of previous iteration.",
+        category: "Performance"
+      },
+      {
+        id: "2.0-2d-sleep-mode",
+        title: "2D Engine Performance Improvement - Sleep Mode",
+        description: "2D engine puts individual zones in 'sleep mode' when steady state reached in zone. Zone becomes active again only when input data variations or variable changes are large enough to disturb steady state. Potential for significant simulation time reduction in networks with zones reaching steady state.",
+        category: "Performance"
+      },
+      {
+        id: "2.0-licence-in-log",
+        title: "Licence Number Information in Simulation Log File",
+        description: "Licence number used by simulation engine now reported in simulation log file to aid diagnosing run failures caused by node size or licence type limits.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-2d-minor-timesteps",
+        title: "Option to Perform 2D Calculations at Minor Timesteps",
+        description: "New Link 1D and 2D calculations at minor timestep option on Advanced tab of 2D Parameters Dialog performs 2D calculations at every minor timestep (unchecked by default - performs at every run timestep). May help reduce oscillations at banks in some networks.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-inline-bank-object",
+        title: "New Inline Bank Object",
+        description: "New control object models in-line flows between 1D and 2D networks. Modelled as zero-length link with geo-referenced section data. Connect to 2D zone via outfall node inside zone. Flow distributed between mesh elements touching bank section calculated same as River Reach Bank Flow. Can also function as geo-referenced Irregular Weir for 1D in-line flows.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-rs-csv-importer",
+        title: "Enhancements to RS CSV Importer",
+        description: "InfoWorks RS CSV import extended to support partial import of RS USBPR bridges. In-line spills previously imported as Irregular Weir and Bank Line objects now imported as Inline Bank and Bank Line objects.",
+        category: "Data Management"
+      },
+      {
+        id: "2.0-water-quality-features",
+        title: "New Water Quality Features",
+        description: "Comprehensive water quality modeling enhancements: (1) New determinants - dissolved oxygen (DO), nitrite (NO2), nitrate (NO3), pH (PH), salt (SAL), water temperature (TW), and coliforms (COL) with updates to Water Quality Parameters, Pollutographs, Trade/Waste Water event editors, Initial Conditions 2D, and QM Parameters Dialog; (2) Decaying pollutants support - decay settings specified in new Decaying pollutants editor via Water Quality Parameters property sheet; (3) Built-in processes - dissolved oxygen and temperature parameters specified in new fields in Water Quality Parameters; (4) User defined processes - parameters specified in new User defined processes editor in Water Quality Parameters; (5) Structure reaeration - reaeration coefficients can be specified for controls (excluding pumps) in new Structures editor in Water Quality Parameters property sheet.",
+        category: "Water Quality"
+      },
+      {
+        id: "2.0-lateral-inflows",
+        title: "Lateral Inflows from Inflow and Pollutograph Events",
+        description: "Can now apply Inflow hydrograph or Pollutograph profile to link as lateral flow. Node reference field in Profile Properties Dialog renamed to Object reference and allows link references.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-subevent-seconds",
+        title: "Event Editor Enhancement - Seconds in Sub-event Start Time",
+        description: "Event Editor now supports seconds in sub-event start times (not just hours and minutes). Enter start times as hh:mm:ss in Sub-event Properties Dialog.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-non-normalised-shapes",
+        title: "Non-normalised User-defined Shapes",
+        description: "Can now enter non-normalised user-defined shapes for conduit and bridge opening cross-sections, allowing surveyed dimensions to be stored. Uncheck new Normalised option in Shape object Geometry Editor. Non-normalised shape is dimensionless - InfoWorks ICM normalises prior to simulation then multiplies by conduit/bridge opening height and width.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-rotate-cross-sections",
+        title: "Ability to Rotate Cross Section Lines",
+        description: "Tool added for rotating cross section lines: rotate by angle around lowest bed level point or intersection with river reach/bridge link/general line, or rotate perpendicular to river reach/bridge link about intersection point.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-interpolated-rows",
+        title: "Insert Interpolated Rows in River Line Section Data Grids",
+        description: "Can now insert row with values calculated by interpolating between existing values in Sections Editor grid. Right-click row and select Insert Interpolated Row Above or Below from context menu.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-convert-channels",
+        title: "Tool to Convert Channels to River Reaches",
+        description: "Tool available to convert Channel objects to River Reach objects. Select Convert selected channels to river reaches from Model menu. Particularly useful for channel objects imported from InfoWorks CS/SD networks.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-tin-network-objects",
+        title: "Include Network Objects When Creating TIN Ground Models",
+        description: "Can now specify selection of cross section lines, bank lines, and/or river reach objects for creating TIN ground model. Elevation data used to create new TIN vertices and treated as break lines during creation.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-object-ghosts",
+        title: "Option to Turn Off Scenario 'Object Ghosts'",
+        description: "Display of 'object ghosts' (objects present in base network but not current scenario shown as faded grey) can now be turned on/off from Visual Page of GeoPlan Properties Dialog. Visual effects of 2D elements and river reach section/bank lines moved to new Elements Page.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-notes-in-grids",
+        title: "Notes Field Added to Grid Views",
+        description: "Notes field for network objects now added to grid views (previously only visible in property sheet). First few characters visible in grid view with button to open Notes editor for full text.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-offline-meshing",
+        title: "2D Meshing Using Simulation Agent",
+        description: "Can now perform meshing 'offline' using simulation agent. Each zone meshed as 'mesh job' in simulation queue. Mesh jobs run on local and remote agents. 64-bit edition uses 64-bit engine for offline meshing, allowing larger and more complex meshes than 32-bit online meshing. Enable via Do meshing offline using simulation agent option on Mesh 2D Zones Dialog.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-mesh-zone-filtering",
+        title: "Mesh Zone Filtering During 2D Meshing Removed",
+        description: "All mesh zones now included in meshing process (previously zones with null Maximum Triangle Area were excluded). Allows mesh zones for ground level modifications without specifying maximum triangle area. In areas with no specified maximum, 2D zone's maximum triangle area used.",
+        category: "Meshing"
+      },
+      {
+        id: "2.0-mesh-aggregation",
+        title: "2D Meshing - Improvement to Mesh Element Aggregation",
+        description: "Improvements in 2D mesh element aggregation algorithm to avoid non-convex elements as much as possible. 2D engine more accurately models behavior at element interfaces with convex elements, improving local mesh results quality.",
+        category: "Meshing"
+      },
+      {
+        id: "2.0-2d-element-count",
+        title: "Number of 2D Elements Displayed in Network Overview",
+        description: "Number of 2D zones and 2D elements now added to Network Overview View information. Useful for checking element count hasn't exceeded current licence limit.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-export-2d-triangles",
+        title: "Export of 2D Mesh Triangle Geometry to CSV",
+        description: "Export 2D triangles option added to Select CSV Export Options Dialog. Check to export x, y, z coordinates of triangle vertices. Each triangle exported as separate object. Note: subsequent import/update from CSV does not support importing 2D triangle data.",
+        category: "Data Management"
+      },
+      {
+        id: "2.0-reach-section-building",
+        title: "Improvement to River Reach Section Building",
+        description: "Functionality for building river sections from cross section lines improved. Tolerance added so cross section lines not intersecting river reach link but within 0.1 m of upstream/downstream node are included in building process. Generated reach sections translated to intersect node positions.",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-bed-slope-validation",
+        title: "New Engineering Validation for Bed Slope in Reaches",
+        description: "New Rule 4012 validates river reach bed slope. Checks for bed slope higher than specified threshold. Bed slope calculated as (upstream section lowest bed level - downstream section lowest bed level) / distance between sections. High bed slopes may cause convergence failures - rule indicates locations for weir or break in level between reaches.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-network-validation-improvements",
+        title: "Improved Network Validation",
+        description: "New validation checks added: Chamber floor level of 2D node must be lower than ground level (E2082). Manning n values on river reaches: zero and non-zero values must not be mixed within panel (E7811), at least one panel with non-zero values required (E7813), values should be within 0.009-0.2 (W7812), values differ by >20% within panel (W7810). Bridge opening must be referenced in bridge section data (E7815). Culvert inlet/outlet invert should match barrel conduit invert (W2553, W2580). Conduit headloss type warnings for break nodes, ponds, culvert inlets/outlets, open channels (W7785). River section distance vs minimum space step (W7814). Mesh element area less than half minimum (W2285).",
+        category: "Tools"
+      },
+      {
+        id: "2.0-3d-network-improvements",
+        title: "3D Network Window Improvements",
+        description: "Properties Dialog revised for greater display control. Can now toggle display of: Nodes and links (including flood cones), Storage area ground levels, River reach ground levels, 2D zone element ground levels.",
+        category: "Visualization"
+      },
+      {
+        id: "2.0-flooding-section-improvements",
+        title: "Improvements to Flooding Section Window",
+        description: "Ground level trace from network (e.g. mesh element ground levels within 2D zone) can now be plotted. Toggle via Show results ground level in Content page of Section Properties Dialog. Color set in Layout page. Additional options allow ground model and water level traces to be shown/hidden (previously water level trace could be obscured by ground model fill).",
+        category: "Visualization"
+      },
+      {
+        id: "2.0-advanced-caching",
+        title: "Advanced Caching Option to Improve Drawing Performance",
+        description: "Use advanced caching and Use file cache options added to GeoPlan Page of Options Dialog. Improve drawing performance by reducing unnecessary redraws. Significant improvements when replaying 2D results. Large networks benefit from faster drawing when moving around GeoPlan or replaying results.",
+        category: "Performance"
+      },
+      {
+        id: "2.0-arrow-drawing",
+        title: "Improved Drawing of Arrows on River Reach Links",
+        description: "Link theme arrow drawing on river reach links improved. Direction arrows now drawn between each pair of sections (previously single set per river reach).",
+        category: "Visualization"
+      },
+      {
+        id: "2.0-simulation-status",
+        title: "Simulation Control Window - Status Description Revised",
+        description: "Status of finished simulations now more accurately displayed as Ended (previously displayed as Succeeded regardless of incomplete or warnings).",
+        category: "Usability"
+      },
+      {
+        id: "2.0-hyperlinked-coordinates",
+        title: "Hyperlinked Coordinates in Simulation Engine Log",
+        description: "Simulation engine log improved with hyperlinks applied to x and y coordinates in warning messages. Clicking hyperlink zooms to corresponding location on current GeoPlan Window enabling quick problem location finding.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-base-flow-depth-removed",
+        title: "Base Flow Depth Field Removed from River Reaches",
+        description: "Base flow depth field removed from River Reach objects as not used by simulation engine (inverse Preissmann slot used for base flow).",
+        category: "Modeling"
+      },
+      {
+        id: "2.0-river-bridge-tutorials",
+        title: "InfoWorks ICM River and Bridge Tutorials",
+        description: "Mini-tutorials detailing river and bridge model building sequence included. Lessons/instructions in InfoWorks ICM help file (F1 > Contents > InfoWorks ICM Tutorials). Sample data provided for each lesson. Tutorial example files must be installed separately. Database contains data snapshots for various stages allowing restart at any point and experimentation.",
+        category: "Documentation"
+      },
+      {
+        id: "2.0-undo-redo-list",
+        title: "Dropdown List of Undo/Redo Actions",
+        description: "List of undo/redo actions viewable from new button on Edit Toolbar. Click down arrow to list up to five undo and redo actions in execution order. Can undo most recent action and redo most recent undo from list. Edit menu similarly updated with improved action descriptions.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-restrictive-permissions",
+        title: "More Restrictive User Permissions",
+        description: "Can now apply more restrictive permissions to database users. Default option for users with no specific roles can restrict viewing so objects seen in tree but not opened (only view properties action allowed). User Maintenance Dialog renamed to Users and Permissions Dialog (File | Master database settings | Users and permissions). User permissions and global database settings protection options moved to Users and Permissions Dialog. New default viewing permissions option added.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-windows-groups",
+        title: "User Permission Roles Using Windows Groups",
+        description: "User permissions extended to allow Windows groups added as users and assigned roles for tree groups. Users who are Windows group members automatically inherit roles assigned to Windows groups plus any specific user roles.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-unique-id-variable",
+        title: "New Automatic Node Naming Variable for Globally Unique IDs",
+        description: "New {K} variable added for automatic node ID generation. Issues absolute sequence number globally at database level ensuring no user given same sequence number, avoiding commit conflicts. Previously {C} variable ensured uniqueness only for current user and could cause commit conflicts with multiple users editing network.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-edit-scenario-notes",
+        title: "Edit Notes Option for Scenarios",
+        description: "Can now edit scenario notes at any time using new Edit Notes button in Manage Scenarios Dialog (previously only enterable at scenario creation).",
+        category: "Usability"
+      },
+      {
+        id: "2.0-import-centre-settings",
+        title: "Open Data Import Centre - Previous Source Type Settings Retained",
+        description: "Open Data Import Centre Dialog now remembers most recently used source type for import and selects it next time dialog opened (previously selected set default each time).",
+        category: "Usability"
+      },
+      {
+        id: "2.0-ruby-export-filtering",
+        title: "Open Data Export Centre - Ruby Script Filtering",
+        description: "Open Data Export Centre can now use user-defined ruby script to filter objects during export process. Filtering usually based on data to be exported (e.g., script to filter out pipes with diameter less than specified minimum).",
+        category: "Tools"
+      },
+      {
+        id: "2.0-theme-configuration",
+        title: "Improvements to GeoPlan Theme Configuration",
+        description: "GeoPlan theme usability improved. Sub Theme Editor Pane layout (in Layer Theme Editor) redesigned for user-friendliness. Can now select properties for theme setup in new Properties section instead of displaying all available properties in Ranged Themes grid, making Layer Theme Editor less cluttered and easier to use.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-save-grid-section",
+        title: "Improvements to Saving Grid Layout and Section Properties",
+        description: "Grid column layout and long section properties changes can now be saved using similar method to GeoPlan properties and themes. Properties saveable as default for particular network, default for all networks of type, or to .iws file. Section properties saved/loaded via Save and Load buttons on Section Properties Dialog. Grid layout saved/loaded via Save grid layout and Load grid layout options on Grid menu.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-replay-progress-bar",
+        title: "Simulation Results Progress and Jump Bar",
+        description: "Simulation replay clock in GeoPlan Window enhanced. Clock now acts as replay progress bar with fill color progressing as simulation plays. Clock provides ability to jump to results: click on clock bar to display results at time corresponding to position clicked.",
+        category: "Usability"
+      },
+      {
+        id: "2.0-timestep-seconds",
+        title: "Improvement to Time-varying Results Export",
+        description: "Set Timestep Dialog (for export timestep when exporting results to GIS) improved. Now displays seconds part of timestep for simulations using absolute times (previously hours and minutes only), allowing more accurate export timestep specification. Replay Options Dialog also updated to display seconds for absolute times.",
+        category: "Data Management"
+      },
+      {
+        id: "2.0-new-dongles",
+        title: "Introduction of New-style Dongles",
+        description: "New-style dongles introduced for InfoWorks ICM. Can have more than one new style network dongle on single server. New style dongles offer greatly improved control panel for monitoring dongle and licence use. Supported from Version 12.0 onwards. All products continue working with old style dongles (pre-Version 12.0). Licence Key Setup program now runs as wizard and allows dongle options for current user and all users on machine.",
+        category: "Tools"
+      },
+      {
+        id: "2.0-arcengine-map-control",
+        title: "ArcEngine Map Control Option",
+        description: "Now supports ESRI ArcEngine as map control for GeoPlan Window (in addition to PBBI MapXtreme and ESRI ArcObjects). ArcEngine is cheap alternative to ArcObjects (ArcGIS/ArcView) and supports layer types: ESRI Shapefiles, CAD Layers (Points, Areas, Polygons, Polyline classes), Raster images (JPG, PNG, ECW, BIL, BMP, SID), Layer files. Dialogs relating to GIS import rationalised.",
+        category: "Integration"
+      },
+      {
+        id: "2.0-arcgis-server",
+        title: "Support for ArcGIS Server Map Services",
+        description: "ArcGIS Server Map Services now supported. ArcGIS Server Map layers can be displayed as background layers when using ArcObjects map control and saved in layer lists. Users can connect to remote web servers and LAN servers.",
+        category: "Integration"
+      },
+      {
+        id: "2.0-arcgis-10-compatibility",
+        title: "Export to Shape File - ArcGIS 10 Compatibility Option",
+        description: "New Use ArcGIS 10 compatibility option added to GIS Export Dialog when exporting to shape file. ArcGIS 10 options require single-part polygons in anti-clockwise direction. Option performs direction check on polygons ensuring all exported single-part polygons specified anti-clockwise.",
+        category: "Integration"
       }
     ]
   },
