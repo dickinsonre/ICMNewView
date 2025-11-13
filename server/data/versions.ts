@@ -465,6 +465,157 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "6.5",
+    version: "6.5",
+    releaseDate: "2015-11-01",
+    features: [
+      {
+        id: "6.5-tsdb-enhancements",
+        title: "TSDB Script Support and Batch CSV",
+        description: "Run scripts before TSDB update for third-party models, data manipulation, and FTP retrieval. New Batch CSV data source type for importing multi-column CSV files into scalar TSDBs with archive folder and daily logging.",
+        category: "Data Management"
+      },
+      {
+        id: "6.5-suds-lid-modeling",
+        title: "SUDS/LID Structures Modeling in Subcatchments",
+        description: "Based on SWMM 5.1.010, model Sustainable Urban Drainage (SUDS) / Low Impact Development (LID) structures (permeable pavements, reed beds) with SUDS Controls objects defining outflow modeling parameters. Import via SWMM5 text file or define manually.",
+        category: "Hydrology"
+      },
+      {
+        id: "6.5-subcatchment-enhancements",
+        title: "Advanced Subcatchment Routing Capabilities",
+        description: "Subcatchments can drain laterally to multiple links (for rural areas/river reaches), drain to another subcatchment (for SUDS/LID cascading), and route between pervious/impervious surfaces within same subcatchment with proportion control.",
+        category: "Hydrology"
+      },
+      {
+        id: "6.5-conveyance-graph",
+        title: "Conveyance Graph Pick Tool",
+        description: "New GeoPlan tool displaying conveyance vs elevation graphs for river reach/bridge cross-sections, verifying monotonically increasing curves and comparing neighboring sections via Conveyance Graph Properties Dialog.",
+        category: "Visualization"
+      },
+      {
+        id: "6.5-rainfall-import-export",
+        title: "Improved Rainfall Event Import/Export",
+        description: "Simplified multi-file TVD import (Rainfall, Temperature, Wind, Evaporation, Solar Radiation, Soil Moisture Deficit) into single event. Export creates separate CSV per TVD type.",
+        category: "Data Management"
+      },
+      {
+        id: "6.5-display-improvements",
+        title: "Section Display Improvements",
+        description: "Removed undesirable 'stepping' effect in Flooding Section Window and Long Section Window for slopes with no water level, improving visual clarity for ground model rendering.",
+        category: "Visualization"
+      },
+      {
+        id: "6.5-version-control-features",
+        title: "Version Control and Recycle Bin Enhancements",
+        description: "Copy networks without commit history (preserving scenarios). RTC Editor 'Find Regulator in List' search. Recycle Bin 'Restore all' option for bulk database item restoration.",
+        category: "Version Control"
+      },
+      {
+        id: "6.5-custom-graphs-regulators",
+        title: "Regulator Attributes in Custom Graphs",
+        description: "Object Per Page and Simulation Per Page Reports support regulator state (opening, flow, depth above min), pump state, and variable speed attributes on graph axes.",
+        category: "Visualization"
+      },
+      {
+        id: "6.5-ui-usability",
+        title: "UI and Usability Improvements",
+        description: "Lock toolbar positions to prevent accidental movement. GeoPlan tools menu consolidation. Edit flags accessible from Tools menu. GIS Layer Control simultaneous editing for multiple layers (Visible, Selectable, Editable, Zoom Levels, Properties).",
+        category: "Usability"
+      },
+      {
+        id: "6.5-validation-performance",
+        title: "2D Network Validation Performance",
+        description: "Improved validation process significantly increasing speed of 2D network validation checks.",
+        category: "Performance"
+      },
+      {
+        id: "6.5-damage-receptor-threshold",
+        title: "Damage Receptor Threshold Height",
+        description: "New Threshold height field representing floor levels higher/lower than ground level for properties, used to calculate maximum depth for risk analysis when actual floor levels unavailable.",
+        category: "Modeling"
+      },
+      {
+        id: "6.5-multi-simulation-gis-export",
+        title: "Multi-Simulation GIS Export",
+        description: "Export results from multiple simulations to MIF, SHP, TAB, or Geodatabase formats via new Results menu 'Export to GIS' option, replacing single-simulation limitation.",
+        category: "Integration"
+      },
+      {
+        id: "6.5-sql-enhancements",
+        title: "SQL Date Formatting and Prompt Enhancements",
+        description: "New DATEFORMAT(), TIMEFORMAT(), and DATETIMEFORMAT() functions for datetime field display. SQL PROMPT TITLE and PROMPT LINE commands now accept variables as arguments.",
+        category: "Development"
+      },
+      {
+        id: "6.5-tuflow-import",
+        title: "TUFLOW Network Import Support",
+        description: "Import TUFLOW network data (1D) using MapInfo Interchange File (MIF) format files.",
+        category: "Integration"
+      },
+      {
+        id: "6.5-sud-lid-rivers",
+        title: "SUD/LID Structures in River Reaches and Bridges",
+        description: "Database fields for Sustainable Urban Drainage/Low Impact Development structures (permeable pavements, vegetative swales) in river reaches and bridge expansions/contractions with base height and infiltration loss coefficients.",
+        category: "Modeling"
+      },
+      {
+        id: "6.5-refh2-support",
+        title: "ReFH2 Rainfall Runoff Model Integration",
+        description: "Interface with ReFH2 from Wallingford HydroSolutions for catchment descriptor parameter calculation in subcatchments and initial conditions (soil moisture, baseflow) in rainfall events. Choice between ReFH, ReFH2, or user-specified values.",
+        category: "Hydrology"
+      },
+      {
+        id: "6.5-2d-line-sources",
+        title: "2D Line Source Objects",
+        description: "Inject inflow through lines (not just points) within 2D Zones as flow-time boundaries distributed along lines. Included in meshing as break lines with discharge to containing mesh elements.",
+        category: "Modeling"
+      },
+      {
+        id: "6.5-river-bank-behavior",
+        title: "Improved River Bank Behavior with 2D Meshes",
+        description: "Enhanced bank level raising algorithm inserting vertices within engine to respect specified bank levels except when below mesh, avoiding artificial flow generation.",
+        category: "Modeling"
+      },
+      {
+        id: "6.5-1d-2d-linking-extension",
+        title: "Extended 1D/2D Linking Method Application",
+        description: "Inflow-based linking method (v6.0 for head discharge tables) now extended to all types of node-to-2D zone linkage via 'Inflow-based node-2d link at manholes' parameter (renamed from original).",
+        category: "Modeling"
+      },
+      {
+        id: "6.5-csv-importer-enhancement",
+        title: "Generic CSV Time-Varying Data Importer Enhancement",
+        description: "Improved CSV importer for rainfall and inflow: multiple columns imported as multiple profiles within single object (not separate objects).",
+        category: "Data Management"
+      },
+      {
+        id: "6.5-node-level-elevations",
+        title: "Node-Level 2D Elevation Configuration",
+        description: "Use elevations (instead of depths) for water exchange calculation at individual nodes rather than network-wide, addressing ground level discrepancy and oscillating flows.",
+        category: "Modeling"
+      },
+      {
+        id: "6.5-2d-summary-log",
+        title: "Improved 2D Volume Balance Summary",
+        description: "Enhanced 2D summary log with itemized inflows/outflows/net inflows by category, percentages, and volume balance error percentage based on sum of inflows and outflows.",
+        category: "Results"
+      },
+      {
+        id: "6.5-upm-tool",
+        title: "Urban Pollution Management (UPM) Tool",
+        description: "UPM tool from InfoWorks CS implemented in ICM for easier InfoWorks CS to ICM model conversion.",
+        category: "Integration"
+      },
+      {
+        id: "6.5-wms-enhancements",
+        title: "WMS Enhancements for MapXtreme",
+        description: "Web Mapping Service layer control with Map Image Format, Background Colour, and Transparent properties. Automatic display in GeoPlan coordinate system without additional TAB files.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "6.0",
     version: "6.0",
     releaseDate: "2015-04-01",

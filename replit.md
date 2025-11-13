@@ -130,6 +130,7 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 ### November 2024
+- **Version 6.5 Added (November 2015)**: Comprehensive version with 24 features including SUDS/LID structures modeling (SWMM 5.1.010), advanced subcatchment routing, ReFH2 rainfall runoff model, 2D Line Source objects, TUFLOW import, conveyance graph tool, TSDB script support with Batch CSV, UPM tool for CS conversion, node-level 2D elevation configuration, and WMS enhancements for MapXtreme
 - **Version 6.0 Added (April 2015)**: Comprehensive version with 26 features including sediment modeling in river reaches with three-layered bed composition, Velocity Profile Grid Report, improved 1D/2D network linking, multi-GPU support for 2D engine, web mapping integration (Google Maps/Bing/OpenStreetMap), Object Browser Window, time varying results in SQL expressions, TSDB enhancements with NetCDF support, structure flow engine improvements, and ICM Agent robustness enhancements
 - **Version 5.5 Added (November 2014)**: Comprehensive version with 25 features including Mesh Level Zones, Risk Impact Zones, 2D bed load sediment transport, enhanced 2D sediment results, Chinese Rainfall Generator, comprehensive GIS export enhancements, SWMM5 v5.1.007 support, ICMLive user permissions improvements, Object Property Window layout sharing, commit prompting for version control, bulk database item deletion, MapXtreme 7.2 and ArcGIS 10.3 support
 - **Version 5.0 Added (May 2014)**: Comprehensive version with 22 features including Initial Conditions 1D editor, 2D mesh initialization from different meshes, 2D suspended sediment transport, UKWIR runoff models, Japanese rainfall runoff models (f1-Rsa, Kadoya, Non-linear, Rational), node ground level inference, risk analysis GeoPlan display, enhanced SQL functionality (NL/NVL functions, array deletion), TSDB historic mode with iHistorian/ClearSCADA support, and significant performance improvements
@@ -141,7 +142,7 @@ Preferred communication style: Simple, everyday language.
 - **Version 1.5 Added (February 2011)**: Comprehensive version with 24 features including 2D Infiltration Model, 2D Water Quality Model, SQL enhancements, River Reach building improvements, meshing enhancements, and extensive usability features
 - **Version 2025.4 Added**: Complete version with 10 features including InfoWorks ICM Viewer, 2D Mesh Element Histograms, Muskingum routing, and Ruby scripting enhancements
 - **Placeholder Versions Created**: Structured placeholder entries for 14 versions (2025.3, 2025.2, 2025.1, 2025.0, 2024.4, 2024.3, 2024.1, 2024.0, 11.0, 10.5, 10.0, 9.5, 9.0, 2.0) awaiting user-provided content
-- **Timeline Coverage**: Application displays ~30 version entries from 2026.2 back to 1.5 (February 2011). Currently 16 versions have full content, 14 are placeholders, and 0 have partial content. User can provide "What's New" documentation to populate remaining versions.
+- **Timeline Coverage**: Application displays ~30 version entries from 2026.2 back to 1.5 (February 2011). Currently 17 versions have full content and 13 are placeholders. All populated versions have comprehensive feature documentation with no partial content remaining. User can provide "What's New" documentation to populate remaining versions.
 
 ## Data Structure
 
