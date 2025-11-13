@@ -66,7 +66,7 @@ export default function HomePage() {
                     )}
                   </div>
                   <p className="text-muted-foreground">
-                    Explore 669 features across {versions?.length || 0} versions from 2011 to present
+                    Explore 760 features across {versions?.length || 0} versions from 2011 to present
                   </p>
                 </div>
                 {versions && versions.length > 0 && (

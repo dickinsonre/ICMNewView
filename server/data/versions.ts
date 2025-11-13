@@ -400,6 +400,556 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "10.0",
+    version: "10.0",
+    releaseDate: "2019-05-01",
+    features: [
+      {
+        id: "10.0-multiple-sim-episodes",
+        title: "Multiple Simulations for Different Time Periods",
+        description: "Can now include Episode collection in run. Episode collection contains various start/end times allowing multiple hydraulic and runoff-only simulations for each time varying input (rainfall event, flow survey, TSDB). If run includes scenarios, simulations based on episode collection also run for each scenario. Episode number appended to simulation name in Explorer.",
+        category: "Modeling"
+      },
+      {
+        id: "10.0-runoff-only-pdm-warmup",
+        title: "Runoff Only Simulations and PDM Warm-up",
+        description: "When Runoff only simulation checked, new dropdown lets you choose whether runoff-only simulations performed during warm-up, between episodes, or whole run (default). New Warm-up duration field specifies period for PDM model states warm-up before hydraulic simulations start (allows network to reach steady state for realistic hydraulic conditions). '_RO' appended to runoff-only simulation names.",
+        category: "Modeling"
+      },
+      {
+        id: "10.0-simulation-properties-rerun",
+        title: "Re-run a Simulation and View Its Properties",
+        description: "New Simulations Properties view displays simulation properties including start/end times and simulation providing initial state. Includes Re-run simulation button to re-run particular simulation (previously required re-running all simulations in run).",
+        category: "Usability"
+      },
+      {
+        id: "10.0-groundwater-infiltration-results",
+        title: "Groundwater Infiltration and Evaporation Rate in Results",
+        description: "Groundwater infiltration and raw evaporation rate for subcatchment now included in results graphs/grids. Two new subcatchment results fields: Evaporation profile and Max Evaporation rate.",
+        category: "Results"
+      },
+      {
+        id: "10.0-subcatchment-results-renamed",
+        title: "Renaming of Subcatchment Results QINFSOIL and QINFGRND",
+        description: "When groundwater infiltration not modelled, soil storage not included. Results renamed: Infiltration to soil store → Infiltration to soil (QINFSOIL), Infiltration to ground store → Infiltration to groundwater (QINFGRND). QINFSOIL displayed regardless of Ground Infiltration Event usage.",
+        category: "Results"
+      },
+      {
+        id: "10.0-sql-multiple-networks",
+        title: "SQL Queries Across Model Networks",
+        description: "Run query across multiple networks option allows SQL query across different model networks.",
+        category: "Tools"
+      },
+      {
+        id: "10.0-sobek-importer-extended",
+        title: "SOBEK Importer Extended",
+        description: "SOBEK importer extended - cross section layers can now be imported from SOBEK network LIT files. Data from cross section layer creates nodes with downstream conduit or channel links in InfoWorks ICM. Cross section information from SOBEK 'ty' attribute imported into conduit, shape, channel and channel shape properties.",
+        category: "Integration"
+      },
+      {
+        id: "10.0-microdrainage-importer-enhanced",
+        title: "MicroDrainage Importer Enhancements",
+        description: "Can now import: Sediment Depth (pipes to conduits), Percentage Impervious (pipes to subcatchments). For online controls, manhole inserted between structure link and shortened pipe with Shaft/Chamber plan areas set to 1m². Swales with non-zero Cap Volume at Depth imported as closed conduit (previously channel link).",
+        category: "Integration"
+      },
+      {
+        id: "10.0-state-saving-pdm-srm",
+        title: "State Saving with PDM, SRM and Legacy RDII",
+        description: "New approach to saving states for PDM, SRM and pre-SWMM5 RDII models using rainfall/evaporation histories - state files significantly smaller in most cases.",
+        category: "Performance"
+      },
+      {
+        id: "10.0-ground-infiltration-events",
+        title: "Ground Infiltration Events Improvements",
+        description: "New ground infiltration objects no longer contain automatic read-only timestep record. ICM sets initial ground water levels by: 1) sub-events properties, 2) profile properties for specified subcatchments/Groundwater IDs, 3) profile timestep records for specified subcatchments/Groundwater IDs.",
+        category: "Modeling"
+      },
+      {
+        id: "10.0-gpu-2d-conduits",
+        title: "Improvements to GPU Functionality for 2D Conduits",
+        description: "GPU version of 2D engine now supports 2D conduits.",
+        category: "Performance"
+      },
+      {
+        id: "10.0-custom-graphs-performance",
+        title: "Improvements to Performance of Custom Graphs",
+        description: "Performance of custom graphs when changing graph properties has been improved.",
+        category: "Performance"
+      },
+      {
+        id: "10.0-uk-grid-node-naming",
+        title: "Automatic Node Name Generation Using UK Grid Method",
+        description: "Node numeration based on UK National Grid location increased from 99 to 1295 unique identifiers per 100m². Last two 'numbers' in node ID may include letters or mixture of letters/numbers.",
+        category: "Tools"
+      },
+      {
+        id: "10.0-arcgis-10.7",
+        title: "Support for ArcGIS 10.7",
+        description: "Now supports ArcGIS version 10.7 when using ArcGIS Engine/ArcGIS Desktop map control.",
+        category: "Integration"
+      },
+      {
+        id: "10.0-elevation-validation-6000m",
+        title: "Validation Warning for Elevations Over 6000 Metres",
+        description: "Validation warning limit for elevations increased from 3000m to 6000m. Affects multiple network object parameters including nodes, bridges, conduits, channels, pumps, river reaches, weirs, and other objects.",
+        category: "Validation"
+      },
+      {
+        id: "10.0-factory-defaults-layout",
+        title: "Manage Layouts - Factory Defaults",
+        description: "New Factory defaults layout consisting of unmodified layouts/factory settings for all master database objects. Loading Factory default resets all user-defined local layouts to factory settings. Previous Default layout removed.",
+        category: "Usability"
+      },
+      {
+        id: "10.0-enable-disable-sub-theme",
+        title: "Enable/Disable Sub Theme from Thematic Key Window",
+        description: "Can enable/disable sub themes from Thematic Key window using Enable context menu option. Disabled sub themes not displayed on GeoPlan, name greyed with disable icon.",
+        category: "Visualization"
+      },
+      {
+        id: "10.0-autocad-2018-2019",
+        title: "AutoCAD DWG Files 2018 and 2019",
+        description: "Updating network from AutoCAD 2018 and 2019 DWG format files now supported.",
+        category: "Integration"
+      },
+      {
+        id: "10.0-geoplan-layer-sorting",
+        title: "GeoPlan Layer Sorting Enhancement",
+        description: "Map layer sorting improved - up to 5 times quicker for layers to be displayed in GeoPlan.",
+        category: "Performance"
+      },
+      {
+        id: "10.0-scenarios-clipboard-copy",
+        title: "Copying to Clipboard in Manage Scenarios Dialog",
+        description: "Can now use Ctrl+C to copy selected rows in Manage Scenarios grid to Windows clipboard. Header row and each selected row displayed as separate line when pasted.",
+        category: "Usability"
+      },
+      {
+        id: "10.0-scenario-size-columns",
+        title: "Scenario Size Indicated in Manage Scenarios Grid",
+        description: "Two new columns in Manage Scenarios grid: Object column (total objects in Base or additional/overridden objects), Excluded column (total Base objects not included in scenario).",
+        category: "Usability"
+      },
+      {
+        id: "10.0-scenario-performance",
+        title: "Performance Improvements for Scenarios",
+        description: "Performance improved for scenarios with large numbers of differences from Base scenario.",
+        category: "Performance"
+      },
+      {
+        id: "10.0-roughness-upper-limit",
+        title: "Upper Warning Limit for Roughness Values Increased",
+        description: "Upper limit validation warning for roughness increased to reflect overland flow values. Ranges: Manning's 1/n (1.0-999.0), Colebrook-White (0.1-999.0), Manning's N (0.009-0.8), Hazen Williams (20.0-5000.0).",
+        category: "Validation"
+      },
+      {
+        id: "10.0-tcp-port-check",
+        title: "TCP/IP Port Number Check",
+        description: "Error messages displayed in Agents Options dialog if port number outside valid range or duplicate port number used.",
+        category: "Tools"
+      },
+      {
+        id: "10.0-refh-progress-indicator",
+        title: "Progress of ReFH Direct Runoff Calculations",
+        description: "During simulation, ReFH direct runoff calculation progress (%) now indicated in Activity field of Job Progress window.",
+        category: "Usability"
+      },
+      {
+        id: "10.0-fw-format1-tsdb",
+        title: "New Data Source for TSDB - FW Format1",
+        description: "New FW Format1 data source type for observed/forecast data in scalar TSDBs. Enables multiple data streams in FloodWorks Data Transfer File Format 1.",
+        category: "Data Management"
+      },
+      {
+        id: "10.0-tsdb-jump-to-date",
+        title: "Jump to Date in TSDB Data Grids",
+        description: "New Go to Date button and date field in time series data grid. Selects last data point of specified date at top of grid for quick location.",
+        category: "Usability"
+      },
+      {
+        id: "10.0-tsdb-import-export-config",
+        title: "Import and Export of Configuration Data for TSDBs",
+        description: "Can import/export observed/forecast stream configuration data (stream names, units, external data sources, thresholds) from/to CSV files. New Import from csv file and Export to csv file context menu options. Import Stream Configuration dialog allows column mapping and testing before import.",
+        category: "Data Management"
+      }
+    ]
+  },
+  {
+    id: "9.5",
+    version: "9.5",
+    releaseDate: "2018-11-01",
+    features: [
+      {
+        id: "9.5-euler-type-ii-rainfall",
+        title: "Euler Type II Design Rainfall",
+        description: "Can generate Euler Type II design rainfall using Euler rainfall type II method with KOSTRA-DWD 2010R data. Rainfall data for any coordinates within Germany bounded rectangle using TRS 1989, Lambert Conformal Conic, EPSG:3034 projection. Return period, duration and timestep required. Events viewable on grid/graph, exportable to InfoWorks format or CSV.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.5-german-hydrology",
+        title: "German Hydrology - DWA Runoff Volume Model",
+        description: "New DWA (Grenzwertmethode) runoff volume model added to Runoff volume type. Horton-related parameters renamed: Horton initial→Initial infiltration, Horton limiting→Limiting infiltration, Horton decay→Decay factor, Horton recovery→Recovery factor. New Cascade routing model option added.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.5-rafts-routing-model",
+        title: "RAFTS Routing Model",
+        description: "New RAFTS routing model option (Laurenson Runoff Routing procedure). Calculates storage delay coefficient for subcatchment to develop non-linear runoff hydrograph. Storage delay coefficient may be calculated on subcatchment or runoff surface basis.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.5-2d-conduits",
+        title: "2D Conduits for 2D Simulations",
+        description: "Two new conduit types: Linear Drainage (2D) and Conduit (2D) for introducing unidimensional hydraulic structures directly in 2D engine. Allow flow transfer between two 2D zone areas. Linear Drainage captures surface flow from 2D mesh to drainage system. New Conduit type parameter with three choices: Conduit, Linear Drainage (2D), Conduit (2D). Existing conduits default to Conduit type.",
+        category: "Modeling"
+      },
+      {
+        id: "9.5-connect-2d-node",
+        title: "New Type of 2D Node - Connect 2D",
+        description: "New Connect 2D node type to facilitate 2D conduits modeling. Connection type parameter defines how 2D conduit exchanges flow at upstream/downstream end vertex. Can be set to Closed, Lost, 2D or Break.",
+        category: "Modeling"
+      },
+      {
+        id: "9.5-2d-simulation-results",
+        title: "New Simulation Results for 2D Conduits",
+        description: "New link results: Maximum/Cumulative flow from 2D Zone, Maximum/Cumulative flooding onto 2D Zone, Flooding onto 2D zone (time varying), Flow from 2D zone (time varying). New node results: Flow (time varying), Cumulative flow (summary) for Connect 2D nodes with connection type 2D or Lost.",
+        category: "Results"
+      },
+      {
+        id: "9.5-microdrainage-importer",
+        title: "MicroDrainage Importer",
+        description: "Can now import data from MicroDrainage MDX files into InfoWorks ICM.",
+        category: "Integration"
+      },
+      {
+        id: "9.5-sobek-importer-partial",
+        title: "SOBEK Importer - Partial Implementation",
+        description: "Partial SOBEK importer available (to be extended in future). Can import topographic and bed friction layers from SOBEK network LIT files into InfoWorks ICM. Data defines nodes and conduits.",
+        category: "Integration"
+      },
+      {
+        id: "9.5-gated-weir",
+        title: "Gated Weir",
+        description: "New gated weir ancillary control object as link network object. Can be added via GeoPlan, Long View, Links grid, or imported from InfoWorks RS. Gated weirs from InfoWorks RS now imported as gated weirs (previously converted to variable crest weirs) for accurate modeling.",
+        category: "Modeling"
+      },
+      {
+        id: "9.5-infonet-rebrand",
+        title: "InfoNet Rebranded as InfoAsset Manager",
+        description: "InfoNet rebranded to InfoAsset Manager for clearer Innovyze product grouping. InfoAsset range includes InfoAsset Planner (was InfoMaster), InfoAsset Mobile (was InfoNet Mobile), InfoAsset Online (was InfoNet Web). Licenses now issued for InfoAsset Manager.",
+        category: "General"
+      },
+      {
+        id: "9.5-infiltration-units",
+        title: "Infiltration Units Now Used for Infiltration-Related Data Fields",
+        description: "Network objects' infiltration-related data fields changed from rainfall intensity (R) units to infiltration (I) units (no data implications). Affects Infiltration Surface (2D), Runoff Surface, Bridge, Channel, River Reach, Conduit, and Node data fields.",
+        category: "Modeling"
+      },
+      {
+        id: "9.5-swmm-engine-5.1.013",
+        title: "Simulation Engine Updated to Support SWMM v5.1.013",
+        description: "SWMM5 components in simulation engine updated to SWMM 5.1.013.",
+        category: "SWMM"
+      },
+      {
+        id: "9.5-hourly-rate-unit",
+        title: "Hourly Rate Unit",
+        description: "New hourly rate (HR) unit for specifying Horton decay and recovery factors for Runoff Surface and Infiltration Surface (2D). Previously specified factors not affected.",
+        category: "Modeling"
+      },
+      {
+        id: "9.5-arr-storm-generator-update",
+        title: "ARR Storm Generator Updated",
+        description: "ARR Storm Generator (downloads from Australian Rainfall and Runoff and Bureau of Meteorology) updated to version 1.0.175.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.5-variable-crest-width-weirs",
+        title: "Variable Crest and Width Weirs Separated",
+        description: "Maximum/minimum weir parameters separated. New Maximum Crest and Minimum Crest parameters provide elevation (Z) for variable crest level weirs (VCWEIR). Existing maximum/minimum renamed to Maximum Width and Minimum Width for variable width weirs (VWWIER). If no VCWEIR max/min crest specified, Maximum/Minimum Width used instead (preserves previously defined parameters).",
+        category: "Modeling"
+      },
+      {
+        id: "9.5-csv-blank-lines",
+        title: "Importing Events from Generic CSV File Formats",
+        description: "Blank lines can now be included when importing event data from generic CSV file. Particularly useful for importing XPRAFTS hydrographs.",
+        category: "Data Management"
+      },
+      {
+        id: "9.5-logexpirydays-keyword",
+        title: "New Keyword for Agent Options - LOGEXPIRYDAYS",
+        description: "New LOGEXPIRYDAYS keyword specifies number of days before agent daily log files deleted.",
+        category: "Tools"
+      },
+      {
+        id: "9.5-2d-zones-cropped-3d",
+        title: "2D Zones Cropped to Fit GeoPlan Extents in 3D Network Window",
+        description: "Can display 2D zone cropped to GeoPlan extents in 3D Network Window by pressing CTRL and selecting New 3D network window or clicking toolbar button.",
+        category: "Visualization"
+      },
+      {
+        id: "9.5-sky-exclude-3d",
+        title: "Sky Can Be Excluded in 3D Network Window",
+        description: "New property to turn on (default) or off blue sky with clouds in 3D View background.",
+        category: "Visualization"
+      },
+      {
+        id: "9.5-workgroup-db-size",
+        title: "Size Restriction Removed for Workgroup Databases",
+        description: "Maximum number of objects in workgroup database increased to extent that no longer limits database size.",
+        category: "Performance"
+      },
+      {
+        id: "9.5-multi-gpu-pci",
+        title: "2D Engine - Multi GPU Support via PCI Switches",
+        description: "2D engine now supports GPU cards sharing same PCI bus through PCI switch. Configurable in Agent Options dialog.",
+        category: "Performance"
+      },
+      {
+        id: "9.5-export-snapshots-context",
+        title: "Exporting Snapshot Files from Context Menu",
+        description: "Snapshot files can now be exported from Explorer window context menu (without opening network on GeoPlan). Can choose which scenario and version to export.",
+        category: "Usability"
+      },
+      {
+        id: "9.5-spatial-tsdb-forecast-enhancement",
+        title: "Enhancement for Spatial TSDB ASCII and Binary Grid Forecast Data Lead Times",
+        description: "Enhancement for spatial TSDB ASCII and Binary Grid forecast data lead times.",
+        category: "Data Management"
+      }
+    ]
+  },
+  {
+    id: "9.0",
+    version: "9.0",
+    releaseDate: "2018-05-01",
+    features: [
+      {
+        id: "9.0-large-text-reports",
+        title: "Large Text Reports Support",
+        description: "50 MB restriction for log files, PRN or SWMM SUDS/LID report files removed. Files <4MB displayed in Text File View. Files 4MB-2GB include progress window with cancel option. Files >2GB or with memory issues offer external application option (e.g., Notepad). Formatting progress window for log file warnings with X,Y coordinates as hyperlinks.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-suds-area-adjustment",
+        title: "SUDS Area Adjustment",
+        description: "Can specify which runoff surface or surface type (permeable/impermeable) a SUDS control is located on. ICM makes appropriate adjustments for accurate surface area runoff representation. New Surface field in Subcatchment SUDS controls. Validation checks Area and Number of units don't exceed Surface area. Log file includes list of subcatchment surface areas adjusted by SUDS control objects.",
+        category: "Modeling"
+      },
+      {
+        id: "9.0-river-reach-validation",
+        title: "Improved Validation for River Reaches",
+        description: "All bank points (left/right) have levels checked against lowest point (invert) on nearby sections. Validation warning issued for river reaches where bank line levels lower than section bed levels. Warning includes X,Y coordinates of suspect bank points for amendment opportunity.",
+        category: "Validation"
+      },
+      {
+        id: "9.0-damage-functions-mcm-2017",
+        title: "New Import Option for Damage Functions - MCM 2017 Data",
+        description: "New import option from MCM 2017 Data. Allows damage curves import from CSV files supplied with Flood and Coastal Erosion Risk Management Handbook and Data for Economic Appraisal 2017. Previous option renamed to from MCM 2005/2010 Data (no changes).",
+        category: "Data Management"
+      },
+      {
+        id: "9.0-feh2013-point-data",
+        title: "FEH2013 Point Data Import for Design Rainfall Events",
+        description: "Point descriptor parameters can be imported from FEH2013 point data XML files into design rainfall events. Point files include rainfall depths for pre-defined return periods/durations. Imported rainfall depths and catchment areas passed to ReFH2, output stored as CSV files and used as hyetograph data.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.0-growth-product-wq",
+        title: "New User-Defined Water Quality Process Type - Growth-Product",
+        description: "New Growth-product process type option allows interaction between dissolved and attached pollutants. New Scaling factor type option (Variable/Constant). Coefficients increased from 4 to 7, determinants from 3 to 6. Pre-existing parameters default to Constant scaling factor. New growth-product equation implemented, existing growth/equilibrium equations updated.",
+        category: "Water Quality"
+      },
+      {
+        id: "9.0-tuflow-invert-levels",
+        title: "TUFLOW Network Import - Invert Levels for Links",
+        description: "If imported TUFLOW link type 'S' and MIF fields 7/8 are null (-99999), invert level now read from channel shape CSV file (previously null values converted to zero-based depths).",
+        category: "Integration"
+      },
+      {
+        id: "9.0-hec-snyder-routing",
+        title: "New Routing Model Option - HEC Snyder",
+        description: "New HEC Snyder (Snyder Alameda) option for routing model parameter in runoff surfaces.",
+        category: "Hydrology"
+      },
+      {
+        id: "9.0-read-subevent-deprecated",
+        title: "Schedule Hydraulic Run View - Read Subevent Option Deprecated",
+        description: "Read subevent UCWI & evaporation option deprecated but retained for backwards compatibility. Previously used for changing evaporation rate/UCWI per sub-event. Read Subevent NAPI (New UK Method) also deprecated (was only enabled if Read subevent UCWI & evaporation selected).",
+        category: "Modeling"
+      },
+      {
+        id: "9.0-network-version-indicator",
+        title: "Visual Indicator for More Recent Committed Network Version",
+        description: "Red border around Update to latest button highlights more recent committed network version than currently selected in Model Network box.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-zoom-spatial-tsdb",
+        title: "Zoom to Spatial TSDB in Network",
+        description: "If spatial TSDB opened on network, can now zoom to area of network it applies to.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-export-scalar-tsdb",
+        title: "Export Data from Scalar TSDB Grid",
+        description: "New Export selected rows context-menu option enables scalar time series data export from selected grid rows to CSV file.",
+        category: "Data Management"
+      },
+      {
+        id: "9.0-local-network-message",
+        title: "Opening Local Networks on GeoPlan",
+        description: "Message displayed when opening network with committed changes by others but local copy has uncommitted changes. Allows choosing to update local copy with committed changes or cancel operation.",
+        category: "Usability"
+      },
+      {
+        id: "9.0-tvd-connectors-renamed",
+        title: "TVD Connectors Parameters Renamed",
+        description: "Input units parameters renamed to Input units type (dropdown no longer includes specific unit - determined by external units of connected data stream or expression units). Expression units renamed to Connector units (can specify units for constant or output expression).",
+        category: "Tools"
+      },
+      {
+        id: "9.0-wastewater-profile-validation",
+        title: "Wastewater Profile Editor - Parameter Validation Enhanced",
+        description: "All parameters requiring values now highlighted if outside permitted range (previously only Pollutant parameters). Previous warning message removed. Upper limit increased to 100000 for all relevant parameters except pH (pH: 0-14).",
+        category: "Validation"
+      },
+      {
+        id: "9.0-arma-error-prediction",
+        title: "ARMA Error Prediction",
+        description: "Auto-Regressive Moving-Average (ARMA) method for error prediction. Calculates difference between actual observed flows from subcatchment and model-predicted runoff. ARMA model referenced by subcatchment, TVD connector connects TSDB data stream for observed flow. Simulation results include unmodified runoff flow and ARMA-modified outflow. Can post-process forecast predictions using observed data for nodes (comparison result level), network results point 1D (flow/depth/velocity), network results point 2D (depth/speed).",
+        category: "Modeling"
+      },
+      {
+        id: "9.0-2d-mesh-improvements",
+        title: "Improvements in Size and Display-Time of 2D Meshes",
+        description: "2D meshes can now handle ~30 million elements (increased from previous limit). Performance improvement when displaying 2D zone mesh elements/triangles in GeoPlan - only necessary mesh data loaded (previously entire mesh data including unrelated drawing data loaded).",
+        category: "Performance"
+      },
+      {
+        id: "9.0-sql-spatial-rain-layer",
+        title: "SQL - Spatial Rain Layer",
+        description: "New spatial rainfall layer added to Layers option in SQL. Allows spatial search of rainfall radar cells used in simulation using SPATIAL keyword.",
+        category: "Tools"
+      },
+      {
+        id: "9.0-xmp-observed-rainfall",
+        title: "X-MP Observed Rainfall Format Support",
+        description: "Spatial TSDB now supports newer format for X-MP Observed rainfall.",
+        category: "Data Management"
+      },
+      {
+        id: "9.0-swmm-buildup-washoff",
+        title: "New SWMM Build-up/Wash Off Model",
+        description: "New build-up/wash off land use model based on EPA's Storm Water Management Model (SWMM) land use part. Alternative to existing Innovyze model for water quality simulations. Enables pollutant build-up/wash-off and potential street cleaning removal calculation for each land use during simulation. New Build-up/Washoff Land Use tab on Subcatchment Grid. New Washoff parameter in water quality/sediment parameters (choose model, provide non-attached pollutants info, potency factors, sweep schedule for SWMM model). SWMM5 importer imports relevant land use data, can specify ICM determinant for each imported SWMM5 pollutant.",
+        category: "Water Quality"
+      }
+    ]
+  },
+  {
+    id: "10.5",
+    version: "10.5",
+    releaseDate: "2019-12-01",
+    features: [
+      {
+        id: "10.5-swmm-integration",
+        title: "SWMM Integration - New Network Type and Engine",
+        description: "Innovyze-adapted version of US EPA's Storm Water Management Model (SWMM) now available as additional modeling option. New SWMM simulation engine alongside established Sim engine. New SWMM network type with distinct data structures (InfoWorks networks retain original icon). New network objects and database items (SWMM Climatology, Time Patterns, Pollutograph, Run). SWMM simulations leverage Agent functionality for scheduling, pausing, stopping, and distribution across ICM agents. 1D only, dynamic wave routing. Includes SUDS/LID representation, hydrological/hydraulic/water quality modeling. Events separated from network data (multiple events testable without network modifications). Scenario and version control management supported.",
+        category: "SWMM"
+      },
+      {
+        id: "10.5-rtc-fuzzy-centaur",
+        title: "New RTC Controllers - FUZZY and CENTAUR",
+        description: "Two new RTC Controller types for variable sluice gate control at Global or Regulator level. CENTAUR allows CENTAUR™ gates (Environmental Monitoring Solutions) representation in InfoWorks networks. FUZZY controller uses Member functions and Fuzzy rules dependants to determine variable sluice gate operation.",
+        category: "Modeling"
+      },
+      {
+        id: "10.5-subcatchment-output-lag",
+        title: "Output Lag and Bypass Runoff Parameters for Subcatchments",
+        description: "New Output lag parameter allows fixed time delay for subcatchment outflow to 'drains to' destination. New Bypass runoff checkbox (for subcatchments draining to another subcatchment) - if checked, outflow added to total outflow of destination; if unchecked, applied as additional input to destination runoff surfaces. Useful for XPRAFTS users migrating models (ICM subcatchment with non-zero output lag equivalent to XPRAFTS subcatchment draining to lag link).",
+        category: "Modeling"
+      },
+      {
+        id: "10.5-2d-conduits-performance",
+        title: "Processing Time Improved for Conduits (2D)",
+        description: "Computational times for conduits (2D) greatly improved, giving faster simulation results than earlier versions.",
+        category: "Performance"
+      },
+      {
+        id: "10.5-2d-summary-log",
+        title: "Improvements to 2D Summary Log",
+        description: "New volume balance error as percentage of net inflow (VBEPNI) metric added to volume balance summary report. Provides more accurate volume balance error than VBEPIO metric (based on sum of inflows/outflows). Only non-zero denominator metrics output in log file.",
+        category: "Results"
+      },
+      {
+        id: "10.5-refh-timestep-control",
+        title: "Timestep Control for ReFH Direct Runoff Calculations",
+        description: "Same timestep control options for ReFH direct runoff phase as for simulation. Using 'Stop simulation at end of time varying data' option may make ReFH direct runoff phase much faster (may no longer need full run duration).",
+        category: "Modeling"
+      },
+      {
+        id: "10.5-nimrod-flexible-naming",
+        title: "Nimrod File Naming for Spatial Time Series Databases",
+        description: "Nimrod data file naming for spatial TSDB now flexible (no longer restrictive), as long as file encoded as valid Nimrod format.",
+        category: "Data Management"
+      },
+      {
+        id: "10.5-tslag-expression",
+        title: "New Time Series Expression for Shifting Timestamps",
+        description: "New TSLAG(input_series, lag_seconds) time series expression. Constructs series with same data points as input but time stamps shifted forward (lagged) by specified seconds. Negative seconds shifts timestamps backwards.",
+        category: "Tools"
+      },
+      {
+        id: "10.5-spatial-tsdb-init-performance",
+        title: "Initialisation Time Improved for Simulations Using Spatial TSDBs",
+        description: "Significant improvements to initialisation times for spatial TSDBs with high cell count (most noticeable at 10,000+ cells).",
+        category: "Performance"
+      },
+      {
+        id: "10.5-pressurised-pipes-papers",
+        title: "Technical Papers for Modelling of Pressurised Pipes",
+        description: "Two new technical papers added to help: 'Modelling of Pressurised Pipes within InfoWorks ICM' and 'Modelling Steeply Sloping Pressurised Pipes'.",
+        category: "Documentation"
+      },
+      {
+        id: "10.5-conduit-status-improvements",
+        title: "Conduit Status Improvements",
+        description: "Open conduits previously returning jet flow boundary condition now return free boundary condition (critical or normal flow). Depth restriction at conduit end removed for open conduits (suitable for closed conduits only). Most noticeable in networks with river reaches connected to 2D zones with banks - depth in reach may exceed highest point defined for section when banks active.",
+        category: "Modeling"
+      },
+      {
+        id: "10.5-arrow-themes-improvements",
+        title: "Improvements to Arrow Themes",
+        description: "Line/Link arrow theme improved. Size and colour of arrows can now be set using symbol size and symbol colour functions (arrows can differ from line size/colour).",
+        category: "Visualization"
+      },
+      {
+        id: "10.5-snow-melt-swmm5",
+        title: "Snow Melt Model Updated to SWMM5",
+        description: "Snow melt model updated from SWMM4 continuous simulation model to SWMM5 version.",
+        category: "Modeling"
+      },
+      {
+        id: "10.5-multipart-shapefile-import",
+        title: "Import of Multi-Part Shapefiles Improved",
+        description: "Multi-part shapefile import has been improved.",
+        category: "Data Management"
+      },
+      {
+        id: "10.5-binary-export-sorted",
+        title: "Binary Export Result Files Now Sorted Alphabetically",
+        description: "Results exported in binary format now sorted alphabetically (previously unsorted).",
+        category: "Results"
+      },
+      {
+        id: "10.5-html-log-improvements",
+        title: "HTML Log Files Layout Improved",
+        description: "Layout and appearance of HTML log files improved.",
+        category: "Usability"
+      }
+    ]
+  },
+  {
     id: "11.0",
     version: "11.0",
     releaseDate: "2020-05-01",
