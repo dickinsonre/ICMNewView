@@ -130,13 +130,14 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 ### November 2024
+- **Version 4.0 Added (June 2013)**: Comprehensive version with 20 features including Spatial Bookmarks, print layout enhancements, PDM and SRM runoff models, multiple temperature profiles, ground model sampling tools, breach display improvements, flexible saved states, performance enhancements, and MapXtreme 7.1 upgrade
 - **Version 3.5 Added (February 2013)**: Comprehensive version with 19 features including Time Series Database (TSDB) support for live data, Regulator Events, manual breaches, 2D bridge structures, Hydrogen Sulphide modeling, FHWA headloss, Episode Collections with Extreme Value Analysis, HEC-RAS export, engine/GPU performance improvements, and print layouts
 - **Version 3.0 Added (August 2012)**: Comprehensive version with 19 features including HEC-RAS import, Cross Section Window, advanced water quality modeling (algae, macrophytes), GPU improvements, comprehensive graphing enhancements, and AutoCAD 2013 support
 - **Version 2.5 Added (February 2012)**: Comprehensive version with 21 features including terrain-sensitive meshing, standalone 2D simulations, enhanced polygon/polyline tools, 2D performance improvements, local steady state detection, and GIS enhancements
 - **Version 1.5 Added (February 2011)**: Comprehensive version with 24 features including 2D Infiltration Model, 2D Water Quality Model, SQL enhancements, River Reach building improvements, meshing enhancements, and extensive usability features
 - **Version 2025.4 Added**: Complete version with 10 features including InfoWorks ICM Viewer, 2D Mesh Element Histograms, Muskingum routing, and Ruby scripting enhancements
 - **Placeholder Versions Created**: Structured placeholder entries for 14 versions (2025.3, 2025.2, 2025.1, 2025.0, 2024.4, 2024.3, 2024.1, 2024.0, 11.0, 10.5, 10.0, 9.5, 9.0, 2.0) awaiting user-provided content
-- **Timeline Coverage**: Application displays ~28 version entries from 2026.2 back to 1.5 (February 2011). Currently 11 versions have full content, 14 are placeholders, and 3 have partial content. User can provide "What's New" documentation to populate remaining versions.
+- **Timeline Coverage**: Application displays ~29 version entries from 2026.2 back to 1.5 (February 2011). Currently 12 versions have full content, 14 are placeholders, and 3 have partial content. User can provide "What's New" documentation to populate remaining versions.
 
 ## Data Structure
 

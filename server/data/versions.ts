@@ -465,6 +465,133 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "4.0",
+    version: "4.0",
+    releaseDate: "2013-06-01",
+    features: [
+      {
+        id: "4.0-spatial-bookmarks",
+        title: "Spatial Bookmarks",
+        description: "New named markers to identify and save zoom extents for particular locations or object selections, displayed in Spatial Bookmarks Window for quick navigation to saved views around the network.",
+        category: "Usability"
+      },
+      {
+        id: "4.0-print-layouts",
+        title: "Print Layout Enhancements",
+        description: "Extended print layouts with new frame types (Graph, Grid, Flag, Locator, Scale) and batch printing capability from Spatial Bookmarks for multiple bookmarked views.",
+        category: "Usability"
+      },
+      {
+        id: "4.0-data-flags",
+        title: "Data Flags Window",
+        description: "New dockable window displaying all Data Flags in the current master database for improved data quality management.",
+        category: "Usability"
+      },
+      {
+        id: "4.0-proximity-trace",
+        title: "Proximity Trace Enhancements",
+        description: "Enhanced proximity search with selection-only search option, checkbox selection for snapping objects, bidirectional snap (link-to-node or node-to-link), and vertex-only search mode.",
+        category: "Tools"
+      },
+      {
+        id: "4.0-saved-states",
+        title: "Flexible Saved State Initialization",
+        description: "Greater flexibility allowing saved states to initialize simulations using different networks, versions, and scenarios from those used to generate the saved state.",
+        category: "Modeling"
+      },
+      {
+        id: "4.0-pdm-runoff",
+        title: "Probability Distributed Model (PDM) Runoff Surface",
+        description: "New PDM runoff volume type with PDM Descriptor objects for rainfall-runoff parameters, subcatchment association, and RS network data import support. Also supports baseflow and soil moisture deficit modeling with SRM.",
+        category: "Hydrology"
+      },
+      {
+        id: "4.0-srm-runoff",
+        title: "Simple Runoff Model (SRM) Runoff Surface",
+        description: "New SRM runoff volume type using soil moisture deficit time series with constant runoff coefficient for effective rainfall calculation, applied to simplified PDM model with double linear reservoir routing. Includes soil moisture deficit profiles in Rainfall Events.",
+        category: "Hydrology"
+      },
+      {
+        id: "4.0-temperature-profiles",
+        title: "Multiple Temperature Profiles in Rainfall Events",
+        description: "Support for multiple temperature profiles in Rainfall Events for snow melt and PDM runoff modeling, with profile ID matching to rainfall gauges or single profile applied to all gauges.",
+        category: "Hydrology"
+      },
+      {
+        id: "4.0-line-extension",
+        title: "Line Object Extension with Edit Geometry Tool",
+        description: "New capability to extend line objects by adding vertices to beginning or end using edit geometry tool with CTRL+click functionality.",
+        category: "Tools"
+      },
+      {
+        id: "4.0-ground-model-sampling",
+        title: "Ground Model Sampling Tool Enhancements",
+        description: "Comprehensive improvements including 'Do not insert vertices between existing vertices' option for river lines, level-area value sampling for storage/pond nodes, and ground model selection box in Update from Ground Model Dialog.",
+        category: "Tools"
+      },
+      {
+        id: "4.0-breach-display",
+        title: "Breach Display Improvements",
+        description: "Enhanced breach visualization with varying bank level trace in Cross Section Window, elevation reporting for all vertices in Base Linear Structure results, and varying elevations displayed in 3D Network Window for banks and linear structures with breaches.",
+        category: "Visualization"
+      },
+      {
+        id: "4.0-overtopping-flow",
+        title: "Overtopping Flow Calculation Method Selection",
+        description: "New Overtopping flow type field for 2D sluices and bridges allowing selection between Free (fully free) and Controlled (fully controlled) flow calculation methods to address oscillation issues.",
+        category: "Modeling"
+      },
+      {
+        id: "4.0-river-validation",
+        title: "River Reach Validation Improvements",
+        description: "New validation warnings for inconsistent river reach geometry when River Lines or river reach sections/banks have x,y geometry changes after reach or boundary construction.",
+        category: "Data Management"
+      },
+      {
+        id: "4.0-flood-theme-performance",
+        title: "Flood Theme Performance Enhancement",
+        description: "Water level interpolation now only performed when flood theme is turned on, significantly speeding up Ground Model loading in simulation results for large models.",
+        category: "Performance"
+      },
+      {
+        id: "4.0-tsdb-deletion",
+        title: "Historical Time Series Data Deletion",
+        description: "New capability to delete historical data from time series databases with deletion upper limit settings and option to keep latest value versions even if unused in simulations.",
+        category: "Data Management"
+      },
+      {
+        id: "4.0-mesh-element-dialog",
+        title: "2D Mesh Element Properties Dialog Improvements",
+        description: "Enhanced modeless dialog allowing simultaneous work in other interface parts, multiple dialogs open at once, auto-updating element results grid during replay, Find in GeoPlan button, and access from 2D zone property sheet.",
+        category: "Usability"
+      },
+      {
+        id: "4.0-label-suppression",
+        title: "Rotated Link Label Clash Suppression",
+        description: "Rotate Link Labels and Suppress Clashing Labels options now work together, preventing overlapping rotated labels on GeoPlan.",
+        category: "Visualization"
+      },
+      {
+        id: "4.0-commit-history",
+        title: "Commit History Performance Improvement",
+        description: "Commit History Dialog now displays most recent 100 commits by default with Show More (next 100) and Show All buttons for faster viewing of networks with large commit histories.",
+        category: "Performance"
+      },
+      {
+        id: "4.0-toolbar-split",
+        title: "Windows Toolbar Split",
+        description: "Windows toolbar divided into separate Windows Toolbar (network data windows) and Docking Windows Toolbar (docking windows control) for improved usability.",
+        category: "Usability"
+      },
+      {
+        id: "4.0-mapxtreme-upgrade",
+        title: "MapXtreme 7.1 Upgrade with WMS 1.3 Support",
+        description: "Upgrade to MapXtreme 7.1 enabling WMS version 1.3 image loading onto GeoPlan as background layers when using MapXtreme map control.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "3.5",
     version: "3.5",
     releaseDate: "2013-02-01",
