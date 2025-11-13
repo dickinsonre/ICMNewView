@@ -56,9 +56,17 @@ export default function HomePage() {
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold mb-2">Release Timeline</h2>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h2 className="text-3xl font-bold">Release Timeline</h2>
+                    {versions && versions.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold text-primary">{versions.length}</span>
+                        <span className="text-sm text-muted-foreground">versions documented</span>
+                      </div>
+                    )}
+                  </div>
                   <p className="text-muted-foreground">
-                    Explore the latest features and improvements in ICM InfoWorks
+                    Explore 638 features across {versions?.length || 0} versions from 2011 to present
                   </p>
                 </div>
                 {versions && versions.length > 0 && (

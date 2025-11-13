@@ -38,12 +38,13 @@ export default function Header({ onSearch, onShowDocumentation }: HeaderProps) {
 
         <div className="flex items-center gap-2">
           <Button 
-            variant="ghost" 
-            size="icon" 
+            variant="outline"
             onClick={onShowDocumentation}
             data-testid="button-info"
+            className="gap-2"
           >
-            <Info className="h-5 w-5" />
+            <Info className="h-4 w-4" />
+            <span className="hidden sm:inline">Documentation</span>
           </Button>
           <ThemeToggle />
         </div>
