@@ -66,7 +66,7 @@ export default function HomePage() {
                     )}
                   </div>
                   <p className="text-muted-foreground">
-                    Explore 760 features across {versions?.length || 0} versions from 2011 to present
+                    Explore {versions?.reduce((sum, v) => sum + v.features.length, 0) || 0} features across {versions?.length || 0} versions from 2011 to present
                   </p>
                 </div>
                 {versions && versions.length > 0 && (
@@ -110,6 +110,7 @@ export default function HomePage() {
       <DocumentationSheet
         open={showDocumentation}
         onClose={() => setShowDocumentation(false)}
+        versions={versions}
       />
     </div>
   );

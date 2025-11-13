@@ -42,3 +42,22 @@ The application's design emphasizes dynamic content delivery over static files, 
 
 **Database Services (Configured but Unused):**
 - **Neon Database**: PostgreSQL serverless database.
+
+## Recent Changes
+
+### November 2024
+- **COMPLETE CHRONOLOGICAL ORDERING ACHIEVED!**
+- **Version 8.5 Added (November 2017)**: COMPREHENSIVE version with 25 features including massive increase in rainfall profiles (999M user-created, 2.1B TSDB-generated in binary format for efficiency), TSDB description fields and user edit enhancements, multiple observed data streams in Object Per Page graphs, Initial Conditions 2D import/export, Sim ID in statistical reports, ICM Exchange meshing capability, RTC editors improvements, UK EA block spillage method (12/24 hour), flood sections for 2D results interrogation, complex graphs performance, river confluences from InfoWorks RS, HEC-RAS geometry enhancements (2D modelling, shaped lateral banks, curved lateral structures), SWMM v5.1.012 engine, **Blockages introduced** (time-varying obstructions with contraction/expansion loss coefficients), overlapping 1D/2D banks and boundaries support, head unit flows for 2D boundaries, **Permeable Zone (2D) introduced** (transfer infiltrated volume to 1D network), multi barrel links (Number of barrels parameter), headloss coefficients for 2D linear structures (upstream/downstream separation, fixed/per unit length), SWMM5 RDII implementation choice, user defined controls modular limits, alternative flow units (Ml/day, Ml/hour, m³/day, m³/hour), resizable SQL dialog, Australian Rainfall (2016) design generator with ARR Storm Generator
+- **Automated Version Sorting**: Created sorting script (`scripts/sort-versions.ts`) to maintain chronological order of all versions by releaseDate (descending). All 51 versions now properly ordered from 2026-06-01 (newest) to 2011-02-01 (oldest).
+- **Dynamic UI Counts**: Updated all UI displays to dynamically calculate version and feature counts from actual data instead of hardcoded values, ensuring accuracy.
+- **Timeline Coverage**: Application displays 51 version entries from 2026.1 back to 1.5 (February 2011). COMPLETE CONTINUOUS COVERAGE from Version 1.5 (Feb 2011) through Version 2023.2 (Oct 2022) with partial coverage for future releases (2024-2026). **Total: 51 versions, 669 features, 14+ years of continuous coverage.**
+
+## Data Structure
+
+**Version Data**: Stored in `server/data/versions.ts` with structured format including version ID, release date, and comprehensive feature arrays with categories for filtering. The versionsData array is maintained in descending chronological order by releaseDate for proper timeline rendering.
+
+**AI Chat Context**: Both Claude Sonnet and DeepSeek chat assistants receive all 669 features across 51 versions as system context, enabling accurate historical queries about any feature or version from 2011 to present.
+
+## Maintenance
+
+**Version Ordering**: The versionsData array must be kept in descending chronological order by releaseDate. Use `npx tsx scripts/sort-versions.ts` to automatically sort the array after adding new versions. Run with `--dry-run` flag to preview changes before applying.

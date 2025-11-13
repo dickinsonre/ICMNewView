@@ -7,13 +7,17 @@ import {
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import type { Version } from "@shared/schema";
 
 interface DocumentationSheetProps {
   open: boolean;
   onClose: () => void;
+  versions?: Version[];
 }
 
-export default function DocumentationSheet({ open, onClose }: DocumentationSheetProps) {
+export default function DocumentationSheet({ open, onClose, versions = [] }: DocumentationSheetProps) {
+  const totalVersions = versions.length;
+  const totalFeatures = versions.reduce((sum, v) => sum + v.features.length, 0);
   return (
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <SheetContent className="w-full sm:max-w-2xl">
@@ -40,7 +44,7 @@ export default function DocumentationSheet({ open, onClose }: DocumentationSheet
                 <div className="flex items-start gap-2">
                   <Badge variant="outline" className="mt-0.5">Timeline</Badge>
                   <p className="text-sm text-muted-foreground">
-                    Visual timeline spanning from 2011 to present, covering 32 fully documented versions
+                    Visual timeline spanning from 2011 to present, covering {totalVersions} fully documented versions
                   </p>
                 </div>
                 <div className="flex items-start gap-2">
@@ -52,7 +56,7 @@ export default function DocumentationSheet({ open, onClose }: DocumentationSheet
                 <div className="flex items-start gap-2">
                   <Badge variant="outline" className="mt-0.5">Search</Badge>
                   <p className="text-sm text-muted-foreground">
-                    Powerful search across 638 features and comprehensive filtering by category
+                    Powerful search across {totalFeatures} features and comprehensive filtering by category
                   </p>
                 </div>
                 <div className="flex items-start gap-2">
@@ -68,15 +72,15 @@ export default function DocumentationSheet({ open, onClose }: DocumentationSheet
               <h3 className="text-lg font-semibold mb-3">Coverage Statistics</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-2xl font-bold">37</p>
+                  <p className="text-2xl font-bold">{totalVersions}</p>
                   <p className="text-xs text-muted-foreground">Documented Versions</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-2xl font-bold">760</p>
+                  <p className="text-2xl font-bold">{totalFeatures}</p>
                   <p className="text-xs text-muted-foreground">Total Features</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-2xl font-bold">11.67</p>
+                  <p className="text-2xl font-bold">14+</p>
                   <p className="text-xs text-muted-foreground">Years Covered</p>
                 </div>
                 <div className="space-y-1">
