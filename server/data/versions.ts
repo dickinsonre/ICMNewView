@@ -465,6 +465,145 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "5.0",
+    version: "5.0",
+    releaseDate: "2014-05-01",
+    features: [
+      {
+        id: "5.0-initial-conditions",
+        title: "Initial Conditions 1D Editor",
+        description: "New Initial Conditions 1D tree object for assigning initial hydraulic values to nodes and river reaches at simulation start, overriding initial state simulation values when included in Schedule Hydraulic Run View.",
+        category: "Modeling"
+      },
+      {
+        id: "5.0-2d-mesh-init",
+        title: "Initialize 2D Mesh from Different Mesh",
+        description: "Use initial state simulations with different 2D meshes linked by 2D Zone ID, supporting re-meshed zones after small network changes without requiring mesh matching.",
+        category: "Modeling"
+      },
+      {
+        id: "5.0-sediment-transport",
+        title: "2D Suspended Sediment Transport",
+        description: "New erosion-deposition modeling in 2D networks via 'Model 2D erosion-deposition' option in QM Parameters Dialog with water quality and sediment parameters for erosion-deposition calculations.",
+        category: "Water Quality"
+      },
+      {
+        id: "5.0-ukwir-runoff",
+        title: "UKWIR Runoff Volume Models",
+        description: "UKWIRPaved and UKWIRPerv runoff volume types for runoff surfaces supporting multiple paved and pervious surfaces based on UKWIR model as replacement for New UK PR Model per UKWIR Equation Guide (2014).",
+        category: "Hydrology"
+      },
+      {
+        id: "5.0-japanese-models",
+        title: "Japanese Rainfall Runoff Models",
+        description: "Support for Japanese models including f1-Rsa runoff volume method, Kadoya coefficient for Quasi Linear Reservoir Method, Non-linear Storage Function Method, and Rational hydrograph method with rational formula.",
+        category: "Hydrology"
+      },
+      {
+        id: "5.0-node-inference",
+        title: "Node Ground Level Inference from Mesh Elements",
+        description: "New inference rule allowing node ground levels to be automatically inferred from ground level of containing mesh element.",
+        category: "Tools"
+      },
+      {
+        id: "5.0-risk-geoplan",
+        title: "Risk Analysis Results in GeoPlan",
+        description: "Risk analysis simulation and results now loadable in GeoPlan with viewing via themes, grid/graph tools, and network results grids for damage receptors and associated polygons (previously HTML log only).",
+        category: "Results"
+      },
+      {
+        id: "5.0-risk-polygon-areas",
+        title: "Risk Analysis Polygon Area Fallback",
+        description: "Risk analysis with Relative to Area damage curves now uses sum of associated polygon areas when damage receptor area is undefined.",
+        category: "Modeling"
+      },
+      {
+        id: "5.0-damage-function-csv",
+        title: "Damage Function CSV Import/Export",
+        description: "Enhanced Damage Function with general CSV import/export capabilities beyond previous Multi-Coloured Handbook format limitation.",
+        category: "Data Management"
+      },
+      {
+        id: "5.0-gis-batch-export",
+        title: "Batch Export Time Varying Results to GIS",
+        description: "Export time varying results for timestep ranges at specified intervals or for timestep lists loaded from CSV files to GIS formats.",
+        category: "Integration"
+      },
+      {
+        id: "5.0-inundation-results",
+        title: "Enhanced 2D Inundation Results",
+        description: "New 2D mesh summary results in Mesh Element Properties Dialog: 'Time to last inundation' and 'Total inundation duration' based on inundation mapping depth threshold from 2D Parameters Advanced tab.",
+        category: "Results"
+      },
+      {
+        id: "5.0-ground-level-results",
+        title: "Ground Level Results for 2D Network Results Objects",
+        description: "Mean, max, and min ground level results now available for Network Results Line (2D) and Network Results Polygon (2D) objects in results grids and property sheets.",
+        category: "Results"
+      },
+      {
+        id: "5.0-observed-rainfall-reports",
+        title: "Observed Rainfall Support for RPA and Worst Case Reports",
+        description: "Return Period Analysis and Worst Case reports now use observed rainfall when return period and duration available from Sub-event or Profile properties in rainfall events.",
+        category: "Results"
+      },
+      {
+        id: "5.0-sql-enhancements",
+        title: "SQL Enhancements",
+        description: "Subcatchments available as one-to-many link from nodes. New NL() function for newline characters and NVL(x,y) function for null value handling. DELETE FROM syntax for removing rows from object arrays with conditional filtering.",
+        category: "Development"
+      },
+      {
+        id: "5.0-inline-bank-validation",
+        title: "Inline Bank Validation Improvement",
+        description: "Network validation now displays errors when discharge coefficient or modular limit data missing from inline bank section data.",
+        category: "Data Management"
+      },
+      {
+        id: "5.0-preprocessing-performance",
+        title: "Network Results Objects Preprocessing Performance",
+        description: "Significant reduction in pre-processing time for large numbers of network results objects.",
+        category: "Performance"
+      },
+      {
+        id: "5.0-initial-state-performance",
+        title: "Initial State Simulation Performance Improvements",
+        description: "Reduced flexible state loading time for simulations, significantly decreasing run times particularly for large networks.",
+        category: "Performance"
+      },
+      {
+        id: "5.0-tsdb-historic-mode",
+        title: "TSDB Historic Mode",
+        description: "New Historic mode checkbox in TSDB Options using Run origin time as historic time, including only observed values up to origin and forecasts with earlier origins for historical data stream simulations with user edits.",
+        category: "Data Management"
+      },
+      {
+        id: "5.0-tsdb-data-sources",
+        title: "TSDB iHistorian and ClearSCADA Support",
+        description: "Support for iHistorian (GE Intelligent Platforms) and ClearSCADA (Schneider Electric) telemetry data source formats for scalar time series databases.",
+        category: "Integration"
+      },
+      {
+        id: "5.0-tsdb-csv-performance",
+        title: "TSDB CSV Update Performance Improvements",
+        description: "Enhanced TSDB update performance from CSV files with automatic separation of successfully loaded entries to 'loaded' subdirectory and failed entries to 'failed' subdirectory.",
+        category: "Performance"
+      },
+      {
+        id: "5.0-tsdb-security",
+        title: "TSDB Password Security Enhancement",
+        description: "Password characters in Data Sources tab of Time Series Database editor now displayed as asterisks instead of plain text.",
+        category: "Administration"
+      },
+      {
+        id: "5.0-replay-clock-enhancement",
+        title: "Replay Clock Run Origin Indicator",
+        description: "Blue vertical bar added to replay clock at run origin time when viewing TSDB simulation replays in Network Page.",
+        category: "Usability"
+      }
+    ]
+  },
+  {
     id: "4.5",
     version: "4.5",
     releaseDate: "2013-12-01",
