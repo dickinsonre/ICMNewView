@@ -301,10 +301,34 @@ export const versionsData: Version[] = [
     releaseDate: "2024-07-01",
     features: [
       {
-        id: "2025.2-placeholder",
-        title: "Version 2025.2 Features",
-        description: "Features for version 2025.2 - July 2024. Please provide the full 'What's New' content to populate this version.",
-        category: "General"
+        id: "2025.2-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.2-export-2d-raster",
+        title: "Export 2D to Raster (Tech Preview)",
+        description: "New efficient way to export 2D results as raster TIFF image files for import into GIS and analysis systems. Available for 2D cloud simulations with downloaded summary results. Can export time varying or summary results, all attributes or selected attributes. For time varying results, can export single timestep or all saved timesteps with timestep multiplier control. New Export 2D to raster option in Results menu opens Export 2D to Raster dialog for specifying units, resolution, and save location.",
+        category: "Results"
+      },
+      {
+        id: "2025.2-cloud-quota-dialog",
+        title: "Cloud Simulation Quota Dialog",
+        description: "New Cloud Simulation Quota dialog displays when running or re-running simulations for cloud databases, informing about implications of monthly quotas for concurrent cloud simulation usage. Includes 'Do not show this dialog again' checkbox (checked by default) to suppress dialog in current software version.",
+        category: "Cloud"
+      },
+      {
+        id: "2025.2-swmm-import-logs",
+        title: "SWMM5 and InfoSWMM Import Logs Improvements",
+        description: "Improved messages in import logs from SWMM5 text files and InfoSWMM models. Previously misleading messages about empty sections (INFLOWS, PATTERNS) now inform users they can ignore if data not required or provide necessary information. InfoSWMM conduit import messages now ask users to verify From Node ID and To Node ID fields are populated in Link Connectivity table when conduits have no matching Coordinates or Xsections.",
+        category: "Data Management"
+      },
+      {
+        id: "2025.2-2d-depth-noise-filter",
+        title: "2D Depth Noise Filter",
+        description: "New 2D depth noise filter reduces numerical noise caused by numbers below floating point precision. Results previously not updated due to very low depths can now be updated. May have minor impact on 2D models with very low depths, mainly infiltration models with Green-Ampt, Horton, Deficit, Constant Loss, and CNSWMM infiltration surfaces. Requires database update to 2025.2.",
+        category: "Performance"
       }
     ]
   },
