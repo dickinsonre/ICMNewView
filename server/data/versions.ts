@@ -400,6 +400,121 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.6",
+    version: "2021.6",
+    releaseDate: "2021-08-01",
+    features: [
+      {
+        id: "2021.6-results-selectors",
+        title: "Results Selectors for InfoWorks Networks",
+        description: "New Results selector database item limits generated results to selected attributes. Choose result types (Hydraulic, Water quality, 2D), classes (rivers, subcatchments), attribute types (All, Summary, Time series, Gauge), and individual attributes. Schedule Hydraulic Run View includes results selector dropbox (becomes read-only after run completion).",
+        category: "Results"
+      },
+      {
+        id: "2021.6-gis-export-fix",
+        title: "Result Export to GIS for Return Periods and Durations",
+        description: "Fixed export of Return period/Duration values less than 1 to GIS files (previously exported as NULL). Now correctly exported as floating point integers for time varying and maximum results.",
+        category: "Results"
+      },
+      {
+        id: "2021.6-mesh-validation-performance",
+        title: "Quicker Validation for Mesh Zones",
+        description: "Significantly reduced validation time for networks containing thousands of mesh zones.",
+        category: "Performance"
+      },
+      {
+        id: "2021.6-2d-preprocessing-performance",
+        title: "Quicker Pre-processing for 2D Simulations",
+        description: "Pre-processing times for 2D simulations with large numbers of elements reduced by more than 90%.",
+        category: "Performance"
+      },
+      {
+        id: "2021.6-culvert-inlets",
+        title: "Culvert Inlet Behavior Improvements",
+        description: "Improved culvert inlet behavior accounts for base flow presence in barrel conduit when using Equation B. Eliminates oscillations that prevented initialization from finding steady state.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.6-culvert-outlets",
+        title: "Culvert Outlet Behavior Improvements",
+        description: "Improved culvert outlet behavior for supercritical cases. Updated implementation of free flow/headloss (drowned) condition switching. Free flow condition now applies if downstream depth plus headloss below lower of critical (yc) or normal (yn) depth. Behaves as free boundary between link end and node. Updated status values: 8 for subcritical free discharging, 32 for free flow limited to pipe full value.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.6-chicago-rainfall",
+        title: "Chicago Design Rainfall Generator",
+        description: "New Chicago design rainfall generator based on Keifer and Chu (1957) method for determining synthetic hyetograph.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.6-malaysia-hp1-rainfall",
+        title: "Malaysia HP1 (2015) Rainfall Generator Updates",
+        description: "Minimum Duration set to 5 minutes, maximum 4320 minutes (72 hours/3 days). Warning message displayed if specified duration(s) fall outside permitted range.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.6-desktop-analytics",
+        title: "Desktop Analytics Option",
+        description: "New Desktop analytics option in Help menu. Dialog allows opt in (default) or out of Innovyze data collection about InfoWorks ICM usage. Opt-in data used to improve features, performance, and quality.",
+        category: "Usability"
+      },
+      {
+        id: "2021.6-infoworks-gpu-default",
+        title: "Default GPU Card Option for InfoWorks 2D Simulations",
+        description: "Default GPU card usage changed from Never to If suitable card is available in GPU tab of 2D Parameters Dialog. Option order updated with default listed first. Error message displayed in simulation log if suitable GPU card not found. Requires latest NVIDIA driver. GPU status displayed in Job Progress Window (Not in use/Active).",
+        category: "Performance"
+      },
+      {
+        id: "2021.6-swmm-gpu",
+        title: "GPU Cards for SWMM 2D Simulations",
+        description: "GPU card support for SWMM 2D simulation performance improvement. Three options: Never, If suitable card is available (default), Always (set in GPU tab of 2D Parameters Dialog). Error message if suitable card not found. Requires latest NVIDIA driver. GPU status displayed in Job Progress Window (Not in use/Active).",
+        category: "Performance"
+      },
+      {
+        id: "2021.6-swmm-boundary-types",
+        title: "Boundary Types for SWMM 2D Zones",
+        description: "New Boundary type property for SWMM 2D Zones. Choose boundary condition: Vertical wall, Critical condition, Supercritical condition, Dry, or Normal condition. Porous Wall or Porous Polygon collinear with 2D Zone boundary overrides zone boundary condition along coincident portion.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.6-swmm-outfall-nodes",
+        title: "SWMM Outfall Node Type Enhancement",
+        description: "Outfall nodes no longer restricted as end nodes. Can be located upstream of another node and have multiple links connected. Network validation no longer fails if outfall node connected to multiple links.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.6-swmm-roughness-definitions",
+        title: "Roughness Definitions for SWMM Networks",
+        description: "New Roughness definition non-visual polygon objects define roughness as depth function in 2D Zone mesh elements. Manning's n changes dynamically during simulation per roughness definition function. Up to three roughness values and two depth thresholds. Multiple roughness values create smoothed step function with cubic spline transitions. New Roughness definition field in 2D Zones and Roughness Zones properties. Legacy Roughness (Manning's n) field retained for backwards compatibility.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.6-swmm-water-quality-stats",
+        title: "Water Quality Results for SWMM Statistics Templates",
+        description: "Water quality results now included in SWMM Statistics templates. Editable Attribute field when list water quality attributes checked allows specifying pollutant name. Statistical report displays specified water quality attributes in pollutant-specified units.",
+        category: "Results"
+      },
+      {
+        id: "2021.6-xpx-links-import",
+        title: "Importing Links from XPSWMM/XPStorm to InfoWorks Networks",
+        description: "Updated link import from XPSWMM/XPStorm XPX files. Conduit/channel US invert level now imports ZP1 value only (previously ZP1 minus Z(US node)). DS invert level imports ZP2 value only (previously ZP2 minus Z(DS node)). Orifice/sluice Invert level imports ZP value only (previously ZP minus Z(US node)). User-defined control Initial level now imports Z(US node) value (previously 0).",
+        category: "Integration"
+      },
+      {
+        id: "2021.6-xprafts-subcatchment-import",
+        title: "Importing Subcatchment Data from XPRAFTS",
+        description: "Choose to combine or split XPRAFTS First and Second Subcatchments on import. Updated Import XPRAFTS dialog with Combine 1st and 2nd subcatchments into single polygon (default) or Split 1st and 2nd subcatchments to separate polygons options. Combined subcatchments require matching polygon geometry and neither runoff surface type set to Impervious=100 or Pervious=0. Combined import uses First Subcatchment properties, creates two runoff surfaces.",
+        category: "Integration"
+      },
+      {
+        id: "2021.6-assimilation-deprecation",
+        title: "Assimilation Deprecation",
+        description: "Assimilation database item deprecated to accommodate expanding functionality. Existing Assimilation items remain visible in Explorer Window but no new items can be added or used in runs.",
+        category: "Administration"
+      }
+    ]
+  },
+  {
     id: "2021.7",
     version: "2021.7",
     releaseDate: "2021-09-01",
