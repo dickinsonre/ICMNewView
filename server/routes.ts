@@ -43,6 +43,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { messages} = validationResult.data;
       
+      // Get all versions to provide as context
+      const versions = await storage.getAllVersions();
+      const contextData = JSON.stringify(versions, null, 2);
+      
+      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 638 total features.
+
+Here is the complete version history data:
+
+${contextData}
+
+When answering questions:
+- Search through the version data to find relevant features
+- Provide specific version numbers and release dates
+- Quote feature descriptions when relevant
+- If a feature appears in multiple versions, mention the evolution
+- Be concise but informative
+
+Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      
       const anthropic = new Anthropic({
         apiKey: process.env.AI_INTEGRATIONS_ANTHROPIC_API_KEY,
         baseURL: process.env.AI_INTEGRATIONS_ANTHROPIC_BASE_URL,
@@ -51,6 +70,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-5",
         max_tokens: 2048,
+        system: systemMessage,
         messages: messages.map((msg) => ({
           role: msg.role,
           content: [
@@ -84,6 +104,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { messages } = validationResult.data;
       
+      // Get all versions to provide as context
+      const versions = await storage.getAllVersions();
+      const contextData = JSON.stringify(versions, null, 2);
+      
+      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 638 total features.
+
+Here is the complete version history data:
+
+${contextData}
+
+When answering questions:
+- Search through the version data to find relevant features
+- Provide specific version numbers and release dates
+- Quote feature descriptions when relevant
+- If a feature appears in multiple versions, mention the evolution
+- Be concise but informative
+
+Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      
       const openai = new OpenAI({
         baseURL: process.env.AI_INTEGRATIONS_OPENROUTER_BASE_URL,
         apiKey: process.env.AI_INTEGRATIONS_OPENROUTER_API_KEY,
@@ -95,10 +134,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const response = await openai.chat.completions.create({
         model: "deepseek/deepseek-chat",
-        messages: messages.map((msg) => ({
-          role: msg.role,
-          content: msg.content
-        }))
+        messages: [
+          {
+            role: "system",
+            content: systemMessage
+          },
+          ...messages.map((msg) => ({
+            role: msg.role,
+            content: msg.content
+          }))
+        ]
       });
 
       const assistantMessage = response.choices[0]?.message?.content || '';
