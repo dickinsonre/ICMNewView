@@ -47,3 +47,16 @@ The application currently uses in-memory data storage, with version data importe
 **Development Tools:**
 - **Vite**: Build tool and dev server.
 - **Replit Integrations**: Includes an error overlay modal, Cartographer for code mapping, and a dev banner.
+
+## Recent Changes
+
+### November 2024
+- **Version 2023.0 Added (March 2022)**: Foundational version with 8 features including Autodesk licensing system introduction (Standard/Ultimate licences), SWMM node insertion with link splitting, terrain-sensitive meshing for SWMM 2D zones, consistent zone attribution for clip meshing with simplified logging, enhanced HEC-RAS import error messages, XPSWMM/XPStorm evaporation data import, and resizable Additional Information window
+- **Version 2023.1 Added (July 2022)**: Major version with 23 features including multi-version database support system (2023.0+), culvert type conduit for simplified modeling with FHWA standards, NOAA rainfall generator temporal distribution methods, subcatchment runoff limits with exceedance handling, comprehensive clip meshing performance improvements (10x triangulation, 40% polygon processing), new Mesh Level Zone ground adjustment methods, 2D zone results enhancements, and SWMM mesh logging
+- **Version 2023.2 Added (October 2022)**: Comprehensive version with 17 features including overlapping roughness zones with priority-based meshing, CNSWMM runoff volume model, SCS runoff models for SWMM subcatchments, XPSWMM/XPStorm XPX import enhancements, SWMM5 infiltration export/import improvements, and alert graph trace colors
+- **Complete 2011-2017 Coverage**: All versions from 8.5 (November 2017) back to 1.5 (February 2011) fully populated with comprehensive feature documentation
+- **Timeline Coverage**: Application displays ~30 version entries from 2026.2 back to 1.5 (February 2011). Currently 24 versions have full content and 6 are placeholders. **Notable gap**: ~5-year period between Version 8.5 (Nov 2017) and Version 2023.0 (Mar 2022) with missing intermediate versions (9.0, 9.5, 10.0, 10.5, 11.0).
+
+## Data Structure
+
+**Version Data**: Stored in `server/data/versions.ts` with structured format including version ID, release date, and comprehensive feature arrays with categories for filtering.

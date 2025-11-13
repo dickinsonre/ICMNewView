@@ -400,6 +400,61 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2023.0",
+    version: "2023.0",
+    releaseDate: "2022-03-01",
+    features: [
+      {
+        id: "2023.0-autodesk-licenses",
+        title: "Autodesk Licences for InfoWorks ICM",
+        description: "New Autodesk licence options (Standard/Ultimate) for InfoWorks ICM modeling capabilities with minor restrictions. Autodesk Sign in window displayed at first start for licence verification. Replaces previous licensing system.",
+        category: "Administration"
+      },
+      {
+        id: "2023.0-swmm-node-split",
+        title: "Node Insertion with Link Splitting in SWMM Networks",
+        description: "Split box enabled in Create New Node dialog when inserting node into existing SWMM link (GeoPlan/Long Section). Creates two links connected to new node. Dropdown for multi-link intersections and flag selection. New link named with '!' appended. Automatic elevation calculation or #D flag assignment.",
+        category: "SWMM"
+      },
+      {
+        id: "2023.0-swmm-terrain-sensitive-meshing",
+        title: "Terrain-Sensitive Meshing for SWMM 2D Zones",
+        description: "Terrain-sensitive meshing now available for SWMM 2D zones. New Terrain-sensitive meshing checkbox and Maximum height variation field. Increases mesh resolution in high-variation areas without affecting flat areas.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.0-infoworks-mesh-summary-terrain",
+        title: "Terrain-Sensitive Meshing Indication in InfoWorks Mesh Summary",
+        description: "Mesh log and mesh summary for InfoWorks 2D zones now indicates terrain-sensitive meshing application status and maximum height variation used. Accessible via Mesh summary field button and Manage Mesh Results Show log.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.0-clip-meshing-attribution",
+        title: "Consistent Zone Attribution for Clip Meshing",
+        description: "Consistent vertex elevation attribution from Mesh Zones/Mesh Level Zones for shared vertices in clip meshing. Zone selection based on creation order with Mesh Level Zone preference over Mesh Zone. Simplified mesh log with single warning per zone pair and ordered vertex list (no duplicates).",
+        category: "Meshing"
+      },
+      {
+        id: "2023.0-hec-ras-import-errors",
+        title: "Enhanced HEC-RAS Import Error Messages",
+        description: "HEC-RAS data import error messages now include line number and associated text from prj/g01 files for error diagnosis.",
+        category: "Integration"
+      },
+      {
+        id: "2023.0-xpswmm-evaporation-import",
+        title: "XPSWMM/XPStorm Evaporation Data Import to SWMM Climatology",
+        description: "Import evaporation data from XPSWMM/XPStorm XPX files to SWMM Climatology database items.",
+        category: "Integration"
+      },
+      {
+        id: "2023.0-resizable-additional-info",
+        title: "Resizable Additional Information Window",
+        description: "Additional Information window (Help→About InfoWorks...→Additional Information) now resizable.",
+        category: "Usability"
+      }
+    ]
+  },
+  {
     id: "2023.1",
     version: "2023.1",
     releaseDate: "2022-07-01",
