@@ -1,0 +1,103 @@
+What's New in Version 2024.1 - June 2023
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager2024.1 which were not available in previous versions.
+
+Any feature marked with an asterisk (*) requires a database update to database version 2024.1 in order to access the feature.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+Transportable databases for copying data between cloud and on-premise databases
+You can now use a transportable database to copy data (other than results) between a cloud database and a standard workgroup or standalone on-premise database.
+
+See Copying Data Between Databases, Transportable Databases and Differences Between Working with Cloud and On-premise Databases for further information.
+
+Section Window
+The Section Window lets you display ground levels and water levels by drawing a section through an opened network or simulation when a Ground Model is loaded onto GeoPlan Window. The ground levels in the cross section are interpolated from the ground model. If the network or simulation includes a 2D zone for which a mesh has been generated, the intersecting 2D zone mesh element heights may also be included.
+
+You can choose whether or not to show the following flood section trace properties and choose which colours they are to be displayed in:
+Ground model - a line representing heights from the currently loaded ground model
+Ground fill - a fill colour beneath the ground model line
+Flood level - a line representing water level heights
+Mesh ground level - a line representing the 2D zone mesh element heights
+The flood section trace and other section properties can be selected using the Section Properties dialog.
+
+The Section Window replaces the Flooding Section Window, which only let you draw a section through a simulation. The Section Window lets you draw the section even when no results are available.
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 0:10
+Playback Rate1x
+Fullscreen
+Flooding Section Window
+The Flooding Section Window, which was limited to displaying ground levels and flood level results, has been replaced with the Section Window (see above for details). To use the Section Window to replicate the Flooding Section Window, open a simulation and load the applicable a ground model in the GeoPlan, and then draw the required cross-section. If the Flood level property is turned on, the water level will be displayed in the Section Window.
+
+Culverts or Culvert conduits connection to Outlet nodes (1D or 2D) *
+In an InfoWorks network, culvert outlets, culvert inlets (with their Reverse flow model property set to Outlet) and culvert type of conduits can now be connected to 1D and 2D outfall type of nodes so that culverts in the floodplain can be more easily represented in your model.
+
+As there will be no channel downstream of a culvert connected to an outfall type of node, the channel velocity is set to zero. See the Outlet headloss equation for details.
+
+Network validation has been updated to allow a:
+Culvert outlet to be connected to a downstream (DS) Node, with its type set to Outfall or Outfall 2D
+Culvert inlet (with its Reverse flow model property set to Outlet) to be connected to an upstream (US) Node, with its type set to Outfall or Outfall 2D
+Conduit (with its Conduit type set Culvert) to be connected to an US Node, with its type set to Outfall or Outfall 2D
+Conduit (with its Conduit type set Culvert and its Reverse flow model property set to Outlet) to be connected to an DS Node, with its type set to Outfall or Outfall 2D
+Validation messages, E2553 and E2578, have been updated and now also inform you if the culvert or conduit of type culvert is not connected to an upstream/downstream outfall type of node.
+
+Bottom or side opening for orifices and sluices *
+A new property, Opening type, which can be set to Bottom or Side, has been added to Orifices and Sluices in an InfoWorks network. A bottom opening orifice could be used, for example, to model a ditch that drains to an underlying conduit.
+
+When the Opening type is set to Bottom, a Secondary discharge co-efficient of 0.587 will be used as default in the relevant equations. This value will provide results equivalent to those for bottom opening orifices modelled in EPA SWMM. See Orifice Controls and Sluice Gates for further information.
+
+When the Opening type is set to Bottom, the Overgate discharge coefficient is disabled for all types of sluices. And for vertical and variable vertical sluices, the Gate depth will also be disabled when the Opening type is set to Bottom.
+
+The default Opening type for new orifices and sluice network objects is Side. However, for existing orifice and sluice objects, the Opening type property is not set (blank).
+
+When a sluice or an orifice, with an Opening type set to Bottom, is displayed in the Long Section view, the height will be zero.
+
+Options dialog - Local Folders
+When you specify a folder Location in the Local Folders tab in the Options dialog, the software now checks if the folder contains the current database. If it does, the Clean unused files from the folder for this database and the Open the folder for this database with Windows Explorer buttons are disabled to prevent the current database from being damaged.
+
+A message is also displayed when you click OK or Apply to inform you that your current database is stored in the selected Location.
+
+Improvements to Inline Bank pre-processing
+The pre-processing speed of inline banks has improved. For example, the simulation of a network with 10,000 inline banks for a dry weather flow, that previously took several hours to pre-process, is now being pre-processed in minutes.
+
+Legacy Database Run
+The Legacy Database Run dialog now includes a Cancel button. The dialog is displayed when you run or re-run a simulation for a database whose version is not the latest one but you are using version of the software that supports the latest version. The button cancels the running of the current simulation. You can then update the database, and run the simulation again using the latest engine enhancements.
+
+Simulation results for Buildings in Custom Graphs
+Simulation results for Buildings can now be displayed in Custom Graphs.
+
+Running Cloud simulations when logged out of Windows
+Logging out of Windows no longer causes the connection with a simulation running in the cloud to be lost.
+
+Warning displayed when unable to access a cloud database
+If you try to open or create a cloud database, by clicking the cloud image in the Open/Create dialog, a message is now displayed if either a hub has not been configured or you have not yet been added the appropriate hub team. This message asks you to please contact your administrator so that they can provision the hub.
+
+Agent Manager Service
+The InfoWorks Agent Manager Service, which is used for managing local and remote agents, is now automatically started when InfoWorks ICM is installed. Previously, you would not have been able to run simulations unless it was started manually.
+
+Naming convention for SCH files
+Prior to version 2021.9.3, the naming convention for SCH files (internal files used by the agent coordinator for on-premise simulations) included the name of the user who submitted the scheduled jobs. This was excluded in later versions of the software but has been restored for this version.
+
+Software ID (SWID) Tags
+To help us identify software versions, SWID tags are now included in InfoWorks ICM.
+
+XPViewer
+A link for downloading the installer for XPViewer has been added to the Importing XPSWMM/XPStorm Network Data to SWMM Networks and Importing XPSWMM/XPStorm Network Data to InfoWorks Networks topics.
+
+Tutorial files available for download
+The tutorial files are not installed with the software so a link for downloading the tutorial data is now included in Downloading the tutorial example data.
+
+Check for updates
+The Check for updates option, which opened the InfoCare Support portal, has been removed from the Help menu. Please contact us if you require information about software updates.
+
+Removal of the term Master
+The term Master has been removed from the software and the help. This means that, for example, the File options, such as Open/Create master database and Open another master database, are renamed as Open/Create database and Open another database. Similarly the Master Group is now known as Group. There have been no changes to the functionality of such items; they have simply been renamed.
+
+Note that some of the images included in the help may still include this term, however, these are in the process of being updated.
+
+Infinity System Configuration
+As the legacy database item, Infinity System Configuration, is no longer supported in InfoWorks ICM, all references to it have been removed from the help.

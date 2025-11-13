@@ -716,6 +716,55 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2024.2",
+    version: "2024.2",
+    releaseDate: "2023-07-01",
+    features: [
+      {
+        id: "2024.2-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.2-xpswmm-improvements",
+        title: "Importing XPSWMM/XPStorm Objects to InfoWorks Networks",
+        description: "Comprehensive XPX import improvements: Only active nodes (Hydraulic/Runoff layers) imported, inactive nodes excluded; Links imported only if both US/DS nodes active in Hydraulic layer; Dual drainage system nodes set Ground/Flood/Chamber roof levels to relevant channel invert elevation, Chamber floor to conduit invert; Natural conduits connected to nodes with inlet capacity now imported as channels with Overland System type; Active nodes with Inlet capacity imported as Inlet nodes (Flood type set to Inlet if checked, else Ponding type); Head discharge table generated for Maximum Capacity Only/Rated By Approach Depth, Flow efficiency table for Rated By Approach Flow; Active Runoff layer nodes with active subcatchment data imported with automatic circular boundary polygon if none exists (area from XPX Area value).",
+        category: "Data Management"
+      },
+      {
+        id: "2024.2-xpswmm-rainfall",
+        title: "Importing XPStorm/XPSWMM Rainfall to Rainfall Event",
+        description: "Rainfall data from XPX files can now be imported to Rainfall events in InfoWorks networks. See Importing Event Data and Importing and Exporting Rainfall Events documentation for details.",
+        category: "Data Management"
+      },
+      {
+        id: "2024.2-feh2022",
+        title: "FEH2022 Design Rainfall Events",
+        description: "New FEH2022 design rainfall generator available for generating rainfall events. Download rainfall data as XML files from Flood Estimation Handbook web service and import via Rainfall Generator dialog. Data passed to ReFH2 application from Wallingford HydroSolutions (WHS) which generates appropriate rainfall hyetograph for the event. Requirements: FEH web service access and ReFH2 software licence (version 4.0.8560 or newer) obtained from WHS.",
+        category: "Hydrology"
+      },
+      {
+        id: "2024.2-subcatchment-drains-fields",
+        title: "Irrelevant Subcatchment Drains to Fields Hidden for InfoWorks Networks",
+        description: "Limited fields displayed in subcatchment property sheets to only those relevant to selected Drains to option. Applies to: Node ID, Link suffix, To Subcatchment ID, 2D point ID, Lateral links, Lateral weights. Previously irrelevant fields were disabled but visible.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.2-dbver-file",
+        title: "Database Version (DBVER) File for Working and Results Folders",
+        description: "New DBVER.DAT text file containing database path and version automatically added to Working folder, Results folder, and Remote Roots folder (if applicable) when creating new database. File updated when database version updated or cloud database renamed.",
+        category: "Data Management"
+      },
+      {
+        id: "2024.2-exchange-ultimate",
+        title: "ICM Exchange for Autodesk Ultimate",
+        description: "ICM Exchange (IExchange implementation) now available for Autodesk Ultimate licence users. Advanced programming feature enables administrators to run Ruby scripts from command prompt.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "2024.1",
     version: "2024.1",
     releaseDate: "2023-05-01",
@@ -734,10 +783,106 @@ export const versionsData: Version[] = [
     releaseDate: "2023-04-01",
     features: [
       {
-        id: "2024.0-placeholder",
-        title: "Version 2024.0 Features - Cloud Capabilities Introduction",
-        description: "Features for version 2024.0 - introduced cloud integration. Please provide the full 'What's New' content to populate this version.",
+        id: "2024.0-cloud-databases",
+        title: "Cloud Master Databases",
+        description: "First release introducing cloud-based SaaS deployment for Autodesk InfoWorks ICM subscribers. New database type stores databases directly in cloud with all workgroup capabilities without needing workgroup server access. On-premise master databases (standalone/workgroup) still available for all users. Cloud databases have some differences from on-premise databases in workflow.",
         category: "Cloud"
+      },
+      {
+        id: "2024.0-cloud-portal",
+        title: "Cloud Database Management Web Portal",
+        description: "New Info360 Model Management web portal for managing cloud databases via File > Master database management > Cloud database management. Portal enables database rename, deletion, restore, backup, and recovery (with appropriate privileges).",
+        category: "Cloud"
+      },
+      {
+        id: "2024.0-cloud-simulations",
+        title: "Cloud Simulations",
+        description: "Simulations from cloud databases run in the cloud. Cloud simulations distributed in parallel with cloud resources selected based on network type and input parameters for optimal performance.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.0-open-create-dialog",
+        title: "Open/Create Dialog",
+        description: "New Open/Create dialog simplifies database type selection process for opening, creating, updating, or getting identifier. After type selection, displays appropriate Open Master Database dialog for selected type.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.0-buildings",
+        title: "Buildings",
+        description: "New Buildings polygon object for InfoWorks networks models rain falling onto building roofs entering drainage system and/or remaining on surface. Can assign SUDS controls (e.g., green roofs) to model impact on storm runoff. Set capacity limit with excess flow options: lost from system or passed to 2D mesh elements (enforcing boundaries as break lines during meshing). Configure single element mesh representation, ground level adjustment, porosity, and roughness. Default theme available for GeoPlan visualization. Results displayed on grid and Building Property Sheet during replay. Requires database update to 2024.0.",
+        category: "Modeling"
+      },
+      {
+        id: "2024.0-bank-lines",
+        title: "Improvements to Bank Lines Created from Section Ends for Meandering Rivers",
+        description: "Improved Create bank lines from section ends when following river reach link shape. Banks now projected from link line providing more natural-looking curves with minimized vertices. Bank distance linearly interpolated from upstream/downstream sections. Projected points perpendicular to river line with beveling points on outer bends for improved shape. Visual inspection still required for physical reality verification.",
+        category: "Modeling"
+      },
+      {
+        id: "2024.0-deficit-loss-infiltration",
+        title: "2D Deficit and Constant Loss Infiltration Model",
+        description: "New DefConLoss infiltration model for Infiltration surfaces (2D) based on HEC-HMS method. Models surface as single soil layer with initial storage subject to evaporative loss. When saturated, infiltration occurs. New properties: Infiltration loss coefficient (infiltration rate when saturated) and Maximum deficit (soil layer water capacity). Initial deficit specified in Initial Condition 2D object using DefConLoss initial deficit field. Requires database update to 2024.0.",
+        category: "Modeling"
+      },
+      {
+        id: "2024.0-legacy-database-dialog",
+        title: "Legacy Master Database Run Dialog",
+        description: "New dialog displayed when running/re-running simulations for non-latest database versions. Warns about engine enhancements only available in latest version requiring database update. Includes 'Notify me of legacy master database runs in future' checkbox for suppression. Database version now included in InfoWorks log file and SWMM report file.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.0-odic-file-geodatabase",
+        title: "ODIC Import from File Geodatabases",
+        description: "64-bit InfoWorks ICM can import networks using new File Geodatabase option in Open Data Import Centre (ODIC). Imports ESRI shapefile (SHP) folders without requiring ArcGIS license (unlike existing Geodatabases option).",
+        category: "Data Management"
+      },
+      {
+        id: "2024.0-odec-file-geodatabase",
+        title: "ODEC Export to File Geodatabases",
+        description: "64-bit InfoWorks ICM can export networks using new File Geodatabase option in Open Data Export Centre (ODEC). Exports network data to new/existing feature class in geodatabase without requiring ArcGIS license (unlike existing Geodatabase option).",
+        category: "Data Management"
+      },
+      {
+        id: "2024.0-gpu-fallback",
+        title: "Unsupported 2D Modelling Options Check for InfoWorks Networks",
+        description: "Changed GPU simulation handling. Previously, unsupported 2D modeling options would cause simulation failure when 'If suitable card is available' selected in 2D Parameters. Now automatically falls back to CPU if unsupported GPU options selected (provided no unsupported CPU options selected). Improves simulation robustness.",
+        category: "Performance"
+      },
+      {
+        id: "2024.0-merge-network-changes",
+        title: "Merge Changes from Another Network",
+        description: "New capability to merge changes from one network into another, copying differences. Useful for branching shared models to explore iterative changes, then merging finalized branch back to parent while preserving parent changes since branch creation. Works across organizations using transportable database model copies. New 'Merge changes from another network' option in network popup menu displays Merge changes into dialog for specifying parameters. Review Network Merge report lists added/modified/renamed/deleted objects and conflicting properties with current/incoming values and selection options. Requires database update to 2024.0.",
+        category: "Data Management"
+      },
+      {
+        id: "2024.0-database-management-rename",
+        title: "Master Database Settings Renamed",
+        description: "File menu option 'Master database settings' renamed to 'Master database management'.",
+        category: "General"
+      },
+      {
+        id: "2024.0-swmm-engine-update",
+        title: "SWMM Simulation Engine Updated to v5.2.02",
+        description: "SWMM network simulation engine updated to SWMM 5.2.02. Databases older than version 2024.0 remain consistent with SWMM 5.1.15. Requires database update to 2024.0.",
+        category: "Simulation"
+      },
+      {
+        id: "2024.0-geodatabase-export-32bit",
+        title: "Geodatabase Export Restrictions for 64-bit Version",
+        description: "Time varying and maximum results export to Geodatabases only available in 32-bit InfoWorks ICM. To Geodatabase option disabled in 64-bit version for 'Export to GIS' and 'Export maxima to GIS' in Results menu. Network export to Geodatabase from Explorer/Network menu also disabled in 64-bit version.",
+        category: "Data Management"
+      },
+      {
+        id: "2024.0-dwg-import-64bit",
+        title: "AutoCAD DWG File Import",
+        description: "AutoCAD DWG file import only supported in 64-bit versions of InfoWorks ICM.",
+        category: "Data Management"
+      },
+      {
+        id: "2024.0-help-system",
+        title: "Changes to Help System",
+        description: "Help delivery changed from single compiled (CHM) file in HTML help viewer to online XML help opened in web browser. Access via Help topics in Help menu or F1 for context-sensitive help. Release Notes (bug fixes for 2024.0) and Known Issues (limitations of 2024.0 release) now included in help documentation.",
+        category: "Documentation"
       }
     ]
   },
