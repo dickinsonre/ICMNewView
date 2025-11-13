@@ -767,12 +767,120 @@ export const versionsData: Version[] = [
   {
     id: "2024.1",
     version: "2024.1",
-    releaseDate: "2023-05-01",
+    releaseDate: "2023-06-01",
     features: [
       {
-        id: "2024.1-placeholder",
-        title: "Version 2024.1 Features",
-        description: "Features for version 2024.1. Please provide the full 'What's New' content to populate this version.",
+        id: "2024.1-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.1-transportable-databases",
+        title: "Transportable Databases for Copying Data Between Cloud and On-premise Databases",
+        description: "Transportable databases can now copy data (excluding results) between cloud databases and standard workgroup or standalone on-premise databases. Enables data transfer across database types. See Copying Data Between Databases, Transportable Databases, and Differences Between Working with Cloud and On-premise Databases documentation.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.1-section-window",
+        title: "Section Window",
+        description: "New Section Window displays ground levels and water levels by drawing section through opened network or simulation when Ground Model loaded. Ground levels interpolated from ground model. For networks with 2D zones with generated mesh, intersecting 2D zone mesh element heights may be included. Configurable flood section trace properties: Ground model line, Ground fill beneath line, Flood level line, Mesh ground level line. Section Properties dialog controls display. Replaces Flooding Section Window which only allowed sections through simulations; new Section Window works even without results available.",
+        category: "Visualization"
+      },
+      {
+        id: "2024.1-culvert-outlets",
+        title: "Culverts or Culvert Conduits Connection to Outlet Nodes (1D or 2D)",
+        description: "In InfoWorks networks, culvert outlets, culvert inlets (with Reverse flow model set to Outlet), and culvert type conduits can now connect to 1D and 2D outfall type nodes for easier floodplain culvert modeling. Channel velocity set to zero when no downstream channel exists. Network validation updated to allow: Culvert outlet to DS Node (Outfall/Outfall 2D), Culvert inlet (Reverse flow model=Outlet) to US Node (Outfall/Outfall 2D), Conduit (Conduit type=Culvert) to US Node (Outfall/Outfall 2D), Conduit (Conduit type=Culvert, Reverse flow model=Outlet) to DS Node (Outfall/Outfall 2D). Validation messages E2553 and E2578 updated to inform about outfall type node connections. Requires database update to 2024.1.",
+        category: "Modeling"
+      },
+      {
+        id: "2024.1-orifice-sluice-opening",
+        title: "Bottom or Side Opening for Orifices and Sluices",
+        description: "New Opening type property (Bottom or Side) added to Orifices and Sluices in InfoWorks networks. Bottom opening orifices model scenarios like ditches draining to underlying conduits. Bottom setting uses Secondary discharge coefficient of 0.587 (default) providing EPA SWMM equivalent results. When Bottom selected: Overgate discharge coefficient disabled for all sluice types; Gate depth disabled for vertical and variable vertical sluices. Default Opening type for new objects is Side; existing objects have blank (not set) Opening type. Bottom opening orifices/sluices display with zero height in Long Section view. Requires database update to 2024.1.",
+        category: "Modeling"
+      },
+      {
+        id: "2024.1-local-folders",
+        title: "Options Dialog - Local Folders",
+        description: "Local Folders tab in Options dialog now checks if specified folder Location contains current database. If detected, Clean unused files and Open folder with Windows Explorer buttons disabled to prevent database damage. Message displayed when clicking OK or Apply informing current database stored in selected Location.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.1-inline-bank-preprocessing",
+        title: "Improvements to Inline Bank Pre-processing",
+        description: "Inline bank pre-processing speed significantly improved. Example: network with 10,000 inline banks for dry weather flow previously taking several hours now pre-processes in minutes.",
+        category: "Performance"
+      },
+      {
+        id: "2024.1-legacy-database-cancel",
+        title: "Legacy Database Run Dialog Improvements",
+        description: "Legacy Database Run dialog now includes Cancel button. Dialog displayed when running/re-running simulation for non-latest database version while using latest software version. Cancel button stops current simulation allowing database update before re-running with latest engine enhancements.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.1-buildings-custom-graphs",
+        title: "Simulation Results for Buildings in Custom Graphs",
+        description: "Buildings simulation results can now be displayed in Custom Graphs.",
+        category: "Visualization"
+      },
+      {
+        id: "2024.1-cloud-sim-logout",
+        title: "Running Cloud Simulations When Logged Out of Windows",
+        description: "Cloud simulation connections no longer lost when logging out of Windows. Improves reliability for long-running cloud simulations.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.1-cloud-access-warning",
+        title: "Warning Displayed When Unable to Access Cloud Database",
+        description: "When opening/creating cloud database via cloud image in Open/Create dialog, message displayed if hub not configured or user not added to appropriate hub team. Message prompts user to contact administrator for hub provisioning.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.1-agent-manager",
+        title: "Agent Manager Service Auto-start",
+        description: "InfoWorks Agent Manager Service (manages local and remote agents) now automatically started when InfoWorks ICM installed. Previously required manual start before running simulations.",
+        category: "General"
+      },
+      {
+        id: "2024.1-sch-naming",
+        title: "Naming Convention for SCH Files",
+        description: "Restored SCH file naming convention (internal files used by agent coordinator for on-premise simulations) to include submitting user's name. Convention excluded in versions after 2021.9.3, now restored.",
+        category: "General"
+      },
+      {
+        id: "2024.1-swid-tags",
+        title: "Software ID (SWID) Tags",
+        description: "SWID tags now included in InfoWorks ICM to help identify software versions.",
+        category: "General"
+      },
+      {
+        id: "2024.1-xpviewer-link",
+        title: "XPViewer Download Link",
+        description: "XPViewer installer download link added to Importing XPSWMM/XPStorm Network Data to SWMM Networks and Importing XPSWMM/XPStorm Network Data to InfoWorks Networks documentation topics.",
+        category: "Documentation"
+      },
+      {
+        id: "2024.1-tutorial-download",
+        title: "Tutorial Files Available for Download",
+        description: "Tutorial files not installed with software. Download link for tutorial data now included in Downloading the tutorial example data documentation.",
+        category: "Documentation"
+      },
+      {
+        id: "2024.1-check-updates-removed",
+        title: "Check for Updates Menu Option Removed",
+        description: "Check for updates option removed from Help menu (previously opened InfoCare Support portal). Users should contact support for software update information.",
+        category: "General"
+      },
+      {
+        id: "2024.1-master-term-removal",
+        title: "Removal of the Term Master",
+        description: "Term 'Master' removed from software and help. File options renamed: 'Open/Create master database' → 'Open/Create database', 'Open another master database' → 'Open another database'. 'Master Group' → 'Group'. No functionality changes, only terminology updates. Some help images may still show old terms pending updates.",
+        category: "General"
+      },
+      {
+        id: "2024.1-infinity-removal",
+        title: "Infinity System Configuration Removal",
+        description: "Legacy database item Infinity System Configuration no longer supported in InfoWorks ICM. All references removed from help documentation.",
         category: "General"
       }
     ]
