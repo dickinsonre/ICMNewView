@@ -465,6 +465,151 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "4.5",
+    version: "4.5",
+    releaseDate: "2013-12-01",
+    features: [
+      {
+        id: "4.5-damage-receptors",
+        title: "Damage Receptors and Functions",
+        description: "New Damage Receptor point objects for structures/buildings in 2D meshes with flood duration and maximum depth results. New Damage Function database items with curves from Multi-Coloured Handbook and CD 2010 for defining flood depth-damage relationships.",
+        category: "Modeling"
+      },
+      {
+        id: "4.5-risk-analysis-run",
+        title: "Risk Analysis Run with Expected Annual Damage",
+        description: "Risk Analysis Run scheduler for multiple events calculating damage costs at Damage Receptors using event probability to produce Expected Annual Damage (EAD) values. Includes damage calculation timestep multiplier in 2D Parameters and subevent properties (Return period, Storm duration, Return period type) in Rainfall Events.",
+        category: "Modeling"
+      },
+      {
+        id: "4.5-spatial-rainfall-theme",
+        title: "Spatial Rainfall Intensity Theme for Maximum Results",
+        description: "Maximum spatial rainfall intensity now displayed using rainfall theme when showing maximum results on GeoPlan, with status bar display of maximum intensity values.",
+        category: "Visualization"
+      },
+      {
+        id: "4.5-long-section-enhancements",
+        title: "Long Section Window Enhancements",
+        description: "Secondary water level line display for simulation comparisons, total head line display capability, and improved horizontal scale shown when zoomed in even without visible manholes.",
+        category: "Visualization"
+      },
+      {
+        id: "4.5-eacsd-import",
+        title: "EACSD File Format Import",
+        description: "New ability to import network objects from EACSD v3.2 format files including cross sections, river reach centre lines, and bank lines.",
+        category: "Integration"
+      },
+      {
+        id: "4.5-area-averaged-rainfall",
+        title: "Area-Averaged Subcatchment Rainfall",
+        description: "New 'Use area-averaged rain' option for subcatchments to calculate rainfall as area-average of all overlapping rainfall polygons, addressing limitations with large subcatchments and high-resolution spatial rainfall data.",
+        category: "Hydrology"
+      },
+      {
+        id: "4.5-rain-gauge-boundaries",
+        title: "Enhanced Rain Gauge Boundaries",
+        description: "Increased Gauge data field size in Rainfall Event properties allowing more complex Rain Gauge Boundaries with large numbers of vertices.",
+        category: "Hydrology"
+      },
+      {
+        id: "4.5-head-flow-structures",
+        title: "Base Linear Structures with User-Defined Head-Flow Relationship",
+        description: "New Head Unit Flow table objects for controlling flow across Base Linear Structures using user-defined head-flow relationships, with head calculated as difference between upstream water level and downstream level or crest level.",
+        category: "Modeling"
+      },
+      {
+        id: "4.5-2d-point-source-results",
+        title: "2D Point Source Results",
+        description: "Comprehensive results viewing for 2D point source objects via pick tools, results grids, graph reports, custom graphs, statistical reports, and CSV export with gauged results support.",
+        category: "Results"
+      },
+      {
+        id: "4.5-water-quality-results",
+        title: "Enhanced Water Quality Results",
+        description: "Saturated dissolved oxygen results now output for DO simulations in Time Varying Results Grid, plus new maximum results attributes for subcatchments displayed in Results Grids and Property Sheets.",
+        category: "Water Quality"
+      },
+      {
+        id: "4.5-defconloss-runoff",
+        title: "Deficit and Constant Loss Runoff Model",
+        description: "New DefConLoss runoff volume type based on HEC-HMS model with single soil layer subject to evaporative loss, reaching saturation capacity before infiltration and excess runoff.",
+        category: "Hydrology"
+      },
+      {
+        id: "4.5-river-section-editing",
+        title: "River Line Section Editing by Offset",
+        description: "New context menu options in Sections Editor for 'Edit offset' and 'Insert row at offset' allowing precise vertex editing and insertion by specified offset with linear interpolation.",
+        category: "Tools"
+      },
+      {
+        id: "4.5-network-editing-tools",
+        title: "Network Editing Enhancements",
+        description: "Split link option when moving node onto conduit/river reach link, plus update base linear structure crest level data from ground models using Update from Ground Model Dialog.",
+        category: "Tools"
+      },
+      {
+        id: "4.5-simulation-diagnostics",
+        title: "Enhanced Simulation Diagnostics and Initialization",
+        description: "New 'Exit if TVD Profile ID is not matched' diagnostic option for event validation, plus optional 'Initialise by level fill-in from outfalls' checkbox to control tide level propagation during initialization.",
+        category: "Modeling"
+      },
+      {
+        id: "4.5-validation-themes",
+        title: "Validation and Theme Improvements",
+        description: "Network preference changes (GIS layers, themes) no longer require validation before simulation. SQL expression themes now work without results loaded on GeoPlan.",
+        category: "Usability"
+      },
+      {
+        id: "4.5-scenario-management",
+        title: "Scenario Management Enhancements",
+        description: "Create new base networks from scenarios via Duplicate button in Manage Scenarios Dialog. Improved conflict resolution with Commit history button. Re-established base-scenario field links when values match. Full object commit history viewing with Show Base option for scenario objects.",
+        category: "Version Control"
+      },
+      {
+        id: "4.5-geoplan-usability",
+        title: "GeoPlan Usability Improvements",
+        description: "CTRL+click to show/hide multiple object layer visibility, new Selectable checkbox for unselectable layers, GIS snapping mode (press 'g' key) for snapping to GIS layer vertices, improved Previous view navigation, and adjustable custom label callout line width.",
+        category: "Usability"
+      },
+      {
+        id: "4.5-custom-reports-sql",
+        title: "Custom Reports and SQL Enhancements",
+        description: "Support for .xlsm format custom report templates (Excel 2007+). New SQL FIXED function for converting numbers to strings with fixed decimal places (0-8) with rounding.",
+        category: "Development"
+      },
+      {
+        id: "4.5-gpu-improvements",
+        title: "GPU Engine Water Quality Support",
+        description: "GPU engine now supports water quality results for network results objects, expanding GPU-accelerated capabilities beyond hydraulics.",
+        category: "Performance"
+      },
+      {
+        id: "4.5-job-submission",
+        title: "Job Submission and Control Improvements",
+        description: "Redesigned Simulation/Job Control and Progress Windows with job type column and enhanced tooltips. Renamed dialogs and fields to support different job types beyond simulations.",
+        category: "Administration"
+      },
+      {
+        id: "4.5-tsdb-enhancements",
+        title: "Time Series Database (TSDB) Enhancements",
+        description: "User permission controls at action level (Owner, Editor, User, Viewer). Update TSDB from external sources with background processing. Use historic TSDB versions in runs via TSDB version time selection in run scheduler.",
+        category: "Administration"
+      },
+      {
+        id: "4.5-integration-updates",
+        title: "Integration and Format Support Updates",
+        description: "AutoCAD 2014 format support for import/export. ArcGIS 10.2 support with ArcObjects map control. UTF-8 encoding for CSV network data import/export supporting non-Western Latin characters.",
+        category: "Integration"
+      },
+      {
+        id: "4.5-soft-licensing",
+        title: "Soft Licensing System",
+        description: "New flexible soft licence authorization alternative to dongles with check-out/check-in capability and on-demand network licences from floating server. Configured via Licence Setup Wizard with support for working offline or remotely.",
+        category: "Administration"
+      }
+    ]
+  },
+  {
     id: "4.0",
     version: "4.0",
     releaseDate: "2013-06-01",
