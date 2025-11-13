@@ -1659,6 +1659,12 @@ export const versionsData: Version[] = [
         category: "Documentation"
       },
       {
+        id: "10.5-legacy-states-removed",
+        title: "Legacy State Files No Longer Supported",
+        description: "Initial state simulations generated using job agents prior to InfoWorks ICM version 4.0 are no longer supported.",
+        category: "General"
+      },
+      {
         id: "10.5-conduit-status-improvements",
         title: "Conduit Status Improvements",
         description: "Open conduits previously returning jet flow boundary condition now return free boundary condition (critical or normal flow). Depth restriction at conduit end removed for open conduits (suitable for closed conduits only). Most noticeable in networks with river reaches connected to 2D zones with banks - depth in reach may exceed highest point defined for section when banks active.",
