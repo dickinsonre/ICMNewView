@@ -400,6 +400,73 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.5",
+    version: "2021.5",
+    releaseDate: "2021-06-01",
+    features: [
+      {
+        id: "2021.5-12d-tin-ground",
+        title: "12D TIN Ground Model Import Enhancements",
+        description: "TIN ground models can now be imported from 12DA files with USC-2 and BOM text encoding in addition to original encoding support.",
+        category: "Data Management"
+      },
+      {
+        id: "2021.5-recycle-bin-performance",
+        title: "Recycle Bin Performance Improvement",
+        description: "Replaced item counting with asterisk (*) display when recycle bin contains deleted items. Eliminates performance impact from counting operations, particularly with large database item hierarchies.",
+        category: "Performance"
+      },
+      {
+        id: "2021.5-swmm-conduit-default-flags",
+        title: "Default Flags for SWMM Conduit Elevations",
+        description: "Default data flag (#D) now available for SWMM conduit Upstream elevation and Downstream elevation properties. When set, elevations automatically populated from connected node Invert elevation values.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.5-swmm-spatially-varying-rainfall",
+        title: "Spatially Varying Rainfall for SWMM 2D Mesh Elements",
+        description: "Apply spatially varying rainfall and evaporation to 2D mesh elements in SWMM networks. Four new 2D zone properties: Apply rainfall etc directly to mesh elements checkbox, Apply rainfall etc field (entire mesh or outside subcatchment boundary), Rainfall profile field, and Rainfall percentage field for depth specification.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.5-swmm-porous-walls",
+        title: "Porous Walls for SWMM Networks",
+        description: "New Porous Wall line objects represent walls with specified porosity and height. Included in mesh generation process when creating 2D mesh for SWMM networks.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.5-xpx-infoworks-import-extension",
+        title: "Extended XPSWMM/XPStorm Import to InfoWorks Networks",
+        description: "Expanded InfoWorks object types for XPX file import: Subcatchment, Runoff surface, Land use, Build-up/washoff land use, RTK hydrograph subcatchment objects, Orifice, Sluice, Flap valve, User-defined Control link objects, and 2D objects (Polygon, Porous polygon, Mesh zone, Mesh level zone, 2D zone).",
+        category: "Integration"
+      },
+      {
+        id: "2021.5-3d-zone-rendering-fix",
+        title: "2D Zone Rendering in 3D Network Window",
+        description: "Fixed smooth transition rendering between mesh level zones with and without elevation factors in 3D Network Window when Smoothed option selected.",
+        category: "Visualization"
+      },
+      {
+        id: "2021.5-swmm-pollutant-units",
+        title: "Pollutant Units Displayed for SWMM Results",
+        description: "Pollutant modeling units now included in SWMM simulation results grid windows and property sheets (links, nodes, subcatchments). New units added: PCC (Pollutant count/l) and PCU (Pollutant ug/l) in addition to PC (Pollutant mg/l). Units displayed in grid and graph views.",
+        category: "Results"
+      },
+      {
+        id: "2021.5-swmm-water-quality-results",
+        title: "Water Quality Results Display for SWMM Networks",
+        description: "Water quality pollutant results now displayed by default in groups of time-varying and maxima results in simulation property sheets (links, subcatchments, nodes). Grid windows show time-varying and maxima water quality results adjacent for each pollutant. Customizable layout in results property sheets.",
+        category: "Results"
+      },
+      {
+        id: "2021.5-xpx-swmm-2d-import",
+        title: "Importing 2D Objects from XPSWMM/XPStorm to SWMM",
+        description: "XPSWMM/XPStorm 2D polygon data (xpx format) with Default Area Type set to 'Inactive' now imports as 2D Zone object in SWMM networks.",
+        category: "Integration"
+      }
+    ]
+  },
+  {
     id: "2021.6",
     version: "2021.6",
     releaseDate: "2021-08-01",
