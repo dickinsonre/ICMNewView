@@ -400,6 +400,67 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2021.3",
+    version: "2021.3",
+    releaseDate: "2021-03-01",
+    features: [
+      {
+        id: "2021.3-feh2013-multiple-timesteps",
+        title: "Multiple Timestep Intervals for FEH2013 Rainfall Generator",
+        description: "FEH2013 design rainfall generator now allows multiple timestep intervals specified in seconds or percentage (%). Each timestep separated by comma with corresponding duration. Resulting rainfall time series shows event data entries for each duration with specified timestep spacing. TSD functionality requires TSD licence option.",
+        category: "Hydrology"
+      },
+      {
+        id: "2021.3-minute-granularity-tsdb",
+        title: "Minute Granularity for Spatial TSDB Files",
+        description: "Observed and forecast ASCII and Binary Grid format files with minute granularity can now be included in spatial TSDB.",
+        category: "Data Management"
+      },
+      {
+        id: "2021.3-hydx-import-improvements",
+        title: "HYDX Data Import Improvements",
+        description: "Compartment nodes from CMP_IDE fields in Knooppunt.csv now import as storage nodes. Muilprofiel conduit shape (MVR) now imports as symmetric user-defined shape (previously asymmetric). Updated pump import logic: PMP_AN1/PMP_AF1 values import as Switch on/off levels when PMP_AN2/PMP_AF2 absent (previously imported as vortex user-defined control when zero).",
+        category: "Integration"
+      },
+      {
+        id: "2021.3-swmm-2d-modelling",
+        title: "2D Modelling for SWMM Networks",
+        description: "2D Simulations now available for SWMM networks providing detailed flood analysis. Automatic 2D simulation for networks containing 2D Zones. 2D Zones define areas for detailed analysis. 2D Mesh Zones divide zones into different mesh resolutions. Porous polygons represent enclosed walls with porosity/height. New Meshing option in Model menu with Mesh 2D zones dialog. Load mesh job results option for reviewing mesh logs. GeoPlan Elements Page controls 2D element visual effects. 2D nodes model flood water exchange between collection system and 2D meshed area. New 2D parameters button in SWMM Schedule Hydraulic Run View. Results displayable as GeoPlan themes, Time Varying Results Grids, Graph Views, Long Section Window.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.3-1d-total-head-results",
+        title: "Total Head Results for 1D Network Result Point Objects",
+        description: "Two new results added for 1D network result point objects: Total head and Maximum Total head.",
+        category: "Results"
+      },
+      {
+        id: "2021.3-2d-permeable-zone-area",
+        title: "Summary Area Result for 2D Permeable Zones",
+        description: "New summary Area in 2D Zone result available for 2D Permeable Zones in InfoWorks networks. Addresses difference between generated result areas and actual polygon-enclosed areas.",
+        category: "Results"
+      },
+      {
+        id: "2021.3-green-ampt-smd-reset",
+        title: "Green-Ampt Soil Moisture Deficit Reset for 2D Simulations",
+        description: "During 2D simulations with Green-Ampt infiltration surfaces in InfoWorks networks, simulation engine now resets soil moisture deficit (SMD) result for 2D zone to 0 if SMD becomes negative during simulation.",
+        category: "Modeling"
+      },
+      {
+        id: "2021.3-swmm-area-averaged-rainfall",
+        title: "Area-Averaged Subcatchment Rainfall for SWMM Networks",
+        description: "New Use area-averaged rain option for SWMM subcatchments. When using spatial rainfall (events or TSDB), subcatchments matched by default to rainfall polygon containing centroid. For large subcatchments and/or high resolution (radar) rainfall overlapping multiple polygons, area-averaged option ensures representative rainfall simulation.",
+        category: "SWMM"
+      },
+      {
+        id: "2021.3-swmm-engine-update",
+        title: "SWMM Engine Update to v5.1.015",
+        description: "SWMM5 components in InfoWorks simulation engine updated to SWMM 5.1.015.",
+        category: "Development"
+      }
+    ]
+  },
+  {
     id: "2021.4",
     version: "2021.4",
     releaseDate: "2021-05-01",
