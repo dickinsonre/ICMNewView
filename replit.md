@@ -46,17 +46,18 @@ The application's design emphasizes dynamic content delivery over static files, 
 ## Recent Changes
 
 ### November 2024
+- **Version 9.5 Updated (November 2018)**: Completed with all 28 comprehensive features including Euler Type II design rainfall, German hydrology (DWA/Cascade), RAFTS routing, 2D conduits (Linear Drainage/Conduit 2D), Connect 2D nodes, MicroDrainage/SOBEK importers, gated weirs, SWMM v5.1.013 engine update, variable crest/width weirs, spatial TSDB enhancements (new file formats: Geotiff, Grib 1, HDF5 OPERA), NetCDF AUS.BOM update, TSDB performance improvements, master database layouts, and multi-GPU PCI support.
 - **Version 9.0 Updated (May 2018)**: Replaced placeholder with 20 comprehensive features including text reports (no size limit), SUDS area adjustment, river reach validation, MCM 2017 damage function import, FEH2013 point data import, growth-product water quality process, TUFLOW import improvements, HEC Snyder routing model, network version indicators, spatial TSDB zoom, TVD connector parameter clarity, wastewater profile validation enhancements, ARMA error prediction, 2D mesh improvements (30M elements), SQL spatial rain layer, X-MP observed rainfall format support, and new SWMM build-up/washoff model.
 - **Data Deduplication**: Removed duplicate version entries (8.5, 9.0, 9.5, 10.0, 10.5, 11.0) keeping the most complete data. Automated deduplication script created to prevent future issues.
 - **Automated Version Sorting**: Sort script maintains chronological order of all versions by releaseDate (descending). All 45 versions properly ordered from 2026-06-01 (newest) to 2011-02-01 (oldest).
 - **Dynamic UI Counts**: All UI displays dynamically calculate version and feature counts from actual data, ensuring accuracy.
-- **Timeline Coverage**: Application displays 45 version entries from 2026.2 back to 1.5 (February 2011). COMPLETE CONTINUOUS COVERAGE from Version 1.5 (Feb 2011) through Version 2023.2 (Oct 2022) with partial coverage for future releases (2024-2026). **Total: 45 versions, 640 features, 14+ years of continuous coverage.**
+- **Timeline Coverage**: Application displays 45 version entries from 2026.2 back to 1.5 (February 2011). COMPLETE CONTINUOUS COVERAGE from Version 1.5 (Feb 2011) through Version 2023.2 (Oct 2022) with partial coverage for future releases (2024-2026). **Total: 45 versions, 645 features, 14+ years of continuous coverage.**
 
 ## Data Structure
 
 **Version Data**: Stored in `server/data/versions.ts` with structured format including version ID, release date, and comprehensive feature arrays with categories for filtering. The versionsData array is maintained in descending chronological order by releaseDate for proper timeline rendering.
 
-**AI Chat Context**: Both Claude Sonnet and DeepSeek chat assistants receive all 640 features across 45 versions as system context, enabling accurate historical queries about any feature or version from 2011 to present.
+**AI Chat Context**: Both Claude Sonnet and DeepSeek chat assistants receive all 645 features across 45 versions as system context, enabling accurate historical queries about any feature or version from 2011 to present.
 
 ## Maintenance
 

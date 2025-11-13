@@ -2011,7 +2011,37 @@ export const versionsData: Version[] = [
       {
         id: "9.5-spatial-tsdb-forecast-enhancement",
         title: "Enhancement for Spatial TSDB ASCII and Binary Grid Forecast Data Lead Times",
-        description: "Enhancement for spatial TSDB ASCII and Binary Grid forecast data lead times.",
+        description: "ASCII and Binary Grid format files with lead time for less than an hour can now be included in spatial TSDB configuration. Files must have filename format *YYYYMMDDHH_hhhmm (where * is file identifier). TSD functionality only available if TSD option enabled on licence.",
+        category: "Data Management"
+      },
+      {
+        id: "9.5-spatial-tsdb-new-formats",
+        title: "Additional Data File Formats for Spatial TSDBs",
+        description: "Three new file formats available for spatial TSDB configuration: Geotiff - Meteo Group (observed and forecast), Grib 1 -AEMET Madrid (forecast), and HDF5 OPERA (observed). HDF5 OPERA supports IRM (Belgian Weather Service) format, Grib 1 -AEMET Madrid supports Spanish Meteorological Agency files, Geotiff - Meteo Group supports Meteogroup files.",
+        category: "Data Management"
+      },
+      {
+        id: "9.5-netcdf-ausbom-update",
+        title: "Update for NetCDF AUS.BOM Data File Format for Spatial TSDBs",
+        description: "NetCDF Australian Bureau of Meteorology (NetCDF AUS.BOM) observed data format files updated to support NetCDF Climate and Forecast (CF) Metadata Conventions, version 1.6.",
+        category: "Data Management"
+      },
+      {
+        id: "9.5-tsdb-performance",
+        title: "TSDB Performance Enhancements",
+        description: "Performance enhancements implemented to reduce TSDB file fragmentation.",
+        category: "Performance"
+      },
+      {
+        id: "9.5-master-db-layouts",
+        title: "Master Database Layouts",
+        description: "Master database layouts can now be loaded, saved or deleted using Manage Layout dialog. Dialog displayed when Layout > Manage layouts... selected from Configuration menu on Object Properties Window Toolbar.",
+        category: "Usability"
+      },
+      {
+        id: "9.5-tsdb-use-latest",
+        title: "Updating TSDB to Latest Versions",
+        description: "Update to latest button renamed to Use latest (more accurately describes function - uses latest available local TSDB version). Refresh time series databases from external sources option now disabled unless Use latest selected, preventing InfoWorks Agent from unnecessarily locking out other pre-processors updating same TSDB.",
         category: "Data Management"
       }
     ]
