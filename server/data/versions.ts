@@ -400,6 +400,211 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "11.0",
+    version: "11.0",
+    releaseDate: "2020-05-01",
+    features: [
+      {
+        id: "11.0-river-reach-build-all",
+        title: "River Reach Build All Feature",
+        description: "River reaches now have 'build all' feature combining Build sections from lines, Build banks from selected lines, Create bank lines from section ends, Build boundary from banks/section ends, and Build bank connections in single operation. Build banks from selected lines no longer restricted to two bank lines maximum.",
+        category: "Modeling"
+      },
+      {
+        id: "11.0-river-reach-bank-results",
+        title: "River Reach Left and Right Bank Selection for Results",
+        description: "Graph/Grid pick tool for left/right bank selection now directly asks for attributes to view (no longer asks which bank after already clicking on it).",
+        category: "Usability"
+      },
+      {
+        id: "11.0-clip-meshing-prototype",
+        title: "Alternative Mesh Generation Method - Clip Meshing Prototype",
+        description: "New prototype Clip meshing method provides performance and robustness improvements for complex and closely related geometries. New Mesh generation option in 2D Zone properties allows choosing Classic or Clip meshing. Clip meshing excels with highly complex geometry having vertex density far greater than desired mesh element density. Generates primary mesh first, then clips to boundaries. Existing zones assigned Classic method. Prototype status - careful review recommended.",
+        category: "Meshing"
+      },
+      {
+        id: "11.0-mixed-resolution-gridded",
+        title: "Importing Mixed Resolution Gridded Ground Models",
+        description: "Can now import mixed resolution files in asc or txt format with tiles smaller than 1 metre.",
+        category: "Data Management"
+      },
+      {
+        id: "11.0-snapping-mode-improvements",
+        title: "Snapping Mode Vertex Highlighting",
+        description: "When snapping mode on and vertex moved close to other snappable objects, vertices in adjacent objects (including overlapping ones) now highlighted. Helps position vertices more precisely.",
+        category: "Usability"
+      },
+      {
+        id: "11.0-user-defined-validation",
+        title: "User Defined Engineering Validation",
+        description: "Can now define custom engineering validation rules for InfoWorks networks using SQL-like syntax. Engineering Validation dialog includes Built In tab (default rules) and User Defined tab (add/edit custom rules via Validation Rule Editor dialog).",
+        category: "Tools"
+      },
+      {
+        id: "11.0-base-time-runs",
+        title: "Base Time for InfoWorks Runs",
+        description: "Base time and date can define epoch for all relative times in events. New Use base time checkbox in Run dialog allows specifying time/date as base time for simulation.",
+        category: "Modeling"
+      },
+      {
+        id: "11.0-suggest-feature",
+        title: "Suggest a Feature Option",
+        description: "New Suggest a feature option added to Help menu and Start page. Opens User Feedback Forum on Innovyze website for suggesting new features or enhancements.",
+        category: "Usability"
+      },
+      {
+        id: "11.0-hydx-network-import",
+        title: "HYDX Network Import",
+        description: "Network data in HYDX file format can now be imported into InfoWorks networks. Data from CSV files comprising HYDX network imported to nodes, links, subcatchments. Waste water events also importable as database items.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-hong-kong-5th-edition",
+        title: "Hong Kong (5th Edition) Design Rainfall",
+        description: "Design rainfall includes new Hong Kong (5th edition) option.",
+        category: "Hydrology"
+      },
+      {
+        id: "11.0-arcgis-10.8-support",
+        title: "Support for ArcGIS 10.8",
+        description: "Now supports ArcGIS version 10.8 when using ArcGIS Engine/ArcGIS Desktop map control.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-mapxtreme-9.2.0",
+        title: "Support for MapXtreme 9.2.0",
+        description: "MapXtreme map control updated from 8.1.0 to 9.2.0. Provides bug fixes and new projections (mostly Australia). Note: Due to incompatibility, InfoWorks ICM versions predating 11.0 will no longer work with WMS layer sources once 11.0 installed.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-trace-titles-enhanced",
+        title: "Attribute Names and Graph Numbers in Trace Titles",
+        description: "For Object per Page and Simulation per Page custom graphs, trace titles now include attribute name and graph number. Titles still changeable via Trace Style dialog.",
+        category: "Visualization"
+      },
+      {
+        id: "11.0-rainfall-import-enhanced",
+        title: "Enhanced Importing of Rainfall Events",
+        description: "Import of rainfall events from generic CSV files enhanced - supports significantly wider range of CSV formats.",
+        category: "Data Management"
+      },
+      {
+        id: "11.0-swmm-design-rainfall",
+        title: "Design Rainfall for SWMM Simulations",
+        description: "Design rainfall now available for events in SWMM simulations.",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-swmm-sub-events",
+        title: "Sub-Events for Rainfall Events in SWMM Simulations",
+        description: "Sub-events for rainfall events in SWMM simulations now treated same as InfoWorks simulations (previously treated as constant stream regardless of sub-event division).",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-swmm-low-depth-manning",
+        title: "Manning's N Roughness Coefficient for SWMM Conduits",
+        description: "Two roughness coefficients (Manning's N or Low depth Manning's N) can now be specified for SWMM conduits. New Low depth Manning's N field and Depth threshold field determine which coefficient applies. When flow ≥ depth threshold, Manning's N used; when flow < threshold, Low depth Manning's N used. New conduits default to 0.010 and 0 respectively.",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-swmm-infiltration-modeling",
+        title: "Infiltration Modelling for SWMM Subcatchments",
+        description: "Infiltration modeling can now be set per subcatchment (not just network level). New Infiltration model parameter allows choosing model per subcatchment or using network-level setting. Each subcatchment can associate with different soils having own infiltration characteristics. Only parameters applicable to selected model applied during simulation.",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-swmm-additional-dwf",
+        title: "Additional DWF Inflows for SWMM Nodes",
+        description: "Can now specify dry weather flow of additional inflows to SWMM nodes. New Additional DWF field allows specifying constant baseline value plus up to four time patterns to adjust base flow. ICM adds all DWF flows and concentrations, multiplies total flow by total concentration.",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-swmm-initial-state",
+        title: "Initial State Simulations for SWMM Networks",
+        description: "Network state from previous SWMM simulation can be used as initial state for first simulation in run. New 'Sim providing initial state' drop target in SWMM Run view. New Save state at end of simulation checkbox indicates whether simulation state should be saved when complete.",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-swmm-runoff-results",
+        title: "Impervious and Pervious Runoff Results for SWMM Subcatchments",
+        description: "Impervious and pervious runoff depths now included in subcatchment simulation results.",
+        category: "Results"
+      },
+      {
+        id: "11.0-swmm-summary-results",
+        title: "Summary Results for SWMM Simulations",
+        description: "Summary results for SWMM simulations now available in InfoWorks ICM.",
+        category: "Results"
+      },
+      {
+        id: "11.0-swmm-water-quality-results",
+        title: "Water Quality Results for SWMM Simulations",
+        description: "Build-up and washoff pollutant results for SWMM simulations now included in node, link, and subcatchment results.",
+        category: "Water Quality"
+      },
+      {
+        id: "11.0-swmm-average-results",
+        title: "Reporting of Average Results for SWMM Nodes and Links",
+        description: "Can now include average results for nodes/links in output text report. New Average results checkbox in Schedule Hydraulic Run View (SWMM). When checked, time series results reported as average values over reporting time step. When unchecked (default), results are interpolated point values at end of reporting time step.",
+        category: "Results"
+      },
+      {
+        id: "11.0-infoswmm-import",
+        title: "Importing InfoSWMM Model Networks",
+        description: "Model data from InfoSWMM networks can now be imported to SWMM networks in InfoWorks ICM.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-swmm-network-export",
+        title: "Exporting SWMM Network Data",
+        description: "SWMM networks can now be exported to CSV files, Snapshot files, and GIS file formats (Geodatabase, MIF, SHP, TAB) via Network menu Export options or Explorer window context menu.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-swmm-results-export-gis",
+        title: "Exporting SWMM Results to GIS File Formats",
+        description: "Two new menu options (Export to GIS, Export maxima to GIS) available in Results menu for SWMM networks. Export to GIS enables exporting time varying and maximum results to MIF, SHP, TAB, or Geodatabase. Export maxima to GIS exports maximum results to same formats.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-swmm5-encoding",
+        title: "Encoding Systems for SWMM5 Network Data Import and Export",
+        description: "Can now choose ASCII, UTF-8, or UTF-8 BOM encoding when importing/exporting SWMM5 network data. UTF-8/UTF-8 BOM particularly relevant for non-Western Latin characters.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-swmm5-import-enhancements",
+        title: "SWMM5 Network Data Imports to SWMM Networks",
+        description: "AVERAGES from [REPORT] section can now be imported to Average results checkbox. Data from [Innovyze_Supplementary_DryWeatherFlow] section imported to Additional DWF grid (if Type=Flow) or Pollutant DWF grid. Data from [Innovyze_Supplementary_Infiltration] section imported to SWMM Subcatchment objects.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-swmm5-export-enhancements",
+        title: "SWMM Network Data Exports to SWMM5 Text Files",
+        description: "Additional DWF grid values exported to [Innovyze_Supplementary DryWeatherFlow] section. Pollutant DWF grid exported to [DWF] section (first instance) or [Innovyze_Supplementary DryWeatherFlow] (subsequent instances). Infiltration model field exported to [Innovyze_Supplementary_Infiltration] if not Default.",
+        category: "Integration"
+      },
+      {
+        id: "11.0-swmm-name-generation",
+        title: "Node and Link Name Generation for SWMM Networks",
+        description: "Automatic node and link name generation now available for SWMM networks via Network menu Name generation option. Option renamed from 'Node naming options' to 'Name generation'. Node Name Generation tab changed to 'Nodes'. New variable {T} can append object type to node/link names when Automatic Name Generation enabled.",
+        category: "SWMM"
+      },
+      {
+        id: "11.0-spatial-tsdb-performance",
+        title: "Improvement in Pre-processing Speeds for Spatial Time Series Databases",
+        description: "Under certain spatial rainfall conditions (especially large cell counts), pre-processing times improved noticeably.",
+        category: "Performance"
+      },
+      {
+        id: "11.0-ads-telemetry-tsdb",
+        title: "New Data Source for Scalar TSDB - ADS Telemetry",
+        description: "New ADS Telemetry data source type for observed data in scalar TSDBs. Allows connecting to ADS flow monitoring website to access location and entity data for inclusion in TSDB. Table and Data column fields contain downloadable list of locations and entities from ADS website.",
+        category: "Data Management"
+      }
+    ]
+  },
+  {
     id: "2021.1",
     version: "2021.1",
     releaseDate: "2020-11-01",

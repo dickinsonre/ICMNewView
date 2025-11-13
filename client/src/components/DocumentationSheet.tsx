@@ -68,11 +68,11 @@ export default function DocumentationSheet({ open, onClose }: DocumentationSheet
               <h3 className="text-lg font-semibold mb-3">Coverage Statistics</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-2xl font-bold">32</p>
+                  <p className="text-2xl font-bold">33</p>
                   <p className="text-xs text-muted-foreground">Documented Versions</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-2xl font-bold">638</p>
+                  <p className="text-2xl font-bold">669</p>
                   <p className="text-xs text-muted-foreground">Total Features</p>
                 </div>
                 <div className="space-y-1">

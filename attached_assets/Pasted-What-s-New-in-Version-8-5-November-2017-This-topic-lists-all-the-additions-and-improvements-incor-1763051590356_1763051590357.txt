@@ -1,0 +1,113 @@
+What's New in Version 8.5 - November 2017
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 8.5 which were not available in previous versions.
+
+Increase in the number of rainfall profiles in rainfall events
+Rainfall events can now contain 999,999,999 profiles when they are created by the user. Rainfall events created via a TSDB run can now contain 2,147,483,647 profiles. These TSDB generated rainfall events are passed to the engine in binary format, which should be more efficient and lead to quicker run times. This should allow the use of spatial rainfall at a finer resolution and over a greater area than in previous versions.
+
+New Description fields for TSDB
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+A new Description field has been added to the Observed and Forecast pages in a TSDB. This field can be used to provide TSDB-related information that may be useful to your organisation, such as how and why the data streams have been set up.
+
+See Time Series Database for more information.
+
+New options for editing TSDB user edits
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+When editing User Edits on a Time Series Data Grid, the following options are now available from a context menu, which is displayed when you right-click on one or more selected User Value cells:
+
+Set new value(s) for cell(s), which displays the New Cell Value dialog, enabling you to type a new value for the selected cell(s).
+Adjust current value(s) for cell(s), which displays the Adjust Cell(s) Value dialog, allowing you to enter the values by which the selected cells are to be amended.
+Insert timestep, which inserts a new timestep after the cell from which you selected this option.
+Insert multiple timesteps, which displays the Add Multiple Timesteps (after) dialog, enabling you to specify the number of new timsteps that are to be added after the cell from which you selected this option.
+For further information about editing user edits, see the Editing Time Series Data topic.
+
+Object per page graphs can contain multiple observed data streams
+InfoWorks ICM can now display multiple observed data streams in an Object Per Page custom graph. Previously only the first observed data stream was displayed.
+
+Import and export of Initial Conditions 2D
+Initial conditions can now be imported from CSV files into new or existing Initial Conditions 2D objects, and can also be exported from an existing Initial Conditions 2D object to a CSV file.
+
+Sim ID included in statistical reports
+A new Sim ID field, which contains the database ID that uniquely identifies a simulation, is now included in statistical reports. This identifier will also be included in a csv file if the report is exported.
+
+ICM Exchange
+It is now possible to perform meshing using ICM Exchange.
+
+The methods 'contains?', 'objects_in_polygons' and 'inside' can now be used on subcatchments. Refer to the ICM Exchange documentation for further information.
+
+RTC Editors
+The process of adding a regulator in the RTC window and RTC grid editors have been significantly improved; this is especially noticeable when editing a large RTC.
+
+Block spillage method available for statistical reports
+The UK's Environment Agency's 12 and 24 hour block spillage method can now be used as the basis for calculating flow discharge statistics. A new UK 12/24 block spill counting option is now available on the Statistic Template, and the results from using this method are displayed in the Statistical Report View grid window.
+
+Flood sections
+The ability to interrogate 2D results within a 2D Mesh has been extended to include flood sections. A Results Section type of results analysis object is used for this purpose (this object was previously known as a 2D Result Line analysis object but was re-named to reflect its expanded purpose).
+
+The Section Pick (formerly known as the Reach Cross Section Pick) tool can now be used to display flood sections from a Results Section when the results section is opened in the GeoPlan.
+
+Quicker opening of complex observed/predicted custom graphs
+The opening of observed/predicted custom graphs is now quicker in complex cases. Progress of the graph opening is now monitored and can be cancelled if required.
+
+River confluences imported from InfoWorks RS
+River confluences (RS junction nodes) can now be imported from InfoWorks RS into InfoWorks ICM as break nodes. Any river reach that is connected to a junction via a connectivity link will be connected to the break node corresponding to the junction.
+
+HEC-RAS Geometry Import and Export Enhancements
+HEC-RES has been extended to include 2D modelling and shaped lateral banks, therefore the InfoWorks ICM HEC-RES geometry import and export functions have been extended to include the following objects:
+
+Storage Area (2D), Land Cover (LC) Regions, BC Lines, Break Lines, Connections. See Importing HEC-RAS Geometry Files.
+2D Zones, Roughness Zones, 2D Boundaries, General Lines and Base Linear Structures. See Exporting to HEC-RAS Geometry Files.
+X,Y coordinates for HEC-RES Lateral Structures are now also imported and exported. Previously, these were determined from HEC-RAS lateral structure upstream and downstream cross sections and station data. This means that HEC-RES Lateral Structures are no longer are restricted to straight lines between structures; curved lines are now supported.
+
+Simulation engine updated to support SWMM v5.1.012
+The SWMM5 components that are included in the simulation engine have been updated to SWMM 5.1.0.12. You can also import EPA SWMM v5.1.012 files using the SWMM5 importer.
+
+Blockages
+A blockage can now be used to model a time-varying obstruction with user-defined contraction and expansion loss coefficients. A blockage can be used in a channel, conduit or river reach, or a bridge blockage can be associated with a bridge opening. Like other regulatory structures, a blockage or bridge blockage can also be used in an RTC.
+
+1D and 2D banks overlapped by 2D boundaries
+Overlapping banks are now supported by the 2D engine, both in its CPU and GPU versions. Previously, when a 1D or 2D bank was located on top of a 2D boundary line, the bank was ignored in the overlapping faces by the 2D engine and only the 2D boundary would have been considered. Now the flow through the faces located on top of both a bank and a 2D boundary is calculated as the sum of the flow through the bank plus the flow through the 2D boundary face.
+
+Head unit flows associated with 2D boundaries
+You can now apply a level boundary condition combined with a head/discharge relationship for a 2D boundary. A new type of boundary line - Level & Head/discharge - has been added to the Boundary line type field. This allows you to associate a selected Head unit flow table to the boundary. A profile in a Level Event provides the depth of water at the boundary line. This depth, minus the depth at the element(s) attached to a 2D boundary line, is used to calculate the head for each 2D boundary line face. Based on the selected head unit flow table, a unit flow or flow per length is calculated on each face, which will be scaled to the face length to obtain the resulting flow entering the 2D domain.
+
+Transferring infiltrated volume
+Previously, any water that was lost from a 2D Zone through infiltration during a simulation was recorded in the log file but disappeared from the model. Now a new object, Permeable Zone (2D), can be used to link infiltrated volume from the 2D surface into the 1D network. Permeable Zone (2D) objects can be used, for example, to model the flow through permeable surfaces that are part of a SUDS structure which is directed into the drainage system.
+
+The drainage links for infiltrated volume can be visually represented on the GeoPlan as arrows, and time varying and maxima and minima infiltration results from a simulation, which includes a permeable zone, can be found in the Permeable Zone (2D) Results which are displayed on the results grid.
+
+Multi barrel links
+You can now specify how many identical, parallel channels or conduits are connected between the same upstream and downstream node. This provides an alternative method to defining identical, parallel conduits and channels multiple times, potentially improving efficiency and accuracy. A new Number of barrels parameter has been added to the Channel and Conduit data fields. This field is not populated for conduits and channels which were defined before this release. New conduits and channels are automatically assigned one barrel (ie a single conduit or channel) which can be changed as required.
+
+Only pipes with the same number of barrels can be merged. Any pipe that has no value set for the Number of barrels can be merged with another one whose Number of barrels is either not set or set to one.
+
+Simulation calculations, and storage calculations when pruning the network, will take into account the number of barrels that comprise a link, as will numerical correction.
+
+Headloss coefficients for 2D linear structures
+Previously, headloss was set up for 2D linear structures (base, bridge or sluice) by entering a headloss coefficient, which was applied to the adjacent elements of the linear structure, regardless of whether they were located upstream or downstream of it. Furthermore, the headloss was only calculated as headloss per meter.
+
+This has now been improved and you can choose whether separate headloss coefficients are be applied to the upstream or downstream elements or if the same uniform headloss coefficient is to be applied to the elements in both directions. You can also determine if the headloss is to be calculated on a fixed basis (mesh dependent) or per unit length (practically mesh independent).
+
+Several new 'headloss' fields have been added to the Base, Bridge and Sluice linear structure (2D) properties, and a new unit - Unit Headloss Coefficient (UHC) - has been defined for specifying the per unit length. Note that the old Headloss coefficient is now the Unit headloss coefficient parameter.
+
+SWMM5 RDII
+You can now choose to use the SWMM5 RDII (Rainfall Derived Infiltration and Inflow) or the pre-SWMM5 RDII implementation in a simulation. A new Use SWMM5 RDII option is available in the simulation parameters. This option is unchecked for networks which were defined before this release, but checked as default for networks created using this version of InfoWorks ICM.
+
+The Use SWMM5 RDII option must be selected if you want to use Monthly RTK Hydrographs in a simulation. However, it must be unchecked if one or more subcatchments with any RTK hydrographs defined for them are to drain to the same node; monthly RTK Hydrograph data will not be applied in this case, but the standard RTK Hydrograph data, if defined, will still be used.
+
+User defined controls - Modular limits
+Modular limits, which uses upstream depth to determine the flow in free and drowned conditions from the specified head discharge table, can now be applied to user-defined controls. A drowning factor is applied to the flow if the ratio of downsteam depth to upstream depth exceeds the modular limit.
+
+Alternative units for flow
+Four new display units - mega litres per day (Ml/day), mega litres per hour (Ml/hour), cubic meters per day (m3/day) and cubic meters per hour (m3/hour) - have been added for flow. See the Units key topic for further information about these units and the Changing the Display Units topic for information about how to specify one of them as the display unit.
+
+Resizable SQL dialog
+The SQL dialog is now resizable, and the edit area for the expression now expands with the dialog. This does not apply to TVD connector and theme expressions, for which the SQL area remains fixed size.
+
+Design rainfall generators - Australian Rainfall (2016)
+A new design rainfall generator is now available - Australian Rainfall (2016) - which uses the ARR Storm Generator to generate ensembles of design rainfall based on the ARR (2016) guidance including obtaining data from the ARR website as well as design rainfall from the Bureau of Meteorology (BOM) website. Individual design events can be selected or an ensemble of AEPs and durations can be constructed which can then be used in a simulation.
+
+The previous Australian Rainfall option is still available but has been renamed to Australian Rainfall (1987). This renaming will not affect any existing models which use the rainfall generated from this option.

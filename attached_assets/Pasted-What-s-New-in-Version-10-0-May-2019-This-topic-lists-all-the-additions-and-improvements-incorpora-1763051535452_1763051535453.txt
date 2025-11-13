@@ -1,0 +1,209 @@
+What's New in Version 10.0 - May 2019
+This topic lists all the additions and improvements incorporated in InfoWorks ICM 10.0 which were not available in previous versions.
+
+Multiple simulations for different time periods
+You can now include an Episode collection in a run. The episode collection will typically contain various start and ends times to be used for the run, allowing multiple hydraulic and, if required, runoff only simulations, to be generated for each time varying input (rainfall event, flow survey or TSDB object) included the run. If the run also includes one or more scenarios, simulations based on the times in the episode collection may also be run for each scenario.
+
+A drag and drop box has been added to the Schedule Hydraulic Run View to enable you to add an episode collection.
+
+If a simulation has been run using an episode collection, a number, which corresponds to the order of the episode in the collection, is appended to the name of the simulation in the Explorer window.
+
+Runoff only simulations and PDM warm-up
+When the Runoff only simulation box is checked in the Schedule Hydraulic Run View, a new dropdown list is enabled which lets you choose whether runoff only simulations are to be performed during warm-up, between episodes or for the whole run (default). Details of the runoff only simulation options are contained in the Schedule Hydraulic View topic.
+
+If you choose that runoff only simulations are to be performed during warm-up, then a new Warm-up duration field allows you to specify the period (in minutes, hours, days, months or years) during which the states of a PDM model are warmed-up before any hydraulic simulations are started. This allows the network to reach a steady state and thus provide more realistic hydraulic conditions when a simulation starts.
+
+In a run that contains both runoff only and hydraulic simulations, the text '_RO' (_Runoff Only) is appended to the names of all runoff only simulations to make it easier to identify them in the Explorer window.
+
+Re-run a simulation and view its properties
+A new Simulations Properties view can be used to display the properties of a simulation, including its start and end times and the name of the simulation which provided its initial state. It also includes a Re-run simulation button which allows you to re-run this particular simulation. Previously you would have had to re-run all simulations included in the run.
+
+Groundwater infiltration and evaporation rate included in result graphs and grids
+The results of groundwater infiltration and the raw evaporation rate for a subcatchment can now be included in results graphs and grids.
+
+Two new fields, Evaporation profile and Max Evaporation rate, are now included in the subcatchment results. See the Subcatchment Results Data Fields for further information.
+
+Renaming of subcatchment results QINFSOIL and QINFGRND
+When groundwater infiltration is not being modelled, soil storage is not included in the simulation, therefore the subcatchment results Infiltration to soil store (QINFSOIL) and Infiltration to ground store (QINFGRND) have been more aptly renamed to Infiltration to soil (QINFSOIL) and Infiltration to groundwater (QINFGRND) to reflect this. In addition, the QINFSOIL result is now displayed regardless of whether or not a Ground Infiltration Event is used in a simulation.
+
+SQL queries across model networks
+The Run query across multiple networks option now allows you to run an SQL query across different model networks.
+
+SOBEK importer
+The SOBEK importer has been extended and cross section layers can now be imported from SOBEK network LIT files. The data from the cross section layer is used to create nodes with either downstream conduit or channel types of links in InfoWorks ICM.
+
+Cross section information primarily from the SOBEK 'ty' attribute is imported into the appropriate conduit, shape, channel and channel shape properties in ICM. See the topic, Importing SOBEK Network Data, for further information.
+
+MicroDrainage importer
+The following attributes can now be imported using the MicroDrainage importer:
+
+Sediment Depth (when importing pipes to conduits)
+Percentage Impervious (when importing pipes to subcatchments)
+In addition, for online controls, a manhole rather than a break node is now inserted, where applicable, between the structure link and the shortened pipe. And the Shaft plan area and Chamber plan area properties for these manholes are set to 1m2.
+
+Any swale in MicroDrainage which has a Cap Volume at Depth attribute that is assigned a non-zero value is imported into ICM as a conduit with closed type of Shape ID. Previously this would have been imported as a channel type of link.
+
+See the topic, Importing MicroDrainage Network Data, for further information.
+
+State saving with PDM, SRM and legacy RDII with rainfall history
+A new approach to saving states for PDM, SRM and pre-SWMM5 RDII models that use rainfall and evaporation histories means that state files, in most cases, are significantly smaller than previously.
+
+Ground infiltration events
+Previously, when a new ground infiltration object was added to a network, it automatically contained a sub-event timestep record with a read-only time of 00:00:00 and level of 0.000000. This has now been removed and no initial record is included.
+
+During a simulation, ICM sets initial ground water levels according to the following order: 1) sub-events properties for all subcatchments in a network, 2) profile properties for specified subcatchments and Groundwater IDs, and 3) profile timestep records for specified subcatchments and Groundwater IDs. However, if the initial single profile timestep record in ground infiltration object was not deleted, it was incorrectly being used first (rather than thirdly) to set initial ground water level during a simulation. By not automatically including it in a new ground infiltration object ensures that the correct order is followed for setting initial ground water levels.
+
+Improvements to GPU functionality for 2D conduits
+The GPU version of the 2D engine now supports 2D conduits.
+
+Improvements to the performance of custom graphs
+The performance of custom graphs when changing graph properties has been improved.
+
+Automatic node name generation using the UK Grid Method
+Previously when automatically generating node names based on their UK National Grid location, the node numeration, which helps ensure that each node identifier is unique, was limited to 99 per 100m2. This has now increased so that the last two 'numbers' in the node ID may now include letters as well as a mixture of letters and numbers, allowing a maximum of 1295 unique identifiers per 100m2 to be generated.
+
+Support for ArcGIS 10.7
+InfoWorks ICM now supports ArcGIS version 10.7 when using the ArcGIS Engine/ArcGIS Desktop map control.
+
+See Changing the Current Map Control for further information on supported map controls.
+
+Validation warning message provided for elevations overs 6000 metres
+A validation warning message was previously provided for any elevations that exceeded 3000 metres; this limit has now been increased to 6000 metres. The following network object parameters have been affected:
+
+Show me
+
+Network object
+
+Database table/editor	
+Parameter
+
+Database field
+Base Linear Structure (2D)	hw_2d_struct_sec	Crest level	Z
+Bridges
+
+hw_bridge	
+US invert level
+
+us_invert
+DS invert level
+
+ds_invert
+hw_bridge_sect	Level	Z
+Bridge Inlets	hw_bridge_inlet	Invert level	invert
+Bridge Linear Structure (2D)	hw_2d_bridge_sec	Invert level	Z
+Bridge Openings	hw_bridge_opening	
+US invert level
+
+us_invert
+DS invert level
+
+ds_invert
+Piers editor	Level	elevation
+Bridge Outlets	hw_bridge_outlet	Invert level	invert
+Channels	hw_channel	US invert level	us_invert
+DS invert level	ds_invert
+Conduits	hw_conduit	US invert level	us_invert
+DS invert level	ds_invert
+Culvert Inlets	hw_culvert_inlet	Invert level	invert
+Culvert Outlets	hw_culvert_outlet	Invert level	invert
+Flap Valves	hw_flap_valve	Invert level	invert
+Flumes	hw_flume	Invert level	invert
+Nodes	hw_node	Chamber floor level	chamber_floor
+Chamber roof level	chamber_roof
+Flood level
+
+flood_level
+Ground level
+
+ground_level
+hw_node_storage	Level	level
+Orifices	hw_orifice	Invert level	invert
+Pumps	hw_pump	Base level	base_level
+Switch off level	switch_off_level
+Switch on level	switch_on_level
+River Reaches	hw_river_reach	US invert level	us_invert
+DS invert level	ds_invert
+hw_river_bank	Bank level	Z
+hw_reach_section	Bed level	Z
+Screens	hw_screen	Crest	crest
+Siphons	hw_siphon	Crest	crest
+Crown level
+
+crown_level
+
+Priming level
+
+priming_level
+
+Outlet level
+
+outlet_level
+
+Hood soffit level	soffit_level
+Sluices	hw_sluice	Invert level	invert
+Subcatchment (Snow)	hw_snow_parameters	Catchment elevation	elevation
+User-defined controls	hw_user_control	Initial level	start_level
+Weirs	hw_weir	Crest	crest
+Manage layouts
+A new layout - Factory defaults - is now available in the Layout list in the Manage Layout dialog. This layout consists of unmodified layouts or factory settings for all objects in the master database. Loading a Factory default will reset all user-defined local layouts back to their factory settings. Saved master database layouts will not be reset.
+
+The Default layout, which was available in the previous version of the Manage Layout dialog, has been removed.
+
+The Configuration menu in the Object Properties window
+The Reset option on the Configuration menu now includes the name of the current object whose layout can be reset, and the Save option has been renamed to Save locally.
+
+The DReset all option has been removed. You can now use the new layout, Factory defaults , in the Manage Layout dialog to reset all user-defined local layouts back to their factory default layouts.
+
+See the Object Properties Window Toolbar and Using the Object Properties Window topics for further information.
+
+Enable/disable sub theme from the Thematic Key window
+It is now possible to enable/disable sub themes using the Enable context menu option in the Thematic Key window. When a sub theme is disabled, it is not displayed on the GeoPlan Window, and its name is greyed out with a disable icon (Enabled / Disable Theme button) displayed next to it in the Thematic Key window. You can still also enable/disable sub themes from the Layer Theme Editor.
+
+AutoCAD DWG files
+Updating a network from AutoCAD 2018 and 2019 DWG format files is now supported.
+
+GeoPlan layer sorting enhancement
+The sorting of map layers has been improved so that it is now up to 5 times quicker for layers to be displayed in the GeoPlan.
+
+OPC data sources
+OPC, which provided a data source connection to an OPC-compliant SCADA system via the Innovyze products SCADAMaster or Infinity System, can no longer be used as a data source Type in time series databases. As a result, new Infinity System Configuration objects cannot be added to a database, however, existing ISC objects and the functionality associated with them is still supported.
+
+Copying to the clipboard in the Manage Scenarios dialog
+You can now use Ctrl+C to copy selected rows in the Manage Scenarios grid to the Windows clipboard. The header row and each selected row will be displayed as a separate line when pasted into a document, spreadsheet or text file. See the Manage Scenarios topic for further information.
+
+Scenario size indicated in the Manage Scenarios grid
+Two new columns have been added to the Manage Scenarios grid which provide an indication of the size of a scenario. The Object column either displays the total number of objects in the Base scenario, or for all other scenarios, the total number of additional or "overridden" objects. The Excluded column displays the total number of objects in the Base scenario that are not included in a particular scenario. See the Manage Scenarios topic for further information.
+
+Performance improvements for scenarios
+The performance has been improved for scenarios which have large numbers of differences from the Base scenario.
+
+Upper warning limit for roughness values
+To reflect typical values found for overland flow, the value, which invokes a validation warning message for the upper limit of a roughness, has been increased. The roughness value specified for applicable network objects, such as subcatchments and conduits, must be within the one of the following ranges:
+
+1.0 to 999.0 (Manning's 1/n)
+0.1 to 999.0 (Colebrook-White)
+0.009 to 0.8 (Manning's N)
+20.0 to 5000.0 (Hazen Williams)
+TCP/IP port number check
+When the OK button is selected in the Agents Options dialog, error messages will be now displayed if a specified port number is outside the valid range or if a duplicate port number is used.
+
+Progress of RefH direct runoff calculations is indicated in the Job Progress window
+During a simulation, when ReFH direct runoff calculations are being performed to close the water balance, the progress of the calculation (%) is now indicated in the Activity field of the Job Progress window.
+
+
+TSD functionality is only available if the TSD option is enabled on your licence.
+
+New data source for TSDB
+A new data source type for observed or forecast data, FW Format1, has been added to scalar TSDBs. This enables multiple data streams in a FloodWorks Data Transfer File Format 1 file to be used in a TSDB. To include this type of file, ensure that you select the FW Format1 option in the Type field in the Data Sources tab for the TSDB, and then complete the other fields as required. Use the Observed or Forecast tab to specify the applicable information about the data streams, ensuring that each individual stream in the file is specified as a separate Stream name on the relevant tab.
+
+See the Time Series Database topic for more information.
+
+Jump to date in TSDB data grids
+A new Go to Date button and a date field have been added to the time series data grid. Specifying the date and then clicking on the Go to Date button will select the last data point of the specified date at the top of the grid, enabling you to quickly locate the required data point for that day, rather than scrolling through hundreds of entries to find the required data point.
+
+Import and export of configuration data for time series databases
+In order to help shorten the time required to configure large numbers of scalar time series databases, it is now possible to import observed or forecast stream configuration data, including items such as stream names, type of units, external data sources, and thresholds, from CSV files. Similarly, configuration data can also be exported from a scalar TSDB to a CSV file. Two new menu options, Import from csv file... and Export to csv file..., have been added to the context menu on the header row in the Observed and Forecast tabs to allow you to perform these tasks.
+
+When you import configuration data, a new Import Stream Configuration dialog is displayed which allows you to map columns in the CSV file to fields in the Observed or Forecast streams in the TSDB. In addition, you can save these mappings to a configuration file which can be subsequently used, if required, the next time you import configuration data. The dialog also contains an option which allows you to test the import for any possible errors such as, duplicate stream names or unrecognised or missing units, before importing and saving it to the time series database.
+
+See the Time Series Database topic for further information about importing from and export to CSV files.
