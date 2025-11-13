@@ -1,0 +1,116 @@
+What's New in Version 2024.0 - April 2023
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2024.0 which were not available in previous versions.
+
+Any feature marked with an asterisk (*) requires a database update to database version 2024.0 in order to access the feature.
+
+InfoWorks ICM 2024.0 is the first release for many new innovative features including cloud capabilities. We look forward to hearing your feedback via feedback.innovyze.com
+
+Cloud master databases
+If you have an Autodesk subscription to InfoWorks ICM, you can now enjoy the great benefits of cloud-based SaaS deployment when using the main features of ICM.
+
+A new database type has been added for storing databases directly in the cloud. Cloud databases have all the workgroup capabilities without needing access to the workgroup server.
+
+Standalone and workgroup master databases (collectively referred to as 'on-premise' master databases in the help) are still available to all users with an Autodesk subscription or an Innovyze license.
+
+See the Master Database topic for further information about using cloud and on-premise master databases.
+
+If you are familiar with using ICM you may notice a few difference when working with Cloud databases. These differences are outlined in the Differences Between Working with Cloud and On-premise Master Databases topic.
+Cloud database management web portal
+Cloud databases can be easily managed through a new Info360 Model Management web portal accessed using the Cloud database management option in the FileMaster database management menu. Cloud databases can be renamed, and, if you have the appropriate privileges, deleted and restored, and backed-up and recovered.
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 0:39
+Playback Rate1x
+Fullscreen
+Cloud Simulations
+Simulations from a cloud database will run in the cloud. Cloud simulations are distributed in parallel and cloud resources are selected based on the network type and input parameters to provide optimal simulation performance.
+
+Open/Create dialog
+To simplify the process of selecting which type of database you want to open, create, update, or get the identifier for, a new Open/Create dialog has been added to InfoWorks ICM. When you have chosen the type of database, the Open Master Database dialog relevant for your selected type is displayed. See Master Database for further information.
+
+Buildings *
+A new polygon object, Building, is now available in InfoWorks networks. This type of object can be used to represent rain falling onto the roof of a building and entering the drainage system and/or remaining on the surface.
+
+You can model the impact of SUDS structures, such as green roofs, on storm runoff entering the drainage system by assigning SUDS controls to buildings. You can also set a capacity limit, where any flow above this limit is capped from entering the 1D network, and you can select whether this excess is lost from the system or passed to the 2D mesh elements surrounding the building. If passed to the 2D mesh, the building's boundaries will be enforced as break lines during mesh generation.
+
+You can choose whether or not the building is to be represented as a single element in the mesh and you can adjust the ground level of a building's 2D mesh. Porosity and roughness can also be defined for a building, which will also be applied when you create a 2D mesh. See the building properties for further information.
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 0:58
+Playback Rate1x
+Fullscreen
+In order to distinguish buildings in the GeoPlan, a default theme is available, which you can edit as required. Building drainage can also be displayed as large arrows if you have checked the Show subcatchment, building and 2D permeable zone drainage arrows box on the Visual tab of the GeoPlan Properties dialog.
+
+Simulation results for buildings are displayed on the results grid and on the Building Property Sheet while viewing a replay of a simulation.
+
+Improvements to bank line created from section ends for meandering rivers
+When using the Create bank lines from section ends option, and you chose to follow the shape of the river reach link, the software now tries to project the banks out from the link line in a way that provides more natural looking bank curves whilst minimising the number of vertices used. A before and after example is shown below:
+
+
+The bank is projected at a distance that is linearly interpolated from the upstream and downstream sections, with the section distance calculated as the distance between the point that the river line crosses the section and the section end point on that bank side. Projected bank points adjacent to vertices in the river line are added in a direction that is perpendicular to the river line, and on outer bends, a couple of extra beveling points may also be added to improve the shape of the curve. Contractions between banks that are too close and other "oxbow lake"-shaped meanders are simply trimmed out from the location where the banks would have intersected.
+
+You will still need to visually inspect the banks lines to ensure they match the physical reality, and make manual changes to the bank vertices where necessary.
+
+2D Deficit and Constant Loss infiltration model *
+A new type of infiltration model - Deficit and Constant Loss - is now available for Infiltration surfaces (2D). It is based on the HEC-HMS method and models the surface as a single soil layer in which incident rainfall is initially stored and which is subject to evaporative loss (defined in an rainfall event). When the soil layer reaches saturation capacity, infiltration may occur.
+
+To let you use the new model, a new option, DefConLoss, has been added to the Infiltration type dropdown for the Infiltration surface 2D properties. When selected, two new properties are displayed. These are Infiltration loss coefficient, which defines the infiltration rate applied when soil layer is saturated, and Maximum deficit, which defines the amount of water that the soil layer can hold.
+
+In order to calculate a Deficit and Constant Loss type of 2D infiltration, a value for the initial deficit is also required and this is specified as part of an Initial Condition 2D object using the new DefConLoss initial deficit field.
+
+See Deficit and Constant Loss Model for further information.
+
+Legacy Master Database Run Dialog
+A new Legacy Master Database Run dialog is now displayed when you run or re-run a simulation for a master database whose database version is not the latest one. It warns you that if you want to take advantage of the engine enhancements that are only available in the latest version of the software, then you must update your master database to the latest version.
+
+It also includes a Notify me of legacy master database runs in future box. If you uncheck the box, the dialog will not be displayed again.
+
+The version of the database used for an InfoWorks run is now included in its log file, and in the report file for a SWMM run.
+
+Using the ODIC to import networks from File Geodatabases
+When using the 64 bit version of InfoWorks ICM, networks can now be imported using the new File Geodatabase option in the Open Data Import Centre (ODIC). This option will import ESRI shapefile (SHP) folders, however, unlike the existing Geodatabases option, an ArcGIS™ licence is not required to use it.
+
+Using the ODEC to export networks to File Geodatabases
+When using the 64 bit version of InfoWorks ICM, networks can now be exported using the new File Geodatabase option in the Open Data Export Centre (ODEC). This option will export network data to a new or existing selected feature class in a geodatabase. Unlike the existing Geodatabase option, an ArcGIS™ licence is not required to use the new File Geodatabase option.
+
+Unsupported 2D modelling options check for InfoWorks networks
+Previously, if you had chosen to use a GPU card for 2D calculations by selecting the If suitable card is available option in the 2D Parameters dialog, the software checked if the 2D modelling options you had requested were supported when using a GPU card, and if not, the simulation would fail. This is no longer the case, and the 2D simulation will be run on a CPU instead of the GPU, provided you have not selected any unsupported 2D options for CPU cards. If you have, the simulation will still fail. A list of the 2D modelling options that are not supported for GPU and CPU cards, and advice on how to avoid using them, is included in the 2D Parameters Dialog (InfoWorks) topic.
+
+Merge Changes from Another Network *
+You can now merge changes from one network into another network so that the differences in one are copied to the other. This can be useful when you have created a branch from a shared model to explore iterative changes to the model. Once the branched copy is finalised, its changes can be merged back into the parent copy while also preserving changes since the branch was created. This process also works across organisations using model copies in transportable databases.
+
+
+
+In order to use this new feature, an new option, Merge changes from another network, has been added to the popup menu that is displayed when you right-click on a network in the Explorer window. When this option is selected, a new Merge changes into dialog is displayed, which is used to specify merge parameters and perform the merge.
+
+A summary of the merged objects is displayed in a Review Network Merge report. This reports lists the network objects that have been added, modified, renamed, or deleted after the merge. It also lists any network objects, whose properties have conflicting values, as well as their current and incoming values, and an option to chose which value should be applied to the merged network.
+
+New name for Master database settings
+The Master database settings option in the File menu has been renamed to Master database management.
+
+SWMM simulation engine updated to support SWMM v5.2.02 *
+The simulation engine for SWMM networks has been updated to SWMM 5.2.02. Databases, whose version is older than database version 2024.0, will still be consistent with SWMM 5.1.15.
+
+Exporting and time varying and maximum results to Geodatabases
+As time varying and maximum results can only be exported to Geodatabases in the 32 bit version of InfoWorks ICM, the To Geodatabase option is disabled in the 64 bit version of the software for the Export to GIS and Export to maxima to GIS options in the Results menu.
+
+Exporting networks to Geodatabases
+As you can only export a network from either the Explorer window or the Network menu to a Geodatabase in the 32 bit version of InfoWorks ICM, the Exportto Geodatabase option is disabled in the 64 bit version of the software.
+
+Importing AutoCAD DWG files
+The import of AutoCAD DWG files is only supported in 64 bit versions of InfoWorks ICM.
+
+Release notes
+Release Notes, which contain a list of bug fixes included in the 2024.0 release of InfoWorks ICM, are now included in the help.
+
+Known issues
+Known Issues, which contain a list of known limitations to the 2024.0 release of InfoWorks ICM, are now included in the help.
+
+Changes to the help
+Previously the help for InfoWorks ICM was delivered as a single compiled (CHM) help file that was displayed in a dedicated HTML help viewer. This has now been replaced by online XML help that is opened in your web browser. You can still access the help by selecting the Help topics option in the InfoWorks ICM Help menu, or by pressing F1 at any time to display the help topic appropriate for that part of the interface.

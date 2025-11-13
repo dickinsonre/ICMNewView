@@ -1,0 +1,47 @@
+What's New in Version 2024.2 - July 2023
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2024.2 which were not available in previous versions.
+
+There are no new features that require a database update to database version 2024.2 in order to access the feature. However, there is fix that requires a database update. See Release Notes for details.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+Importing XPSWMM/XPStorm objects to InfoWorks networks
+To improve the import of XPSWMM/XPStorm data, the following changes have been made when importing data from an XPX file to an InfoWorks network:
+
+Any XPSWMM/XPStorm node that is active in the Hydraulic layer or Runoff layer, or both, will be imported to an InfoWorks network. Any node that is inactive in the Hydraulic, Runoff or Sanitary layers will not be imported. Nodes that are only active in the Sanitary layer are not currently imported. Previously, all nodes, regardless of their active/inactive status in the XPSWMM/XPStorm model, were imported.
+Only links that are attached to upstream and downstream nodes, where both US and DS nodes are active in the Hydraulic layer, will now be imported.
+Any XPX node that is part of an XPX dual drainage system (where exactly one conduit and one channel link are connected to the node), the Ground level, Flood level and the Chamber roof level node properties in ICM will be set to the invert elevation value of the relevant connecting XPX upstream or downstream channel. The ICM Chamber floor level will be set to the invert elevation value of the relevant connecting XPX upstream or downstream conduit.
+An XPSWMM/XPStorm natural conduit, that is connected to a node with an inlet capacity, is still imported as an ICM channel but its System type property is now set to Overland.
+Active XPSWMM/XPStorm nodes can now be imported as Inlet nodes in an InfoWorks network. If the XPX node's Inlet capacity value is checked, the Flood type property for an InfoWorks node is set to Inlet. If unchecked, the Flood type property will be set according to the XPX Ponding type.
+For XPX nodes with their Inlet capacity value checked, an ICM Head discharge table will be generated for XPX Inlet Capacity Type set to Maximum Capacity Only or Rated By Approach Depth, and an ICM Flow efficiency table is generated for an XPX Inlet Capacity Type set to Rated By Approach Flow.
+
+Active XPSWMM/XPStorm nodes in the Runoff layer, with subcatchment data that is set to active, are imported as subcatchments in an InfoWorks network. In addition, a circular boundary polygon is now automatically created if the XPX node being imported does not have a subcatchment boundary. The area for the generated polygon is determined by the Area value for the node in the XPX file.
+Importing XPStorm/XPXSWMM rainfall to a Rainfall event
+You can now import rainfall data from an XPX file to a Rainfall event in an InfoWorks network. See Importing Event Data and Importing and Exporting Rainfall Events for details.
+
+FEH2022 design rainfall events
+A new design rainfall generator - FEH2022 - is now available, which you can use to generate a rainfall event. You can download rainfall data as XML files from the Flood Estimation Handbook web service, and import them into InfoWorks ICM using the Rainfall Generator dialog. The data is then passed to REFH2 application from Wallingford HydroSolutions (WHS), which generates the appropriate rainfall hytegraph for the event.
+
+In order to generate a FEH2022 design rainfall event, you must have access to the FEH web service, and a licence for the ReFH2 software (version 4.0.8560 or newer) must have been obtained from WHS.
+
+Irrelevant subcatchment Drains to fields hidden for InfoWorks networks
+To limit the number of fields displayed in a subcatchment property sheet, only fields that are relevant to a selected Drains to option are now displayed. This change applies to the following fields:
+
+Node ID
+Link suffix
+To Subcatchment ID
+2D point ID
+Lateral links
+Lateral weights
+Previously, irrelevant fields were disabled but still visible in the sheet when a Drains to option was selected. See the descriptions in the Subcatchment Data Fields (InfoWorks) for details.
+
+Database version (DBVER) file for Working and Results folders
+When you create a new database, a text file (DBVER.DAT), which contains the database path and the database version for the new database, is now added to the Working folder and the Results folder, and, if applicable, the Remote Roots folder. If you update a database, the version number will also be updated in the text file. Similarly, if you rename a cloud database, the text file will be updated with the new name.
+
+ICM Exchange for Autodesk Ultimate
+ICM Exchange is the IExchange implementation of InfoWorks ICM for our Autodesk products. It is only available for users with an Ultimate licence.
+
+This advanced programming feature allows users, usually administrators, to now run Ruby scripts from the command prompt.
+
+For further information see ICM Exchange for Autodesk or download the Exchange document.

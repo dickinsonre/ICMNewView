@@ -1,0 +1,85 @@
+What's New in Version 2024.3 - September 2023
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM and ICMLive® Configuration Manager 2024.3 which were not available in previous versions.
+
+There are no new features that require a database update to database version 2024.3 in order to access the feature.
+
+Cloud capabilities
+This release of InfoWorks ICM builds upon the cloud integration that started in version 2024.0. Learn more here.
+
+Importing XPSWMM/XPStorm objects to InfoWorks networks
+To improve the import of XPSWMM/XPStorm data, the following changes have been made when importing data from an XPX file to an InfoWorks network:
+XPX Fill Areas are imported as Mesh level zone objects in ICM. The Elevation property is set to the imported value and the Vertex elevation type set to Always in the Vertices Editor in ICM.
+XPX Head Velocity Points are imported as Network Results Point (2D) objects in ICM.
+XPX Cross Sections are imported as ICM Cross section line objects.
+XPX 1D/2D Interface Lines are imported as ICM General line objects.
+A polygon, whose Default Area Type is set to Inactive in the XPX file, is now imported with its ICM Category property set to Imported XPX Inactive Area. Previously, it was set to Void.
+See XPSWMM/XPStorm Conversion Notes (InfoWorks) for details.
+
+Importing XPSWMM/XPStorm data to InfoWorks Model groups
+XPSWMM/XPStorm data can now be imported to an InfoWorks model group. Applicable XPX data will be imported to the following database items that reside within the imported model group:
+Inflow
+Level
+Network
+Rainfall event
+Run
+To import XPX data, click a model group in the Explorer window, and select the new option - Import InfoWorksModel groupfrom XPSWMM/XPStorm model - from the popup menu.
+
+See XPSWMM/XPStorm Conversion Notes (InfoWorks) for import details.
+
+Importing XPSWMM/XPStorm objects to SWMM networks
+To improve the import of XPSWMM/XPStorm data, the following changes have been made when importing data from an XPX file to a SWMM network:
+XPX Fill Areas are now imported to Mesh level zone objects in ICM. The Elevation property is set to the imported value and the Vertex elevation type set to Always in the Vertices Editor in ICM.
+See XPSWMM/XPStorm Conversion Notes (SWMM) for details.
+
+Subcatchment properties for InfoWorks networks
+To limit the number of fields included in a subcatchment property sheet, only fields that are relevant to particular subcatchment properties are now displayed in the object property window. Applicable fields will be visible but disabled in the subcatchment grid. The changes apply to the following property groups:
+
+Runoff - only fields applicable to the selected Runoff volume type in the Runoff Surface, which are referenced by an associated land use, are now displayed for the subcatchment. These include:
+Standard percentage runoff
+SPR calculation
+WRAP soil type
+Drying time
+Maximum soil moisture capacity
+ReFH/ReFH2 Parameters
+Baseflow calculation
+Soil moisture deficit
+SRM linear time constant 1
+SRM linear time constant 2
+SRM time delay
+If a subcatchment does not reference a land use, or the land use does not reference a runoff surface, the Runoff fields listed above are still displayed in the Runoff group in the property sheet and on the subcatchment grid.
+
+Routing - only fields applicable to the selected the Routing model in the Runoff Surface, which are referenced by an associated land use, are now displayed for the subcatchment. These include:
+Unit hydrograph definition (Unit and SCU unit)
+Time of concentration method (Rational)
+Equivalent Manning's n (RAFTS and Non-linear)
+Hydraulic radius (Non-linear)
+Time of concentration, tc (Clark)
+Time to peak, tp (ReFH)
+Base time, tb (ReFH)
+Lag time, tl (Clark, Snyder and HEC Snyder)
+Peaking coefficient, cp (Snyder and HEC Snyder)
+Unit hydrograph peak (ReFH)
+Degree of kink (ReFH)
+Lag time method (Non-linear)
+Storage factor K (Cascade)
+Internal routing (All models)
+Per-surface RAFTS B (RAFTS)
+Degree urbanisation (RAFTS)
+RAFTS adapt factor (RAFTS)
+RAFTS B (RAFTS)
+RAFTS n (RAFTS)
+If a subcatchment does not reference a land use, or the land use does not reference a runoff surface, only the Internal routing field is displayed in the Routing group in the property sheet and on the subcatchment grid.
+
+Note that, as in previous versions, some of the Runoff and Routing fields may only be displayed based on a choice made in another field. However, some of the displayed Routing fields may now be read-only or editable. See the property descriptions in the Subcatchment Data Fields (InfoWorks) for details.
+
+Factory default column order change for nodes, links and subcatchments grids for InfoWorks networks
+The factory default column order for nodes, links and subcatchments grids has changed so that they are now displayed in the same order as the fields in the node, link or subcatchment property sheets.
+
+When you add a new network, the column order in these grids will now use the same order as the property sheets. If you want the grid order to be the same as the property sheet order for an existing network, you can apply the new system setting by choosing the Factory default option in the Load Network Editor Properties dialog.
+
+If you prefer to use the old factory default, you can open the applicable node, link or subcatchment grid for an existing (pre-2024.3 version) network, select Save grid layout from the Grid menu, and choose the Save as default for all networks of this type option in the Network Editing Properties - Save Options dialog.
+
+Import and export property sheet layouts to XML files
+Local layouts for property sheets, including group names, group order, property order, node button state (i.e., expanded/collapsed), can be exported to or imported from XML files. This provides a way to share layouts between users. You can choose to export the layout of the object or result currently displayed in the Object Property Window, or the layouts of all objects or results in the current network. If a local layout has not been customised, the default layout is exported.
+
+Imported layouts from an XML file are stored on a user's local machine. Any local layouts for applicable objects or results in the current network will be overwritten with the layout from the XML file. If the XML file does not contain a layout for an object or result in the current network, the existing local layout is used for displaying the properties. See Using the Object Properties Window for details.

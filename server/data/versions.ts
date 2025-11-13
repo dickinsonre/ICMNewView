@@ -636,10 +636,46 @@ export const versionsData: Version[] = [
     releaseDate: "2023-09-01",
     features: [
       {
-        id: "2024.3-placeholder",
-        title: "Version 2024.3 Features",
-        description: "Features for version 2024.3 - September 2023. Please provide the full 'What's New' content to populate this version.",
-        category: "General"
+        id: "2024.3-cloud",
+        title: "Cloud Capabilities",
+        description: "Continued cloud integration building upon capabilities introduced in version 2024.0.",
+        category: "Cloud"
+      },
+      {
+        id: "2024.3-xpswmm-infoworks",
+        title: "Importing XPSWMM/XPStorm Objects to InfoWorks Networks",
+        description: "Improved XPX file import to InfoWorks networks: XPX Fill Areas imported as Mesh level zone objects (Elevation property set, Vertex elevation type set to Always); XPX Head Velocity Points imported as Network Results Point (2D) objects; XPX Cross Sections imported as Cross section line objects; XPX 1D/2D Interface Lines imported as General line objects; Default Area Type polygons set to Inactive now imported with Category property set to Imported XPX Inactive Area (previously Void).",
+        category: "Data Management"
+      },
+      {
+        id: "2024.3-xpswmm-model-groups",
+        title: "Importing XPSWMM/XPStorm Data to InfoWorks Model Groups",
+        description: "XPSWMM/XPStorm data can now be imported to InfoWorks model groups. Applicable XPX data imported to database items within model group: Inflow, Level, Network, Rainfall event, Run. New Import InfoWorks Model group from XPSWMM/XPStorm model option added to model group popup menu.",
+        category: "Data Management"
+      },
+      {
+        id: "2024.3-xpswmm-swmm",
+        title: "Importing XPSWMM/XPStorm Objects to SWMM Networks",
+        description: "Improved XPX file import to SWMM networks: XPX Fill Areas now imported as Mesh level zone objects (Elevation property set, Vertex elevation type set to Always in Vertices Editor).",
+        category: "Data Management"
+      },
+      {
+        id: "2024.3-subcatchment-properties",
+        title: "Subcatchment Properties for InfoWorks Networks",
+        description: "Limited fields displayed in subcatchment property sheets to only those relevant to selected properties, improving usability. Runoff group shows only fields applicable to selected Runoff volume type in referenced Runoff Surface (Standard percentage runoff, SPR calculation, WRAP soil type, Drying time, Maximum soil moisture capacity, ReFH/ReFH2 Parameters, Baseflow calculation, Soil moisture deficit, SRM parameters). Routing group shows only fields applicable to selected Routing model in referenced Runoff Surface (Unit hydrograph, Time of concentration method, Manning's n, Hydraulic radius, tc/tp/tb/tl, Peaking coefficient, RAFTS parameters, Cascade parameters). Some fields may be read-only or editable based on model selection.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.3-grid-column-order",
+        title: "Factory Default Column Order Change for InfoWorks Grids",
+        description: "Factory default column order for nodes, links, and subcatchments grids changed to match property sheet field order. New networks use property sheet order automatically. Existing networks can apply via Factory default option in Load Network Editor Properties dialog. Previous default can be restored by saving grid layout from pre-2024.3 network as default.",
+        category: "User Interface"
+      },
+      {
+        id: "2024.3-property-sheet-layouts",
+        title: "Import and Export Property Sheet Layouts to XML Files",
+        description: "Local layouts for property sheets (group names, group order, property order, node button state) can be exported to or imported from XML files for sharing between users. Can export currently displayed object/result layout or all layouts in current network. Imported layouts stored on local machine and overwrite existing local layouts. If XML lacks layout for object/result, existing local layout used.",
+        category: "User Interface"
       }
     ]
   },
