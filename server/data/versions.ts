@@ -400,6 +400,151 @@ export const versionsData: Version[] = [
     ]
   },
   {
+    id: "2023.1",
+    version: "2023.1",
+    releaseDate: "2022-07-01",
+    features: [
+      {
+        id: "2023.1-database-version-support",
+        title: "Multi-Version Database Support (2023.0+)",
+        description: "Use multiple database versions (2023.0+) with latest software. Access features based on database version with non-database features always available. Database Version Change dialog with update implications and display preferences.",
+        category: "Administration"
+      },
+      {
+        id: "2023.1-database-update-current",
+        title: "Update Current Master Database Option",
+        description: "New File→Database updates→Update current master database to latest version menu option. Automatically updates selected workgroup/standalone master database without Open Master Database dialog.",
+        category: "Administration"
+      },
+      {
+        id: "2023.1-database-version-selection",
+        title: "Version Selection for Database Updates",
+        description: "Choose target database version when updating master or transportable databases via Update to dropdown. Update Transportable Database dialog with Browse and version selection. Minimum version: 2023.0.",
+        category: "Administration"
+      },
+      {
+        id: "2023.1-database-version-display",
+        title: "Database Version Number Display",
+        description: "Version number displayed in Explorer window title and tree view for master databases. Transportable database versions shown in tree view (current/read-only) and window title (non-current).",
+        category: "Administration"
+      },
+      {
+        id: "2023.1-database-version-creation",
+        title: "Version Selection for New Databases",
+        description: "Choose database version when creating new master or transportable databases via Database version dropdown. Enables collaboration with users on different software versions. Minimum version: 2023.0.",
+        category: "Administration"
+      },
+      {
+        id: "2023.1-culvert-codes",
+        title: "Culvert Inlet/Outlet Codes with FHWA Standards",
+        description: "New Culvert code field based on FHWA Hydraulic Design of Highway Culverts (3rd Edition). Auto-populates K, M, c, Y, and Inlet headloss coefficient (Ki) with #D flag. Applies to culvert inlets and outlets (when Reverse flow model is INLET).",
+        category: "Modeling"
+      },
+      {
+        id: "2023.1-culvert-conduit-type",
+        title: "Culvert Type Conduit for Simplified Modeling",
+        description: "New Culvert option in Conduit type field combines inlet/outlet losses in single link (vs. previous 3-link method). Displays culvert inlet and outlet loss properties in conduit. Backward compatible with 3-link method. GeoPlan sub-theme support.",
+        category: "Modeling"
+      },
+      {
+        id: "2023.1-culvert-import-export",
+        title: "Culvert Type Conduit SWMM5 Import/Export",
+        description: "Import SWMM5 conduits with Culvert code ≠0 as Culvert type with code assignment. Headloss coefficients imported to Inlet/Outlet properties. Export Culvert type conduits to SWMM5/SWMM networks with codes and coefficients.",
+        category: "Integration"
+      },
+      {
+        id: "2023.1-noaa-temporal-distribution",
+        title: "NOAA Rainfall Generator Temporal Distribution Methods",
+        description: "Three new temporal distribution methods: Huff Distribution, Bulletin 75, Alternating Block. Catchment area selection for Huff/Bulletin 75. Time series interval and time to peak specification for Alternating Block.",
+        category: "Hydrology"
+      },
+      {
+        id: "2023.1-subcatchment-runoff-limit",
+        title: "Subcatchment Runoff Limit with Exceedance Handling",
+        description: "New Limit drain to capacity option limits runoff to Drains to object. Capacity limit specification with Exceedance flow type (Lost or 2D mesh surcharge). Models roof gutters and overland spill. Requires node within 2D mesh element for 2D surcharge.",
+        category: "Modeling"
+      },
+      {
+        id: "2023.1-subcatchment-exceedance-results",
+        title: "Subcatchment Exceedance Flow and Volume Results",
+        description: "New Exceedance flow and Exceedance volume results for subcatchments with Limit drain to capacity enabled.",
+        category: "Results"
+      },
+      {
+        id: "2023.1-2d-volume-error",
+        title: "2D Zone Volume Error Result",
+        description: "New Volume error result in 2D Zone Mesh Element Properties dialog showing accumulated water volume error at mesh element during simulation.",
+        category: "Results"
+      },
+      {
+        id: "2023.1-2d-flow-direction-precision",
+        title: "Enhanced 2D Flow Direction Result Precision",
+        description: "2D flow direction results in radians increased from 1 to 3 decimal places. Applies to ANGLE2D, MAXANGLE2D, MINANGLE2D, MAXHAZANGLE2D, MAXDEPTHANGLE2D, MAXVELDEPTHANGLE2D.",
+        category: "Results"
+      },
+      {
+        id: "2023.1-2d-zone-resample-validation",
+        title: "Automatic 2D Zone Validation During Resample",
+        description: "Mesh elevation resample process auto-validates 2D Zone checking for changes (Mesh Zone/Mesh Level Zone boundary edits, renames, deletions) that could cause failure. Displays validation messages in Output window.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.1-mesh-level-zone-adjustments",
+        title: "New Mesh Level Zone Ground Level Adjustment Methods",
+        description: "Four new Type field options: Level (specified fixed), Rel. to highest (relative to max), Rel. to lowest (relative to min), Raise or lower (uniform adjustment). Level/Raise by fields. First three produce flat surfaces. Existing Specify/Adjust options renamed to Specify (Specified boundary elevations)/Adjust (Boundary ground model adjusted).",
+        category: "Meshing"
+      },
+      {
+        id: "2023.1-clip-meshing-mta",
+        title: "Maximum Triangle Area (MTA) Correction in Clip Meshing",
+        description: "Corrected clip meshing to include Mesh Zone MTAs larger than 2D Zone MTA (previously disregarded). All Mesh Zone MTAs (larger and smaller) now included in mesh generation.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.1-clip-meshing-performance",
+        title: "Clip Meshing Performance Improvements",
+        description: "Triangulation refinement 10x faster for primary triangulation (50% total time reduction in 1.2M triangle test). Polygon geometry processing 40% faster (42K porous polygons test). Topographic sampling 2-3x faster. Bank intersection processing 47% faster (river reach test).",
+        category: "Performance"
+      },
+      {
+        id: "2023.1-clip-meshing-validation",
+        title: "Stricter Zone Overlap Validation in Clip Meshing",
+        description: "Stricter validation for overlapping zones (Mesh/Mesh Level/Roughness/Infiltration/Turbulence/Permeable). No overlap allowed (consistent with Classic method). Zone intersections validated at process start with failures reported in mesh log. Previously meshed models may now fail requiring geometry correction.",
+        category: "Meshing"
+      },
+      {
+        id: "2023.1-desbordes-washoff",
+        title: "Desbordes Model Surface Washoff Calculation Restriction",
+        description: "Water quality simulations use Desbordes Model for surface washoff only when selected as runoff routing model. Removed Native Washoff Routing option from QM Parameters dialog. Automatic runoff routing model usage for washoff calculations.",
+        category: "Water Quality"
+      },
+      {
+        id: "2023.1-swmm-mesh-log",
+        title: "Mesh Log for SWMM 2D Zones",
+        description: "Mesh generation log for SWMM 2D Zones includes network object types, vertex/triangle/element counts, terrain-sensitive meshing status, maximum height variation. Accessible via Show log in Manage Mesh Results dialog and Mesh summary field.",
+        category: "SWMM"
+      },
+      {
+        id: "2023.1-4k-screen-support",
+        title: "4K High Resolution Screen Support",
+        description: "Enhanced display on high resolution 4K screens.",
+        category: "Usability"
+      },
+      {
+        id: "2023.1-deprecated-imports",
+        title: "Deprecated Import Options Removal",
+        description: "Removed: HydroWorks DSD/SSD import, InfoWorks RS CSV import, InfoWorks CS/SD migration file import, gridded ground model IGM import, ISIS DAT river section/spill import. External Data Server (EDS) deprecated with Manage external data sources removed.",
+        category: "Administration"
+      },
+      {
+        id: "2023.1-tsdb-minute-granularity",
+        title: "Minute Granularity for Spatial TSDB Files",
+        description: "Observed and forecast ASCII/Binary Grid format files with minute granularity support in spatial TSDB. Requires TSD license option.",
+        category: "Data Management"
+      }
+    ]
+  },
+  {
     id: "2023.2",
     version: "2023.2",
     releaseDate: "2022-10-01",
