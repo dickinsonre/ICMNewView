@@ -5,14 +5,15 @@ import { cn } from "@/lib/utils";
 export interface ChatMessageProps {
   role: "user" | "assistant";
   content: string;
-  model?: "claude" | "deepseek";
+  model?: "claude" | "deepseek" | "gemini";
 }
 
 export default function ChatMessage({ role, content, model }: ChatMessageProps) {
   const isUser = role === "user";
   
   const modelName = model === "claude" ? "Claude Sonnet" : 
-                   model === "deepseek" ? "DeepSeek" : "";
+                   model === "deepseek" ? "DeepSeek" : 
+                   model === "gemini" ? "Gemini" : "";
   
   return (
     <div

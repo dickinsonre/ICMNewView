@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { chatMessageSchema } from "@shared/schema";
 import Anthropic from "@anthropic-ai/sdk";
 import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 
 const chatRequestSchema = z.object({
@@ -152,6 +153,68 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
     } catch (error) {
       console.error("DeepSeek API error:", error);
       const errorMessage = error instanceof Error ? error.message : "Failed to get response from DeepSeek";
+      res.status(500).json({ message: errorMessage });
+    }
+  });
+
+  app.post("/api/chat/gemini", async (req, res) => {
+    try {
+      const validationResult = chatRequestSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({ 
+          message: "Invalid request: messages array is required" 
+        });
+      }
+
+      const { messages } = validationResult.data;
+      
+      const versions = await storage.getAllVersions();
+      const contextData = JSON.stringify(versions, null, 2);
+      
+      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 799 total features.
+
+Here is the complete version history data:
+
+${contextData}
+
+When answering questions:
+- Search through the version data to find relevant features
+- Provide specific version numbers and release dates
+- Quote feature descriptions when relevant
+- If a feature appears in multiple versions, mention the evolution
+- Be concise but informative
+
+Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      
+      const ai = new GoogleGenAI({
+        apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
+        httpOptions: {
+          apiVersion: "",
+          baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
+        },
+      });
+      
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [
+          {
+            role: "user",
+            parts: [
+              { text: systemMessage },
+              ...messages.map((msg) => ({ 
+                text: `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}` 
+              }))
+            ]
+          }
+        ]
+      });
+
+      const assistantMessage = response.text || '';
+      
+      res.json({ message: assistantMessage });
+    } catch (error) {
+      console.error("Gemini API error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to get response from Gemini";
       res.status(500).json({ message: errorMessage });
     }
   });
