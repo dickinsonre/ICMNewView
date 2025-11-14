@@ -187,7 +187,7 @@ When answering questions:
 Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
       
       const kimi = new OpenAI({
-        baseURL: "https://api.moonshot.cn/v1",
+        baseURL: "https://api.moonshot.ai/v1",
         apiKey: process.env.KIMI_API_KEY,
       });
       
