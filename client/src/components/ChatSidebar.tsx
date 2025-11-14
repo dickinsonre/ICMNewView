@@ -95,8 +95,8 @@ export default function ChatSidebar() {
 
   return (
     <div className="h-full flex flex-col border-l">
-      <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek")} className="flex-1 flex flex-col">
-        <div className="border-b p-4">
+      <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek")} className="flex-1 flex flex-col overflow-hidden">
+        <div className="border-b p-4 flex-shrink-0">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="claude" className="gap-2" data-testid="tab-claude">
               <Sparkles className="h-4 w-4" />
@@ -109,56 +109,60 @@ export default function ChatSidebar() {
           </TabsList>
         </div>
 
-        <TabsContent value="claude" className="flex-1 flex flex-col m-0">
-          <ScrollArea className="flex-1 px-4 py-4" ref={scrollRef}>
-            {currentMessages.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
-                Ask Claude Sonnet about ICM InfoWorks features and updates
-              </div>
-            ) : (
-              currentMessages.map((msg, idx) => (
-                <ChatMessage key={idx} {...msg} />
-              ))
-            )}
-            {isLoading && activeModel === "claude" && (
-              <div className="flex gap-2 items-center text-muted-foreground text-sm">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+        <TabsContent value="claude" className="flex-1 flex flex-col m-0 overflow-hidden">
+          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
+            <div className="py-4 space-y-4">
+              {currentMessages.length === 0 ? (
+                <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
+                  Ask Claude Sonnet about ICM InfoWorks features and updates
                 </div>
-                Thinking...
-              </div>
-            )}
+              ) : (
+                currentMessages.map((msg, idx) => (
+                  <ChatMessage key={idx} {...msg} />
+                ))
+              )}
+              {isLoading && activeModel === "claude" && (
+                <div className="flex gap-2 items-center text-muted-foreground text-sm">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
+                  Thinking...
+                </div>
+              )}
+            </div>
           </ScrollArea>
         </TabsContent>
 
-        <TabsContent value="deepseek" className="flex-1 flex flex-col m-0">
-          <ScrollArea className="flex-1 px-4 py-4" ref={scrollRef}>
-            {currentMessages.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
-                Ask DeepSeek about ICM InfoWorks features and updates
-              </div>
-            ) : (
-              currentMessages.map((msg, idx) => (
-                <ChatMessage key={idx} {...msg} />
-              ))
-            )}
-            {isLoading && activeModel === "deepseek" && (
-              <div className="flex gap-2 items-center text-muted-foreground text-sm">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+        <TabsContent value="deepseek" className="flex-1 flex flex-col m-0 overflow-hidden">
+          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
+            <div className="py-4 space-y-4">
+              {currentMessages.length === 0 ? (
+                <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
+                  Ask DeepSeek about ICM InfoWorks features and updates
                 </div>
-                Thinking...
-              </div>
-            )}
+              ) : (
+                currentMessages.map((msg, idx) => (
+                  <ChatMessage key={idx} {...msg} />
+                ))
+              )}
+              {isLoading && activeModel === "deepseek" && (
+                <div className="flex gap-2 items-center text-muted-foreground text-sm">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
+                  Thinking...
+                </div>
+              )}
+            </div>
           </ScrollArea>
         </TabsContent>
       </Tabs>
 
-      <div className="border-t p-4">
+      <div className="border-t p-4 flex-shrink-0">
         <div className="flex gap-2">
           <Textarea
             placeholder={`Ask ${activeModel === "claude" ? "Claude" : "DeepSeek"} about ICM InfoWorks...`}
