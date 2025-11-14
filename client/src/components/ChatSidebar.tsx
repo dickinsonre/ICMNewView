@@ -137,9 +137,9 @@ export default function ChatSidebar() {
           </TabsList>
         </div>
 
-        <TabsContent value="claude" className="flex-1 flex flex-col m-0 overflow-hidden">
-          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
-            <div className="py-4 space-y-4">
+        <TabsContent value="claude" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
+          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
+            <div className="py-4 space-y-4 min-h-full">
               {currentMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Claude Sonnet about ICM InfoWorks features and updates
@@ -163,9 +163,9 @@ export default function ChatSidebar() {
           </ScrollArea>
         </TabsContent>
 
-        <TabsContent value="deepseek" className="flex-1 flex flex-col m-0 overflow-hidden">
-          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
-            <div className="py-4 space-y-4">
+        <TabsContent value="deepseek" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
+          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
+            <div className="py-4 space-y-4 min-h-full">
               {currentMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask DeepSeek about ICM InfoWorks features and updates
@@ -189,9 +189,9 @@ export default function ChatSidebar() {
           </ScrollArea>
         </TabsContent>
 
-        <TabsContent value="gemini" className="flex-1 flex flex-col m-0 overflow-hidden">
-          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
-            <div className="py-4 space-y-4">
+        <TabsContent value="gemini" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
+          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
+            <div className="py-4 space-y-4 min-h-full">
               {currentMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Gemini about ICM InfoWorks features and updates
@@ -215,9 +215,9 @@ export default function ChatSidebar() {
           </ScrollArea>
         </TabsContent>
 
-        <TabsContent value="openai" className="flex-1 flex flex-col m-0 overflow-hidden">
-          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
-            <div className="py-4 space-y-4">
+        <TabsContent value="openai" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
+          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
+            <div className="py-4 space-y-4 min-h-full">
               {currentMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask GPT about ICM InfoWorks features and updates
