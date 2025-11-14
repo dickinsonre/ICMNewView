@@ -276,8 +276,8 @@ export default function ChatSidebar() {
                 handleSend();
               }
             }}
-            className="resize-none min-h-[44px] max-h-[120px]"
-            rows={1}
+            className="resize-none min-h-[60px] max-h-[160px] text-base"
+            rows={2}
             data-testid="input-chat"
           />
           <Button
