@@ -96,7 +96,7 @@ export default function HomePage() {
           </div>
         </ScrollArea>
 
-        <aside className="flex flex-col border-l" style={{ width: '25%' }}>
+        <aside className="flex flex-col border-l h-full" style={{ width: '25%' }}>
           <ChatSidebar />
         </aside>
       </div>
