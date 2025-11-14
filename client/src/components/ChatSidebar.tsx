@@ -138,30 +138,30 @@ export default function ChatSidebar() {
   return (
     <div className="h-full flex flex-col">
       <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek" | "gemini" | "openai")} className="flex-1 flex flex-col overflow-hidden">
-        <div className="border-b p-4 flex-shrink-0">
+        <div className="border-b p-2 sm:p-4 flex-shrink-0">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="claude" className="gap-2" data-testid="tab-claude">
-              <Sparkles className="h-4 w-4" />
-              Claude
+            <TabsTrigger value="claude" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3" data-testid="tab-claude">
+              <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Claude</span>
             </TabsTrigger>
-            <TabsTrigger value="deepseek" className="gap-2" data-testid="tab-deepseek">
-              <Cpu className="h-4 w-4" />
-              DeepSeek
+            <TabsTrigger value="deepseek" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3" data-testid="tab-deepseek">
+              <Cpu className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">DeepSeek</span>
             </TabsTrigger>
-            <TabsTrigger value="gemini" className="gap-2" data-testid="tab-gemini">
-              <Zap className="h-4 w-4" />
-              Gemini
+            <TabsTrigger value="gemini" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3" data-testid="tab-gemini">
+              <Zap className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Gemini</span>
             </TabsTrigger>
-            <TabsTrigger value="openai" className="gap-2" data-testid="tab-openai">
-              <Bot className="h-4 w-4" />
-              GPT
+            <TabsTrigger value="openai" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3" data-testid="tab-openai">
+              <Bot className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">GPT</span>
             </TabsTrigger>
           </TabsList>
         </div>
 
         <TabsContent value="claude" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={claudeScrollRef}>
-            <div className="py-2 space-y-6">
+          <ScrollArea className="flex-1 px-2 sm:px-4 h-full" ref={claudeScrollRef}>
+            <div className="py-2 space-y-4 sm:space-y-6">
               {claudeMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Claude Sonnet about ICM InfoWorks features and updates
@@ -186,8 +186,8 @@ export default function ChatSidebar() {
         </TabsContent>
 
         <TabsContent value="deepseek" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={deepseekScrollRef}>
-            <div className="py-2 space-y-6">
+          <ScrollArea className="flex-1 px-2 sm:px-4 h-full" ref={deepseekScrollRef}>
+            <div className="py-2 space-y-4 sm:space-y-6">
               {deepseekMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask DeepSeek about ICM InfoWorks features and updates
@@ -212,8 +212,8 @@ export default function ChatSidebar() {
         </TabsContent>
 
         <TabsContent value="gemini" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={geminiScrollRef}>
-            <div className="py-2 space-y-6">
+          <ScrollArea className="flex-1 px-2 sm:px-4 h-full" ref={geminiScrollRef}>
+            <div className="py-2 space-y-4 sm:space-y-6">
               {geminiMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Gemini about ICM InfoWorks features and updates
@@ -238,8 +238,8 @@ export default function ChatSidebar() {
         </TabsContent>
 
         <TabsContent value="openai" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={openaiScrollRef}>
-            <div className="py-2 space-y-6">
+          <ScrollArea className="flex-1 px-2 sm:px-4 h-full" ref={openaiScrollRef}>
+            <div className="py-2 space-y-4 sm:space-y-6">
               {openaiMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask GPT about ICM InfoWorks features and updates
@@ -264,7 +264,7 @@ export default function ChatSidebar() {
         </TabsContent>
       </Tabs>
 
-      <div className="border-t p-4 flex-shrink-0">
+      <div className="border-t p-2 sm:p-4 flex-shrink-0">
         <div className="flex gap-2">
           <Textarea
             placeholder={`Ask ${activeModel === "claude" ? "Claude" : activeModel === "deepseek" ? "DeepSeek" : activeModel === "gemini" ? "Gemini" : "GPT"} about ICM InfoWorks...`}

@@ -8,12 +8,15 @@ import DocumentationSheet from "@/components/DocumentationSheet";
 import VersionNavigator from "@/components/VersionNavigator";
 import type { Feature } from "@/components/FeatureCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MessageSquare, Clock } from "lucide-react";
 import type { Version } from "@shared/schema";
 
 export default function HomePage() {
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDocumentation, setShowDocumentation] = useState(false);
+  const [mobileView, setMobileView] = useState<"timeline" | "chat">("timeline");
   const versionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: versions, isLoading } = useQuery<Version[]>({
@@ -50,7 +53,67 @@ export default function HomePage() {
         onShowDocumentation={() => setShowDocumentation(true)}
       />
       
-      <div className="flex flex-1 overflow-hidden">
+      {/* Mobile Layout - Tabs */}
+      <div className="flex flex-1 overflow-hidden md:hidden">
+        <Tabs value={mobileView} onValueChange={(v) => setMobileView(v as "timeline" | "chat")} className="flex-1 flex flex-col">
+          <TabsList className="w-full rounded-none border-b">
+            <TabsTrigger value="timeline" className="flex-1 gap-2" data-testid="tab-mobile-timeline">
+              <Clock className="h-4 w-4" />
+              Timeline
+            </TabsTrigger>
+            <TabsTrigger value="chat" className="flex-1 gap-2" data-testid="tab-mobile-chat">
+              <MessageSquare className="h-4 w-4" />
+              AI Chat
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="timeline" className="flex-1 m-0 h-full">
+            <div className="h-full overflow-auto">
+              <div className="py-6 px-4">
+                <div className="mb-6">
+                  <div className="mb-4">
+                    <div className="mb-3">
+                      <h2 className="text-2xl font-bold mb-2">Release Timeline</h2>
+                      {versions && versions.length > 0 && (
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xl font-bold text-primary">{versions.length}</span>
+                          <span className="text-xs text-muted-foreground">versions</span>
+                          <span className="mx-1">·</span>
+                          <span className="text-xl font-bold text-primary">{versions.reduce((sum, v) => sum + v.features.length, 0)}</span>
+                          <span className="text-xs text-muted-foreground">features</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {isLoading ? (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground">Loading versions...</p>
+                  </div>
+                ) : filteredVersions.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground">No features found matching "{searchQuery}"</p>
+                  </div>
+                ) : (
+                  <TimelineView
+                    versions={filteredVersions}
+                    onFeatureClick={setSelectedFeature}
+                    versionRefs={versionRefs}
+                  />
+                )}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="chat" className="flex-1 m-0 overflow-hidden h-full">
+            <ChatSidebar />
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* Desktop Layout - Side by Side */}
+      <div className="hidden md:flex flex-1 overflow-hidden">
         <ScrollArea className="flex-1" style={{ width: '75%' }}>
           <div className="container py-8 px-6">
             <div className="mb-6">

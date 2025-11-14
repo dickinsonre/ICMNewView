@@ -12,7 +12,13 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend
 
-The frontend is built with React 18, TypeScript, and Vite, utilizing Wouter for routing and TanStack Query for server state management. UI components are developed using Shadcn/ui (Radix UI primitives) and styled with Tailwind CSS, adhering to Material Design 3 guidelines, including dark mode support. The typography uses Inter and JetBrains Mono fonts. The layout features a two-column design with a main content area, a fixed-width chat sidebar, a responsive grid for feature cards, and a horizontally scrollable timeline.
+The frontend is built with React 18, TypeScript, and Vite, utilizing Wouter for routing and TanStack Query for server state management. UI components are developed using Shadcn/ui (Radix UI primitives) and styled with Tailwind CSS, adhering to Material Design 3 guidelines, including dark mode support. The typography uses Inter and JetBrains Mono fonts. 
+
+**Layout:**
+- **Desktop (≥768px)**: Two-column design with 75% timeline (left) and 25% chat sidebar (right)
+- **Mobile (<768px)**: Tabbed interface with "Timeline" and "AI Chat" tabs for full-width views
+- Features responsive grid for feature cards and scrollable timeline
+- 4 AI chatbots with independent conversation histories and per-model loading states
 
 ### Backend
 
@@ -44,3 +50,21 @@ The application emphasizes dynamic content delivery, interactive user experience
 
 **Database Services (Configured but Unused):**
 - **Neon Database**: PostgreSQL serverless database.
+
+## Recent Updates (November 2024)
+
+### OpenAI Integration
+- Added GPT-4o Mini as 4th AI chatbot using Replit AI Integrations
+- All 4 AI assistants (Claude, DeepSeek, Gemini, GPT) maintain independent conversation histories
+- Per-model loading states and separate scroll refs prevent state leakage
+
+### UI/UX Improvements
+- **Message Display**: Larger message bubbles (px-5 py-4), bigger text (16px), increased spacing
+- **Chat Input**: Expanded from 44px to 60px height with 16px text for better visibility
+- **Optimized Spacing**: Reduced empty space while maintaining readability
+
+### Mobile Optimization
+- **Responsive Layout**: Tabbed interface for mobile (<768px) with Timeline/Chat switcher
+- **Compact AI Tabs**: Icon-only display on small screens, full names on larger screens
+- **Touch-Friendly**: Appropriately sized touch targets and optimized spacing
+- **Native Scrolling**: Smooth scroll behavior on mobile devices
