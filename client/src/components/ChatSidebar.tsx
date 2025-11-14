@@ -94,7 +94,7 @@ export default function ChatSidebar() {
   const currentMessages = activeModel === "claude" ? claudeMessages : deepseekMessages;
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full flex flex-col">
       <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek")} className="flex-1 flex flex-col overflow-hidden">
         <div className="border-b p-4 flex-shrink-0">
           <TabsList className="grid w-full grid-cols-2">
