@@ -3,17 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Sparkles, Cpu, Moon } from "lucide-react";
+import { Send, Sparkles, Cpu } from "lucide-react";
 import ChatMessage, { ChatMessageProps } from "./ChatMessage";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ChatSidebar() {
   const { toast } = useToast();
-  const [activeModel, setActiveModel] = useState<"claude" | "deepseek" | "kimi">("claude");
+  const [activeModel, setActiveModel] = useState<"claude" | "deepseek">("claude");
   const [claudeMessages, setClaudeMessages] = useState<ChatMessageProps[]>([]);
   const [deepseekMessages, setDeepseekMessages] = useState<ChatMessageProps[]>([]);
-  const [kimiMessages, setKimiMessages] = useState<ChatMessageProps[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -22,7 +21,7 @@ export default function ChatSidebar() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [claudeMessages, deepseekMessages, kimiMessages]);
+  }, [claudeMessages, deepseekMessages]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -32,23 +31,19 @@ export default function ChatSidebar() {
       content: input.trim(),
     };
 
-    const currentMessages = activeModel === "claude" ? claudeMessages : 
-                           activeModel === "deepseek" ? deepseekMessages : kimiMessages;
+    const currentMessages = activeModel === "claude" ? claudeMessages : deepseekMessages;
 
     if (activeModel === "claude") {
       setClaudeMessages((prev) => [...prev, userMessage]);
-    } else if (activeModel === "deepseek") {
-      setDeepseekMessages((prev) => [...prev, userMessage]);
     } else {
-      setKimiMessages((prev) => [...prev, userMessage]);
+      setDeepseekMessages((prev) => [...prev, userMessage]);
     }
 
     setInput("");
     setIsLoading(true);
 
     try {
-      const endpoint = activeModel === "claude" ? "/api/chat/claude" : 
-                      activeModel === "deepseek" ? "/api/chat/deepseek" : "/api/chat/kimi";
+      const endpoint = activeModel === "claude" ? "/api/chat/claude" : "/api/chat/deepseek";
       const response = await apiRequest(
         "POST",
         endpoint,
@@ -67,10 +62,8 @@ export default function ChatSidebar() {
 
       if (activeModel === "claude") {
         setClaudeMessages((prev) => [...prev, aiMessage]);
-      } else if (activeModel === "deepseek") {
-        setDeepseekMessages((prev) => [...prev, aiMessage]);
       } else {
-        setKimiMessages((prev) => [...prev, aiMessage]);
+        setDeepseekMessages((prev) => [...prev, aiMessage]);
       }
     } catch (error) {
       console.error("Chat API error:", error);
@@ -90,24 +83,21 @@ export default function ChatSidebar() {
 
       if (activeModel === "claude") {
         setClaudeMessages((prev) => [...prev, chatErrorMessage]);
-      } else if (activeModel === "deepseek") {
-        setDeepseekMessages((prev) => [...prev, chatErrorMessage]);
       } else {
-        setKimiMessages((prev) => [...prev, chatErrorMessage]);
+        setDeepseekMessages((prev) => [...prev, chatErrorMessage]);
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const currentMessages = activeModel === "claude" ? claudeMessages : 
-                         activeModel === "deepseek" ? deepseekMessages : kimiMessages;
+  const currentMessages = activeModel === "claude" ? claudeMessages : deepseekMessages;
 
   return (
     <div className="h-full flex flex-col border-l">
-      <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek" | "kimi")} className="flex-1 flex flex-col overflow-hidden">
+      <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek")} className="flex-1 flex flex-col overflow-hidden">
         <div className="border-b p-4 flex-shrink-0">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="claude" className="gap-2" data-testid="tab-claude">
               <Sparkles className="h-4 w-4" />
               Claude
@@ -115,10 +105,6 @@ export default function ChatSidebar() {
             <TabsTrigger value="deepseek" className="gap-2" data-testid="tab-deepseek">
               <Cpu className="h-4 w-4" />
               DeepSeek
-            </TabsTrigger>
-            <TabsTrigger value="kimi" className="gap-2" data-testid="tab-kimi">
-              <Moon className="h-4 w-4" />
-              Kimi
             </TabsTrigger>
           </TabsList>
         </div>
@@ -174,38 +160,12 @@ export default function ChatSidebar() {
             </div>
           </ScrollArea>
         </TabsContent>
-
-        <TabsContent value="kimi" className="flex-1 flex flex-col m-0 overflow-hidden">
-          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
-            <div className="py-4 space-y-4">
-              {currentMessages.length === 0 ? (
-                <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
-                  Ask Kimi about ICM InfoWorks features and updates
-                </div>
-              ) : (
-                currentMessages.map((msg, idx) => (
-                  <ChatMessage key={idx} {...msg} />
-                ))
-              )}
-              {isLoading && activeModel === "kimi" && (
-                <div className="flex gap-2 items-center text-muted-foreground text-sm">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                  </div>
-                  Thinking...
-                </div>
-              )}
-            </div>
-          </ScrollArea>
-        </TabsContent>
       </Tabs>
 
       <div className="border-t p-4 flex-shrink-0">
         <div className="flex gap-2">
           <Textarea
-            placeholder={`Ask ${activeModel === "claude" ? "Claude" : activeModel === "deepseek" ? "DeepSeek" : "Kimi"} about ICM InfoWorks...`}
+            placeholder={`Ask ${activeModel === "claude" ? "Claude" : "DeepSeek"} about ICM InfoWorks...`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
