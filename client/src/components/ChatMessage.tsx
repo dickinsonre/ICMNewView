@@ -34,18 +34,18 @@ export default function ChatMessage({ role, content, model }: ChatMessageProps) 
       
       <div
         className={cn(
-          "rounded-2xl px-4 py-2.5 max-w-[85%]",
+          "rounded-2xl px-5 py-4 max-w-[85%]",
           isUser
             ? "bg-primary text-primary-foreground"
             : "bg-muted text-foreground"
         )}
       >
         {!isUser && model && (
-          <div className="text-xs font-medium mb-1 text-muted-foreground">
+          <div className="text-xs font-medium mb-2 text-muted-foreground">
             {modelName}
           </div>
         )}
-        <div className="text-sm whitespace-pre-wrap break-words">{content}</div>
+        <div className="text-base leading-relaxed whitespace-pre-wrap break-words">{content}</div>
       </div>
     </div>
   );
