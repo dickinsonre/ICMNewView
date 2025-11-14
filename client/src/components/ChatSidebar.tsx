@@ -16,17 +16,43 @@ export default function ChatSidebar() {
   const [geminiMessages, setGeminiMessages] = useState<ChatMessageProps[]>([]);
   const [openaiMessages, setOpenaiMessages] = useState<ChatMessageProps[]>([]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({
+    claude: false,
+    deepseek: false,
+    gemini: false,
+    openai: false,
+  });
+  const claudeScrollRef = useRef<HTMLDivElement>(null);
+  const deepseekScrollRef = useRef<HTMLDivElement>(null);
+  const geminiScrollRef = useRef<HTMLDivElement>(null);
+  const openaiScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (claudeScrollRef.current && activeModel === "claude") {
+      claudeScrollRef.current.scrollTop = claudeScrollRef.current.scrollHeight;
     }
-  }, [claudeMessages, deepseekMessages, geminiMessages, openaiMessages]);
+  }, [claudeMessages, activeModel]);
+
+  useEffect(() => {
+    if (deepseekScrollRef.current && activeModel === "deepseek") {
+      deepseekScrollRef.current.scrollTop = deepseekScrollRef.current.scrollHeight;
+    }
+  }, [deepseekMessages, activeModel]);
+
+  useEffect(() => {
+    if (geminiScrollRef.current && activeModel === "gemini") {
+      geminiScrollRef.current.scrollTop = geminiScrollRef.current.scrollHeight;
+    }
+  }, [geminiMessages, activeModel]);
+
+  useEffect(() => {
+    if (openaiScrollRef.current && activeModel === "openai") {
+      openaiScrollRef.current.scrollTop = openaiScrollRef.current.scrollHeight;
+    }
+  }, [openaiMessages, activeModel]);
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || loadingStates[activeModel]) return;
 
     const userMessage: ChatMessageProps = {
       role: "user",
@@ -48,7 +74,7 @@ export default function ChatSidebar() {
     }
 
     setInput("");
-    setIsLoading(true);
+    setLoadingStates(prev => ({ ...prev, [activeModel]: true }));
 
     try {
       const endpoint = activeModel === "claude" ? "/api/chat/claude" : 
@@ -105,13 +131,9 @@ export default function ChatSidebar() {
         setOpenaiMessages((prev) => [...prev, chatErrorMessage]);
       }
     } finally {
-      setIsLoading(false);
+      setLoadingStates(prev => ({ ...prev, [activeModel]: false }));
     }
   };
-
-  const currentMessages = activeModel === "claude" ? claudeMessages : 
-                         activeModel === "deepseek" ? deepseekMessages :
-                         activeModel === "gemini" ? geminiMessages : openaiMessages;
 
   return (
     <div className="h-full flex flex-col">
@@ -138,18 +160,18 @@ export default function ChatSidebar() {
         </div>
 
         <TabsContent value="claude" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
-            <div className="py-4 space-y-4 min-h-full">
-              {currentMessages.length === 0 ? (
+          <ScrollArea className="flex-1 px-4 h-full" ref={claudeScrollRef}>
+            <div className="py-4 space-y-4">
+              {claudeMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Claude Sonnet about ICM InfoWorks features and updates
                 </div>
               ) : (
-                currentMessages.map((msg, idx) => (
+                claudeMessages.map((msg, idx) => (
                   <ChatMessage key={idx} {...msg} />
                 ))
               )}
-              {isLoading && activeModel === "claude" && (
+              {loadingStates.claude && (
                 <div className="flex gap-2 items-center text-muted-foreground text-sm">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -164,18 +186,18 @@ export default function ChatSidebar() {
         </TabsContent>
 
         <TabsContent value="deepseek" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
-            <div className="py-4 space-y-4 min-h-full">
-              {currentMessages.length === 0 ? (
+          <ScrollArea className="flex-1 px-4 h-full" ref={deepseekScrollRef}>
+            <div className="py-4 space-y-4">
+              {deepseekMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask DeepSeek about ICM InfoWorks features and updates
                 </div>
               ) : (
-                currentMessages.map((msg, idx) => (
+                deepseekMessages.map((msg, idx) => (
                   <ChatMessage key={idx} {...msg} />
                 ))
               )}
-              {isLoading && activeModel === "deepseek" && (
+              {loadingStates.deepseek && (
                 <div className="flex gap-2 items-center text-muted-foreground text-sm">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -190,18 +212,18 @@ export default function ChatSidebar() {
         </TabsContent>
 
         <TabsContent value="gemini" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
-            <div className="py-4 space-y-4 min-h-full">
-              {currentMessages.length === 0 ? (
+          <ScrollArea className="flex-1 px-4 h-full" ref={geminiScrollRef}>
+            <div className="py-4 space-y-4">
+              {geminiMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Gemini about ICM InfoWorks features and updates
                 </div>
               ) : (
-                currentMessages.map((msg, idx) => (
+                geminiMessages.map((msg, idx) => (
                   <ChatMessage key={idx} {...msg} />
                 ))
               )}
-              {isLoading && activeModel === "gemini" && (
+              {loadingStates.gemini && (
                 <div className="flex gap-2 items-center text-muted-foreground text-sm">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -216,18 +238,18 @@ export default function ChatSidebar() {
         </TabsContent>
 
         <TabsContent value="openai" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
-          <ScrollArea className="flex-1 px-4 h-full" ref={scrollRef}>
-            <div className="py-4 space-y-4 min-h-full">
-              {currentMessages.length === 0 ? (
+          <ScrollArea className="flex-1 px-4 h-full" ref={openaiScrollRef}>
+            <div className="py-4 space-y-4">
+              {openaiMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask GPT about ICM InfoWorks features and updates
                 </div>
               ) : (
-                currentMessages.map((msg, idx) => (
+                openaiMessages.map((msg, idx) => (
                   <ChatMessage key={idx} {...msg} />
                 ))
               )}
-              {isLoading && activeModel === "openai" && (
+              {loadingStates.openai && (
                 <div className="flex gap-2 items-center text-muted-foreground text-sm">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -260,7 +282,7 @@ export default function ChatSidebar() {
           />
           <Button
             onClick={handleSend}
-            disabled={!input.trim() || isLoading}
+            disabled={!input.trim() || loadingStates[activeModel]}
             size="icon"
             className="flex-shrink-0"
             data-testid="button-send"
