@@ -219,6 +219,64 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
     }
   });
 
+  app.post("/api/chat/openai", async (req, res) => {
+    try {
+      const validationResult = chatRequestSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({ 
+          message: "Invalid request: messages array is required" 
+        });
+      }
+
+      const { messages } = validationResult.data;
+      
+      const versions = await storage.getAllVersions();
+      const contextData = JSON.stringify(versions, null, 2);
+      
+      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 799 total features.
+
+Here is the complete version history data:
+
+${contextData}
+
+When answering questions:
+- Search through the version data to find relevant features
+- Provide specific version numbers and release dates
+- Quote feature descriptions when relevant
+- If a feature appears in multiple versions, mention the evolution
+- Be concise but informative
+
+Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      
+      const openai = new OpenAI({
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+      });
+      
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: systemMessage
+          },
+          ...messages.map((msg) => ({
+            role: msg.role,
+            content: msg.content
+          }))
+        ]
+      });
+
+      const assistantMessage = response.choices[0]?.message?.content || '';
+      
+      res.json({ message: assistantMessage });
+    } catch (error) {
+      console.error("OpenAI API error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to get response from OpenAI";
+      res.status(500).json({ message: errorMessage });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

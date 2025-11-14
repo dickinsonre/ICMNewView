@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export interface ChatMessageProps {
   role: "user" | "assistant";
   content: string;
-  model?: "claude" | "deepseek" | "gemini";
+  model?: "claude" | "deepseek" | "gemini" | "openai";
 }
 
 export default function ChatMessage({ role, content, model }: ChatMessageProps) {
@@ -13,7 +13,8 @@ export default function ChatMessage({ role, content, model }: ChatMessageProps) 
   
   const modelName = model === "claude" ? "Claude Sonnet" : 
                    model === "deepseek" ? "DeepSeek" : 
-                   model === "gemini" ? "Gemini" : "";
+                   model === "gemini" ? "Gemini" :
+                   model === "openai" ? "GPT-4o Mini" : "";
   
   return (
     <div

@@ -25,8 +25,10 @@ The application emphasizes dynamic content delivery, interactive user experience
 ## External Dependencies
 
 **AI Services:**
-- **Anthropic Claude**: Primary AI assistant (Claude Sonnet) via `@anthropic-ai/sdk`.
-- **OpenAI (DeepSeek)**: Secondary AI assistant via the OpenAI SDK.
+- **Anthropic Claude**: Claude Sonnet via `@anthropic-ai/sdk` with dedicated API key.
+- **DeepSeek**: Via OpenRouter using the OpenAI SDK compatibility layer.
+- **Google Gemini**: Gemini 2.5 Flash via Replit AI Integrations (no API key required, billed to credits).
+- **OpenAI GPT**: GPT-4o Mini via Replit AI Integrations (no API key required, billed to credits).
 
 **UI Component Libraries:**
 - **Radix UI**: Headless, accessible component primitives.

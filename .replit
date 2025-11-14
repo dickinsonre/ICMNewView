@@ -39,10 +39,6 @@ localPort = 44093
 externalPort = 5000
 
 [[ports]]
-localPort = 45785
-externalPort = 6000
-
-[[ports]]
 localPort = 46849
 externalPort = 3003
 
@@ -71,4 +67,4 @@ args = "npm run dev"
 waitForPort = 5000
 
 [agent]
-integrations = ["javascript_openrouter_ai_integrations:1.0.0", "javascript_anthropic_ai_integrations:1.0.0", "javascript_gemini_ai_integrations:1.0.0"]
+integrations = ["javascript_openrouter_ai_integrations:1.0.0", "javascript_anthropic_ai_integrations:1.0.0", "javascript_gemini_ai_integrations:1.0.0", "javascript_openai_ai_integrations:1.0.0"]

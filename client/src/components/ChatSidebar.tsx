@@ -3,17 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Sparkles, Cpu, Zap } from "lucide-react";
+import { Send, Sparkles, Cpu, Zap, Bot } from "lucide-react";
 import ChatMessage, { ChatMessageProps } from "./ChatMessage";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ChatSidebar() {
   const { toast } = useToast();
-  const [activeModel, setActiveModel] = useState<"claude" | "deepseek" | "gemini">("claude");
+  const [activeModel, setActiveModel] = useState<"claude" | "deepseek" | "gemini" | "openai">("claude");
   const [claudeMessages, setClaudeMessages] = useState<ChatMessageProps[]>([]);
   const [deepseekMessages, setDeepseekMessages] = useState<ChatMessageProps[]>([]);
   const [geminiMessages, setGeminiMessages] = useState<ChatMessageProps[]>([]);
+  const [openaiMessages, setOpenaiMessages] = useState<ChatMessageProps[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -22,7 +23,7 @@ export default function ChatSidebar() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [claudeMessages, deepseekMessages, geminiMessages]);
+  }, [claudeMessages, deepseekMessages, geminiMessages, openaiMessages]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -33,14 +34,17 @@ export default function ChatSidebar() {
     };
 
     const currentMessages = activeModel === "claude" ? claudeMessages : 
-                           activeModel === "deepseek" ? deepseekMessages : geminiMessages;
+                           activeModel === "deepseek" ? deepseekMessages :
+                           activeModel === "gemini" ? geminiMessages : openaiMessages;
 
     if (activeModel === "claude") {
       setClaudeMessages((prev) => [...prev, userMessage]);
     } else if (activeModel === "deepseek") {
       setDeepseekMessages((prev) => [...prev, userMessage]);
-    } else {
+    } else if (activeModel === "gemini") {
       setGeminiMessages((prev) => [...prev, userMessage]);
+    } else {
+      setOpenaiMessages((prev) => [...prev, userMessage]);
     }
 
     setInput("");
@@ -48,7 +52,8 @@ export default function ChatSidebar() {
 
     try {
       const endpoint = activeModel === "claude" ? "/api/chat/claude" : 
-                      activeModel === "deepseek" ? "/api/chat/deepseek" : "/api/chat/gemini";
+                      activeModel === "deepseek" ? "/api/chat/deepseek" :
+                      activeModel === "gemini" ? "/api/chat/gemini" : "/api/chat/openai";
       const response = await apiRequest(
         "POST",
         endpoint,
@@ -69,8 +74,10 @@ export default function ChatSidebar() {
         setClaudeMessages((prev) => [...prev, aiMessage]);
       } else if (activeModel === "deepseek") {
         setDeepseekMessages((prev) => [...prev, aiMessage]);
-      } else {
+      } else if (activeModel === "gemini") {
         setGeminiMessages((prev) => [...prev, aiMessage]);
+      } else {
+        setOpenaiMessages((prev) => [...prev, aiMessage]);
       }
     } catch (error) {
       console.error("Chat API error:", error);
@@ -92,8 +99,10 @@ export default function ChatSidebar() {
         setClaudeMessages((prev) => [...prev, chatErrorMessage]);
       } else if (activeModel === "deepseek") {
         setDeepseekMessages((prev) => [...prev, chatErrorMessage]);
-      } else {
+      } else if (activeModel === "gemini") {
         setGeminiMessages((prev) => [...prev, chatErrorMessage]);
+      } else {
+        setOpenaiMessages((prev) => [...prev, chatErrorMessage]);
       }
     } finally {
       setIsLoading(false);
@@ -101,13 +110,14 @@ export default function ChatSidebar() {
   };
 
   const currentMessages = activeModel === "claude" ? claudeMessages : 
-                         activeModel === "deepseek" ? deepseekMessages : geminiMessages;
+                         activeModel === "deepseek" ? deepseekMessages :
+                         activeModel === "gemini" ? geminiMessages : openaiMessages;
 
   return (
     <div className="h-full flex flex-col">
-      <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek" | "gemini")} className="flex-1 flex flex-col overflow-hidden">
+      <Tabs value={activeModel} onValueChange={(v) => setActiveModel(v as "claude" | "deepseek" | "gemini" | "openai")} className="flex-1 flex flex-col overflow-hidden">
         <div className="border-b p-4 flex-shrink-0">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="claude" className="gap-2" data-testid="tab-claude">
               <Sparkles className="h-4 w-4" />
               Claude
@@ -119,6 +129,10 @@ export default function ChatSidebar() {
             <TabsTrigger value="gemini" className="gap-2" data-testid="tab-gemini">
               <Zap className="h-4 w-4" />
               Gemini
+            </TabsTrigger>
+            <TabsTrigger value="openai" className="gap-2" data-testid="tab-openai">
+              <Bot className="h-4 w-4" />
+              GPT
             </TabsTrigger>
           </TabsList>
         </div>
@@ -200,12 +214,38 @@ export default function ChatSidebar() {
             </div>
           </ScrollArea>
         </TabsContent>
+
+        <TabsContent value="openai" className="flex-1 flex flex-col m-0 overflow-hidden">
+          <ScrollArea className="flex-1 px-4" ref={scrollRef}>
+            <div className="py-4 space-y-4">
+              {currentMessages.length === 0 ? (
+                <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
+                  Ask GPT about ICM InfoWorks features and updates
+                </div>
+              ) : (
+                currentMessages.map((msg, idx) => (
+                  <ChatMessage key={idx} {...msg} />
+                ))
+              )}
+              {isLoading && activeModel === "openai" && (
+                <div className="flex gap-2 items-center text-muted-foreground text-sm">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
+                  Thinking...
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+        </TabsContent>
       </Tabs>
 
       <div className="border-t p-4 flex-shrink-0">
         <div className="flex gap-2">
           <Textarea
-            placeholder={`Ask ${activeModel === "claude" ? "Claude" : activeModel === "deepseek" ? "DeepSeek" : "Gemini"} about ICM InfoWorks...`}
+            placeholder={`Ask ${activeModel === "claude" ? "Claude" : activeModel === "deepseek" ? "DeepSeek" : activeModel === "gemini" ? "Gemini" : "GPT"} about ICM InfoWorks...`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
