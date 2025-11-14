@@ -161,7 +161,7 @@ export default function ChatSidebar() {
 
         <TabsContent value="claude" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
           <ScrollArea className="flex-1 px-4 h-full" ref={claudeScrollRef}>
-            <div className="py-4 space-y-4">
+            <div className="py-2 space-y-4">
               {claudeMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Claude Sonnet about ICM InfoWorks features and updates
@@ -187,7 +187,7 @@ export default function ChatSidebar() {
 
         <TabsContent value="deepseek" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
           <ScrollArea className="flex-1 px-4 h-full" ref={deepseekScrollRef}>
-            <div className="py-4 space-y-4">
+            <div className="py-2 space-y-4">
               {deepseekMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask DeepSeek about ICM InfoWorks features and updates
@@ -213,7 +213,7 @@ export default function ChatSidebar() {
 
         <TabsContent value="gemini" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
           <ScrollArea className="flex-1 px-4 h-full" ref={geminiScrollRef}>
-            <div className="py-4 space-y-4">
+            <div className="py-2 space-y-4">
               {geminiMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask Gemini about ICM InfoWorks features and updates
@@ -239,7 +239,7 @@ export default function ChatSidebar() {
 
         <TabsContent value="openai" className="flex-1 flex flex-col m-0 overflow-hidden h-full">
           <ScrollArea className="flex-1 px-4 h-full" ref={openaiScrollRef}>
-            <div className="py-4 space-y-4">
+            <div className="py-2 space-y-4">
               {openaiMessages.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm p-8">
                   Ask GPT about ICM InfoWorks features and updates
