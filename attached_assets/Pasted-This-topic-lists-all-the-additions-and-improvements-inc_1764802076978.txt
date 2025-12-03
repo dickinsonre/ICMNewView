@@ -1,0 +1,55 @@
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM 2026.3 which were not available in previous versions.
+
+Subgrid Meshing Improvements
+This release expands the range of elements supported by the Subgrid Sampling meshing, improving precision and consistency in 2D modelling.
+
+The following 2D element types can now be used with Subgrid Sampling:
+
+Porous Walls
+Porous Polygons
+Base Linear Structures
+Sluice Linear Structures
+Bridge Linear Structures
+Infiltration Zones
+Infiltration Surfaces
+Permeable Zones
+Subgrid can now support ground elevation resampling which was not enabled in the early releases.
+
+See Using Subgrid Sampling, Subgrid Sampling Methodology, and 2D mesh for further information.
+
+Rasterizer Enhancements (Export 2D to Raster)
+The rasterizer capabilities have been expanded and stabilised in this release:
+
+Export 2D to Raster is no longer a Tech Preview.
+Now fully supported for non-cloud (Workgroup and Standalone) databases.
+Added coordinate reference system handling for correct spatial alignment.
+Performance improvements for large datasets.
+Removal of the 2 GB output size limit.
+Improved Model Group Icons in Cloud Databases
+Cloud databases now update Model Group icons based on the contents of the folder - matching the behaviour that already existed in workgroup and standalone databases.
+
+When a Model Group contains only one type of object (e.g. rainfall files, layer lists), its icon automatically changes to reflect that object type.
+
+This creates a more consistent experience across all database types and improves navigation clarity in cloud-based projects.
+
+
+
+Improved handling of inflow and level boundaries at Connect 2D nodes*
+Connect 2D Nodes now support inflow (qin) and water level (lev) boundary conditions. These boundaries are applied consistently with 1D node behavior when used with compatible connection types.
+
+Inflows are supported for Closed and Lost edges, while level boundaries apply to Lost edges, with level taking precedence when both profiles are supplied. Warnings are provided in cases where a boundary is not applicable to the selected connection type.
+
+This enhancement delivers more predictable boundary interactions within 2D–1D connectivity and offers greater modelling flexibility.
+
+See 2D Conduits and 2D Culverts for further information.
+
+Enhanced Encoding Support in ODIC Imports
+A new “Assume UTF-8 encoding” option has been added to the ODIC file import workflow. This restores flexibility that had been removed in earlier versions and improves compatibility with international datasets.
+
+When the option is checked, imported files are treated as UTF-8 encoded.
+When unchecked, encoding defaults to the system locale.
+Prior to 2024.4, ICM automatically assumed the system locale encoding. In 2024.4, UTF-8 was enforced for all imports. The 2026.3 release now supports both behaviours, selectable via a simple checkbox.
+
+See Open Data Import Centre and Open Data Import Centre Dialog for further information.
+
+*This change takes effect only for databases upgraded to the 2026.3 format or newer.

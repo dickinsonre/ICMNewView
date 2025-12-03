@@ -2,6 +2,62 @@ import type { Version } from '@shared/schema';
 
 export const versionsData: Version[] = [
   {
+    id: "2026.3",
+    version: "2026.3",
+    releaseDate: "2024-12-03",
+    features: [
+      {
+        id: "2026.3-subgrid-meshing",
+        title: "Subgrid Meshing Improvements",
+        description: "Expands the range of elements supported by Subgrid Sampling meshing, improving precision and consistency in 2D modelling. Now supports Porous Walls, Porous Polygons, Base/Sluice/Bridge Linear Structures, Infiltration Zones/Surfaces, Permeable Zones, and ground elevation resampling.",
+        category: "Subgrid Sampling"
+      },
+      {
+        id: "2026.3-rasterizer",
+        title: "Rasterizer Enhancements (Export 2D to Raster)",
+        description: "Export 2D to Raster is no longer a Tech Preview. Now fully supported for non-cloud (Workgroup and Standalone) databases with coordinate reference system handling, performance improvements for large datasets, and removal of the 2 GB output size limit.",
+        category: "2D Modelling"
+      },
+      {
+        id: "2026.3-model-group-icons",
+        title: "Improved Model Group Icons in Cloud Databases",
+        description: "Cloud databases now update Model Group icons based on the contents of the folder - matching the behaviour that already existed in workgroup and standalone databases. When a Model Group contains only one type of object, its icon automatically changes to reflect that object type.",
+        category: "Cloud"
+      },
+      {
+        id: "2026.3-connect-2d-boundaries",
+        title: "Improved Handling of Inflow and Level Boundaries at Connect 2D Nodes",
+        description: "Connect 2D Nodes now support inflow (qin) and water level (lev) boundary conditions applied consistently with 1D node behavior. Inflows are supported for Closed and Lost edges, while level boundaries apply to Lost edges. This enhancement delivers more predictable boundary interactions within 2D-1D connectivity.",
+        category: "2D Modelling"
+      },
+      {
+        id: "2026.3-odic-encoding",
+        title: "Enhanced Encoding Support in ODIC Imports",
+        description: "A new 'Assume UTF-8 encoding' option has been added to the ODIC file import workflow. When checked, imported files are treated as UTF-8 encoded; when unchecked, encoding defaults to the system locale. This restores flexibility that had been removed in earlier versions and improves compatibility with international datasets.",
+        category: "Data Import/Export"
+      }
+    ]
+  },
+  {
+    id: "2026.2",
+    version: "2026.2",
+    releaseDate: "2024-11-13",
+    features: [
+      {
+        id: "2026.2-esri",
+        title: "Esri Integration Features",
+        description: "Enhanced integration with Esri GIS platforms for improved spatial data management and analysis.",
+        category: "Integration"
+      },
+      {
+        id: "2026.2-admin",
+        title: "Project Administration Tools",
+        description: "New administrative features for better project management and collaboration.",
+        category: "Administration"
+      }
+    ]
+  },
+  {
     id: "2026.1",
     version: "2026.1",
     releaseDate: "2026-06-01",
@@ -132,25 +188,6 @@ export const versionsData: Version[] = [
         title: "CUDA Update to 12.6.3",
         description: "Updated to CUDA 12.6.3. NVIDIA drivers may need updating for compatibility. Only cards with compute capability 5.0 or higher supported.",
         category: "System"
-      }
-    ]
-  },
-  {
-    id: "2026.2",
-    version: "2026.2",
-    releaseDate: "2024-11-13",
-    features: [
-      {
-        id: "2026.2-esri",
-        title: "Esri Integration Features",
-        description: "Enhanced integration with Esri GIS platforms for improved spatial data management and analysis.",
-        category: "Integration"
-      },
-      {
-        id: "2026.2-admin",
-        title: "Project Administration Tools",
-        description: "New administrative features for better project management and collaboration.",
-        category: "Administration"
       }
     ]
   },
