@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import ChatSidebar from "@/components/ChatSidebar";
@@ -6,6 +6,7 @@ import TimelineView from "@/components/TimelineView";
 import FeatureDetailModal from "@/components/FeatureDetailModal";
 import DocumentationSheet from "@/components/DocumentationSheet";
 import VersionNavigator from "@/components/VersionNavigator";
+import FilterPanel, { matchesCategory, type CategoryId } from "@/components/FilterPanel";
 import type { Feature } from "@/components/FeatureCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,27 +18,42 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDocumentation, setShowDocumentation] = useState(false);
   const [mobileView, setMobileView] = useState<"timeline" | "chat">("timeline");
+  const [selectedCategories, setSelectedCategories] = useState<CategoryId[]>([]);
+  const [myStackVersion, setMyStackVersion] = useState<string | null>(null);
   const versionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: versions, isLoading } = useQuery<Version[]>({
     queryKey: ["/api/versions"],
   });
 
-  const filteredVersions = (versions || []).map(version => ({
-    ...version,
-    features: version.features
-      .map(feature => ({
-        ...feature,
-        version: version.version,
-        releaseDate: version.releaseDate,
-      }))
-      .filter(feature =>
-        searchQuery === "" ||
-        feature.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        feature.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        feature.category.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-  })).filter(version => version.features.length > 0);
+  const myStackVersionIndex = useMemo(() => {
+    if (!myStackVersion || !versions) return -1;
+    return versions.findIndex(v => v.id === myStackVersion);
+  }, [myStackVersion, versions]);
+
+  const filteredVersions = useMemo(() => {
+    return (versions || []).map((version, versionIndex) => ({
+      ...version,
+      isNewerThanMyStack: myStackVersion !== null && versionIndex < myStackVersionIndex,
+      features: version.features
+        .map(feature => ({
+          ...feature,
+          version: version.version,
+          releaseDate: version.releaseDate,
+        }))
+        .filter(feature => {
+          const matchesSearch = searchQuery === "" ||
+            feature.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            feature.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            feature.category.toLowerCase().includes(searchQuery.toLowerCase());
+          
+          const matchesCategoryFilter = selectedCategories.length === 0 ||
+            selectedCategories.some(cat => matchesCategory(feature, cat));
+          
+          return matchesSearch && matchesCategoryFilter;
+        })
+    })).filter(version => version.features.length > 0);
+  }, [versions, searchQuery, selectedCategories, myStackVersion, myStackVersionIndex]);
 
   const handleVersionNavigate = (versionId: string) => {
     const element = versionRefs.current.get(versionId);
@@ -70,21 +86,26 @@ export default function HomePage() {
           <TabsContent value="timeline" className="flex-1 m-0 h-full">
             <div className="h-full overflow-auto">
               <div className="py-6 px-4">
-                <div className="mb-6">
-                  <div className="mb-4">
-                    <div className="mb-3">
-                      <h2 className="text-2xl font-bold mb-2">Release Timeline</h2>
-                      {versions && versions.length > 0 && (
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xl font-bold text-primary">{versions.length}</span>
-                          <span className="text-xs text-muted-foreground">versions</span>
-                          <span className="mx-1">·</span>
-                          <span className="text-xl font-bold text-primary">{versions.reduce((sum, v) => sum + v.features.length, 0)}</span>
-                          <span className="text-xs text-muted-foreground">features</span>
-                        </div>
-                      )}
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold mb-2">Release Timeline</h2>
+                  {versions && versions.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xl font-bold text-primary">{versions.length}</span>
+                      <span className="text-xs text-muted-foreground">versions</span>
+                      <span className="mx-1">·</span>
+                      <span className="text-xl font-bold text-primary">{versions.reduce((sum, v) => sum + v.features.length, 0)}</span>
+                      <span className="text-xs text-muted-foreground">features</span>
                     </div>
-                  </div>
+                  )}
+                  {versions && versions.length > 0 && (
+                    <FilterPanel
+                      versions={versions}
+                      selectedCategories={selectedCategories}
+                      onCategoryChange={setSelectedCategories}
+                      myStackVersion={myStackVersion}
+                      onMyStackChange={setMyStackVersion}
+                    />
+                  )}
                 </div>
 
                 {isLoading ? (
@@ -117,7 +138,7 @@ export default function HomePage() {
         <ScrollArea className="flex-1" style={{ width: '75%' }}>
           <div className="container py-8 px-6">
             <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <h2 className="text-3xl font-bold">Release Timeline</h2>
@@ -139,6 +160,15 @@ export default function HomePage() {
                   />
                 )}
               </div>
+              {versions && versions.length > 0 && (
+                <FilterPanel
+                  versions={versions}
+                  selectedCategories={selectedCategories}
+                  onCategoryChange={setSelectedCategories}
+                  myStackVersion={myStackVersion}
+                  onMyStackChange={setMyStackVersion}
+                />
+              )}
             </div>
 
             {isLoading ? (

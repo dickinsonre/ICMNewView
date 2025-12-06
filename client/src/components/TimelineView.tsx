@@ -2,6 +2,7 @@ import { useState, RefObject } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Sparkles, Star } from "lucide-react";
 import type { Feature } from "./FeatureCard";
 
 interface Version {
@@ -9,6 +10,7 @@ interface Version {
   version: string;
   releaseDate: string;
   features: Feature[];
+  isNewerThanMyStack?: boolean;
 }
 
 interface TimelineViewProps {
@@ -17,8 +19,15 @@ interface TimelineViewProps {
   versionRefs?: RefObject<Map<string, HTMLDivElement>>;
 }
 
+const MAJOR_VERSIONS = ["2026.3", "2024.0", "2023.0", "10.5", "10.0", "5.0", "3.0", "1.5"];
+
+function isMajorVersion(version: string): boolean {
+  return MAJOR_VERSIONS.includes(version);
+}
+
 export default function TimelineView({ versions, onFeatureClick, versionRefs }: TimelineViewProps) {
   const [expandedVersion, setExpandedVersion] = useState<string | null>(versions[0]?.version || null);
+  const isMajor = (v: Version) => isMajorVersion(v.version);
 
   return (
     <div className="relative">
@@ -28,19 +37,41 @@ export default function TimelineView({ versions, onFeatureClick, versionRefs }: 
         {versions.map((version, idx) => (
           <div 
             key={version.version} 
-            className="relative pl-20"
+            className={cn(
+              "relative pl-20 transition-all",
+              version.isNewerThanMyStack && "bg-primary/5 -mx-4 px-4 py-4 rounded-lg border border-primary/20"
+            )}
             ref={(el) => {
               if (el && versionRefs?.current) {
                 versionRefs.current.set(version.id, el);
               }
             }}
           >
-            <div className="absolute left-6 top-2 w-4 h-4 rounded-full bg-primary border-4 border-background ring-4 ring-border" />
+            <div className={cn(
+              "absolute left-6 top-2 w-4 h-4 rounded-full border-4 border-background ring-4",
+              version.isNewerThanMyStack 
+                ? "bg-primary ring-primary/30" 
+                : isMajor(version) 
+                  ? "bg-yellow-500 ring-yellow-500/30" 
+                  : "bg-primary ring-border"
+            )} />
             
             <div className="space-y-4">
               <div>
-                <div className="flex items-center gap-3 mb-1">
+                <div className="flex items-center gap-3 mb-1 flex-wrap">
                   <h2 className="text-2xl font-semibold">Version {version.version}</h2>
+                  {isMajor(version) && (
+                    <Badge className="bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 gap-1">
+                      <Star className="h-3 w-3" />
+                      Major Release
+                    </Badge>
+                  )}
+                  {version.isNewerThanMyStack && (
+                    <Badge className="bg-primary/20 text-primary gap-1">
+                      <Sparkles className="h-3 w-3" />
+                      New for you
+                    </Badge>
+                  )}
                   <Badge variant="outline" className="font-mono text-xs">
                     {new Date(version.releaseDate).toLocaleDateString('en-US', {
                       year: 'numeric',
