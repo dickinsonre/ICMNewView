@@ -26,34 +26,40 @@ export default function HomePage() {
     queryKey: ["/api/versions"],
   });
 
-  const myStackVersionIndex = useMemo(() => {
-    if (!myStackVersion || !versions) return -1;
-    return versions.findIndex(v => v.id === myStackVersion);
+  const myStackVersionDate = useMemo(() => {
+    if (!myStackVersion || !versions) return null;
+    const selectedVersion = versions.find(v => v.id === myStackVersion);
+    return selectedVersion ? new Date(selectedVersion.releaseDate) : null;
   }, [myStackVersion, versions]);
 
   const filteredVersions = useMemo(() => {
-    return (versions || []).map((version, versionIndex) => ({
-      ...version,
-      isNewerThanMyStack: myStackVersion !== null && versionIndex < myStackVersionIndex,
-      features: version.features
-        .map(feature => ({
-          ...feature,
-          version: version.version,
-          releaseDate: version.releaseDate,
-        }))
-        .filter(feature => {
-          const matchesSearch = searchQuery === "" ||
-            feature.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            feature.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            feature.category.toLowerCase().includes(searchQuery.toLowerCase());
-          
-          const matchesCategoryFilter = selectedCategories.length === 0 ||
-            selectedCategories.some(cat => matchesCategory(feature, cat));
-          
-          return matchesSearch && matchesCategoryFilter;
-        })
-    })).filter(version => version.features.length > 0);
-  }, [versions, searchQuery, selectedCategories, myStackVersion, myStackVersionIndex]);
+    return (versions || []).map((version) => {
+      const versionDate = new Date(version.releaseDate);
+      const isNewerThanMyStack = myStackVersionDate !== null && versionDate > myStackVersionDate;
+      
+      return {
+        ...version,
+        isNewerThanMyStack,
+        features: version.features
+          .map(feature => ({
+            ...feature,
+            version: version.version,
+            releaseDate: version.releaseDate,
+          }))
+          .filter(feature => {
+            const matchesSearch = searchQuery === "" ||
+              feature.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              feature.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              feature.category.toLowerCase().includes(searchQuery.toLowerCase());
+            
+            const matchesCategoryFilter = selectedCategories.length === 0 ||
+              selectedCategories.some(cat => matchesCategory(feature, cat));
+            
+            return matchesSearch && matchesCategoryFilter;
+          })
+      };
+    }).filter(version => version.features.length > 0);
+  }, [versions, searchQuery, selectedCategories, myStackVersionDate]);
 
   const handleVersionNavigate = (versionId: string) => {
     const element = versionRefs.current.get(versionId);
