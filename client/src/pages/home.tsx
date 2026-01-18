@@ -7,6 +7,8 @@ import FeatureDetailModal from "@/components/FeatureDetailModal";
 import DocumentationSheet from "@/components/DocumentationSheet";
 import VersionNavigator from "@/components/VersionNavigator";
 import FilterPanel, { matchesCategory, type CategoryId } from "@/components/FilterPanel";
+import CompareVersionsDialog from "@/components/CompareVersionsDialog";
+import VersionCharts from "@/components/VersionCharts";
 import type { Feature } from "@/components/FeatureCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -104,13 +106,17 @@ export default function HomePage() {
                     </div>
                   )}
                   {versions && versions.length > 0 && (
-                    <FilterPanel
-                      versions={versions}
-                      selectedCategories={selectedCategories}
-                      onCategoryChange={setSelectedCategories}
-                      myStackVersion={myStackVersion}
-                      onMyStackChange={setMyStackVersion}
-                    />
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <FilterPanel
+                        versions={versions}
+                        selectedCategories={selectedCategories}
+                        onCategoryChange={setSelectedCategories}
+                        myStackVersion={myStackVersion}
+                        onMyStackChange={setMyStackVersion}
+                      />
+                      <CompareVersionsDialog versions={versions} />
+                      <VersionCharts versions={versions} />
+                    </div>
                   )}
                 </div>
 
@@ -160,20 +166,26 @@ export default function HomePage() {
                   </p>
                 </div>
                 {versions && versions.length > 0 && (
-                  <VersionNavigator
-                    versions={versions}
-                    onNavigate={handleVersionNavigate}
-                  />
+                  <div className="flex items-center gap-2">
+                    <CompareVersionsDialog versions={versions} />
+                    <VersionNavigator
+                      versions={versions}
+                      onNavigate={handleVersionNavigate}
+                    />
+                  </div>
                 )}
               </div>
               {versions && versions.length > 0 && (
-                <FilterPanel
-                  versions={versions}
-                  selectedCategories={selectedCategories}
-                  onCategoryChange={setSelectedCategories}
-                  myStackVersion={myStackVersion}
-                  onMyStackChange={setMyStackVersion}
-                />
+                <div className="flex items-center gap-2 flex-wrap">
+                  <FilterPanel
+                    versions={versions}
+                    selectedCategories={selectedCategories}
+                    onCategoryChange={setSelectedCategories}
+                    myStackVersion={myStackVersion}
+                    onMyStackChange={setMyStackVersion}
+                  />
+                  <VersionCharts versions={versions} />
+                </div>
               )}
             </div>
 

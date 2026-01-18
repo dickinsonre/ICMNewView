@@ -10,19 +10,22 @@ export const versionsData: Version[] = [
         id: "2026.3-subgrid-meshing",
         title: "Subgrid Meshing Improvements",
         description: "Expands the range of elements supported by Subgrid Sampling meshing, improving precision and consistency in 2D modelling. Now supports Porous Walls, Porous Polygons, Base/Sluice/Bridge Linear Structures, Infiltration Zones/Surfaces, Permeable Zones, and ground elevation resampling.",
-        category: "Subgrid Sampling"
+        category: "Subgrid Sampling",
+        documentationUrl: "https://help.autodesk.com/view/IWICMS/ENU/?guid=GUID-SubgridSampling"
       },
       {
         id: "2026.3-rasterizer",
         title: "Rasterizer Enhancements (Export 2D to Raster)",
         description: "Export 2D to Raster is no longer a Tech Preview. Now fully supported for non-cloud (Workgroup and Standalone) databases with coordinate reference system handling, performance improvements for large datasets, and removal of the 2 GB output size limit.",
-        category: "2D Modelling"
+        category: "2D Modelling",
+        documentationUrl: "https://help.autodesk.com/view/IWICMS/ENU/?guid=GUID-Export2DToRaster"
       },
       {
         id: "2026.3-model-group-icons",
         title: "Improved Model Group Icons in Cloud Databases",
         description: "Cloud databases now update Model Group icons based on the contents of the folder - matching the behaviour that already existed in workgroup and standalone databases. When a Model Group contains only one type of object, its icon automatically changes to reflect that object type.",
-        category: "Cloud"
+        category: "Cloud",
+        documentationUrl: "https://help.autodesk.com/view/IWICMS/ENU/?guid=GUID-CloudDatabase"
       },
       {
         id: "2026.3-connect-2d-boundaries",
