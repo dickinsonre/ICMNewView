@@ -53,6 +53,19 @@ The application emphasizes dynamic content delivery, interactive user experience
 
 ## Recent Updates (December 2024)
 
+### A+ Enhancements
+- **Compare Versions Tool**: Side-by-side version comparison dialog showing:
+  - Features unique to each version (color-coded red/green)
+  - Features present in both versions
+  - Category breakdown comparison
+- **Documentation Links**: Features can include `documentationUrl` field for direct links to Autodesk Knowledge Network
+  - External link button appears on feature cards with docs available
+- **Release Analytics Charts**: Expandable visualization section showing:
+  - Features by Year (horizontal bar chart)
+  - Development Focus Areas (7 categories with color-coded bars)
+  - Recent Releases (last 10 versions as vertical bar chart)
+  - Summary statistics and top categories
+
 ### Filtering & Discovery Enhancements
 - **Category Filters**: 7 predefined categories (Cloud/SaaS, Interface/UI, 2D Modelling, Data Import/Export, Automation/Scripting, Administration, Analysis/Results) with keyword-based matching
 - **My Stack Feature**: Select your current version to highlight all features released since then with "New for you" badges
