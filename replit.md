@@ -69,14 +69,14 @@ The application emphasizes dynamic content delivery, interactive user experience
 ### Filtering & Discovery Enhancements
 - **Category Filters**: 7 predefined categories (Cloud/SaaS, Interface/UI, 2D Modelling, Data Import/Export, Automation/Scripting, Administration, Analysis/Results) with keyword-based matching
 - **My Stack Feature**: Select your current version to highlight all features released since then with "New for you" badges
-- **Major Release Badges**: Key versions (2026.3, 2024.0, 2023.0, 10.5, 10.0, 5.0, 3.0, 1.5) show gold "Major Release" badge with star icon
+- **Major Release Badges**: Key versions (2027.0, 2026.3, 2024.0, 2023.0, 10.5, 10.0, 5.0, 3.0, 1.5) show gold "Major Release" badge with star icon
 - **Visual Highlighting**: Date-based comparison ensures My Stack works correctly even when filters are active
 - **FilterPanel Component**: Popover-based filter UI with dismissible active filter badges
 
 ### Version Data
-- 47 versions documented spanning 2011 to present
-- 804 features catalogued across all versions
-- Newest version: 2026.3 with 5 features (December 2024)
+- 48 versions documented spanning 2011 to present
+- 809 features catalogued across all versions
+- Newest version: 2027.0 with 5 features (June 2025)
 
 ## Previous Updates (November 2024)
 

@@ -2,6 +2,43 @@ import type { Version } from '@shared/schema';
 
 export const versionsData: Version[] = [
   {
+    id: "2027.0",
+    version: "2027.0",
+    releaseDate: "2025-06-15",
+    features: [
+      {
+        id: "2027.0-network-design",
+        title: "Network Design (Tech Preview)",
+        description: "Introduces automated preliminary sizing of gravity drainage networks. The tool determines pipe diameters and invert levels using a deterministic, constraint-based approach, evaluating candidate pipe configurations against hydraulic, geometric, and connectivity requirements. Design flows can be calculated from rainfall using IDF curve and the Rational Method, or defined directly. Processes dendritic networks sequentially from upstream to downstream, supports staged and iterative design workflows, evaluates multiple pipe candidates, and provides a comprehensive Design report with full transparency of the design process.",
+        category: "Network Design"
+      },
+      {
+        id: "2027.0-home-tab",
+        title: "New Home Tab",
+        description: "The Home tab introduces a central entry point to InfoWorks ICM, giving quick access to databases, sample content, and key resources before entering the workspace. Displayed automatically when no GeoPlan tabs are open, allowing you to open existing databases, create new ones (on-premise or on-cloud), or explore featured sample databases that showcase product capabilities. A dedicated Discover area highlights curated content such as updates and learning resources.",
+        category: "Interface/UI"
+      },
+      {
+        id: "2027.0-model-group-menu",
+        title: "Enhanced Model Group Context Menu",
+        description: "The Model Group context menu has been enhanced to provide a more structured and comprehensive access point for managing model workflows. Commands are now grouped by function, making it easier to create networks and shared objects, manage input data, run simulations, and analyse results directly from the Explorer Window. The updated menu brings together key actions such as simulation runs, calibration, risk analysis, and reporting tools, alongside utilities for validation and querying.",
+        category: "Interface/UI"
+      },
+      {
+        id: "2027.0-subgrid-ground-level",
+        title: "Subgrid Sampling - Improved Ground Level Reporting",
+        description: "Ground level reporting for subgrid models has been enhanced across Network Results objects to improve accuracy and consistency. For Network Results points, lines, and polygons, ground level values are now derived from the underlying subgrid triangle (face) elevations rather than average or simplified representations, ensuring that minimum, maximum, and mean ground levels more accurately reflect local terrain variations within subgrid meshes.",
+        category: "2D Modelling"
+      },
+      {
+        id: "2027.0-ruby-upgrade",
+        title: "Ruby Scripting Upgrade",
+        description: "The embedded Ruby used for scripting in InfoWorks ICM has been upgraded from Ruby 2.4 to Ruby 3.4.6. This update provides a supported and maintained version and enables the use of external libraries through RubyGems. Scripts created with earlier Ruby versions may require updates to run correctly.",
+        category: "Automation/Scripting"
+      }
+    ]
+  },
+  {
     id: "2026.3",
     version: "2026.3",
     releaseDate: "2024-12-03",

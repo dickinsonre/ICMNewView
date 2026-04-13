@@ -19,7 +19,7 @@ interface TimelineViewProps {
   versionRefs?: RefObject<Map<string, HTMLDivElement>>;
 }
 
-const MAJOR_VERSIONS = ["2026.3", "2024.0", "2023.0", "10.5", "10.0", "5.0", "3.0", "1.5"];
+const MAJOR_VERSIONS = ["2027.0", "2026.3", "2024.0", "2023.0", "10.5", "10.0", "5.0", "3.0", "1.5"];
 
 function isMajorVersion(version: string): boolean {
   return MAJOR_VERSIONS.includes(version);
