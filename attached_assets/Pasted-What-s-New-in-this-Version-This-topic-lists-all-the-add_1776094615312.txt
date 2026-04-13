@@ -1,0 +1,51 @@
+What's New in this Version
+This topic lists all the additions and improvements incorporated in InfoWorks® ICM 2027.0 which were not available in previous versions.
+Network design (Tech Preview)
+Network design (Tech Preview) introduces a powerful new capability for automated preliminary sizing of gravity drainage networks. The tool determines pipe diameters and invert levels using a deterministic, constraint-based approach, evaluating candidate pipe configurations against hydraulic, geometric, and connectivity requirements. Design flows can be calculated from rainfall using IDF curve and the Rational Method, or defined directly, providing flexibility for both stormwater and sanitary design workflows. Users can configure key design controls, including slope, velocity, cover depth, and percentage full conditions, as well as prioritisation criteria for selecting optimal solutions (see Design constraints).
+
+Network design processes dendritic networks sequentially from upstream to downstream, ensuring that upstream conditions inform downstream design decisions. It can be applied to the entire network or a selected subset, supporting staged and iterative design workflows. During execution, the tool evaluates multiple pipe candidates (see Pipe network catalog, determines feasible slope ranges, and selects preferred solutions based on defined constraints and penalty criteria. Results are written directly to the network, with pipe sizes and levels updated automatically.
+
+A comprehensive Design report provides full transparency of the design process, including evaluated candidates, governing constraints, and final selections for each pipe. This enables users to understand, validate, and refine design decisions, and to quickly identify constraints driving outcomes or causing infeasibility. As a preliminary design tool, Network design is intended to accelerate early-stage design and should be complemented by dynamic simulation for final validation.
+
+To help you get started, a dedicated tutorial and overview of the Network design tool is included, along with a sample database demonstrating typical workflows and configuration steps. This allows you to explore the feature in a practical context, understand how key inputs and constraints influence results, and more easily integrate Network design into your existing modelling and design processes. See Getting started with 1D and 2D modelling.
+
+See Network design, Design constraints, IDF curve, Pipe network catalog, and Design report for further information.
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 1:25
+Playback Rate1x
+Fullscreen
+
+New Home tab
+The Home tab introduces a central entry point to InfoWorks ICM, giving you quick access to databases, sample content, and key resources before entering the workspace. The Home tab is displayed automatically when no GeoPlan tabs are open, allowing you to open existing databases, create new ones (on-premise or on-cloud), or explore featured sample databases that showcase product capabilities. A dedicated Discover area highlights curated content such as updates and learning resources, while quick links provide streamlined access to commonly used tools and community content.
+
+PlayPlay
+Mute
+Current Time 0:00
+/
+Duration 1:38
+Playback Rate1x
+Fullscreen
+
+See Infoworks ICM Home tab for more information.
+
+Enhanced Model Group context menu
+The Model Group context menu has been enhanced to provide a more structured and comprehensive access point for managing model workflows. Commands are now grouped by function, making it easier to create networks and shared objects, manage input data, run simulations, and analyse results directly from the Explorer Window. The updated menu brings together key actions such as simulation runs, calibration, risk analysis, and reporting tools, alongside utilities for validation, querying, and automation. This improves discoverability and streamlines access to commonly used workflows at the Model Group level.
+
+See Model Group context menu for further information.
+
+
+
+Subgrid sampling - improved ground level reporting
+Ground level reporting for subgrid models has been enhanced across Network Results objects to improve accuracy and consistency. For Network Results points, lines, and polygons, ground level values are now derived from the underlying subgrid triangle (face) elevations rather than average or simplified representations. This ensures that minimum, maximum, and (where applicable) mean ground levels more accurately reflect local terrain variations within subgrid meshes. These updates provide more reliable results interpretation, particularly in detailed models with complex topography.
+
+See Using Subgrid Sampling, 2D Conduits, and 2D Line Connect for more information.
+
+Ruby scripting upgrade
+The embedded Ruby used for scripting in InfoWorks ICM has been upgraded from Ruby 2.4 to Ruby 3.4.6. This update provides a supported and maintained version and enables the use of external libraries through RubyGems.
+
+Note: Scripts created with earlier Ruby versions may require updates to run correctly. It is recommended to test existing scripts and update them if errors occur.
+See Ruby Script, Ruby Script Editor, and Introduction to Ruby Scripting in InfoWorks for further information.
