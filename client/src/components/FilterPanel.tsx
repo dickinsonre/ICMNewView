@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Cloud, Monitor, Layers, Database, Code, Settings, BarChart, Filter, Sparkles, X } from "lucide-react";
+import { Cloud, Monitor, Layers, Database, Code, Settings, BarChart, Filter, Sparkles, X, GitCompare } from "lucide-react";
 import type { Version } from "@shared/schema";
 
 export const FEATURE_CATEGORIES = [
@@ -49,6 +49,9 @@ interface FilterPanelProps {
   onCategoryChange: (categories: CategoryId[]) => void;
   myStackVersion: string | null;
   onMyStackChange: (version: string | null) => void;
+  versionFrom: string | null;
+  versionTo: string | null;
+  onVersionRangeChange: (from: string | null, to: string | null) => void;
 }
 
 export default function FilterPanel({
@@ -57,6 +60,9 @@ export default function FilterPanel({
   onCategoryChange,
   myStackVersion,
   onMyStackChange,
+  versionFrom,
+  versionTo,
+  onVersionRangeChange,
 }: FilterPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -71,9 +77,11 @@ export default function FilterPanel({
   const clearFilters = () => {
     onCategoryChange([]);
     onMyStackChange(null);
+    onVersionRangeChange(null, null);
   };
 
-  const hasActiveFilters = selectedCategories.length > 0 || myStackVersion !== null;
+  const hasActiveFilters = selectedCategories.length > 0 || myStackVersion !== null || versionFrom !== null || versionTo !== null;
+  const activeCount = selectedCategories.length + (myStackVersion ? 1 : 0) + (versionFrom || versionTo ? 1 : 0);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -89,12 +97,12 @@ export default function FilterPanel({
             <span className="hidden sm:inline">Filters</span>
             {hasActiveFilters && (
               <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center text-xs">
-                {selectedCategories.length + (myStackVersion ? 1 : 0)}
+                {activeCount}
               </Badge>
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80" align="start">
+        <PopoverContent className="w-84" align="start">
           <div className="space-y-4">
             <div>
               <h4 className="font-medium mb-2 text-sm">Filter by Category</h4>
@@ -129,7 +137,12 @@ export default function FilterPanel({
               </p>
               <Select
                 value={myStackVersion || "none"}
-                onValueChange={(v) => onMyStackChange(v === "none" ? null : v)}
+                onValueChange={(v) => {
+                  const val = v === "none" ? null : v;
+                  onMyStackChange(val);
+                  if (val) localStorage.setItem("icm-my-stack", val);
+                  else localStorage.removeItem("icm-my-stack");
+                }}
               >
                 <SelectTrigger className="w-full" data-testid="select-my-stack">
                   <SelectValue placeholder="Select your version" />
@@ -143,6 +156,56 @@ export default function FilterPanel({
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="border-t pt-4">
+              <h4 className="font-medium mb-2 text-sm flex items-center gap-2">
+                <GitCompare className="h-4 w-4 text-muted-foreground" />
+                Version Range
+              </h4>
+              <p className="text-xs text-muted-foreground mb-2">
+                Show features released between two versions.
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">From (oldest)</p>
+                  <Select
+                    value={versionFrom || "all"}
+                    onValueChange={(v) => onVersionRangeChange(v === "all" ? null : v, versionTo)}
+                  >
+                    <SelectTrigger className="w-full text-xs" data-testid="select-version-from">
+                      <SelectValue placeholder="Earliest" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Earliest</SelectItem>
+                      {[...versions].reverse().map((v) => (
+                        <SelectItem key={v.id} value={v.id}>
+                          v{v.version}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">To (newest)</p>
+                  <Select
+                    value={versionTo || "all"}
+                    onValueChange={(v) => onVersionRangeChange(versionFrom, v === "all" ? null : v)}
+                  >
+                    <SelectTrigger className="w-full text-xs" data-testid="select-version-to">
+                      <SelectValue placeholder="Latest" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Latest</SelectItem>
+                      {versions.map((v) => (
+                        <SelectItem key={v.id} value={v.id}>
+                          v{v.version}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </div>
 
             {hasActiveFilters && (
@@ -183,10 +246,22 @@ export default function FilterPanel({
         <Badge
           variant="secondary"
           className="gap-1 cursor-pointer bg-primary/20 text-primary"
-          onClick={() => onMyStackChange(null)}
+          onClick={() => { onMyStackChange(null); localStorage.removeItem("icm-my-stack"); }}
         >
           <Sparkles className="h-3 w-3" />
           Since v{versions.find(v => v.id === myStackVersion)?.version}
+          <X className="h-3 w-3 ml-1" />
+        </Badge>
+      )}
+
+      {(versionFrom || versionTo) && (
+        <Badge
+          variant="secondary"
+          className="gap-1 cursor-pointer"
+          onClick={() => onVersionRangeChange(null, null)}
+        >
+          <GitCompare className="h-3 w-3" />
+          {versionFrom ? `v${versionFrom}` : "Start"} → {versionTo ? `v${versionTo}` : "Latest"}
           <X className="h-3 w-3 ml-1" />
         </Badge>
       )}

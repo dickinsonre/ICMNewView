@@ -9,6 +9,7 @@ import VersionNavigator from "@/components/VersionNavigator";
 import FilterPanel, { matchesCategory, type CategoryId } from "@/components/FilterPanel";
 import CompareVersionsDialog from "@/components/CompareVersionsDialog";
 import VersionCharts from "@/components/VersionCharts";
+import UpgradeImpactBanner from "@/components/UpgradeImpactBanner";
 import type { Feature } from "@/components/FeatureCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,7 +22,11 @@ export default function HomePage() {
   const [showDocumentation, setShowDocumentation] = useState(false);
   const [mobileView, setMobileView] = useState<"timeline" | "chat">("timeline");
   const [selectedCategories, setSelectedCategories] = useState<CategoryId[]>([]);
-  const [myStackVersion, setMyStackVersion] = useState<string | null>(null);
+  const [myStackVersion, setMyStackVersion] = useState<string | null>(
+    () => localStorage.getItem("icm-my-stack") || null
+  );
+  const [versionFrom, setVersionFrom] = useState<string | null>(null);
+  const [versionTo, setVersionTo] = useState<string | null>(null);
   const [pendingChatMessage, setPendingChatMessage] = useState<string | undefined>(undefined);
   const versionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
@@ -36,6 +41,13 @@ export default function HomePage() {
   }, [myStackVersion, versions]);
 
   const filteredVersions = useMemo(() => {
+    const fromDate = versionFrom && versions
+      ? new Date(versions.find(v => v.id === versionFrom)?.releaseDate || "")
+      : null;
+    const toDate = versionTo && versions
+      ? new Date(versions.find(v => v.id === versionTo)?.releaseDate || "")
+      : null;
+
     return (versions || []).map((version) => {
       const versionDate = new Date(version.releaseDate);
       const isNewerThanMyStack = myStackVersionDate !== null && versionDate > myStackVersionDate;
@@ -61,8 +73,14 @@ export default function HomePage() {
             return matchesSearch && matchesCategoryFilter;
           })
       };
-    }).filter(version => version.features.length > 0);
-  }, [versions, searchQuery, selectedCategories, myStackVersionDate]);
+    }).filter(version => {
+      if (version.features.length === 0) return false;
+      const vd = new Date(version.releaseDate);
+      if (fromDate && !isNaN(fromDate.getTime()) && vd < fromDate) return false;
+      if (toDate && !isNaN(toDate.getTime()) && vd > toDate) return false;
+      return true;
+    });
+  }, [versions, searchQuery, selectedCategories, myStackVersionDate, versionFrom, versionTo]);
 
   // Deep-link: scroll to feature or version from URL hash on load
   useEffect(() => {
@@ -90,6 +108,35 @@ export default function HomePage() {
     setPendingChatMessage(message);
     setMobileView("chat");
   }, []);
+
+  const handleCiteClick = useCallback((featureId: string) => {
+    const el = document.getElementById(`feature-${featureId}`);
+    if (el) {
+      setMobileView("timeline");
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-2", "ring-primary", "ring-offset-2");
+        setTimeout(() => el.classList.remove("ring-2", "ring-primary", "ring-offset-2"), 2000);
+      }, mobileView === "chat" ? 100 : 0);
+    }
+  }, [mobileView]);
+
+  const FilterBar = ({ compact = false }: { compact?: boolean }) => (
+    <div className="flex items-center gap-2 flex-wrap">
+      <FilterPanel
+        versions={versions || []}
+        selectedCategories={selectedCategories}
+        onCategoryChange={setSelectedCategories}
+        myStackVersion={myStackVersion}
+        onMyStackChange={setMyStackVersion}
+        versionFrom={versionFrom}
+        versionTo={versionTo}
+        onVersionRangeChange={(from, to) => { setVersionFrom(from); setVersionTo(to); }}
+      />
+      {!compact && <CompareVersionsDialog versions={versions || []} />}
+      <VersionCharts versions={versions || []} />
+    </div>
+  );
 
   return (
     <div className="flex h-screen flex-col">
@@ -127,17 +174,16 @@ export default function HomePage() {
                     </div>
                   )}
                   {versions && versions.length > 0 && (
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <FilterPanel
-                        versions={versions}
-                        selectedCategories={selectedCategories}
-                        onCategoryChange={setSelectedCategories}
-                        myStackVersion={myStackVersion}
-                        onMyStackChange={setMyStackVersion}
-                      />
-                      <CompareVersionsDialog versions={versions} />
-                      <VersionCharts versions={versions} />
-                    </div>
+                    <>
+                      <FilterBar compact />
+                      {myStackVersion && (
+                        <UpgradeImpactBanner
+                          versions={versions}
+                          myStackVersion={myStackVersion}
+                          onNavigateToVersion={handleVersionNavigate}
+                        />
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -147,7 +193,7 @@ export default function HomePage() {
                   </div>
                 ) : filteredVersions.length === 0 ? (
                   <div className="text-center py-12">
-                    <p className="text-muted-foreground">No features found matching "{searchQuery}"</p>
+                    <p className="text-muted-foreground">No features found matching your filters</p>
                   </div>
                 ) : (
                   <TimelineView
@@ -166,6 +212,7 @@ export default function HomePage() {
             <ChatSidebar
               pendingMessage={pendingChatMessage}
               onPendingMessageUsed={() => setPendingChatMessage(undefined)}
+              onCiteClick={handleCiteClick}
             />
           </TabsContent>
         </Tabs>
@@ -202,16 +249,16 @@ export default function HomePage() {
                 )}
               </div>
               {versions && versions.length > 0 && (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <FilterPanel
-                    versions={versions}
-                    selectedCategories={selectedCategories}
-                    onCategoryChange={setSelectedCategories}
-                    myStackVersion={myStackVersion}
-                    onMyStackChange={setMyStackVersion}
-                  />
-                  <VersionCharts versions={versions} />
-                </div>
+                <>
+                  <FilterBar />
+                  {myStackVersion && (
+                    <UpgradeImpactBanner
+                      versions={versions}
+                      myStackVersion={myStackVersion}
+                      onNavigateToVersion={handleVersionNavigate}
+                    />
+                  )}
+                </>
               )}
             </div>
 
@@ -221,7 +268,7 @@ export default function HomePage() {
               </div>
             ) : filteredVersions.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground">No features found matching "{searchQuery}"</p>
+                <p className="text-muted-foreground">No features found matching your filters</p>
               </div>
             ) : (
               <TimelineView
@@ -239,6 +286,7 @@ export default function HomePage() {
           <ChatSidebar
             pendingMessage={pendingChatMessage}
             onPendingMessageUsed={() => setPendingChatMessage(undefined)}
+            onCiteClick={handleCiteClick}
           />
         </aside>
       </div>

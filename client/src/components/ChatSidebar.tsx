@@ -19,9 +19,10 @@ const SUGGESTED_PROMPTS = [
 interface ChatSidebarProps {
   pendingMessage?: string;
   onPendingMessageUsed?: () => void;
+  onCiteClick?: (featureId: string) => void;
 }
 
-export default function ChatSidebar({ pendingMessage, onPendingMessageUsed }: ChatSidebarProps) {
+export default function ChatSidebar({ pendingMessage, onPendingMessageUsed, onCiteClick }: ChatSidebarProps) {
   const { toast } = useToast();
   const [activeModel, setActiveModel] = useState<"claude" | "deepseek" | "gemini" | "openai">("claude");
   const [claudeMessages, setClaudeMessages] = useState<ChatMessageProps[]>([]);
@@ -158,10 +159,10 @@ export default function ChatSidebar({ pendingMessage, onPendingMessageUsed }: Ch
     }
   };
 
-  const getMessages = () => {
-    if (activeModel === "claude") return claudeMessages;
-    if (activeModel === "deepseek") return deepseekMessages;
-    if (activeModel === "gemini") return geminiMessages;
+  const getMessages = (model: "claude" | "deepseek" | "gemini" | "openai") => {
+    if (model === "claude") return claudeMessages;
+    if (model === "deepseek") return deepseekMessages;
+    if (model === "gemini") return geminiMessages;
     return openaiMessages;
   };
 
@@ -239,14 +240,11 @@ export default function ChatSidebar({ pendingMessage, onPendingMessageUsed }: Ch
               }
             >
               <div className="space-y-4 sm:space-y-6 p-2 sm:p-4">
-                {getMessages().length === 0 && model === activeModel ? (
+                {getMessages(model).length === 0 && model === activeModel ? (
                   <EmptyState />
                 ) : (
-                  (model === "claude" ? claudeMessages :
-                   model === "deepseek" ? deepseekMessages :
-                   model === "gemini" ? geminiMessages : openaiMessages
-                  ).map((msg, idx) => (
-                    <ChatMessage key={idx} {...msg} />
+                  getMessages(model).map((msg, idx) => (
+                    <ChatMessage key={idx} {...msg} onCiteClick={onCiteClick} />
                   ))
                 )}
                 {loadingStates[model] && <LoadingDots />}

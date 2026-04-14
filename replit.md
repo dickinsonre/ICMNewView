@@ -53,7 +53,20 @@ The application emphasizes dynamic content delivery, interactive user experience
 
 ## Recent Updates (April 2026)
 
-### Interactivity Improvements
+### AI Citations (RAG)
+- **AI Citation Markers**: All 4 backend system prompts now instruct the AI to include `[cite:featureId]` markers whenever they reference a specific feature
+- **Clickable Inline Citations**: `ChatMessage.tsx` parses citation markers and renders them as inline `[1] v2027.0` badge links
+- **Citation Navigation**: Clicking any citation badge scrolls the timeline to that feature card with a pulse highlight animation; on mobile, switches to the timeline tab first
+
+### Upgrade Impact Summary
+- **UpgradeImpactBanner**: When "My Stack" version is set, a banner appears below the filter bar showing total new features across newer versions, versions count, and top categories with counts (Cloud, UI, 2D Modelling, etc.)
+- **Jump to Latest**: Banner includes a quick link to scroll to the newest version
+
+### Filter Enhancements
+- **localStorage Persistence**: My Stack version selection is now saved in `localStorage` and restored on page load — survives refreshes and browser restarts
+- **Version Range Filter**: New "Version Range" section in the filter popover with From/To version dropdowns; narrows the timeline to features released between two selected versions; active range shown as a dismissible badge
+
+### Interactivity Improvements (earlier April 2026)
 - **Search Text Highlighting**: Matched search terms are highlighted inline (yellow) in feature titles and descriptions as you type
 - **"Ask About This Feature" Button**: Hover over any feature card to reveal a chat icon; clicking it pre-fills the AI chat input with a contextual question about that feature. On mobile, automatically switches to the AI Chat tab
 - **AI Query Template Prompts**: When the AI chat is empty, five suggested questions appear as clickable chips to help users get started (e.g. "What's new in version 2027.0?", "Which version first introduced cloud capabilities?")

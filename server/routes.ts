@@ -11,6 +11,35 @@ const chatRequestSchema = z.object({
   messages: z.array(chatMessageSchema)
 });
 
+function buildSystemPrompt(versions: any[]): string {
+  const totalFeatures = versions.reduce((sum: number, v: any) => sum + v.features.length, 0);
+  const contextData = JSON.stringify(versions, null, 2);
+
+  return `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with ${totalFeatures} total features documented.
+
+Here is the complete version history data:
+
+${contextData}
+
+CITATION RULES (IMPORTANT):
+When you reference or mention a specific feature in your response, you MUST include a citation marker immediately after it in this exact format: [cite:FEATURE_ID]
+- FEATURE_ID is the exact "id" field value from the feature data above
+- Example: "The Network Design tool [cite:2027.0-network-design] was introduced in version 2027.0."
+- Example: "Subgrid Sampling improvements [cite:2026.3-subgrid-meshing] expand mesh element support."
+- Only cite features whose id actually exists in the provided data
+- Include citations for every specific feature you mention — this helps users jump directly to the feature in the timeline
+- You may cite the same feature multiple times if you reference it repeatedly
+
+When answering questions:
+- Search through the version data to find relevant features
+- Provide specific version numbers and release dates
+- Quote feature descriptions when relevant
+- If a feature appears in multiple versions, mention the evolution
+- Be concise but informative
+
+Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/versions", async (req, res) => {
     try {
@@ -42,26 +71,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { messages} = validationResult.data;
-      
-      // Get all versions to provide as context
+      const { messages } = validationResult.data;
       const versions = await storage.getAllVersions();
-      const contextData = JSON.stringify(versions, null, 2);
-      
-      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 638 total features.
-
-Here is the complete version history data:
-
-${contextData}
-
-When answering questions:
-- Search through the version data to find relevant features
-- Provide specific version numbers and release dates
-- Quote feature descriptions when relevant
-- If a feature appears in multiple versions, mention the evolution
-- Be concise but informative
-
-Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      const systemMessage = buildSystemPrompt(versions);
       
       const anthropic = new Anthropic({
         apiKey: process.env.AI_INTEGRATIONS_ANTHROPIC_API_KEY,
@@ -74,12 +86,7 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
         system: systemMessage,
         messages: messages.map((msg) => ({
           role: msg.role,
-          content: [
-            {
-              type: "text",
-              text: msg.content
-            }
-          ]
+          content: [{ type: "text" as const, text: msg.content }]
         }))
       });
 
@@ -104,25 +111,8 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
       }
 
       const { messages } = validationResult.data;
-      
-      // Get all versions to provide as context
       const versions = await storage.getAllVersions();
-      const contextData = JSON.stringify(versions, null, 2);
-      
-      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 638 total features.
-
-Here is the complete version history data:
-
-${contextData}
-
-When answering questions:
-- Search through the version data to find relevant features
-- Provide specific version numbers and release dates
-- Quote feature descriptions when relevant
-- If a feature appears in multiple versions, mention the evolution
-- Be concise but informative
-
-Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      const systemMessage = buildSystemPrompt(versions);
       
       const openai = new OpenAI({
         baseURL: process.env.AI_INTEGRATIONS_OPENROUTER_BASE_URL,
@@ -136,19 +126,12 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
       const response = await openai.chat.completions.create({
         model: "deepseek/deepseek-chat",
         messages: [
-          {
-            role: "system",
-            content: systemMessage
-          },
-          ...messages.map((msg) => ({
-            role: msg.role,
-            content: msg.content
-          }))
+          { role: "system", content: systemMessage },
+          ...messages.map((msg) => ({ role: msg.role, content: msg.content }))
         ]
       });
 
       const assistantMessage = response.choices[0]?.message?.content || '';
-      
       res.json({ message: assistantMessage });
     } catch (error) {
       console.error("DeepSeek API error:", error);
@@ -167,24 +150,8 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
       }
 
       const { messages } = validationResult.data;
-      
       const versions = await storage.getAllVersions();
-      const contextData = JSON.stringify(versions, null, 2);
-      
-      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 799 total features.
-
-Here is the complete version history data:
-
-${contextData}
-
-When answering questions:
-- Search through the version data to find relevant features
-- Provide specific version numbers and release dates
-- Quote feature descriptions when relevant
-- If a feature appears in multiple versions, mention the evolution
-- Be concise but informative
-
-Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      const systemMessage = buildSystemPrompt(versions);
       
       const ai = new GoogleGenAI({
         apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
@@ -210,7 +177,6 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
       });
 
       const assistantMessage = response.text || '';
-      
       res.json({ message: assistantMessage });
     } catch (error) {
       console.error("Gemini API error:", error);
@@ -229,24 +195,8 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
       }
 
       const { messages } = validationResult.data;
-      
       const versions = await storage.getAllVersions();
-      const contextData = JSON.stringify(versions, null, 2);
-      
-      const systemMessage = `You are an expert assistant for ICM InfoWorks software documentation. You have access to comprehensive release notes covering ${versions.length} versions from 2011 to present, with 799 total features.
-
-Here is the complete version history data:
-
-${contextData}
-
-When answering questions:
-- Search through the version data to find relevant features
-- Provide specific version numbers and release dates
-- Quote feature descriptions when relevant
-- If a feature appears in multiple versions, mention the evolution
-- Be concise but informative
-
-Answer the user's questions about ICM InfoWorks features, versions, and release history based on this data.`;
+      const systemMessage = buildSystemPrompt(versions);
       
       const openai = new OpenAI({
         baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
@@ -256,19 +206,12 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
       const response = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
-          {
-            role: "system",
-            content: systemMessage
-          },
-          ...messages.map((msg) => ({
-            role: msg.role,
-            content: msg.content
-          }))
+          { role: "system", content: systemMessage },
+          ...messages.map((msg) => ({ role: msg.role, content: msg.content }))
         ]
       });
 
       const assistantMessage = response.choices[0]?.message?.content || '';
-      
       res.json({ message: assistantMessage });
     } catch (error) {
       console.error("OpenAI API error:", error);
@@ -278,6 +221,5 @@ Answer the user's questions about ICM InfoWorks features, versions, and release 
   });
 
   const httpServer = createServer(app);
-
   return httpServer;
 }
