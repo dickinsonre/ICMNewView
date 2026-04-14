@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { GitMerge, ChevronDown, ChevronUp } from "lucide-react";
+import { GitMerge, ChevronDown, ChevronUp, GitCompare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FEATURE_CATEGORIES, matchesCategory, type CategoryId } from "./FilterPanel";
 import type { Version } from "@shared/schema";
@@ -202,10 +202,12 @@ function ChainCard({
   chain,
   totalVersions,
   onScrollToFeature,
+  onCompareRange,
 }: {
   chain: EvolutionChain;
   totalVersions: number;
   onScrollToFeature?: (featureId: string) => void;
+  onCompareRange?: (fromVersionId: string, toVersionId: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const cat = chain.categoryId !== "other" ? FEATURE_CATEGORIES.find(c => c.id === chain.categoryId) : null;
@@ -235,6 +237,23 @@ function ChainCard({
           <Badge variant="secondary" className={cn("text-xs hidden sm:flex", maturity.color)}>
             {maturity.label}
           </Badge>
+          {/* Compare this range button */}
+          {onCompareRange && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6 flex-shrink-0"
+              title={`Compare v${chain.firstVersion} → v${chain.lastVersion}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                // Find the version IDs for firstVersion and lastVersion strings
+                onCompareRange(chain.firstVersion, chain.lastVersion);
+              }}
+              data-testid={`chain-compare-${chain.id}`}
+            >
+              <GitCompare className="h-3.5 w-3.5" />
+            </Button>
+          )}
           {/* Mini timeline bar */}
           <div className="w-24 hidden md:block">
             <div className="relative h-2 bg-muted rounded-full overflow-visible">
@@ -303,9 +322,10 @@ function ChainCard({
 interface EvolutionChainsDialogProps {
   versions: Version[];
   onScrollToFeature?: (featureId: string) => void;
+  onCompareRange?: (fromVersionId: string, toVersionId: string) => void;
 }
 
-export default function EvolutionChainsDialog({ versions, onScrollToFeature }: EvolutionChainsDialogProps) {
+export default function EvolutionChainsDialog({ versions, onScrollToFeature, onCompareRange }: EvolutionChainsDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [sortBy, setSortBy] = useState<"length" | "recent" | "category">("length");
   const [filterMaturity, setFilterMaturity] = useState<string>("all");
@@ -399,6 +419,10 @@ export default function EvolutionChainsDialog({ versions, onScrollToFeature }: E
                     onScrollToFeature?.(featureId);
                     setIsOpen(false);
                   }}
+                  onCompareRange={onCompareRange ? (fromV, toV) => {
+                    onCompareRange(fromV, toV);
+                    setIsOpen(false);
+                  } : undefined}
                 />
               ))
             )}

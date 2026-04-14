@@ -31,6 +31,17 @@ export default function HomePage() {
   const [pendingChatMessage, setPendingChatMessage] = useState<string | undefined>(undefined);
   const versionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
+  // Shared comparison state — lifted so heatmap, chains, and comparison can all talk to each other
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [compareFromId, setCompareFromId] = useState("");
+  const [compareToId, setCompareToId] = useState("");
+
+  const openCompare = useCallback((fromId = "", toId = "") => {
+    if (fromId) setCompareFromId(fromId);
+    if (toId) setCompareToId(toId);
+    setCompareOpen(true);
+  }, []);
+
   const { data: versions, isLoading } = useQuery<Version[]>({
     queryKey: ["/api/versions"],
   });
@@ -122,6 +133,19 @@ export default function HomePage() {
     }
   }, [mobileView]);
 
+  const handleHeatmapCellClick = useCallback((versionId: string, _catId: string) => {
+    // Navigate timeline to that version
+    setMobileView("timeline");
+    setTimeout(() => {
+      const el = versionRefs.current.get(versionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        el.classList.add("ring-2", "ring-primary", "ring-offset-2");
+        setTimeout(() => el.classList.remove("ring-2", "ring-primary", "ring-offset-2"), 2000);
+      }
+    }, 50);
+  }, []);
+
   const FilterBar = ({ compact = false }: { compact?: boolean }) => (
     <div className="flex items-center gap-2 flex-wrap">
       <FilterPanel
@@ -134,27 +158,29 @@ export default function HomePage() {
         versionTo={versionTo}
         onVersionRangeChange={(from, to) => { setVersionFrom(from); setVersionTo(to); }}
       />
-      {!compact && <CompareVersionsDialog versions={versions || []} />}
+      {!compact && (
+        <CompareVersionsDialog
+          versions={versions || []}
+          open={compareOpen}
+          onOpenChange={setCompareOpen}
+          externalFromId={compareFromId}
+          externalToId={compareToId}
+          onFromIdChange={setCompareFromId}
+          onToIdChange={setCompareToId}
+        />
+      )}
       {!compact && (
         <EvolutionChainsDialog
           versions={versions || []}
           onScrollToFeature={handleCiteClick}
+          onCompareRange={(fromId, toId) => openCompare(fromId, toId)}
         />
       )}
       <VersionCharts
         versions={versions || []}
-        onHeatmapCellClick={(versionId, _catId) => {
-          // Navigate timeline to that version
-          setMobileView("timeline");
-          setTimeout(() => {
-            const el = versionRefs.current.get(versionId);
-            if (el) {
-              el.scrollIntoView({ behavior: "smooth", block: "start" });
-              el.classList.add("ring-2", "ring-primary", "ring-offset-2");
-              setTimeout(() => el.classList.remove("ring-2", "ring-primary", "ring-offset-2"), 2000);
-            }
-          }, 50);
-        }}
+        onHeatmapCellClick={handleHeatmapCellClick}
+        onColumnHeaderClick={(versionId) => openCompare("", versionId)}
+        compareRange={compareFromId && compareToId ? { fromId: compareFromId, toId: compareToId } : undefined}
       />
     </div>
   );

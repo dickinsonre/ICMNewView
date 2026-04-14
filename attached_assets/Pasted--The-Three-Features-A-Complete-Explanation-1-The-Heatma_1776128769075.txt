@@ -1,0 +1,740 @@
+# The Three Features: A Complete Explanation
+
+---
+
+## 1. The Heatmap
+
+### What It Is
+
+A colored grid where **rows are feature categories** (Cloud, 2D Modeling, Rainfall, etc.) and **columns are software versions** (v1.5 through v2027.0). Each cell's color intensity represents how many features shipped in that category for that version. Darker = more features. Empty = nothing shipped.
+
+### What Question It Answers
+
+**"Where has development effort been concentrated, and how has that changed over time?"**
+
+This is a question nobody can answer by reading a feature list. You'd have to mentally classify 809 features into categories, count them per version, and hold the pattern in your head. The heatmap does that instantly.
+
+### What It Looks Like With Real ICM Data
+
+```
+                    2011────────2015────────2019────────2023─────2025
+                    v1.5  v3.0  v6.0  v8.0  v10.5 v11.0 v2024.0  v2027.0
+                    ─────────────────────────────────────────────────────
+
+ ☁️  Cloud/SaaS     ·     ·     ·     ·     ·     ·     ████    ▒▒
+ 🌊 2D Modeling     ▒▒    ▒░    ▒░    ▒▒    ▒▒░   ▓▒▒   ▒░      ▒░
+ 🖥️  UI / UX        ▓▒    ▒░    ▒░    ▒▒    ▒▒    ▓▒▒   ▒░      ▒░
+ 📊 Data Mgmt      ▓▒    ▒▒    ▒░    ▓▒    ▓▒    ▒▒▒   ▒▒      ░
+ 🔧 1D Hydraulics  ▒▓    ▓▒    ▒░    ▒▒    ▒▒    ▓▒▒   ░       ·
+ 🗺️  GIS            ▒░    ▒▒    ░▒    ░▒    ▒░    ▒▒░   ░       ░
+ 🌧️  Rainfall       ░     ░     ░     ░▒    ░     ▒░    ·       ·
+ 🧪 Water Quality  ░     ·     ▓░    ░     ░     ▒░    ·       ·
+ ⚙️  Scripting/API  ░     ░     ░▒    ░░    ░░    ░▒░   ░       ░▒
+ 💧 SWMM           ·     ·     ·     ·     █░    ░▒    ·       ·
+ 📐 Design/Risk    ·     ·     ·▒    ░     ·     ·     ·       ░▒
+
+ LEGEND:  · = 0   ░ = 1-2   ▒ = 3-5   ▓ = 6-8   █ = 9+
+```
+
+### The Five Stories This Heatmap Tells
+
+**Story 1 — The Cloud Pivot:** The ☁️ row is completely empty for 12 years (2011–2022), then erupts with maximum intensity at v2024.0 and sustains through 2025. Cloud went from nonexistent to the single largest development investment in a single release cycle. No other category in ICM's history shows this pattern.
+
+**Story 2 — The 1D→2D Shift:** In early versions, the 🔧 1D Hydraulics row is consistently among the densest. By 2020–2021, 🌊 2D Modeling has overtaken it. By 2024, 1D is nearly empty. The field migrated from pipe network analysis to surface flood modeling.
+
+**Story 3 — Rainfall Matured and Stopped:** The 🌧️ row shows steady activity from 2017–2021 (Euler Type II, FEH2013, NOAA ATLAS 14), then goes completely dark. The rainfall generation toolkit reached completeness and investment stopped.
+
+**Story 4 — SWMM Was a Burst:** The 💧 row shows a single intense spike at v10.5 (2019), then scattered minor touches. SWMM arrived as a complete system in one release — a fundamentally different development pattern from everything else.
+
+**Story 5 — Water Quality Peaked Early:** The 🧪 row was densest in 2015–2016 (sediment modeling, 1D diffusion), then tapered to nothing. Either the capability matured or market demand didn't justify continued investment.
+
+### How Users Interact With It
+
+```
+USER SEES:   A dark cell in ☁️ Cloud × v2024.0
+
+USER HOVERS: Tooltip appears:
+             ┌─────────────────────────────┐
+             │ ☁️ Cloud / SaaS    v2024.0   │
+             │                             │
+             │ 8 features                  │
+             │ • Cloud Master Databases    │
+             │ • Cloud workgroup capabil.  │
+             │ • On-premise/cloud options  │
+             │ • ...5 more                 │
+             │                             │
+             │ Click to filter timeline    │
+             └─────────────────────────────┘
+
+USER CLICKS: Three things happen simultaneously:
+             1. Timeline filters to Cloud features in v2024.0
+             2. Chains panel highlights the Cloud evolution chain
+             3. Comparison pre-fills v2024.0 as "from" version
+
+USER HOVERS ROW HEADER: Entire ☁️ row highlights,
+             showing Cloud activity across all 48 versions
+
+USER HOVERS COLUMN HEADER: Entire v2024.0 column highlights,
+             showing all categories in that release
+```
+
+### The Controls That Transform Understanding
+
+**Normalize by row** changes what the colors mean. Without normalization, Cloud's massive counts dominate the palette — everything else looks pale. With normalization, each row scales to its own maximum, so you can see patterns *within* every category, not just the biggest ones. Suddenly the Rainfall row shows its own internal story of growth and plateau.
+
+**Color scheme** switches between category-colored cells (each row in its own hue), single-scale blue (for comparing across categories), heat gradient (yellow→red, intuitive for "hotness"), or viridis (perceptually uniform for accessibility).
+
+**Show values** toggles the numeric counts inside each cell. With values shown, you can read exact numbers. Without them, you rely purely on color pattern recognition — better for spotting macro trends.
+
+---
+
+## 2. The Chains
+
+### What It Is
+
+A chain is a sequence of related features that appear across multiple versions, connected because they represent the **same capability evolving over time**. The chain detector scans all 809 features and identifies these threads automatically by analyzing:
+
+- **Explicit links** between features that reference each other
+- **Title similarity** (Jaccard coefficient > 0.55) between features in different versions
+- **Shared rare keywords** that appear in 2–8 features across multiple versions
+
+### What Question It Answers
+
+**"How did this capability actually develop? What's the story behind these scattered feature entries?"**
+
+A feature list shows 14 entries called "Cloud Capabilities" across 14 versions. That tells you nothing about the *arc* — when it was introduced, how it grew, whether it's still active, and what changed at each step. A chain turns those 14 isolated entries into a single narrative.
+
+### The Five Real Chains in ICM
+
+**Chain 1: ☁️ Cloud Platform**
+```
+Maturity: 🌳 Mature & Active
+Span: v2024.0 → v2026.0 (14 versions, 2023–2025)
+Pattern: Sprint — every single release includes cloud work
+
+v2024.0 ─── Cloud Master Databases ──────────── INTRODUCED
+             "First cloud-based SaaS deployment"
+    │
+    │ continued
+    ▼
+v2024.1 ─── Cloud Capabilities ──────────────── EXPANDED
+    │
+    │ continued (×10 more intermediate versions)
+    ▼
+v2025.5 ─── Cloud Capabilities Enhancements ─── MATURED
+    │
+    │ continued
+    ▼
+v2026.0 ─── Cloud Capabilities Enhancements ─── STABILIZING
+             Feature density declining: maturing
+```
+
+Why this matters: A user on v2023.2 might see "Cloud Capabilities" in 14 release notes and think "they keep adding cloud stuff." The chain shows it differently — it was a *massive architectural bet* starting March 2023 that consumed the plurality of development resources for two straight years, and it's now transitioning from rapid growth to maintenance.
+
+---
+
+**Chain 2: 🌊 Subgrid / 2D Mesh**
+```
+Maturity: 🌳 Mature & Active
+Span: v1.5 → v2027.0 (6 key versions across 14 YEARS)
+Pattern: Slow burn — long gaps between breakthroughs
+
+v1.5    ─── 2D Mesh Elements ────────────────── SEED
+             "Drawn as horizontal elements with risers"
+    │
+    │ evolved (1 year gap)
+    ▼
+v2.5    ─── Polygon/Polyline Tools ──────────── TOOLING
+             "Close Gaps and Overlaps for 2D meshing"
+    │
+    │ evolved (9 year gap)
+    ▼
+v2021.4 ─── Roughness Definitions ──────────── PHYSICS
+             "Dynamic Manning's n with cubic spline"
+    │
+    │ enhanced (1.5 year gap)
+    ▼
+v2023.2 ─── Overlapping Roughness Zones ────── REFINEMENT
+             "Priority-based meshing"
+    │
+    │ enhanced (2 year gap)
+    ▼
+v2026.3 ─── Subgrid Meshing Improvements ───── EXPANSION
+             "Porous Walls, Linear Structures,
+              Infiltration Zones, Permeable Zones"
+    │
+    │ enhanced (6 month gap)
+    ▼
+v2027.0 ─── Subgrid Ground Level Reporting ─── PRECISION
+             "Face elevations rather than averages"
+```
+
+Compare this to the Cloud chain: 2D modeling evolved *slowly* across the product's entire lifetime, with multi-year gaps between advances. Cloud evolved *fast* across two years with zero gaps. These are fundamentally different development strategies visible only through chain analysis.
+
+---
+
+**Chain 3: 🌧️ Rainfall Generation**
+```
+Maturity: 🏔️ Stable (no changes since 2021)
+Span: v8.5 → v2021.7 (5 versions, 2017–2021)
+Pattern: Geographic expansion then stop
+
+v8.5    ─── Rainfall Profile Expansion ──────── SCALE
+             "999,999,999 profiles. Binary format."
+    │
+    │ new method
+    ▼
+v9.5    ─── Euler Type II Design Rainfall ───── GERMANY
+             "KOSTRA-DWD 2010R data"
+    │
+    │ new method
+    ▼
+v2021.2 ─── FEH2013 Custom Timesteps ──────── UK
+             "Custom timesteps in seconds"
+    │
+    │ enhanced
+    ▼
+v2021.3 ─── FEH2013 Multiple Intervals ────── UK REFINED
+             "Multiple intervals in seconds or %"
+    │
+    │ new source
+    ▼
+v2021.7 ─── NOAA ATLAS 14 Generator ──────── USA
+             "Downloads from NOAA PFDS"
+                                              ← CHAIN ENDS
+```
+
+The chain reveals a geographic expansion story: Germany (KOSTRA) → UK (FEH2013) → USA (NOAA ATLAS 14). Once all three major markets had rainfall generators, development stopped. The 🏔️ Stable maturity classification tells users this capability is complete and unlikely to receive further investment.
+
+---
+
+**Chain 4: 💧 SWMM Integration**
+```
+Maturity: 🏔️ Stable
+Span: v10.5 → v2021.8 (3 versions, 2019–2021)
+Pattern: Big-bang introduction then bridge-building
+
+v10.5   ─── SWMM Integration ───────────────── BIG BANG
+             "Complete SWMM engine, network type,
+              data structures, SUDS/LID, events"
+    │
+    │ extended
+    ▼
+v2021.1 ─── SWMM Enhancements ─────────────── POLISH
+    │
+    │ bridged to 2D
+    ▼
+v2021.8 ─── 2D Boundaries for SWMM ─────────── BRIDGE
+             "All boundary types available for SWMM 
+              networks within 2D zones"
+                                              ← BRIDGES TO 2D CHAIN
+```
+
+The critical insight is in the last node: v2021.8 doesn't just extend SWMM — it *connects* the SWMM chain to the 2D Modeling chain. This is a **chain bridge**, where one evolution thread merges into another.
+
+---
+
+**Chain 5: 📊 Time Series Database**
+```
+Maturity: 🏔️ Stable (foundation still in use)
+Span: v3.5 → v8.5 (5 versions, 2013–2017)
+Pattern: Build foundation → build on top
+
+v3.5    ─── TSDB for Live Data ─────────────── FOUNDATION
+             "SCADA/telemetry/RADAR, NEXRAD, NIMROD"
+    │
+    │ automated
+    ▼
+v6.5    ─── TSDB Script Support & Batch CSV ── AUTOMATION
+    │
+    │ applied
+    ▼
+v7.5    ─── PDM Automatic Calibration ──────── APPLICATION
+             "Using TSDB-supplied observed data"
+    │
+    │ integrated
+    ▼
+v8.0    ─── TSDB: PI Web API & EA Rest API ─── INTEGRATION
+    │
+    │ optimized
+    ▼
+v8.5    ─── TSDB Binary Format ────────────── PERFORMANCE
+                                              ← FEEDS RAINFALL CHAIN
+```
+
+This chain is an **infrastructure chain** — it built the data pipeline that the Rainfall chain depends on. The binary format optimization in v8.5 directly enables the 999-million-profile capability in the same version's rainfall features.
+
+### Maturity Classifications
+
+Each chain gets a maturity assessment based on its activity pattern:
+
+```
+🌰 Introduced    — Chain has only 1 feature (just appeared)
+🌱 Growing       — 2-3 features, most recent within last 3 versions
+🌳 Mature Active — 4+ features, still receiving investment
+🏔️ Stable        — No new features in 3+ versions (complete/dormant)
+```
+
+This answers: "Should I expect this capability to keep improving, or is it done?"
+
+### How Users Interact With Chains
+
+```
+CHAIN EXPLORER VIEW:
+
+┌─ ☁️ Cloud Platform ──────────────────────── 🌳 Active ──┐
+│  14 features · 14 versions · v2024.0 → v2026.0          │
+│  ●────●────●────●────●────●────●────●────●────●────●──── │
+│  '23              '24                    '25             │
+│  Click to expand...                                      │
+└──────────────────────────────────────────────────────────┘
+
+┌─ 🌊 Subgrid / 2D Mesh ──────────────────── 🌳 Active ──┐
+│  6 features · 6 versions · v1.5 → v2027.0               │
+│  ●──────────────────●──────────●────●────●──●            │
+│  '11                '21        '23  '25 '25             │
+│  Click to expand...                                      │
+└──────────────────────────────────────────────────────────┘
+
+┌─ 🌧️ Rainfall Generation ────────────────── 🏔️ Stable ──┐
+│  5 features · 5 versions · v8.5 → v2021.7               │
+│       ●──────●──────────────●──●──●                      │
+│       '17    '18            '21                          │
+│  Click to expand...                                      │
+└──────────────────────────────────────────────────────────┘
+```
+
+The mini-timeline bar in each card header immediately shows the **temporal shape** of the chain — whether it's a tight cluster (SWMM), a long span (2D Modeling), or a sustained run (Cloud).
+
+Clicking a chain expands it into the full flow view with descriptions, version markers, change-type labels (introduced → continued → enhanced → bridged), and links to scroll to each feature in the main timeline.
+
+---
+
+## 3. The Comparison
+
+### What It Is
+
+A tool that lets you pick two versions and see **everything that changed between them** — organized by timeline, by category, or by evolution chains. It produces a structured diff of the product's development between any two points in its 14-year history.
+
+### What Question It Answers
+
+**"If I upgrade from version X to version Y, what exactly do I get?"**
+
+This is the most common question ICM users ask, and today it requires reading through every intermediate release note manually. The comparison compresses that into a single structured view.
+
+### Walkthrough: v10.5 → v2026.3
+
+A consultant on v10.5 (November 2019) evaluating an upgrade to v2026.3 (December 2024) selects both versions and clicks Compare.
+
+**The Summary Banner**
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║   v10.5  ──── 17 versions ────→  v2026.3                        ║
+║                                                                  ║
+║   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐       ║
+║   │   ~380   │  │    5     │  │   22.4   │  │   ~85    │       ║
+║   │   New    │  │  Major   │  │  Avg per │  │  Major   │       ║
+║   │ Features │  │ Releases │  │ Release  │  │ Features │       ║
+║   └──────────┘  └──────────┘  └──────────┘  └──────────┘       ║
+║                                                                  ║
+║   Top categories:                                                ║
+║   ☁️  Cloud: ~120   🌊 2D: ~65   🖥️  UI: ~55   📊 Data: ~50     ║
+║                                                                  ║
+║   Focus shifted:                                                 ║
+║   ☁️  Cloud  ↑ +32%    🔧 1D Hydr ↓ -14%    🌧️  Rainfall ↓ -8%  ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+The category shift line is one of the most valuable outputs. It tells the consultant: "The product's development direction fundamentally changed during this span. 1D hydraulics and rainfall — the things you relied on — are now getting less attention. Cloud infrastructure — something you don't have at all — is now the primary investment."
+
+**View Mode 1: Unified Timeline**
+
+All new features in chronological order, grouped by version:
+
+```
+YOUR VERSION: v10.5 ─────────────────────────────
+
+v11.0 ── Apr 2020 ── 33 features ★ Major
+├── 🔧 River Reach Build All
+├── 🌊 2D mesh enhancements (×6)
+├── 🖥️  UI improvements (×6)
+├── 📊 Data management (×5)
+└── ... 14 more
+
+v2021.1 ── Oct 2020 ── 29 features
+├── 📊 Version numbering change
+├── 🖥️  UI enhancements (×6)
+├── 🌊 2D improvements (×5)
+└── ... 16 more
+
+v2021.2 ── Jan 2021 ── 13 features
+├── 🌧️ FEH2013 Custom Timesteps          ← RAINFALL CHAIN
+├── 📊 Data improvements
+└── ... 10 more
+
+    ⋮ (12 more version blocks)
+
+v2024.0 ── Mar 2023 ── 17 features ★ Major
+├── ☁️ Cloud Master Databases             ← CLOUD CHAIN START
+├── ☁️ Cloud workgroup capabilities
+├── 📊 Database enhancements
+└── ... 12 more
+
+    ⋮ (7 more version blocks)
+
+v2026.3 ── Dec 2024 ── 5 features ★ Major
+├── 🌊 Subgrid Meshing Improvements      ← 2D CHAIN
+├── ☁️ Cloud enhancements
+└── ... 2 more
+
+TARGET VERSION: v2026.3 ─────────────────────────
+```
+
+This view answers: "What happened, and when?" Useful for understanding the timeline of changes and identifying which version introduced something you care about.
+
+**View Mode 2: By Category**
+
+The same features reorganized by domain:
+
+```
+☁️ Cloud / SaaS ──────────────────────────── ~120 features
+   This category is ENTIRELY NEW since v10.5.
+
+   v2024.0 │ Cloud Master Databases
+           │ Cloud workgroup capabilities
+   v2024.1 │ Cloud simulations
+           │ Cloud data management
+   v2024.2 │ Cloud enhancements
+     ...   │ (10 more versions of cloud development)
+   v2026.0 │ Cloud capabilities matured
+   ─────────────────────────────────────────────────────
+
+🌊 2D Modeling ───────────────────────────── ~65 features
+   Significant expansion of existing capability.
+
+   v11.0   │ 2D mesh element improvements
+   v2021.1 │ 2D visualization enhancements
+   v2021.4 │ Roughness Definitions (dynamic Manning's n)
+   v2023.2 │ Overlapping Roughness Zones (priority meshing)
+   v2026.3 │ Subgrid: Porous Walls, Linear Structures,
+           │   Infiltration Zones, Permeable Zones
+   ─────────────────────────────────────────────────────
+
+🌧️ Rainfall ──────────────────────────────── ~15 features
+   Capability that matured and completed during this span.
+
+   v2021.2 │ FEH2013 Custom Timesteps
+   v2021.3 │ FEH2013 Multiple Timestep Intervals
+   v2021.7 │ NOAA ATLAS 14 Rainfall Generator
+           │
+           │ ⚠️ No rainfall features after v2021.7
+           │    (capability classified as 🏔️ Stable)
+   ─────────────────────────────────────────────────────
+```
+
+This view answers: "For each domain I care about, what's new?" The ⚠️ warning about Rainfall stopping is a comparison insight — it flags when a capability the user might rely on has stopped receiving updates.
+
+**View Mode 3: By Chains**
+
+Evolution chains that span the comparison range:
+
+```
+🔗 Evolution Chains Active in v10.5 → v2026.3
+
+☁️ Cloud Platform ──────── 14 versions, ENTIRELY NEW
+   v2024.0  Cloud Master Databases ─── introduced
+      ↓ continued
+   v2024.1  Cloud Capabilities
+      ↓ continued (×10 more)
+   v2026.0  Cloud Enhancements ──────── stabilizing
+
+🌊 Subgrid / 2D Mesh ──── 4 nodes in range
+   (You already have the v1.5 and v2.5 foundations)
+   v2021.4  Roughness Definitions ───── physics added
+      ↓ enhanced
+   v2023.2  Overlapping Roughness ───── refinement
+      ↓ enhanced
+   v2026.3  Subgrid Improvements ────── expansion
+
+🌧️ Rainfall ──────────── 3 nodes in range
+   v2021.2  FEH2013 Custom Timesteps ── flexibility
+      ↓ enhanced
+   v2021.3  FEH2013 Multiple Intervals ─ precision
+      ↓ new source
+   v2021.7  NOAA ATLAS 14 ──────────── last update
+                                         🏔️ Stable
+
+💧 SWMM ──────────────── 2 nodes in range
+   (You have the v10.5 base)
+   v2021.1  SWMM Enhancements ──────── polish
+      ↓ bridged to 2D chain
+   v2021.8  2D Boundaries for SWMM ─── bridge
+```
+
+This view answers: "How do these features connect?" The chain view tells a story that neither timeline nor category views can — it shows that "Cloud Capabilities" isn't 14 independent features but a single sustained development arc, and that SWMM's v2021.8 feature bridges into the 2D Modeling chain.
+
+**Export Capability**
+
+All three views can be exported as Markdown (for pasting into proposals, presentations, or Confluence) or shared via URL (the comparison parameters are encoded:`?compare=10.5..2026.3`).
+
+---
+
+## 4. How All Three Interconnect
+
+### The Core Principle
+
+Each feature answers a different *type* of question, and the answers to one type naturally lead to questions of another type:
+
+```
+HEATMAP answers: "WHERE is the pattern?"
+   ↓ leads to
+CHAINS answer: "WHY does this pattern exist?"
+   ↓ leads to  
+COMPARISON answers: "WHAT does this pattern mean FOR ME?"
+```
+
+### The Six Connections
+
+**Connection 1: Heatmap → Chains (Pattern → Explanation)**
+
+```
+User SEES in heatmap:  ☁️ Cloud row is empty for 12 years,
+                       then explodes in 2023
+
+User ASKS:             "Why? What happened?"
+
+Chains SHOW:           Cloud Platform chain (14 versions)
+                       with the full arc from introduction
+                       through growth to maturation
+
+The heatmap reveals the PATTERN.
+The chain explains the NARRATIVE behind it.
+```
+
+Technical connection: Clicking a heatmap cell or row header dispatches an event that filters the chain explorer to show only chains in that category, expanded to show the relevant version node.
+
+**Connection 2: Chains → Heatmap (Narrative → Context)**
+
+```
+User READS chain:      Rainfall chain ended at v2021.7
+                       with status 🏔️ Stable
+
+User ASKS:             "What replaced it? Where did
+                       development effort go instead?"
+
+Heatmap SHOWS:         The ☁️ Cloud row ignited at v2024.0 —
+                       exactly when 🌧️ Rainfall went dark.
+                       Resources shifted from rainfall to cloud.
+
+The chain reveals WHEN something stopped.
+The heatmap reveals WHAT took its place.
+```
+
+Technical connection: Clicking a chain node highlights the corresponding cell in the heatmap, and the chain's version range overlays a highlight band on the heatmap's columns so you can see what else was happening in the same period.
+
+**Connection 3: Heatmap → Comparison (Pattern → Decision)**
+
+```
+User SEES in heatmap:  Massive development activity between
+                       v2024.0 and v2026.3
+
+User ASKS:             "If I upgrade to capture that activity,
+                        what exactly do I get?"
+
+Comparison SHOWS:      380 features, 5 major releases,
+                       Cloud as #1 category, 1D declining
+
+The heatmap identifies WHERE the value is.
+The comparison quantifies WHAT that value contains.
+```
+
+Technical connection: Clicking a heatmap column header pre-fills the comparison's "from" or "to" version dropdown. The heatmap essentially becomes a visual version-picker — you click the column where you see interesting activity, and the comparison tool opens with that version selected.
+
+**Connection 4: Comparison → Chains (Diff → Narrative)**
+
+```
+User RUNS comparison:  v10.5 → v2026.3 shows ~380 features
+
+User ASKS:             "Are these 380 independent features,
+                       or are they connected in some way?"
+
+Chains SHOW:           4 major chains span this range:
+                       Cloud (14 nodes), 2D (4 nodes),
+                       Rainfall (3 nodes), SWMM (2 nodes)
+
+                       So ~180 of those 380 features are
+                       actually just 4 evolving capabilities,
+                       not 180 separate things.
+
+The comparison counts WHAT changed.
+The chains show HOW those changes relate to each other.
+```
+
+Technical connection: The comparison engine runs chain detection on the features within the compared range and displays them in the "By Chains" view mode. It also annotates the unified timeline view with chain membership badges so users can see which features belong to which arc.
+
+**Connection 5: Chains → Comparison (Narrative → Scope)**
+
+```
+User READS chain:      Subgrid/2D Mesh spans v1.5 → v2027.0
+
+User ASKS:             "If I want to get the full subgrid
+                       capability, which versions do I need?"
+
+Comparison SHOWS:      Pre-filled with v1.5 → v2027.0,
+                       filtered to 2D Modeling category:
+                       the exact set of features that 
+                       constitute the subgrid capability
+
+The chain defines the SCOPE of a capability.
+The comparison lists every feature within that scope.
+```
+
+Technical connection: Each chain card has a "Compare this range" button that opens the comparison tool pre-filled with the chain's from/to versions and filtered to the chain's primary category.
+
+**Connection 6: Comparison → Heatmap (Decision → Context)**
+
+```
+User RUNS comparison:  v10.5 → v2026.3
+                       sees Cloud ↑32%, 1D ↓14%
+
+User ASKS:             "Is the 1D decline a trend that will
+                       continue, or just a dip?"
+
+Heatmap SHOWS:         The entire 🔧 1D row across all 48
+                       versions — revealing that 1D was densest
+                       in 2011-2016, has been declining since,
+                       and shows no sign of reversal.
+                       The decline is structural, not cyclical.
+
+The comparison detects A SHIFT.
+The heatmap reveals whether it's TEMPORARY or PERMANENT.
+```
+
+Technical connection: Running a comparison overlays a highlight band on the heatmap marking the compared range. Cells inside the range are full-brightness; cells outside are dimmed. The category shift indicators in the comparison banner link directly to the corresponding heatmap rows.
+
+### The Full Interaction Loop
+
+Here's how a real user moves through all three features in a single session:
+
+```
+STEP 1: HEATMAP
+        "Let me see the big picture"
+        → Notices Cloud explosion at 2024.0
+        → Notices 1D tapering off
+        → Notices Rainfall going dark at 2021.7
+        
+        CLICKS: ☁️ Cloud × v2024.0 cell
+                    │
+                    ▼
+STEP 2: CHAINS
+        "Tell me about Cloud's story"
+        → Sees 14-version sustained sprint
+        → Sees maturity: 🌳 Active
+        → Sees it's still receiving investment
+        
+        CLICKS: "Compare this range" button
+                    │
+                    ▼
+STEP 3: COMPARISON
+        "What do I gain from v2024.0 to v2026.3?"
+        → 73 features, Cloud dominant
+        → Switches to "By Category" view
+        → Sees 2D also gained subgrid improvements
+        
+        THINKS: "But I'm on v10.5, not v2024.0"
+        
+        CHANGES: "from" version to v10.5
+                    │
+                    ▼
+STEP 4: COMPARISON (updated)
+        "What do I gain from v10.5 to v2026.3?"
+        → ~380 features total
+        → Category shift: Cloud ↑32%
+        → Switches to "By Chains" view
+        → Sees 4 chains span this range
+        
+        CLICKS: "Rainfall chain" to understand
+                    │
+                    ▼
+STEP 5: CHAINS
+        "What happened to Rainfall?"
+        → 5 features: v8.5 → v2021.7
+        → Maturity: 🏔️ Stable
+        → "Germany → UK → USA then stopped"
+        
+        CLICKS: Rainfall row header in heatmap
+                    │
+                    ▼
+STEP 6: HEATMAP
+        "Is Rainfall really done?"
+        → Confirms: no rainfall features after 2021
+        → Also sees Water Quality stopped around 2016
+        → Pattern: mature capabilities freeze, 
+          resources shift to new priorities
+        
+        EXPORTS: Comparison as Markdown for client proposal
+```
+
+### The Architecture That Makes This Work
+
+```
+┌─────────────────────────────────────────────────┐
+│                  FEATURES_DB                     │
+│            809 features, 48 versions             │
+│                 11 categories                    │
+└────────────────────┬────────────────────────────┘
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+    ┌──────────┐ ┌────────┐ ┌────────────┐
+    │ Heatmap  │ │ Chain  │ │ Comparison │
+    │ Engine   │ │Detector│ │ Engine     │
+    └────┬─────┘ └───┬────┘ └─────┬──────┘
+         │           │            │
+         ▼           ▼            ▼
+    ┌──────────┐ ┌────────┐ ┌────────────┐
+    │ Category │ │ 5 real │ │ Structured │
+    │ × Version│ │ chains │ │ diff with  │
+    │ matrix   │ │ + meta │ │ 3 views    │
+    └────┬─────┘ └───┬────┘ └─────┬──────┘
+         │           │            │
+         └─────┬─────┘────────────┘
+               │
+               ▼
+    ┌──────────────────────────────┐
+    │        EVENT BUS             │
+    │                              │
+    │  heatmap:cell-click     ──→  chains:highlight
+    │                         ──→  comparison:suggest-from
+    │                         ──→  timeline:filter
+    │                              │
+    │  chains:node-click      ──→  heatmap:highlight-cell
+    │                         ──→  timeline:scroll-to
+    │                              │
+    │  chains:compare-range   ──→  comparison:set-range
+    │                              │
+    │  comparison:complete    ──→  heatmap:show-range
+    │                         ──→  chains:show-in-range
+    │                         ──→  timeline:mark-new
+    │                              │
+    │  comparison:feat-click  ──→  timeline:scroll-to
+    │                         ──→  heatmap:highlight-cell
+    └──────────────────────────────┘
+```
+
+The event bus is the nervous system. Each feature operates independently on the shared data, but when a user acts on any one of them, events propagate to the others so they update their state to stay in sync. The user never has to manually coordinate — clicking in the heatmap automatically prepares the chains and comparison to answer the next natural question.
+
+### Why This Trio Works
+
+The three features form a **cognitive loop** that matches how people actually think about complex product histories:
+
+| Cognitive Need | Feature | Output |
+|---|---|---|
+| **Orientation** — "What's the landscape?" | Heatmap | Macro patterns across all 48 versions |
+| **Understanding** — "What does this mean?" | Chains | Narrative arcs explaining why patterns exist |
+| **Decision** — "What should I do?" | Comparison | Structured diff with export for action |
+
+No single feature can serve all three needs. A heatmap without chains is a pattern without explanation. Chains without a heatmap lack context. A comparison without either is a list without meaning. Together, they transform 809 isolated feature entries into a navigable, understandable, actionable history of the product.

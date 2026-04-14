@@ -19,6 +19,10 @@ import { FEATURE_CATEGORIES, matchesCategory, type CategoryId } from "./FilterPa
 interface VersionChartsProps {
   versions: Version[];
   onHeatmapCellClick?: (versionId: string, categoryId: string) => void;
+  /** Called when user clicks a column header — opens Compare Versions pre-filled with this version */
+  onColumnHeaderClick?: (versionId: string) => void;
+  /** When set, dims cells outside this comparison range */
+  compareRange?: { fromId: string; toId: string };
 }
 
 // Extended heatmap categories with dedicated hex colors + keyword sets
@@ -133,7 +137,7 @@ interface TooltipState {
   features: string[];
 }
 
-export default function VersionCharts({ versions, onHeatmapCellClick }: VersionChartsProps) {
+export default function VersionCharts({ versions, onHeatmapCellClick, onColumnHeaderClick, compareRange }: VersionChartsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<"charts" | "heatmap">("charts");
   const [colorScheme, setColorScheme] = useState<"category" | "blue" | "heat" | "viridis">("category");
@@ -228,6 +232,17 @@ export default function VersionCharts({ versions, onHeatmapCellClick }: VersionC
   const handleCellClick = (versionId: string, catId: string) => {
     onHeatmapCellClick?.(versionId, catId);
   };
+
+  // Compute which version IDs are inside the compare range (for overlay dimming)
+  const compareRangeVersionIds = useMemo(() => {
+    if (!compareRange) return null;
+    const sorted = heatmapData.sorted;
+    const fromIdx = sorted.findIndex(v => v.id === compareRange.fromId);
+    const toIdx = sorted.findIndex(v => v.id === compareRange.toId);
+    if (fromIdx === -1 || toIdx === -1) return null;
+    const [lo, hi] = fromIdx < toIdx ? [fromIdx, toIdx] : [toIdx, fromIdx];
+    return new Set(sorted.slice(lo, hi + 1).map(v => v.id));
+  }, [compareRange, heatmapData.sorted]);
 
   if (!isExpanded) {
     return (
@@ -393,7 +408,8 @@ export default function VersionCharts({ versions, onHeatmapCellClick }: VersionC
                 Show values
               </label>
               <span className="text-xs text-muted-foreground ml-auto">
-                {onHeatmapCellClick && "Click a cell to navigate timeline"}
+                {onColumnHeaderClick && "Click column → compare | "}
+                {onHeatmapCellClick && "Click cell → navigate"}
               </span>
             </div>
 
@@ -404,38 +420,45 @@ export default function VersionCharts({ versions, onHeatmapCellClick }: VersionC
                   {/* Column headers */}
                   <div className="flex">
                     <div className="w-36 flex-shrink-0" />
-                    {heatmapData.sorted.map(v => (
-                      <div
-                        key={v.id}
-                        className={cn(
-                          "w-7 flex-shrink-0 flex flex-col items-center cursor-pointer transition-colors",
-                          hoveredCol === v.id && "bg-primary/5 rounded-t"
-                        )}
-                        onMouseEnter={() => setHoveredCol(v.id)}
-                        onMouseLeave={() => setHoveredCol(null)}
-                        title={`v${v.version}`}
-                      >
-                        <span
+                    {heatmapData.sorted.map(v => {
+                      const inRange = compareRangeVersionIds ? compareRangeVersionIds.has(v.id) : true;
+                      return (
+                        <div
+                          key={v.id}
                           className={cn(
-                            "text-[8px] leading-none",
-                            MAJOR_VERSIONS.has(v.version) ? "text-yellow-600 dark:text-yellow-400 font-bold" : "text-muted-foreground"
+                            "w-7 flex-shrink-0 flex flex-col items-center transition-all",
+                            hoveredCol === v.id && "bg-primary/5 rounded-t",
+                            onColumnHeaderClick && "cursor-pointer",
+                            compareRangeVersionIds && !inRange && "opacity-30",
+                            compareRangeVersionIds && inRange && "bg-green-500/5 rounded-t"
                           )}
-                          style={{
-                            writingMode: "vertical-rl",
-                            textOrientation: "mixed",
-                            transform: "rotate(180deg)",
-                            display: "block",
-                            height: 40,
-                            paddingTop: 4,
-                          }}
+                          onMouseEnter={() => setHoveredCol(v.id)}
+                          onMouseLeave={() => setHoveredCol(null)}
+                          onClick={onColumnHeaderClick ? () => onColumnHeaderClick(v.id) : undefined}
+                          title={onColumnHeaderClick ? `Compare up to v${v.version}` : `v${v.version}`}
                         >
-                          {v.version}
-                        </span>
-                        {MAJOR_VERSIONS.has(v.version) && (
-                          <span className="text-[7px] text-yellow-600 dark:text-yellow-400 leading-none">★</span>
-                        )}
-                      </div>
-                    ))}
+                          <span
+                            className={cn(
+                              "text-[8px] leading-none",
+                              MAJOR_VERSIONS.has(v.version) ? "text-yellow-600 dark:text-yellow-400 font-bold" : "text-muted-foreground"
+                            )}
+                            style={{
+                              writingMode: "vertical-rl",
+                              textOrientation: "mixed",
+                              transform: "rotate(180deg)",
+                              display: "block",
+                              height: 40,
+                              paddingTop: 4,
+                            }}
+                          >
+                            {v.version}
+                          </span>
+                          {MAJOR_VERSIONS.has(v.version) && (
+                            <span className="text-[7px] text-yellow-600 dark:text-yellow-400 leading-none">★</span>
+                          )}
+                        </div>
+                      );
+                    })}
                     <div className="w-10 flex-shrink-0 text-[9px] text-muted-foreground text-right self-end pb-1 pr-1">Total</div>
                   </div>
 
@@ -467,19 +490,22 @@ export default function VersionCharts({ versions, onHeatmapCellClick }: VersionC
                           const intensity = getCellIntensity(count, rowMax, cat);
                           const bg = cellColor(intensity, cat.hexColor, colorScheme);
                           const isHighlightedCell = hoveredRow === cat.id || hoveredCol === versionId;
+                          const inRange = compareRangeVersionIds ? compareRangeVersionIds.has(versionId) : true;
+                          const hoverDimmed = (hoveredRow !== null && hoveredRow !== cat.id) ||
+                                             (hoveredCol !== null && hoveredCol !== versionId);
+                          const rangeDimmed = compareRangeVersionIds !== null && !inRange;
                           return (
                             <div
                               key={versionId}
                               className={cn(
-                                "w-7 h-6 flex-shrink-0 rounded-sm flex items-center justify-center transition-transform mx-px",
+                                "w-7 h-6 flex-shrink-0 rounded-sm flex items-center justify-center transition-all mx-px",
                                 count > 0 && "cursor-pointer",
                                 isHighlightedCell && count > 0 && "ring-1 ring-white/20",
+                                compareRangeVersionIds && inRange && count > 0 && "ring-1 ring-green-400/30",
                               )}
                               style={{
                                 backgroundColor: bg,
-                                opacity: (hoveredRow !== null && hoveredRow !== cat.id) ||
-                                         (hoveredCol !== null && hoveredCol !== versionId)
-                                  ? 0.45 : 1,
+                                opacity: rangeDimmed ? 0.15 : hoverDimmed ? 0.45 : 1,
                               }}
                               onMouseEnter={count > 0 ? (e) => handleCellMouseEnter(e, cat.id as HeatmapCatId, versionId, count, features) : undefined}
                               onMouseLeave={() => setTooltip(null)}

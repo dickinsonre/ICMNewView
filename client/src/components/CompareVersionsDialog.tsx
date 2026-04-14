@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,13 @@ import { format } from "date-fns";
 
 interface CompareVersionsDialogProps {
   versions: Version[];
+  // Controlled mode — home.tsx manages open state + selected versions so external tools can trigger the dialog
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  externalFromId?: string;
+  externalToId?: string;
+  onFromIdChange?: (id: string) => void;
+  onToIdChange?: (id: string) => void;
 }
 
 const MAJOR_VERSIONS = new Set(["2027.0", "2026.3", "2024.0", "2023.0", "10.5", "10.0", "5.0", "3.0", "1.5"]);
@@ -253,11 +260,47 @@ function SummaryBanner({ path }: { path: NonNullable<ReturnType<typeof computeUp
   );
 }
 
-export default function CompareVersionsDialog({ versions }: CompareVersionsDialogProps) {
+export default function CompareVersionsDialog({
+  versions,
+  open: controlledOpen,
+  onOpenChange: controlledSetOpen,
+  externalFromId,
+  externalToId,
+  onFromIdChange,
+  onToIdChange,
+}: CompareVersionsDialogProps) {
   const { toast } = useToast();
-  const [isOpen, setIsOpen] = useState(false);
-  const [fromId, setFromId] = useState<string>("");
-  const [toId, setToId] = useState<string>("");
+
+  // Support both controlled (from home.tsx) and uncontrolled modes
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setIsOpen = (v: boolean) => {
+    setInternalOpen(v);
+    controlledSetOpen?.(v);
+  };
+
+  // Internal selection state — synced from external when changed
+  const [fromId, setFromIdInternal] = useState<string>(externalFromId || "");
+  const [toId, setToIdInternal] = useState<string>(externalToId || "");
+
+  // When external values change (heatmap/chains triggered open), sync them in
+  const setFromId = (id: string) => { setFromIdInternal(id); onFromIdChange?.(id); };
+  const setToId = (id: string) => { setToIdInternal(id); onToIdChange?.(id); };
+
+  // Sync in when external values arrive (e.g., user clicks heatmap column)
+  const prevFromRef = useRef(externalFromId);
+  const prevToRef = useRef(externalToId);
+  useEffect(() => {
+    if (externalFromId && externalFromId !== prevFromRef.current) {
+      setFromIdInternal(externalFromId);
+      prevFromRef.current = externalFromId;
+    }
+    if (externalToId && externalToId !== prevToRef.current) {
+      setToIdInternal(externalToId);
+      prevToRef.current = externalToId;
+    }
+  }, [externalFromId, externalToId]);
+
   const [viewMode, setViewMode] = useState<"by-version" | "by-category" | "chains">("by-version");
 
   const upgradePath = useMemo(() => {
