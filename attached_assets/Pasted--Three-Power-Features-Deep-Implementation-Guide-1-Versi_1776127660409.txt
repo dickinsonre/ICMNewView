@@ -1,0 +1,2576 @@
+# Three Power Features: Deep Implementation Guide
+
+---
+
+## 1. Version Comparison Side-by-Side
+
+### The User Story
+
+A consultant running ICM 2024.0 is advising a utility to upgrade to 2026.3. They need to answer: *"What exactly did we gain across 12 intermediate releases, organized by domain, and what's the effort to adopt?"* Today, they scroll through the entire timeline. With version comparison, they pick two versions from dropdowns and get a structured diff.
+
+### Architecture
+
+```
+┌──────────────────────────────────────────────────────┐
+│  VERSION A (from)          VERSION B (to)            │
+│  [2024.0 ▼]                [2026.3 ▼]               │
+│                                                      │
+│  ┌─ Summary Bar ──────────────────────────────────┐  │
+│  │ 12 versions · 94 features · 6 major releases   │  │
+│  │ Top categories: Cloud (34) · 2D (18) · UI (12) │  │
+│  └────────────────────────────────────────────────┘  │
+│                                                      │
+│  View: [Unified ▼]  [Side-by-Side]  [By Category]   │
+│                                                      │
+│  ┌──────────────┬──────────────────────────────────┐ │
+│  │ A: 2024.0    │  B: 2026.3                       │ │
+│  │ (baseline)   │  (target)                        │ │
+│  │              │                                  │ │
+│  │ ░░░░░░░░░░░░ │  ████ Subgrid Meshing Improv.   │ │
+│  │              │  ████ Esri Integration           │ │
+│  │              │  ████ Cloud Capabilities (x10)   │ │
+│  │              │  ████ ...                        │ │
+│  │              │                                  │ │
+│  │ Features     │  Features in B but not A         │ │
+│  │ in A only    │  (new since baseline)            │ │
+│  │ (removed/    │                                  │ │
+│  │  superseded) │                                  │ │
+│  └──────────────┴──────────────────────────────────┘ │
+└──────────────────────────────────────────────────────┘
+```
+
+### Core Comparison Engine
+
+```javascript
+// version-compare.js
+class VersionComparator {
+  constructor(features, versions, categories) {
+    this.features = features;
+    this.versions = versions;
+    this.categories = categories;
+  }
+
+  compare(versionIdA, versionIdB) {
+    const vA = this.versions.find(v => v.id === versionIdA);
+    const vB = this.versions.find(v => v.id === versionIdB);
+
+    if (!vA || !vB) return null;
+
+    // Ensure A is the older version
+    const [older, newer] = vA.seq <= vB.seq ? [vA, vB] : [vB, vA];
+
+    // Features in each version
+    const featuresA = this.features.filter(f => f.version === older.id);
+    const featuresB = this.features.filter(f => f.version === newer.id);
+
+    // Features added between A and B (exclusive of A, inclusive of B)
+    const featuresBetween = this.features.filter(f => {
+      const fv = this.versions.find(v => v.id === f.version);
+      return fv && fv.seq > older.seq && fv.seq <= newer.seq;
+    });
+
+    // Versions spanned
+    const versionsSpanned = this.versions
+      .filter(v => v.seq > older.seq && v.seq <= newer.seq)
+      .sort((a, b) => a.seq - b.seq);
+
+    // Group new features by category
+    const byCategory = {};
+    featuresBetween.forEach(f => {
+      f.categories.forEach(cat => {
+        if (!byCategory[cat]) byCategory[cat] = [];
+        byCategory[cat].push(f);
+      });
+    });
+
+    // Group new features by version
+    const byVersion = {};
+    featuresBetween.forEach(f => {
+      if (!byVersion[f.version]) byVersion[f.version] = [];
+      byVersion[f.version].push(f);
+    });
+
+    // Group by impact level
+    const byImpact = { major: [], minor: [], maintenance: [] };
+    featuresBetween.forEach(f => {
+      byImpact[f.impactLevel]?.push(f);
+    });
+
+    // Detect evolution chains that span this range
+    const evolutionChains = this.detectEvolutionChains(
+      featuresBetween, older.seq, newer.seq
+    );
+
+    // Compute category shift: what changed in development focus?
+    const categoryShift = this.computeCategoryShift(older, newer);
+
+    return {
+      from: older,
+      to: newer,
+      versionsSpanned,
+      totalNewFeatures: featuresBetween.length,
+      majorReleases: versionsSpanned.filter(v => v.isMajor).length,
+      featuresBetween,
+      byCategory,
+      byVersion,
+      byImpact,
+      evolutionChains,
+      categoryShift,
+      
+      // Summary statistics
+      summary: {
+        topCategories: Object.entries(byCategory)
+          .map(([cat, feats]) => ({
+            category: cat,
+            ...this.categories[cat],
+            count: feats.length
+          }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 5),
+
+        featuresByQuarter: this.groupByQuarter(featuresBetween),
+        
+        averageFeaturesPerRelease: (
+          featuresBetween.length / versionsSpanned.length
+        ).toFixed(1)
+      }
+    };
+  }
+
+  // Detect features that form an evolution chain across versions
+  detectEvolutionChains(features, fromSeq, toSeq) {
+    // Group by relatedFeatures connections
+    const chains = [];
+    const visited = new Set();
+
+    features.forEach(f => {
+      if (visited.has(f.id)) return;
+
+      // Find all features in this range that are related
+      const chain = this.buildChain(f, features, visited);
+      if (chain.length > 1) {
+        chains.push({
+          title: this.inferChainTitle(chain),
+          features: chain.sort((a, b) => {
+            const va = this.versions.find(v => v.id === a.version);
+            const vb = this.versions.find(v => v.id === b.version);
+            return (va?.seq || 0) - (vb?.seq || 0);
+          }),
+          spansVersions: [...new Set(chain.map(f => f.version))].length
+        });
+      }
+    });
+
+    return chains.sort((a, b) => b.features.length - a.features.length);
+  }
+
+  buildChain(feature, allFeatures, visited) {
+    const chain = [feature];
+    visited.add(feature.id);
+
+    // Follow relatedFeatures links
+    feature.relatedFeatures?.forEach(relId => {
+      const related = allFeatures.find(f => f.id === relId);
+      if (related && !visited.has(related.id)) {
+        chain.push(...this.buildChain(related, allFeatures, visited));
+      }
+    });
+
+    // Also find features that reference this one
+    allFeatures.forEach(f => {
+      if (!visited.has(f.id) && f.relatedFeatures?.includes(feature.id)) {
+        chain.push(...this.buildChain(f, allFeatures, visited));
+      }
+    });
+
+    // Fuzzy match: features with very similar titles
+    // (catches "Cloud Capabilities" across many versions)
+    allFeatures.forEach(f => {
+      if (!visited.has(f.id) && this.titleSimilarity(feature.title, f.title) > 0.7) {
+        visited.add(f.id);
+        chain.push(f);
+      }
+    });
+
+    return chain;
+  }
+
+  titleSimilarity(a, b) {
+    const wordsA = new Set(a.toLowerCase().split(/\s+/));
+    const wordsB = new Set(b.toLowerCase().split(/\s+/));
+    const intersection = [...wordsA].filter(w => wordsB.has(w));
+    const union = new Set([...wordsA, ...wordsB]);
+    return intersection.length / union.size;  // Jaccard similarity
+  }
+
+  inferChainTitle(chain) {
+    // Find the most common significant words across all titles
+    const wordFreq = {};
+    chain.forEach(f => {
+      const words = f.title.toLowerCase()
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !['with', 'from', 'into', 'that', 'this',
+          'have', 'been', 'also', 'more', 'than', 'when', 'which',
+          'features', 'improvements', 'enhancements', 'new'].includes(w));
+      words.forEach(w => { wordFreq[w] = (wordFreq[w] || 0) + 1; });
+    });
+
+    const topWords = Object.entries(wordFreq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([word]) => word.charAt(0).toUpperCase() + word.slice(1));
+
+    return topWords.join(' ') + ' Evolution';
+  }
+
+  computeCategoryShift(olderVersion, newerVersion) {
+    // Compare category distribution around version A vs around version B
+    const windowSize = 3; // versions before and after
+
+    const nearA = this.features.filter(f => {
+      const fv = this.versions.find(v => v.id === f.version);
+      return fv && Math.abs(fv.seq - olderVersion.seq) <= windowSize;
+    });
+
+    const nearB = this.features.filter(f => {
+      const fv = this.versions.find(v => v.id === f.version);
+      return fv && Math.abs(fv.seq - newerVersion.seq) <= windowSize;
+    });
+
+    const catDistA = this.categoryDistribution(nearA);
+    const catDistB = this.categoryDistribution(nearB);
+
+    return Object.keys(this.categories).map(cat => ({
+      category: cat,
+      ...this.categories[cat],
+      proportionA: catDistA[cat] || 0,
+      proportionB: catDistB[cat] || 0,
+      shift: (catDistB[cat] || 0) - (catDistA[cat] || 0)
+    }))
+    .filter(c => Math.abs(c.shift) > 0.02)
+    .sort((a, b) => Math.abs(b.shift) - Math.abs(a.shift));
+  }
+
+  categoryDistribution(features) {
+    const counts = {};
+    let total = 0;
+    features.forEach(f => {
+      f.categories.forEach(cat => {
+        counts[cat] = (counts[cat] || 0) + 1;
+        total++;
+      });
+    });
+    Object.keys(counts).forEach(k => { counts[k] /= total; });
+    return counts;
+  }
+
+  groupByQuarter(features) {
+    const quarters = {};
+    features.forEach(f => {
+      const d = new Date(f.versionDate);
+      const q = `${d.getFullYear()} Q${Math.ceil((d.getMonth() + 1) / 3)}`;
+      quarters[q] = (quarters[q] || 0) + 1;
+    });
+    return Object.entries(quarters).sort((a, b) => a[0].localeCompare(b[0]));
+  }
+}
+```
+
+### Three View Modes
+
+```javascript
+// version-compare-views.js
+class ComparisonRenderer {
+  constructor(categories) {
+    this.categories = categories;
+  }
+
+  // ─── VIEW 1: Unified Timeline ─────────────────────────
+  // Shows all new features in chronological order with 
+  // version headers, like a filtered version of the main timeline
+  renderUnified(comparison) {
+    const { byVersion, versionsSpanned, from, to } = comparison;
+
+    return `
+      <div class="comparison-unified">
+        ${this.renderSummaryBanner(comparison)}
+
+        <div class="version-flow">
+          <!-- Baseline marker -->
+          <div class="version-marker baseline">
+            <div class="marker-dot"></div>
+            <div class="marker-label">
+              Your version: <strong>${from.id}</strong>
+              <time>${from.date}</time>
+            </div>
+          </div>
+
+          ${versionsSpanned.map(v => {
+            const features = byVersion[v.id] || [];
+            return `
+              <div class="version-block ${v.isMajor ? 'major' : ''}">
+                <div class="version-marker">
+                  <div class="marker-dot ${v.isMajor ? 'major' : ''}"></div>
+                  <div class="marker-label">
+                    <strong>${v.id}</strong>
+                    ${v.isMajor ? '<span class="badge-major">Major</span>' : ''}
+                    <time>${v.date}</time>
+                    <span class="feat-count">${features.length} features</span>
+                  </div>
+                </div>
+
+                <div class="features-list">
+                  ${features.map(f => this.renderFeatureCard(f)).join('')}
+                </div>
+              </div>
+            `;
+          }).join('')}
+
+          <!-- Target marker -->
+          <div class="version-marker target">
+            <div class="marker-dot target"></div>
+            <div class="marker-label">
+              Target version: <strong>${to.id}</strong>
+              <time>${to.date}</time>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ─── VIEW 2: Side-by-Side ─────────────────────────────
+  // Left panel: what you have. Right panel: what you gain.
+  // Middle: evolution chains that bridge both.
+  renderSideBySide(comparison) {
+    const { from, to, featuresBetween, evolutionChains } = comparison;
+
+    const featuresInA = this.getAllFeaturesUpTo(from);
+    const newInB = featuresBetween;
+
+    return `
+      <div class="comparison-side-by-side">
+        ${this.renderSummaryBanner(comparison)}
+
+        <div class="side-by-side-grid">
+          <!-- Left: Current capabilities -->
+          <div class="panel panel-current">
+            <div class="panel-header">
+              <h3>📦 Version ${from.id}</h3>
+              <span class="panel-subtitle">Your current capabilities</span>
+              <span class="panel-count">${featuresInA.length} features</span>
+            </div>
+            <div class="panel-body">
+              ${this.renderCategoryGroups(featuresInA, 'muted')}
+            </div>
+          </div>
+
+          <!-- Center: Evolution chains bridging A→B -->
+          ${evolutionChains.length > 0 ? `
+            <div class="panel panel-bridges">
+              <div class="panel-header">
+                <h3>🔗 Evolution Chains</h3>
+                <span class="panel-subtitle">
+                  Features that evolved from ${from.id} → ${to.id}
+                </span>
+              </div>
+              <div class="panel-body">
+                ${evolutionChains.slice(0, 8).map(chain => `
+                  <div class="evolution-bridge">
+                    <div class="bridge-title">${chain.title}</div>
+                    <div class="bridge-path">
+                      ${chain.features.map((f, i) => `
+                        <div class="bridge-node">
+                          <span class="bridge-version">v${f.version}</span>
+                          <span class="bridge-feature">${f.title}</span>
+                          ${i < chain.features.length - 1 ? 
+                            '<div class="bridge-arrow">↓</div>' : ''}
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Right: What you gain -->
+          <div class="panel panel-new">
+            <div class="panel-header">
+              <h3>✨ New in ${to.id}</h3>
+              <span class="panel-subtitle">
+                Features added since your version
+              </span>
+              <span class="panel-count">
+                +${newInB.length} features
+              </span>
+            </div>
+            <div class="panel-body">
+              ${this.renderCategoryGroups(newInB, 'highlighted')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ─── VIEW 3: By Category ──────────────────────────────
+  // Each category gets its own row showing the progression
+  // of features from version A to version B
+  renderByCategory(comparison) {
+    const { byCategory, from, to, versionsSpanned } = comparison;
+
+    const sortedCats = Object.entries(byCategory)
+      .sort((a, b) => b[1].length - a[1].length);
+
+    return `
+      <div class="comparison-by-category">
+        ${this.renderSummaryBanner(comparison)}
+
+        <div class="category-lanes">
+          ${sortedCats.map(([catKey, features]) => {
+            const catMeta = this.categories[catKey];
+            
+            // Sub-group features by version within this category
+            const byVer = {};
+            features.forEach(f => {
+              if (!byVer[f.version]) byVer[f.version] = [];
+              byVer[f.version].push(f);
+            });
+
+            return `
+              <div class="category-lane" 
+                   style="border-left: 4px solid ${catMeta?.color || '#666'}">
+                <div class="lane-header">
+                  <span class="lane-icon">${catMeta?.icon || '•'}</span>
+                  <h4>${catMeta?.label || catKey}</h4>
+                  <span class="lane-count">${features.length} features</span>
+                </div>
+
+                <div class="lane-timeline">
+                  ${versionsSpanned
+                    .filter(v => byVer[v.id])
+                    .map(v => `
+                      <div class="lane-version">
+                        <div class="lane-version-label">
+                          v${v.id}
+                          ${v.isMajor ? ' ★' : ''}
+                        </div>
+                        ${byVer[v.id].map(f => `
+                          <div class="lane-feature" id="cmp-${f.id}">
+                            <strong>${f.title}</strong>
+                            <p>${f.description.slice(0, 200)}...</p>
+                          </div>
+                        `).join('')}
+                      </div>
+                    `).join('')}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // ─── Summary Banner (shared by all views) ──────────────
+  renderSummaryBanner(comparison) {
+    const { from, to, totalNewFeatures, versionsSpanned,
+            majorReleases, byImpact, summary, categoryShift } = comparison;
+
+    return `
+      <div class="comparison-banner">
+        <div class="banner-versions">
+          <span class="banner-from">v${from.id}</span>
+          <span class="banner-arrow">
+            → ${versionsSpanned.length} versions →
+          </span>
+          <span class="banner-to">v${to.id}</span>
+        </div>
+
+        <div class="banner-stats">
+          <div class="stat">
+            <div class="stat-value">${totalNewFeatures}</div>
+            <div class="stat-label">New Features</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${majorReleases}</div>
+            <div class="stat-label">Major Releases</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${summary.averageFeaturesPerRelease}</div>
+            <div class="stat-label">Avg per Release</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${byImpact.major.length}</div>
+            <div class="stat-label">Major Features</div>
+          </div>
+        </div>
+
+        <div class="banner-top-categories">
+          ${summary.topCategories.map(c => `
+            <span class="cat-pill" 
+                  style="background: ${c.color}22; 
+                         color: ${c.color};
+                         border: 1px solid ${c.color}44">
+              ${c.icon} ${c.label}: ${c.count}
+            </span>
+          `).join('')}
+        </div>
+
+        ${categoryShift.length > 0 ? `
+          <div class="banner-shift">
+            <span class="shift-label">Development focus shifted:</span>
+            ${categoryShift.slice(0, 3).map(c => `
+              <span class="shift-indicator ${c.shift > 0 ? 'up' : 'down'}">
+                ${c.icon} ${c.label} 
+                ${c.shift > 0 ? '↑' : '↓'}
+                ${Math.abs(c.shift * 100).toFixed(0)}%
+              </span>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  renderFeatureCard(f) {
+    const cats = f.categories.map(c => {
+      const meta = this.categories[c];
+      return `<span class="mini-tag" 
+                    style="color: ${meta?.color || '#999'}">
+                ${meta?.icon || '•'}
+              </span>`;
+    }).join('');
+
+    return `
+      <article class="compare-feature" 
+               id="cmp-${f.id}"
+               data-impact="${f.impactLevel}">
+        <div class="cf-header">
+          ${cats}
+          <span class="cf-title">${f.title}</span>
+          <span class="cf-impact cf-impact-${f.impactLevel}">
+            ${f.impactLevel}
+          </span>
+        </div>
+        <p class="cf-desc">${f.description.slice(0, 180)}...</p>
+        <a href="#${f.id}" class="cf-link" 
+           onclick="app.scrollToFeature('${f.id}')">
+          View in timeline →
+        </a>
+      </article>
+    `;
+  }
+
+  renderCategoryGroups(features, style) {
+    const grouped = {};
+    features.forEach(f => {
+      const primaryCat = f.categories[0] || 'other';
+      if (!grouped[primaryCat]) grouped[primaryCat] = [];
+      grouped[primaryCat].push(f);
+    });
+
+    return Object.entries(grouped)
+      .sort((a, b) => b[1].length - a[1].length)
+      .map(([catKey, feats]) => {
+        const meta = this.categories[catKey];
+        return `
+          <details class="cat-group ${style}" 
+                   ${style === 'highlighted' ? 'open' : ''}>
+            <summary style="border-color: ${meta?.color || '#666'}">
+              ${meta?.icon || '•'} ${meta?.label || catKey}
+              <span class="group-count">${feats.length}</span>
+            </summary>
+            <div class="cat-group-features">
+              ${feats.map(f => `
+                <div class="mini-feature">
+                  <strong>${f.title}</strong>
+                  <span class="mini-version">v${f.version}</span>
+                </div>
+              `).join('')}
+            </div>
+          </details>
+        `;
+      }).join('');
+  }
+
+  getAllFeaturesUpTo(version) {
+    return this.features?.filter(f => {
+      const fv = this.versions?.find(v => v.id === f.version);
+      return fv && fv.seq <= version.seq;
+    }) || [];
+  }
+}
+```
+
+### The Comparison UI Shell and Controls
+
+```javascript
+// version-compare-ui.js
+class ComparisonUI {
+  constructor(comparator, renderer, versions) {
+    this.comparator = comparator;
+    this.renderer = renderer;
+    this.versions = versions;
+    this.currentView = 'unified';  // unified | side-by-side | by-category
+    this.currentComparison = null;
+  }
+
+  render(containerEl) {
+    containerEl.innerHTML = `
+      <div class="comparison-container">
+        <!-- Version pickers -->
+        <div class="comparison-controls">
+          <div class="version-picker">
+            <label>From version</label>
+            <select id="compare-from">
+              ${this.versions.sort((a,b) => b.seq - a.seq).map(v => `
+                <option value="${v.id}" 
+                  ${v.isMajor ? 'class="major"' : ''}>
+                  ${v.id} ${v.isMajor ? '★' : ''} · ${v.date}
+                </option>
+              `).join('')}
+            </select>
+          </div>
+
+          <div class="compare-arrow-container">
+            <button id="swap-versions" title="Swap versions">⇄</button>
+          </div>
+
+          <div class="version-picker">
+            <label>To version</label>
+            <select id="compare-to">
+              ${this.versions.sort((a,b) => b.seq - a.seq).map(v => `
+                <option value="${v.id}"
+                  ${v.isMajor ? 'class="major"' : ''}>
+                  ${v.id} ${v.isMajor ? '★' : ''} · ${v.date}
+                </option>
+              `).join('')}
+            </select>
+          </div>
+
+          <button id="run-comparison" class="btn-primary">
+            Compare
+          </button>
+        </div>
+
+        <!-- View mode tabs -->
+        <div class="view-tabs" id="view-tabs" style="display:none">
+          <button class="tab active" data-view="unified">
+            📋 Unified Timeline
+          </button>
+          <button class="tab" data-view="side-by-side">
+            ↔️ Side by Side
+          </button>
+          <button class="tab" data-view="by-category">
+            🏷️ By Category
+          </button>
+        </div>
+
+        <!-- Export controls -->
+        <div class="export-bar" id="export-bar" style="display:none">
+          <button id="export-md" class="btn-export">
+            📄 Copy as Markdown
+          </button>
+          <button id="export-pdf" class="btn-export">
+            📑 Export PDF
+          </button>
+          <button id="share-link" class="btn-export">
+            🔗 Share Link
+          </button>
+        </div>
+
+        <!-- Results -->
+        <div id="comparison-results"></div>
+      </div>
+    `;
+
+    this.bindEvents(containerEl);
+
+    // Auto-set "from" to baseline if set
+    const baseline = localStorage.getItem('icm-my-version');
+    if (baseline) {
+      containerEl.querySelector('#compare-from').value = baseline;
+    }
+    // Default "to" to latest
+    containerEl.querySelector('#compare-to').value = 
+      this.versions.sort((a,b) => b.seq - a.seq)[0].id;
+  }
+
+  bindEvents(containerEl) {
+    containerEl.querySelector('#run-comparison')
+      .addEventListener('click', () => this.runComparison());
+
+    containerEl.querySelector('#swap-versions')
+      .addEventListener('click', () => {
+        const fromEl = containerEl.querySelector('#compare-from');
+        const toEl = containerEl.querySelector('#compare-to');
+        [fromEl.value, toEl.value] = [toEl.value, fromEl.value];
+      });
+
+    containerEl.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        containerEl.querySelectorAll('.tab').forEach(t => 
+          t.classList.remove('active'));
+        tab.classList.add('active');
+        this.currentView = tab.dataset.view;
+        this.renderResults();
+      });
+    });
+
+    containerEl.querySelector('#export-md')
+      .addEventListener('click', () => this.exportMarkdown());
+
+    containerEl.querySelector('#share-link')
+      .addEventListener('click', () => this.shareLink());
+  }
+
+  runComparison() {
+    const fromId = document.querySelector('#compare-from').value;
+    const toId = document.querySelector('#compare-to').value;
+
+    if (fromId === toId) {
+      alert('Please select two different versions');
+      return;
+    }
+
+    this.currentComparison = this.comparator.compare(fromId, toId);
+
+    // Show view tabs and export bar
+    document.getElementById('view-tabs').style.display = 'flex';
+    document.getElementById('export-bar').style.display = 'flex';
+
+    // Update URL for sharing
+    const url = new URL(window.location);
+    url.searchParams.set('compare', `${fromId}..${toId}`);
+    history.replaceState(null, '', url);
+
+    this.renderResults();
+  }
+
+  renderResults() {
+    const container = document.getElementById('comparison-results');
+    if (!this.currentComparison) return;
+
+    switch (this.currentView) {
+      case 'unified':
+        container.innerHTML = this.renderer
+          .renderUnified(this.currentComparison);
+        break;
+      case 'side-by-side':
+        container.innerHTML = this.renderer
+          .renderSideBySide(this.currentComparison);
+        break;
+      case 'by-category':
+        container.innerHTML = this.renderer
+          .renderByCategory(this.currentComparison);
+        break;
+    }
+  }
+
+  exportMarkdown() {
+    if (!this.currentComparison) return;
+    const c = this.currentComparison;
+
+    let md = `# ICM InfoWorks: v${c.from.id} → v${c.to.id}\n\n`;
+    md += `**${c.totalNewFeatures} new features** across `;
+    md += `${c.versionsSpanned.length} versions `;
+    md += `(${c.majorReleases} major releases)\n\n`;
+
+    md += `## Top Categories\n\n`;
+    c.summary.topCategories.forEach(cat => {
+      md += `- ${cat.icon} **${cat.label}**: ${cat.count} features\n`;
+    });
+
+    md += `\n## Features by Version\n\n`;
+    Object.entries(c.byVersion)
+      .sort((a, b) => {
+        const va = c.versionsSpanned.find(v => v.id === a[0]);
+        const vb = c.versionsSpanned.find(v => v.id === b[0]);
+        return (va?.seq || 0) - (vb?.seq || 0);
+      })
+      .forEach(([vId, features]) => {
+        const vMeta = c.versionsSpanned.find(v => v.id === vId);
+        md += `### Version ${vId}`;
+        md += vMeta?.isMajor ? ' ★ Major Release' : '';
+        md += ` (${vMeta?.date || ''})\n\n`;
+        features.forEach(f => {
+          md += `- **${f.title}** — ${f.description.slice(0, 120)}...\n`;
+        });
+        md += '\n';
+      });
+
+    navigator.clipboard.writeText(md).then(() => {
+      this.showToast('Copied to clipboard');
+    });
+  }
+
+  shareLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      this.showToast('Comparison link copied');
+    });
+  }
+
+  showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+}
+```
+
+### Comparison CSS
+
+```css
+/* Comparison layout */
+.comparison-controls {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  padding: 16px;
+  background: #111827;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.version-picker {
+  flex: 1;
+}
+
+.version-picker label {
+  display: block;
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+.version-picker select {
+  width: 100%;
+  padding: 10px 12px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+.compare-arrow-container {
+  padding-bottom: 4px;
+}
+
+#swap-versions {
+  background: #374151;
+  border: none;
+  color: #9ca3af;
+  font-size: 20px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#swap-versions:hover {
+  background: #4b5563;
+  color: #e5e7eb;
+}
+
+.btn-primary {
+  padding: 10px 24px;
+  background: #e94560;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: #d63851; }
+
+/* View tabs */
+.view-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #111827;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+/* Summary banner */
+.comparison-banner {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  border: 1px solid #312e81;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.banner-versions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.banner-from, .banner-to {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.banner-from { color: #94a3b8; }
+.banner-to   { color: #4ade80; }
+.banner-arrow { color: #6366f1; font-size: 14px; }
+
+.banner-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #e5e7eb;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Side-by-side panels */
+.side-by-side-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1.5fr;
+  gap: 16px;
+  min-height: 500px;
+}
+
+.panel {
+  background: #111827;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 16px;
+  border-bottom: 1px solid #1f2937;
+}
+
+.panel-current .panel-header {
+  background: #1e293b;
+}
+
+.panel-new .panel-header {
+  background: linear-gradient(135deg, #064e3b, #1e293b);
+}
+
+.panel-bridges {
+  max-width: 280px;
+  background: #0f172a;
+  border: 1px solid #312e81;
+}
+
+.panel-body {
+  padding: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+/* Category lanes (by-category view) */
+.category-lane {
+  background: #111827;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.lane-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.lane-icon { font-size: 20px; }
+
+.lane-timeline {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.lane-version {
+  min-width: 220px;
+  background: #1f2937;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+/* Evolution bridges */
+.evolution-bridge {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #1e1b4b33;
+  border-radius: 8px;
+}
+
+.bridge-title {
+  font-weight: 600;
+  color: #a5b4fc;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.bridge-node {
+  padding: 4px 0;
+}
+
+.bridge-version {
+  font-size: 10px;
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.bridge-feature {
+  font-size: 12px;
+  color: #d1d5db;
+}
+
+.bridge-arrow {
+  color: #4f46e5;
+  text-align: center;
+  font-size: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .side-by-side-grid {
+    grid-template-columns: 1fr;
+  }
+  .panel-bridges { max-width: none; }
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #4ade80;
+  color: #0f172a;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  animation: toast-in 0.3s ease-out;
+  z-index: 1000;
+}
+
+@keyframes toast-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+```
+
+---
+
+## 2. Feature Evolution Chains
+
+### The Concept
+
+An evolution chain tracks how a single capability develops across multiple releases. In your ICM data, these are clearly visible:
+
+```
+Cloud Capabilities Evolution:
+v2024.0  Cloud Master Databases (first introduction)
+   ↓
+v2024.1  Cloud Capabilities (continued)
+   ↓
+v2024.2  Cloud Capabilities (continued)
+   ↓
+  ...12 more versions...
+   ↓
+v2026.1  Cloud Capabilities Enhancements
+   ↓
+v2026.3  [cloud features in subgrid improvements]
+
+Subgrid / 2D Modeling Evolution:
+v1.5   3D Network Window Display (2D mesh elements)
+   ↓
+v2.5   Enhanced Polygon and Polyline Tools (for 2D meshing)
+   ↓
+v2021.4 Roughness Definitions (dynamic Manning's n)
+   ↓
+v2023.2 Overlapping Roughness Zones
+   ↓
+v2026.3 Subgrid Meshing Improvements
+   ↓
+v2027.0 Subgrid Sampling - Improved Ground Level
+
+Rainfall Generation Evolution:
+v2021.2 FEH2013 Custom Timesteps
+   ↓
+v2021.3 FEH2013 Multiple Timestep Intervals
+   ↓
+v2021.7 NOAA ATLAS 14 Rainfall Generator
+   ↓
+v9.5   Euler Type II Design Rainfall
+   ↓
+v8.5   Increase in Rainfall Profiles (999M+)
+```
+
+### Chain Detection Engine
+
+```javascript
+// evolution-chains.js
+class EvolutionChainDetector {
+  constructor(features, versions, categories) {
+    this.features = features;
+    this.versions = versions;
+    this.categories = categories;
+    this.chains = [];
+  }
+
+  detectAll() {
+    this.chains = [];
+    const assigned = new Set();
+
+    // Strategy 1: Explicit relatedFeatures links
+    this.detectFromLinks(assigned);
+
+    // Strategy 2: Title similarity clusters
+    this.detectFromTitles(assigned);
+
+    // Strategy 3: Description keyword chains
+    this.detectFromKeywords(assigned);
+
+    // Sort chains by span (most versions first)
+    this.chains.sort((a, b) => b.versions.length - a.versions.length);
+
+    return this.chains;
+  }
+
+  detectFromLinks(assigned) {
+    // Build adjacency graph from relatedFeatures
+    const graph = new Map();
+    this.features.forEach(f => {
+      if (!graph.has(f.id)) graph.set(f.id, new Set());
+      (f.relatedFeatures || []).forEach(relId => {
+        graph.get(f.id).add(relId);
+        if (!graph.has(relId)) graph.set(relId, new Set());
+        graph.get(relId).add(f.id);
+      });
+    });
+
+    // Find connected components
+    const visited = new Set();
+    graph.forEach((neighbors, featureId) => {
+      if (visited.has(featureId) || neighbors.size === 0) return;
+
+      const component = [];
+      const queue = [featureId];
+      while (queue.length > 0) {
+        const current = queue.shift();
+        if (visited.has(current)) continue;
+        visited.add(current);
+        
+        const feature = this.features.find(f => f.id === current);
+        if (feature) {
+          component.push(feature);
+          assigned.add(current);
+        }
+        
+        graph.get(current)?.forEach(neighbor => {
+          if (!visited.has(neighbor)) queue.push(neighbor);
+        });
+      }
+
+      if (component.length >= 2) {
+        this.chains.push(this.buildChain(component, 'explicit'));
+      }
+    });
+  }
+
+  detectFromTitles(assigned) {
+    // Cluster features by title similarity
+    const unassigned = this.features.filter(f => !assigned.has(f.id));
+    const clusters = [];
+    const used = new Set();
+
+    unassigned.forEach(anchor => {
+      if (used.has(anchor.id)) return;
+
+      const cluster = [anchor];
+      used.add(anchor.id);
+
+      // Find all features with similar titles
+      unassigned.forEach(candidate => {
+        if (used.has(candidate.id)) return;
+        if (candidate.version === anchor.version) return;
+
+        const sim = this.titleSimilarity(anchor.title, candidate.title);
+        if (sim >= 0.55) {
+          cluster.push(candidate);
+          used.add(candidate.id);
+        }
+      });
+
+      if (cluster.length >= 2) {
+        cluster.forEach(f => assigned.add(f.id));
+        clusters.push(cluster);
+      }
+    });
+
+    clusters.forEach(cluster => {
+      this.chains.push(this.buildChain(cluster, 'title-similarity'));
+    });
+  }
+
+  detectFromKeywords(assigned) {
+    // Look for features sharing rare keywords across versions
+    const keywordIndex = new Map();  // keyword → [feature]
+    
+    this.features.forEach(f => {
+      if (assigned.has(f.id)) return;
+      (f.keywords || []).forEach(kw => {
+        const normalized = kw.toLowerCase().trim();
+        if (!keywordIndex.has(normalized)) {
+          keywordIndex.set(normalized, []);
+        }
+        keywordIndex.get(normalized).push(f);
+      });
+    });
+
+    // Find keywords that appear in 2-8 features across multiple versions
+    // (too few = noise, too many = generic term)
+    keywordIndex.forEach((features, keyword) => {
+      const uniqueVersions = new Set(features.map(f => f.version));
+      if (features.length >= 2 && features.length <= 8 
+          && uniqueVersions.size >= 2) {
+        
+        // Check if these features aren't already in a chain
+        const unassignedFeatures = features.filter(f => !assigned.has(f.id));
+        if (unassignedFeatures.length >= 2) {
+          unassignedFeatures.forEach(f => assigned.add(f.id));
+          this.chains.push(
+            this.buildChain(unassignedFeatures, 'keyword', keyword)
+          );
+        }
+      }
+    });
+  }
+
+  buildChain(features, detectionMethod, keyword = null) {
+    // Sort chronologically
+    const sorted = features.sort((a, b) => {
+      const va = this.versions.find(v => v.id === a.version);
+      const vb = this.versions.find(v => v.id === b.version);
+      return (va?.seq || 0) - (vb?.seq || 0);
+    });
+
+    const versionIds = [...new Set(sorted.map(f => f.version))];
+    const primaryCategory = this.detectPrimaryCategory(sorted);
+
+    return {
+      id: `chain-${sorted[0].id}`,
+      title: this.generateChainTitle(sorted, keyword),
+      features: sorted,
+      versions: versionIds,
+      versionRange: {
+        from: versionIds[0],
+        to: versionIds[versionIds.length - 1]
+      },
+      category: primaryCategory,
+      detectionMethod,
+      maturityStage: this.assessMaturity(sorted),
+      featureCount: sorted.length
+    };
+  }
+
+  generateChainTitle(features, keyword) {
+    if (keyword) {
+      return keyword.charAt(0).toUpperCase() + keyword.slice(1);
+    }
+
+    // Find the most descriptive title among the features
+    // Prefer the first feature's title (often the "introduction")
+    const firstTitle = features[0].title;
+    
+    // Remove generic suffixes
+    return firstTitle
+      .replace(/\s*(Enhancements?|Improvements?|Updates?|Continued)\s*$/i, '')
+      .replace(/\s*-\s*New\s.*$/i, '')
+      .trim();
+  }
+
+  detectPrimaryCategory(features) {
+    const catCounts = {};
+    features.forEach(f => {
+      f.categories.forEach(c => {
+        catCounts[c] = (catCounts[c] || 0) + 1;
+      });
+    });
+    return Object.entries(catCounts)
+      .sort((a, b) => b[1] - a[1])[0]?.[0] || 'other';
+  }
+
+  assessMaturity(features) {
+    const count = features.length;
+    const firstFeature = features[0];
+    const latestVersion = this.versions
+      .sort((a, b) => b.seq - a.seq)[0];
+    const latestFeature = features[features.length - 1];
+    const latestFeatureVersion = this.versions
+      .find(v => v.id === latestFeature.version);
+
+    const isStillActive = latestFeatureVersion 
+      && (latestVersion.seq - latestFeatureVersion.seq) <= 3;
+
+    if (count === 1) return 'introduced';
+    if (count <= 3 && isStillActive) return 'growing';
+    if (count > 3 && isStillActive) return 'mature-active';
+    if (!isStillActive) return 'stable';
+    return 'unknown';
+  }
+
+  titleSimilarity(a, b) {
+    const stopWords = new Set([
+      'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at',
+      'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'was',
+      'are', 'been', 'be', 'have', 'has', 'had', 'do', 'does',
+      'did', 'will', 'would', 'could', 'should', 'may', 'might',
+      'can', 'new', 'now', 'also', 'that', 'this', 'which', 'when',
+      'where', 'who', 'what', 'how', 'all', 'each', 'every',
+      'features', 'feature', 'improvements', 'enhancements', 
+      'updates', 'support', 'continued'
+    ]);
+
+    const tokenize = (s) => s.toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter(w => w.length > 2 && !stopWords.has(w));
+
+    const wordsA = new Set(tokenize(a));
+    const wordsB = new Set(tokenize(b));
+    
+    if (wordsA.size === 0 || wordsB.size === 0) return 0;
+    
+    const intersection = [...wordsA].filter(w => wordsB.has(w));
+    const union = new Set([...wordsA, ...wordsB]);
+    return intersection.length / union.size;
+  }
+}
+```
+
+### Chain Visualization — Interactive SVG River Diagram
+
+```javascript
+// chain-visualization.js
+class ChainVisualizer {
+  constructor(chains, categories, versions) {
+    this.chains = chains;
+    this.categories = categories;
+    this.versions = versions;
+  }
+
+  renderChainExplorer(containerEl) {
+    containerEl.innerHTML = `
+      <div class="chain-explorer">
+        <div class="chain-header">
+          <h2>🔗 Feature Evolution Chains</h2>
+          <p class="chain-subtitle">
+            ${this.chains.length} capability arcs detected across 
+            ${this.versions.length} versions
+          </p>
+          <div class="chain-filters">
+            <select id="chain-sort">
+              <option value="length">Longest chains first</option>
+              <option value="recent">Most recently active</option>
+              <option value="category">By category</option>
+            </select>
+            <select id="chain-maturity">
+              <option value="">All maturity stages</option>
+              <option value="growing">🌱 Growing</option>
+              <option value="mature-active">🌳 Mature & Active</option>
+              <option value="stable">🏔️ Stable</option>
+              <option value="introduced">🌰 Just Introduced</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="chain-list" id="chain-list">
+          ${this.chains.map(chain => this.renderChain(chain)).join('')}
+        </div>
+      </div>
+    `;
+
+    this.bindEvents(containerEl);
+  }
+
+  renderChain(chain) {
+    const catMeta = this.categories[chain.category] || {};
+    const maturityIcons = {
+      'introduced': '🌰',
+      'growing': '🌱',
+      'mature-active': '🌳',
+      'stable': '🏔️',
+      'unknown': '❓'
+    };
+
+    // Calculate the timeline span as a visual bar
+    const allSeqs = this.versions.map(v => v.seq);
+    const minSeq = Math.min(...allSeqs);
+    const maxSeq = Math.max(...allSeqs);
+    const range = maxSeq - minSeq;
+
+    const chainVersionSeqs = chain.versions.map(vId => 
+      this.versions.find(v => v.id === vId)?.seq || 0
+    );
+    const chainStart = Math.min(...chainVersionSeqs);
+    const chainEnd = Math.max(...chainVersionSeqs);
+
+    const leftPct = ((chainStart - minSeq) / range * 100).toFixed(1);
+    const widthPct = (((chainEnd - chainStart) / range) * 100).toFixed(1);
+
+    return `
+      <details class="chain-card" data-chain-id="${chain.id}"
+               data-maturity="${chain.maturityStage}"
+               data-category="${chain.category}">
+        <summary class="chain-summary">
+          <div class="chain-identity">
+            <span class="chain-icon" 
+                  style="color: ${catMeta.color || '#999'}">
+              ${catMeta.icon || '•'}
+            </span>
+            <div>
+              <span class="chain-title">${chain.title}</span>
+              <span class="chain-meta">
+                ${chain.featureCount} features · 
+                ${chain.versions.length} versions ·
+                ${maturityIcons[chain.maturityStage]} ${chain.maturityStage}
+              </span>
+            </div>
+          </div>
+
+          <!-- Mini timeline bar -->
+          <div class="chain-timeline-bar">
+            <div class="timeline-track">
+              ${chain.features.map(f => {
+                const fSeq = this.versions.find(v => v.id === f.version)?.seq || 0;
+                const pos = ((fSeq - minSeq) / range * 100).toFixed(1);
+                return `
+                  <div class="timeline-dot"
+                       style="left: ${pos}%"
+                       title="v${f.version}: ${f.title}">
+                  </div>`;
+              }).join('')}
+              <div class="timeline-span"
+                   style="left: ${leftPct}%; width: ${widthPct}%;
+                          background: ${catMeta.color || '#666'}33;
+                          border: 1px solid ${catMeta.color || '#666'}66">
+              </div>
+            </div>
+            <div class="timeline-labels">
+              <span>v${chain.versionRange.from}</span>
+              <span>v${chain.versionRange.to}</span>
+            </div>
+          </div>
+        </summary>
+
+        <!-- Expanded: full chain detail -->
+        <div class="chain-detail">
+          ${this.renderChainFlow(chain, catMeta)}
+        </div>
+      </details>
+    `;
+  }
+
+  renderChainFlow(chain, catMeta) {
+    return `
+      <div class="chain-flow" 
+           style="--chain-color: ${catMeta.color || '#6366f1'}">
+        ${chain.features.map((f, i) => {
+          const vMeta = this.versions.find(v => v.id === f.version);
+          const isFirst = i === 0;
+          const isLast = i === chain.features.length - 1;
+
+          // Detect what changed from previous feature
+          const changeType = isFirst ? 'introduced' : 
+            this.detectChangeType(chain.features[i - 1], f);
+
+          return `
+            <div class="flow-node ${isFirst ? 'first' : ''} 
+                                   ${isLast ? 'last' : ''}">
+              ${!isFirst ? `
+                <div class="flow-connector">
+                  <div class="connector-line"></div>
+                  <span class="connector-label">${changeType}</span>
+                </div>
+              ` : ''}
+
+              <div class="flow-card">
+                <div class="flow-version">
+                  <span class="flow-version-id">v${f.version}</span>
+                  ${vMeta?.isMajor ? 
+                    '<span class="flow-major">★ Major</span>' : ''}
+                  <time class="flow-date">${f.versionDate}</time>
+                </div>
+                <h4 class="flow-title">${f.title}</h4>
+                <p class="flow-desc">${f.description}</p>
+                <div class="flow-actions">
+                  <a href="#${f.id}" 
+                     onclick="app.scrollToFeature('${f.id}'); return false;"
+                     class="flow-link">
+                    View in timeline →
+                  </a>
+                  <button class="ask-ai-btn" data-feature-id="${f.id}">
+                    💬 Ask AI
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  detectChangeType(prev, current) {
+    const prevWords = new Set(
+      prev.title.toLowerCase().split(/\s+/)
+    );
+    const currWords = new Set(
+      current.title.toLowerCase().split(/\s+/)
+    );
+
+    // Check for enhancement/improvement language
+    const enhanceWords = ['enhanced', 'improved', 'improvements',
+      'enhancements', 'updated', 'expanded', 'extended'];
+    const isEnhancement = enhanceWords.some(w => 
+      current.title.toLowerCase().includes(w) ||
+      current.description.toLowerCase().slice(0, 100).includes(w)
+    );
+
+    if (isEnhancement) return 'enhanced';
+
+    // Check for "continued" language
+    if (current.title.toLowerCase().includes('continued') ||
+        current.description.toLowerCase().includes('continued')) {
+      return 'continued';
+    }
+
+    // Check if the description references the old version
+    if (current.description.includes(prev.version)) {
+      return 'builds on';
+    }
+
+    // High title similarity = iteration
+    const similarity = [...prevWords]
+      .filter(w => currWords.has(w)).length / 
+      Math.max(prevWords.size, currWords.size);
+
+    if (similarity > 0.6) return 'iterated';
+
+    return 'evolved';
+  }
+
+  bindEvents(containerEl) {
+    containerEl.querySelector('#chain-sort')
+      ?.addEventListener('change', (e) => this.sortChains(e.target.value));
+    
+    containerEl.querySelector('#chain-maturity')
+      ?.addEventListener('change', (e) => this.filterByMaturity(e.target.value));
+  }
+
+  sortChains(method) {
+    const list = document.getElementById('chain-list');
+    const cards = [...list.querySelectorAll('.chain-card')];
+
+    cards.sort((a, b) => {
+      const chainA = this.chains.find(c => c.id === a.dataset.chainId);
+      const chainB = this.chains.find(c => c.id === b.dataset.chainId);
+      
+      switch (method) {
+        case 'length':
+          return chainB.featureCount - chainA.featureCount;
+        case 'recent':
+          const seqA = this.versions.find(
+            v => v.id === chainA.versionRange.to)?.seq || 0;
+          const seqB = this.versions.find(
+            v => v.id === chainB.versionRange.to)?.seq || 0;
+          return seqB - seqA;
+        case 'category':
+          return chainA.category.localeCompare(chainB.category);
+        default:
+          return 0;
+      }
+    });
+
+    cards.forEach(card => list.appendChild(card));
+  }
+
+  filterByMaturity(maturity) {
+    document.querySelectorAll('.chain-card').forEach(card => {
+      if (!maturity || card.dataset.maturity === maturity) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+}
+```
+
+### Chain Flow CSS
+
+```css
+/* Chain explorer */
+.chain-explorer {
+  padding: 20px;
+}
+
+.chain-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.chain-card[open] {
+  border-color: var(--chain-color, #6366f1);
+}
+
+.chain-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.chain-summary::-webkit-details-marker { display: none; }
+
+.chain-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chain-icon { font-size: 24px; }
+
+.chain-title {
+  font-weight: 600;
+  color: #e5e7eb;
+  display: block;
+}
+
+.chain-meta {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Mini timeline bar in summary */
+.chain-timeline-bar {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.timeline-track {
+  position: relative;
+  height: 20px;
+  background: #1f2937;
+  border-radius: 10px;
+  overflow: visible;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: var(--chain-color, #6366f1);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.timeline-span {
+  position: absolute;
+  top: 2px;
+  height: 16px;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+/* Expanded chain flow */
+.chain-flow {
+  padding: 20px;
+  padding-left: 40px;
+}
+
+.flow-node {
+  position: relative;
+}
+
+.flow-connector {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 8px 20px;
+}
+
+.connector-line {
+  width: 2px;
+  height: 30px;
+  background: var(--chain-color, #6366f1);
+  opacity: 0.4;
+  margin-right: 12px;
+}
+
+.connector-label {
+  font-size: 11px;
+  color: var(--chain-color, #6366f1);
+  font-style: italic;
+  opacity: 0.8;
+  padding: 2px 8px;
+  background: var(--chain-color, #6366f1)11;
+  border-radius: 4px;
+}
+
+.flow-card {
+  background: #1f2937;
+  border-left: 3px solid var(--chain-color, #6366f1);
+  border-radius: 0 8px 8px 0;
+  padding: 16px;
+  margin-left: 20px;
+}
+
+.flow-node.first .flow-card {
+  border-left-width: 4px;
+  background: linear-gradient(
+    90deg, 
+    var(--chain-color, #6366f1)08, 
+    #1f2937 30%
+  );
+}
+
+.flow-version {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.flow-version-id {
+  font-weight: 700;
+  color: var(--chain-color, #6366f1);
+}
+
+.flow-major {
+  font-size: 10px;
+  background: #e9456033;
+  color: #e94560;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.flow-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.flow-title {
+  color: #e5e7eb;
+  margin-bottom: 8px;
+}
+
+.flow-desc {
+  color: #9ca3af;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.flow-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+}
+
+.flow-link {
+  color: var(--chain-color, #6366f1);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.flow-link:hover { text-decoration: underline; }
+```
+
+---
+
+## 3. Category × Version Heatmap
+
+### The Insight This Reveals
+
+A heatmap where rows are feature categories and columns are versions immediately answers questions like:
+- *"When did cloud development become the dominant focus?"*
+- *"Is 2D modeling still getting investment?"*
+- *"Which releases had the broadest scope?"*
+- *"Are there any categories that were abandoned?"*
+
+### Complete Heatmap Implementation (No Library Required)
+
+```javascript
+// heatmap.js
+class CategoryVersionHeatmap {
+  constructor(features, versions, categories) {
+    this.features = features;
+    this.versions = versions.sort((a, b) => a.seq - b.seq);
+    this.categories = categories;
+    
+    // Build the data matrix
+    this.matrix = this.buildMatrix();
+  }
+
+  buildMatrix() {
+    const matrix = {};
+    const catKeys = Object.keys(this.categories);
+
+    catKeys.forEach(cat => {
+      matrix[cat] = {};
+      this.versions.forEach(v => {
+        matrix[cat][v.id] = this.features.filter(f =>
+          f.version === v.id && f.categories.includes(cat)
+        ).length;
+      });
+    });
+
+    // Also compute column totals and row totals
+    this.columnTotals = {};
+    this.versions.forEach(v => {
+      this.columnTotals[v.id] = this.features
+        .filter(f => f.version === v.id).length;
+    });
+
+    this.rowTotals = {};
+    catKeys.forEach(cat => {
+      this.rowTotals[cat] = Object.values(matrix[cat])
+        .reduce((sum, n) => sum + n, 0);
+    });
+
+    // Global max for color scaling
+    this.maxValue = Math.max(
+      ...catKeys.flatMap(cat => 
+        Object.values(matrix[cat])
+      )
+    );
+
+    return matrix;
+  }
+
+  render(containerEl) {
+    const catKeys = Object.keys(this.categories)
+      .sort((a, b) => (this.rowTotals[b] || 0) - (this.rowTotals[a] || 0));
+
+    // Determine which versions to show
+    // (all 48 may be too many — offer grouping)
+    const displayVersions = this.versions;
+
+    containerEl.innerHTML = `
+      <div class="heatmap-container">
+        <div class="heatmap-controls">
+          <h2>🗺️ Category × Version Heatmap</h2>
+          <div class="heatmap-options">
+            <label>
+              <input type="checkbox" id="heatmap-normalize">
+              Normalize by row (show % of category)
+            </label>
+            <label>
+              <input type="checkbox" id="heatmap-log-scale">
+              Log scale
+            </label>
+            <select id="heatmap-color-scheme">
+              <option value="blue">Blue scale</option>
+              <option value="green">Green scale</option>
+              <option value="heat">Heat (yellow→red)</option>
+              <option value="viridis">Viridis</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="heatmap-scroll">
+          <table class="heatmap-table" id="heatmap-table">
+            <thead>
+              <tr>
+                <th class="heatmap-corner">
+                  Category / Version →
+                </th>
+                ${displayVersions.map(v => `
+                  <th class="heatmap-col-header 
+                             ${v.isMajor ? 'major-col' : ''}"
+                      data-version="${v.id}"
+                      title="v${v.id} (${v.date}) — ${this.columnTotals[v.id]} features">
+                    <div class="col-label">
+                      ${v.id}
+                    </div>
+                    ${v.isMajor ? '<div class="col-major-dot">★</div>' : ''}
+                  </th>
+                `).join('')}
+                <th class="heatmap-row-total-header">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${catKeys.map(cat => this.renderRow(cat, displayVersions)).join('')}
+            </tbody>
+            <tfoot>
+              <tr class="heatmap-col-totals">
+                <td class="heatmap-footer-label">Total features</td>
+                ${displayVersions.map(v => `
+                  <td class="heatmap-footer-cell"
+                      data-version="${v.id}">
+                    ${this.columnTotals[v.id]}
+                  </td>
+                `).join('')}
+                <td class="heatmap-footer-cell grand-total">
+                  ${this.features.length}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Tooltip (positioned absolutely) -->
+        <div class="heatmap-tooltip" id="heatmap-tooltip" 
+             style="display: none;"></div>
+      </div>
+    `;
+
+    this.bindEvents(containerEl);
+  }
+
+  renderRow(catKey, versions) {
+    const catMeta = this.categories[catKey];
+    const rowTotal = this.rowTotals[catKey] || 0;
+
+    return `
+      <tr class="heatmap-row" data-category="${catKey}">
+        <td class="heatmap-row-header"
+            style="border-left: 4px solid ${catMeta?.color || '#666'}">
+          <span class="row-icon">${catMeta?.icon || '•'}</span>
+          <span class="row-label">${catMeta?.label || catKey}</span>
+          <span class="row-total-badge">${rowTotal}</span>
+        </td>
+        ${versions.map(v => {
+          const value = this.matrix[catKey]?.[v.id] || 0;
+          const intensity = this.maxValue > 0 
+            ? value / this.maxValue 
+            : 0;
+          const color = this.getColor(intensity, catMeta?.color);
+
+          return `
+            <td class="heatmap-cell ${value > 0 ? 'has-value' : 'empty'}"
+                data-category="${catKey}"
+                data-version="${v.id}"
+                data-value="${value}"
+                style="background: ${color}"
+                tabindex="0"
+                role="gridcell"
+                aria-label="${catMeta?.label}: ${value} features in v${v.id}">
+              ${value > 0 ? `<span class="cell-value">${value}</span>` : ''}
+            </td>
+          `;
+        }).join('')}
+        <td class="heatmap-row-total"
+            style="color: ${catMeta?.color || '#999'}">
+          ${rowTotal}
+        </td>
+      </tr>
+    `;
+  }
+
+  getColor(intensity, baseColor = '#6366f1') {
+    if (intensity === 0) return 'transparent';
+
+    // Convert hex to RGB
+    const r = parseInt(baseColor.slice(1, 3), 16);
+    const g = parseInt(baseColor.slice(3, 5), 16);
+    const b = parseInt(baseColor.slice(5, 7), 16);
+
+    // Minimum opacity 0.15, maximum 0.95
+    const alpha = 0.15 + (intensity * 0.8);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
+  }
+
+  getColorForScheme(intensity, scheme) {
+    if (intensity === 0) return 'transparent';
+
+    switch (scheme) {
+      case 'blue':
+        return `rgba(59, 130, 246, ${0.1 + intensity * 0.85})`;
+      case 'green':
+        return `rgba(34, 197, 94, ${0.1 + intensity * 0.85})`;
+      case 'heat': {
+        // Yellow (low) → Orange → Red (high)
+        const r = 255;
+        const g = Math.round(255 * (1 - intensity * 0.8));
+        const b = Math.round(50 * (1 - intensity));
+        return `rgba(${r}, ${g}, ${b}, ${0.15 + intensity * 0.8})`;
+      }
+      case 'viridis': {
+        // Approximate viridis: purple → blue → green → yellow
+        const t = intensity;
+        const rv = Math.round(68 + t * (253 - 68));
+        const gv = Math.round(1 + t * (231 - 1));
+        const bv = Math.round(84 + t * (37 - 84));
+        return `rgba(${rv}, ${gv}, ${bv}, ${0.2 + intensity * 0.75})`;
+      }
+      default:
+        return this.getColor(intensity);
+    }
+  }
+
+  bindEvents(containerEl) {
+    // Hover tooltip
+    const tooltip = containerEl.querySelector('#heatmap-tooltip');
+    
+    containerEl.querySelectorAll('.heatmap-cell.has-value')
+      .forEach(cell => {
+        cell.addEventListener('mouseenter', (e) => {
+          const cat = cell.dataset.category;
+          const ver = cell.dataset.version;
+          const value = cell.dataset.value;
+          const catMeta = this.categories[cat];
+          const vMeta = this.versions.find(v => v.id === ver);
+
+          // Get the actual features for this cell
+          const cellFeatures = this.features.filter(f =>
+            f.version === ver && f.categories.includes(cat)
+          );
+
+          tooltip.innerHTML = `
+            <div class="tooltip-header" 
+                 style="border-left: 3px solid ${catMeta?.color}">
+              <strong>${catMeta?.icon} ${catMeta?.label}</strong>
+              <span>v${ver} ${vMeta?.isMajor ? '★' : ''}</span>
+            </div>
+            <div class="tooltip-count">${value} feature${value > 1 ? 's' : ''}</div>
+            <div class="tooltip-features">
+              ${cellFeatures.map(f => `
+                <div class="tooltip-feature">
+                  • ${f.title}
+                </div>
+              `).join('')}
+            </div>
+            <div class="tooltip-hint">Click to filter timeline</div>
+          `;
+
+          tooltip.style.display = 'block';
+          
+          // Position near cursor
+          const rect = cell.getBoundingClientRect();
+          const containerRect = containerEl.getBoundingClientRect();
+          tooltip.style.left = `${rect.right - containerRect.left + 8}px`;
+          tooltip.style.top = `${rect.top - containerRect.top}px`;
+        });
+
+        cell.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+
+        // Click to filter
+        cell.addEventListener('click', () => {
+          const cat = cell.dataset.category;
+          const ver = cell.dataset.version;
+          
+          // Dispatch event to main app filter system
+          window.dispatchEvent(new CustomEvent('heatmap-filter', {
+            detail: { category: cat, version: ver }
+          }));
+        });
+      });
+
+    // Column header hover: highlight entire column
+    containerEl.querySelectorAll('.heatmap-col-header')
+      .forEach(header => {
+        header.addEventListener('mouseenter', () => {
+          const ver = header.dataset.version;
+          containerEl.querySelectorAll(`[data-version="${ver}"]`)
+            .forEach(el => el.classList.add('col-highlight'));
+        });
+        header.addEventListener('mouseleave', () => {
+          containerEl.querySelectorAll('.col-highlight')
+            .forEach(el => el.classList.remove('col-highlight'));
+        });
+      });
+
+    // Row header hover: highlight entire row
+    containerEl.querySelectorAll('.heatmap-row-header')
+      .forEach(header => {
+        const row = header.closest('tr');
+        row.addEventListener('mouseenter', () => {
+          row.classList.add('row-highlight');
+        });
+        row.addEventListener('mouseleave', () => {
+          row.classList.remove('row-highlight');
+        });
+      });
+
+    // Color scheme selector
+    containerEl.querySelector('#heatmap-color-scheme')
+      ?.addEventListener('change', (e) => {
+        this.recolor(e.target.value);
+      });
+
+    // Normalize toggle
+    containerEl.querySelector('#heatmap-normalize')
+      ?.addEventListener('change', (e) => {
+        this.toggleNormalize(e.target.checked);
+      });
+  }
+
+  recolor(scheme) {
+    document.querySelectorAll('.heatmap-cell.has-value').forEach(cell => {
+      const value = parseInt(cell.dataset.value) || 0;
+      const intensity = this.maxValue > 0 ? value / this.maxValue : 0;
+      cell.style.background = this.getColorForScheme(intensity, scheme);
+    });
+  }
+
+  toggleNormalize(normalized) {
+    const catKeys = Object.keys(this.categories);
+    
+    document.querySelectorAll('.heatmap-cell.has-value').forEach(cell => {
+      const cat = cell.dataset.category;
+      const value = parseInt(cell.dataset.value) || 0;
+      
+      let intensity;
+      if (normalized) {
+        // Normalize by row max
+        const rowMax = Math.max(
+          ...Object.values(this.matrix[cat] || {})
+        );
+        intensity = rowMax > 0 ? value / rowMax : 0;
+      } else {
+        intensity = this.maxValue > 0 ? value / this.maxValue : 0;
+      }
+
+      const scheme = document.querySelector('#heatmap-color-scheme')?.value || 'blue';
+      cell.style.background = this.getColorForScheme(intensity, scheme);
+    });
+  }
+}
+```
+
+### Heatmap CSS
+
+```css
+/* Heatmap container */
+.heatmap-container {
+  position: relative;
+  padding: 20px;
+}
+
+.heatmap-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.heatmap-options {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.heatmap-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.heatmap-options select {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+/* Scrollable heatmap area */
+.heatmap-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: 8px;
+}
+
+/* The table */
+.heatmap-table {
+  border-collapse: separate;
+  border-spacing: 2px;
+  width: max-content;
+  min-width: 100%;
+}
+
+/* Corner cell */
+.heatmap-corner {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: #0f172a;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #6b7280;
+  text-align: left;
+  min-width: 180px;
+}
+
+/* Column headers (versions) */
+.heatmap-col-header {
+  padding: 6px 2px;
+  text-align: center;
+  font-size: 9px;
+  color: #6b7280;
+  font-weight: 400;
+  min-width: 36px;
+  max-width: 44px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.heatmap-col-header:hover {
+  background: #1f293744;
+}
+
+.heatmap-col-header.major-col {
+  color: #e94560;
+  font-weight: 600;
+}
+
+.col-label {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  font-size: 10px;
+  padding: 4px 0;
+}
+
+.col-major-dot {
+  font-size: 8px;
+  color: #e94560;
+}
+
+/* Row headers (categories) */
+.heatmap-row-header {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #0f172a;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #d1d5db;
+  white-space: nowrap;
+  min-width: 180px;
+}
+
+.row-icon {
+  margin-right: 6px;
+}
+
+.row-total-badge {
+  float: right;
+  font-size: 11px;
+  color: #6b7280;
+  background: #1f2937;
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+/* Data cells */
+.heatmap-cell {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 4px;
+  transition: all 0.15s;
+  cursor: default;
+  position: relative;
+}
+
+.heatmap-cell.has-value {
+  cursor: pointer;
+}
+
+.heatmap-cell.has-value:hover {
+  transform: scale(1.3);
+  z-index: 5;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+.heatmap-cell.empty {
+  background: #0f172a;
+}
+
+.cell-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Highlight states */
+.col-highlight {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+
+.row-highlight td {
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.3);
+}
+
+/* Row and column totals */
+.heatmap-row-total {
+  padding: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+}
+
+.heatmap-footer-cell {
+  padding: 6px 4px;
+  text-align: center;
+  font-size: 11px;
+  color: #6b7280;
+  border-top: 1px solid #1f2937;
+}
+
+.grand-total {
+  font-weight: 700;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+/* Tooltip */
+.heatmap-tooltip {
+  position: absolute;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 220px;
+  max-width: 320px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 8px;
+  margin-bottom: 8px;
+  color: #e5e7eb;
+  font-size: 13px;
+}
+
+.tooltip-header span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.tooltip-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e5e7eb;
+  margin-bottom: 8px;
+}
+
+.tooltip-features {
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.tooltip-feature {
+  font-size: 12px;
+  color: #d1d5db;
+  padding: 3px 0;
+  border-bottom: 1px solid #374151;
+}
+
+.tooltip-feature:last-child {
+  border-bottom: none;
+}
+
+.tooltip-hint {
+  margin-top: 8px;
+  font-size: 10px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .heatmap-controls { flex-direction: column; }
+  .heatmap-cell { width: 28px; height: 28px; }
+  .cell-value { font-size: 9px; }
+  .col-label { font-size: 8px; }
+  .heatmap-row-header { min-width: 140px; font-size: 11px; }
+}
+```
+
+### Wiring the Heatmap Into the Main App
+
+```javascript
+// In app.js
+class TimelineApp {
+  constructor() {
+    // ... existing init code ...
+
+    // Initialize heatmap
+    this.heatmap = new CategoryVersionHeatmap(
+      FEATURES_DB, VERSIONS, CATEGORIES
+    );
+
+    // Initialize chain detector
+    this.chainDetector = new EvolutionChainDetector(
+      FEATURES_DB, VERSIONS, CATEGORIES
+    );
+    const chains = this.chainDetector.detectAll();
+    
+    this.chainViz = new ChainVisualizer(
+      chains, CATEGORIES, VERSIONS
+    );
+
+    // Initialize comparison
+    this.comparator = new VersionComparator(
+      FEATURES_DB, VERSIONS, CATEGORIES
+    );
+    this.compRenderer = new ComparisonRenderer(CATEGORIES);
+    this.compUI = new ComparisonUI(
+      this.comparator, this.compRenderer, VERSIONS
+    );
+
+    // Render all
+    this.heatmap.render(document.getElementById('heatmap-container'));
+    this.chainViz.renderChainExplorer(
+      document.getElementById('chains-container')
+    );
+    this.compUI.render(document.getElementById('comparison-container'));
+
+    // Listen for heatmap clicks to filter timeline
+    window.addEventListener('heatmap-filter', (e) => {
+      const { category, version } = e.detail;
+      this.filters.state.categories = [category];
+      this.filters.applyAndRender(
+        document.getElementById('filter-container')
+      );
+      // Scroll to that version
+      document.getElementById(`version-${version}`)
+        ?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+}
+```
+
+### The Navigation Tabs to Tie It All Together
+
+```html
+<nav class="main-tabs">
+  <button class="main-tab active" data-panel="timeline">
+    📋 Timeline
+  </button>
+  <button class="main-tab" data-panel="comparison">
+    ↔️ Compare
+  </button>
+  <button class="main-tab" data-panel="chains">
+    🔗 Evolution Chains
+  </button>
+  <button class="main-tab" data-panel="heatmap">
+    🗺️ Heatmap
+  </button>
+  <button class="main-tab" data-panel="charts">
+    📊 Charts
+  </button>
+</nav>
+
+<div id="timeline-container" class="panel-content active"></div>
+<div id="comparison-container" class="panel-content"></div>
+<div id="chains-container" class="panel-content"></div>
+<div id="heatmap-container" class="panel-content"></div>
+<div id="charts-container" class="panel-content"></div>
+```
+```javascript
+// Tab switching
+document.querySelectorAll('.main-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.main-tab')
+      .forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel-content')
+      .forEach(p => p.classList.remove('active'));
+    
+    tab.classList.add('active');
+    document.getElementById(`${tab.dataset.panel}-container`)
+      .classList.add('active');
+  });
+});
+```
+
+---
+
+## How These Three Features Interconnect
+
+```
+  HEATMAP ──── click cell ────→ TIMELINE (filtered)
+     │                              ↑
+     │                              │
+     └── spot pattern ──→ CHAINS ───┘ (scroll to feature)
+                            │
+                            │ spans versions
+                            ↓
+                        COMPARISON (auto-fill from/to)
+                            │
+                            │ export
+                            ↓
+                        Markdown / PDF / Share Link
+```
+
+The heatmap is the **discovery layer** — it reveals patterns. Evolution chains are the **narrative layer** — they explain what the patterns mean. Version comparison is the **decision layer** — it turns understanding into action. Each one feeds the others, and all of them feed back into the timeline through search, filter, and scroll-to-feature links.

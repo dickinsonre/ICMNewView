@@ -51,7 +51,34 @@ The application emphasizes dynamic content delivery, interactive user experience
 **Database Services (Configured but Unused):**
 - **Neon Database**: PostgreSQL serverless database.
 
-## Recent Updates (April 2026)
+## Recent Updates (April 2026 — Three Power Features)
+
+### Upgrade Path Comparison (CompareVersionsDialog rewrite)
+- **Upgrade Path Logic**: Comparing v2024.0 → v2026.3 now collects all features from every intermediate version — not just the two endpoints
+- **Summary Banner**: Stats (total new features, versions count, major releases, avg per release) + top-category badges
+- **By Version tab**: All intermediate versions shown as collapsible version blocks with feature cards
+- **By Category tab**: Features grouped by category (Cloud, UI, 2D, etc.) with version badges
+- **Markdown Export**: "Export" button copies structured upgrade report to clipboard
+- **Star badges**: Major release versions highlighted throughout
+
+### Feature Evolution Chains (EvolutionChainsDialog — new)
+- **Title-similarity detection**: Jaccard clustering (threshold 0.5) automatically groups related features across versions (e.g. "Cloud Capabilities" across 12+ versions)
+- **Maturity classification**: introduced / growing / mature-active / stable based on count and recency
+- **Mini timeline bar**: Each chain card shows a compact visual bar of its span across the 48-version range
+- **Expanded flow view**: Click any chain to see the chronological flow of features with change-type labels (enhanced, continued, iterated, evolved)
+- **Filters & sorting**: Sort by length/recency/category; filter by maturity stage or category
+- **"View in timeline" links**: Clicking scrolls the main timeline to that feature card
+
+### Category × Version Heatmap (new tab in Analytics)
+- **Grid view**: Rows = 7 categories, columns = all 48 versions, cells = feature count with color intensity
+- **Gamma-corrected intensity**: Uses power (0.6) scaling so low counts remain visible
+- **Tooltips**: Hover any cell to see `vX.X · Category: N`
+- **Column totals**: Row below heatmap shows total features per version
+- **Row totals**: Rightmost column shows total per category across all versions
+
+---
+
+## Previous Recent Updates (April 2026)
 
 ### AI Citations (RAG)
 - **AI Citation Markers**: All 4 backend system prompts now instruct the AI to include `[cite:featureId]` markers whenever they reference a specific feature

@@ -9,6 +9,7 @@ import VersionNavigator from "@/components/VersionNavigator";
 import FilterPanel, { matchesCategory, type CategoryId } from "@/components/FilterPanel";
 import CompareVersionsDialog from "@/components/CompareVersionsDialog";
 import VersionCharts from "@/components/VersionCharts";
+import EvolutionChainsDialog from "@/components/EvolutionChainsDialog";
 import UpgradeImpactBanner from "@/components/UpgradeImpactBanner";
 import type { Feature } from "@/components/FeatureCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -134,6 +135,12 @@ export default function HomePage() {
         onVersionRangeChange={(from, to) => { setVersionFrom(from); setVersionTo(to); }}
       />
       {!compact && <CompareVersionsDialog versions={versions || []} />}
+      {!compact && (
+        <EvolutionChainsDialog
+          versions={versions || []}
+          onScrollToFeature={handleCiteClick}
+        />
+      )}
       <VersionCharts versions={versions || []} />
     </div>
   );
