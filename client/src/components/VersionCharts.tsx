@@ -97,8 +97,17 @@ export const HEATMAP_CATEGORIES = [
 
 type HeatmapCatId = typeof HEATMAP_CATEGORIES[number]["id"];
 
+const EXCLUSIVE_OVERRIDES: Array<{ pattern: string; forceCatId: HeatmapCatId }> = [
+  { pattern: "ruby", forceCatId: "scripting" },
+];
+
 function matchesHeatmapCategory(feature: { title: string; description: string; category: string }, catId: HeatmapCatId): boolean {
   const text = `${feature.title} ${feature.description} ${feature.category}`.toLowerCase();
+  for (const ov of EXCLUSIVE_OVERRIDES) {
+    if (text.includes(ov.pattern)) {
+      return catId === ov.forceCatId;
+    }
+  }
   const cat = HEATMAP_CATEGORIES.find(c => c.id === catId);
   if (!cat) return false;
   return cat.keywords.some(kw => text.includes(kw));
