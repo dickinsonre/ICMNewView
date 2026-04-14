@@ -51,7 +51,15 @@ The application emphasizes dynamic content delivery, interactive user experience
 **Database Services (Configured but Unused):**
 - **Neon Database**: PostgreSQL serverless database.
 
-## Recent Updates (December 2024)
+## Recent Updates (April 2026)
+
+### Interactivity Improvements
+- **Search Text Highlighting**: Matched search terms are highlighted inline (yellow) in feature titles and descriptions as you type
+- **"Ask About This Feature" Button**: Hover over any feature card to reveal a chat icon; clicking it pre-fills the AI chat input with a contextual question about that feature. On mobile, automatically switches to the AI Chat tab
+- **AI Query Template Prompts**: When the AI chat is empty, five suggested questions appear as clickable chips to help users get started (e.g. "What's new in version 2027.0?", "Which version first introduced cloud capabilities?")
+- **Deep-Linkable Features**: Every feature card has a unique `id` attribute (e.g. `feature-2027.0-network-design`). Navigating to `/#feature-{id}` scrolls to and briefly highlights that feature — enables sharing precise links
+
+## Previous Updates (December 2024)
 
 ### A+ Enhancements
 - **Compare Versions Tool**: Side-by-side version comparison dialog showing:

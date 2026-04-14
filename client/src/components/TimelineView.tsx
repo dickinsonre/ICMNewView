@@ -1,8 +1,9 @@
 import { useState, RefObject } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Sparkles, Star } from "lucide-react";
+import { Sparkles, Star, MessageSquare, ExternalLink } from "lucide-react";
 import type { Feature } from "./FeatureCard";
 
 interface Version {
@@ -16,6 +17,8 @@ interface Version {
 interface TimelineViewProps {
   versions: Version[];
   onFeatureClick?: (feature: Feature) => void;
+  onAskInChat?: (message: string) => void;
+  searchQuery?: string;
   versionRefs?: RefObject<Map<string, HTMLDivElement>>;
 }
 
@@ -25,18 +28,47 @@ function isMajorVersion(version: string): boolean {
   return MAJOR_VERSIONS.includes(version);
 }
 
-export default function TimelineView({ versions, onFeatureClick, versionRefs }: TimelineViewProps) {
+function HighlightedText({ text, query }: { text: string; query?: string }) {
+  if (!query || !query.trim()) return <>{text}</>;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = text.split(new RegExp(`(${escaped})`, "gi"));
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark
+            key={i}
+            className="bg-yellow-200 dark:bg-yellow-700 text-foreground rounded-sm px-0.5"
+          >
+            {part}
+          </mark>
+        ) : (
+          part
+        )
+      )}
+    </>
+  );
+}
+
+export default function TimelineView({ versions, onFeatureClick, onAskInChat, searchQuery, versionRefs }: TimelineViewProps) {
   const [expandedVersion, setExpandedVersion] = useState<string | null>(versions[0]?.version || null);
   const isMajor = (v: Version) => isMajorVersion(v.version);
+
+  const handleAskAboutFeature = (feature: Feature, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const prompt = `Tell me more about "${feature.title}" introduced in Version ${feature.version}. How does it differ from previous versions, and what modelling scenarios benefit most from it?`;
+    onAskInChat?.(prompt);
+  };
 
   return (
     <div className="relative">
       <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border" />
       
       <div className="space-y-8">
-        {versions.map((version, idx) => (
+        {versions.map((version) => (
           <div 
             key={version.version} 
+            id={`version-${version.id}`}
             className={cn(
               "relative pl-20 transition-all",
               version.isNewerThanMyStack && "bg-primary/5 -mx-4 px-4 py-4 rounded-lg border border-primary/20"
@@ -96,16 +128,50 @@ export default function TimelineView({ versions, onFeatureClick, versionRefs }: 
                 {(expandedVersion === version.version ? version.features : version.features.slice(0, 1)).map((feature) => (
                   <Card
                     key={feature.id}
-                    className="hover-elevate active-elevate-2 cursor-pointer"
+                    id={`feature-${feature.id}`}
+                    className="hover-elevate active-elevate-2 cursor-pointer group"
                     onClick={() => onFeatureClick?.(feature)}
                     data-testid={`timeline-feature-${feature.id}`}
                   >
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg">{feature.title}</CardTitle>
+                    <CardHeader className="pb-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <CardTitle className="text-lg leading-snug flex-1">
+                          <HighlightedText text={feature.title} query={searchQuery} />
+                        </CardTitle>
+                        <div className="flex gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {onAskInChat && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7"
+                              onClick={(e) => handleAskAboutFeature(feature, e)}
+                              data-testid={`button-ask-${feature.id}`}
+                              title="Ask AI about this feature"
+                            >
+                              <MessageSquare className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
+                          {feature.documentationUrl && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(feature.documentationUrl, '_blank');
+                              }}
+                              data-testid={`button-docs-${feature.id}`}
+                              title="View documentation"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
+                        </div>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-muted-foreground line-clamp-2">
-                        {feature.description}
+                        <HighlightedText text={feature.description} query={searchQuery} />
                       </p>
                     </CardContent>
                   </Card>

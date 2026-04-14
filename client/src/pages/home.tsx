@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import ChatSidebar from "@/components/ChatSidebar";
@@ -22,6 +22,7 @@ export default function HomePage() {
   const [mobileView, setMobileView] = useState<"timeline" | "chat">("timeline");
   const [selectedCategories, setSelectedCategories] = useState<CategoryId[]>([]);
   const [myStackVersion, setMyStackVersion] = useState<string | null>(null);
+  const [pendingChatMessage, setPendingChatMessage] = useState<string | undefined>(undefined);
   const versionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: versions, isLoading } = useQuery<Version[]>({
@@ -63,12 +64,32 @@ export default function HomePage() {
     }).filter(version => version.features.length > 0);
   }, [versions, searchQuery, selectedCategories, myStackVersionDate]);
 
+  // Deep-link: scroll to feature or version from URL hash on load
+  useEffect(() => {
+    if (!versions || versions.length === 0) return;
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+    setTimeout(() => {
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-2", "ring-primary", "ring-offset-2");
+        setTimeout(() => el.classList.remove("ring-2", "ring-primary", "ring-offset-2"), 2500);
+      }
+    }, 300);
+  }, [versions]);
+
   const handleVersionNavigate = (versionId: string) => {
     const element = versionRefs.current.get(versionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  const handleAskInChat = useCallback((message: string) => {
+    setPendingChatMessage(message);
+    setMobileView("chat");
+  }, []);
 
   return (
     <div className="flex h-screen flex-col">
@@ -132,6 +153,8 @@ export default function HomePage() {
                   <TimelineView
                     versions={filteredVersions}
                     onFeatureClick={setSelectedFeature}
+                    onAskInChat={handleAskInChat}
+                    searchQuery={searchQuery}
                     versionRefs={versionRefs}
                   />
                 )}
@@ -140,7 +163,10 @@ export default function HomePage() {
           </TabsContent>
 
           <TabsContent value="chat" className="flex-1 m-0 overflow-hidden h-full">
-            <ChatSidebar />
+            <ChatSidebar
+              pendingMessage={pendingChatMessage}
+              onPendingMessageUsed={() => setPendingChatMessage(undefined)}
+            />
           </TabsContent>
         </Tabs>
       </div>
@@ -201,6 +227,8 @@ export default function HomePage() {
               <TimelineView
                 versions={filteredVersions}
                 onFeatureClick={setSelectedFeature}
+                onAskInChat={handleAskInChat}
+                searchQuery={searchQuery}
                 versionRefs={versionRefs}
               />
             )}
@@ -208,7 +236,10 @@ export default function HomePage() {
         </ScrollArea>
 
         <aside className="flex flex-col border-l h-full" style={{ width: '25%' }}>
-          <ChatSidebar />
+          <ChatSidebar
+            pendingMessage={pendingChatMessage}
+            onPendingMessageUsed={() => setPendingChatMessage(undefined)}
+          />
         </aside>
       </div>
 
