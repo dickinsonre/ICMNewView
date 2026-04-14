@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -557,6 +557,7 @@ export default function VersionCharts({ versions, onHeatmapCellClick, onColumnHe
                     </div>
                   </div>
                 </div>
+                <ScrollBar orientation="horizontal" />
               </ScrollArea>
 
               {/* Floating tooltip */}
