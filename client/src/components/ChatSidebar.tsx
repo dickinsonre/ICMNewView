@@ -90,7 +90,7 @@ export default function ChatSidebar({ pendingMessage, onPendingMessageUsed, onCi
 
       const aiMessage: ChatMessageProps = {
         role: "assistant",
-        content: data.message,
+        content: !data.message ? "No information was found for your query. Please try rephrasing your question or asking about a specific version or feature." : data.message,
         model: activeModel,
       };
 
