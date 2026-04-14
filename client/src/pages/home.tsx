@@ -267,7 +267,7 @@ export default function HomePage() {
 
       {/* Desktop Layout - Side by Side */}
       <div className="hidden md:flex flex-1 overflow-hidden">
-        <ScrollArea className="flex-1" style={{ width: '75%' }}>
+        <ScrollArea className="flex-1" style={{ width: '80%' }}>
           <div className="container py-8 px-6">
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
@@ -329,7 +329,7 @@ export default function HomePage() {
           </div>
         </ScrollArea>
 
-        <aside className="flex flex-col border-l h-full" style={{ width: '25%' }}>
+        <aside className="flex flex-col border-l h-full" style={{ width: '20%' }}>
           <ChatSidebar
             pendingMessage={pendingChatMessage}
             onPendingMessageUsed={() => setPendingChatMessage(undefined)}
