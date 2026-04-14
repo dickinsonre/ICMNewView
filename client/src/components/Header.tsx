@@ -19,7 +19,7 @@ export default function Header({ onSearch, onShowDocumentation }: HeaderProps) {
             </div>
             <div>
               <h1 className="text-lg font-semibold leading-none">ICM InfoWorks</h1>
-              <p className="text-xs text-muted-foreground">AI Chat Assistant</p>
+              <p className="text-xs text-muted-foreground">AI Chat Assistant for Whats New</p>
             </div>
           </div>
         </div>
