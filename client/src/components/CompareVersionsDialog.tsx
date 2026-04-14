@@ -18,7 +18,10 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GitCompare, ArrowRightLeft, Copy, Star, ChevronRight, BarChart2, AlignJustify, Layers } from "lucide-react";
+import {
+  GitCompare, ArrowRightLeft, Copy, Star, ChevronRight,
+  AlignJustify, Layers, GitMerge, TrendingUp, TrendingDown,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { FEATURE_CATEGORIES, matchesCategory, type CategoryId } from "./FilterPanel";
@@ -31,11 +34,128 @@ interface CompareVersionsDialogProps {
 
 const MAJOR_VERSIONS = new Set(["2027.0", "2026.3", "2024.0", "2023.0", "10.5", "10.0", "5.0", "3.0", "1.5"]);
 
+// ─── Jaccard similarity (chain detection) ──────────────────────────
+const STOP = new Set([
+  "the","a","an","and","or","in","on","to","for","of","with","by","new",
+  "now","also","features","improvements","enhancements","continued",
+  "support","using","allows","provides","adds",
+]);
+
+function tokenize(s: string) {
+  return s.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2 && !STOP.has(w));
+}
+
+function jaccard(a: string, b: string) {
+  const ta = tokenize(a);
+  const tb = tokenize(b);
+  const setA = new Set(ta);
+  const setB = new Set(tb);
+  if (!setA.size || !setB.size) return 0;
+  const inter = ta.filter(w => setB.has(w)).length;
+  const union = new Set(ta.concat(tb)).size;
+  return inter / union;
+}
+
+interface CompactChain {
+  title: string;
+  catId: CategoryId | null;
+  features: { id: string; title: string; version: string }[];
+}
+
+function detectChainsInRange(
+  spannedVersions: Version[],
+): CompactChain[] {
+  type Flat = { id: string; title: string; description: string; category: string; version: string };
+  const flat: Flat[] = spannedVersions.flatMap(v =>
+    v.features.map(f => ({ ...f, version: v.version }))
+  );
+
+  const assigned = new Set<string>();
+  const chains: CompactChain[] = [];
+
+  flat.forEach(anchor => {
+    if (assigned.has(anchor.id)) return;
+    const cluster: Flat[] = [anchor];
+    assigned.add(anchor.id);
+
+    flat.forEach(cand => {
+      if (assigned.has(cand.id) || cand.version === anchor.version) return;
+      if (jaccard(anchor.title, cand.title) >= 0.5) {
+        cluster.push(cand);
+        assigned.add(cand.id);
+      }
+    });
+
+    if (cluster.length < 2) return;
+
+    const sorted = cluster.sort((a, b) => {
+      const ia = spannedVersions.findIndex(v => v.version === a.version);
+      const ib = spannedVersions.findIndex(v => v.version === b.version);
+      return ia - ib;
+    });
+
+    const title = sorted[0].title
+      .replace(/\s*(Enhancements?|Improvements?|Updates?|Continued)\s*$/i, "")
+      .trim();
+
+    let catId: CategoryId | null = null;
+    let best = 0;
+    FEATURE_CATEGORIES.forEach(cat => {
+      const score = sorted.filter(f => matchesCategory(f, cat.id)).length;
+      if (score > best) { best = score; catId = cat.id; }
+    });
+
+    chains.push({ title, catId, features: sorted.map(f => ({ id: f.id, title: f.title, version: f.version })) });
+  });
+
+  return chains.sort((a, b) => b.features.length - a.features.length);
+}
+
+// ─── Category shift (proportion near from vs near to) ──────────────
+function computeCategoryShift(versions: Version[], fromId: string, toId: string) {
+  const sorted = [...versions].sort(
+    (a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
+  );
+  const fromIdx = sorted.findIndex(v => v.id === fromId);
+  const toIdx = sorted.findIndex(v => v.id === toId);
+  if (fromIdx === -1 || toIdx === -1) return [];
+
+  const win = 3;
+  const nearFrom = sorted.slice(Math.max(0, fromIdx - win), fromIdx + win + 1);
+  const nearTo = sorted.slice(Math.max(0, toIdx - win), toIdx + win + 1);
+
+  function proportions(vers: Version[]) {
+    const total = vers.reduce((s, v) => s + v.features.length, 0) || 1;
+    const counts: Partial<Record<CategoryId, number>> = {};
+    vers.forEach(v => v.features.forEach(f => {
+      FEATURE_CATEGORIES.forEach(cat => {
+        if (matchesCategory(f, cat.id)) counts[cat.id] = (counts[cat.id] || 0) + 1;
+      });
+    }));
+    const out: Partial<Record<CategoryId, number>> = {};
+    FEATURE_CATEGORIES.forEach(cat => { out[cat.id] = (counts[cat.id] || 0) / total; });
+    return out;
+  }
+
+  const pFrom = proportions(nearFrom);
+  const pTo = proportions(nearTo);
+
+  return FEATURE_CATEGORIES.map(cat => ({
+    cat,
+    before: pFrom[cat.id] ?? 0,
+    after: pTo[cat.id] ?? 0,
+    shift: (pTo[cat.id] ?? 0) - (pFrom[cat.id] ?? 0),
+  }))
+    .filter(c => Math.abs(c.shift) > 0.03)
+    .sort((a, b) => Math.abs(b.shift) - Math.abs(a.shift))
+    .slice(0, 4);
+}
+
+// ─── Core upgrade-path computation ─────────────────────────────────
 function computeUpgradePath(versions: Version[], fromId: string, toId: string) {
   const sorted = [...versions].sort(
     (a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
   );
-
   const fromIdx = sorted.findIndex(v => v.id === fromId);
   const toIdx = sorted.findIndex(v => v.id === toId);
   if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return null;
@@ -43,90 +163,92 @@ function computeUpgradePath(versions: Version[], fromId: string, toId: string) {
   const [lowerIdx, upperIdx] = fromIdx < toIdx ? [fromIdx, toIdx] : [toIdx, fromIdx];
   const from = sorted[lowerIdx];
   const to = sorted[upperIdx];
-
-  // Versions strictly between from (exclusive) and to (inclusive)
-  const spannedVersions = sorted.slice(lowerIdx + 1, upperIdx + 1);
-
-  const allFeatures = spannedVersions.flatMap(v =>
-    v.features.map(f => ({
-      ...f,
-      version: v.version,
-      versionId: v.id,
-      releaseDate: v.releaseDate,
-      isMajorVersion: MAJOR_VERSIONS.has(v.version),
-    }))
+  const spanned = sorted.slice(lowerIdx + 1, upperIdx + 1);
+  const allFeatures = spanned.flatMap(v =>
+    v.features.map(f => ({ ...f, version: v.version, versionId: v.id, releaseDate: v.releaseDate, isMajorVersion: MAJOR_VERSIONS.has(v.version) }))
   );
 
-  const byVersion = spannedVersions.map(v => ({
-    version: v,
-    features: v.features,
-  }));
+  const byVersion = spanned.map(v => ({ version: v, features: v.features }));
 
   const categoryBreakdown: Partial<Record<CategoryId, typeof allFeatures>> = {};
   FEATURE_CATEGORIES.forEach(cat => {
-    const matches = allFeatures.filter(f => matchesCategory(f, cat.id));
-    if (matches.length > 0) categoryBreakdown[cat.id] = matches;
+    const m = allFeatures.filter(f => matchesCategory(f, cat.id));
+    if (m.length > 0) categoryBreakdown[cat.id] = m;
   });
 
-  const majorReleases = spannedVersions.filter(v => MAJOR_VERSIONS.has(v.version));
+  const topCategories = FEATURE_CATEGORIES.map(cat => ({
+    cat, count: categoryBreakdown[cat.id]?.length ?? 0,
+  })).filter(x => x.count > 0).sort((a, b) => b.count - a.count).slice(0, 4);
+
+  const chains = detectChainsInRange(spanned);
+  const categoryShift = computeCategoryShift(versions, fromId, toId);
 
   return {
-    from,
-    to,
-    spannedVersions,
-    allFeatures,
-    byVersion,
-    categoryBreakdown,
+    from, to, spanned, allFeatures, byVersion, categoryBreakdown, topCategories,
     totalFeatures: allFeatures.length,
-    versionsCount: spannedVersions.length,
-    majorReleasesCount: majorReleases.length,
-    avgPerVersion: spannedVersions.length > 0
-      ? (allFeatures.length / spannedVersions.length).toFixed(1)
-      : "0",
-    topCategories: Object.entries(categoryBreakdown)
-      .map(([id, feats]) => ({ id: id as CategoryId, count: (feats as typeof allFeatures).length }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 4),
+    versionsCount: spanned.length,
+    majorReleasesCount: spanned.filter(v => MAJOR_VERSIONS.has(v.version)).length,
+    avgPerVersion: spanned.length > 0 ? (allFeatures.length / spanned.length).toFixed(1) : "0",
+    chains,
+    categoryShift,
   };
 }
 
-function SummaryBanner({ path }: { path: ReturnType<typeof computeUpgradePath> }) {
-  if (!path) return null;
+// ─── Summary banner ─────────────────────────────────────────────────
+function SummaryBanner({ path }: { path: NonNullable<ReturnType<typeof computeUpgradePath>> }) {
   return (
-    <div className="rounded-lg border bg-primary/5 border-primary/20 p-4 mb-4">
-      <div className="flex flex-wrap items-center gap-3 mb-3">
+    <div className="rounded-lg border bg-primary/5 border-primary/20 p-4 mb-4 space-y-3">
+      {/* Versions + stats */}
+      <div className="flex flex-wrap items-center gap-3">
         <span className="text-xl font-bold text-muted-foreground">v{path.from.version}</span>
         <ChevronRight className="h-4 w-4 text-muted-foreground" />
         <span className="text-sm text-muted-foreground">{path.versionsCount} versions</span>
         <ChevronRight className="h-4 w-4 text-muted-foreground" />
         <span className="text-xl font-bold text-primary">v{path.to.version}</span>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { label: "New Features", value: path.totalFeatures },
           { label: "Versions", value: path.versionsCount },
           { label: "Major Releases", value: path.majorReleasesCount },
           { label: "Avg / Release", value: path.avgPerVersion },
-        ].map(stat => (
-          <div key={stat.label} className="text-center">
-            <div className="text-2xl font-bold">{stat.value}</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-wide">{stat.label}</div>
+        ].map(s => (
+          <div key={s.label} className="text-center">
+            <div className="text-2xl font-bold">{s.value}</div>
+            <div className="text-xs text-muted-foreground uppercase tracking-wide">{s.label}</div>
           </div>
         ))}
       </div>
+      {/* Top categories */}
       <div className="flex flex-wrap gap-1.5">
-        {path.topCategories.map(({ id, count }) => {
-          const cat = FEATURE_CATEGORIES.find(c => c.id === id);
-          if (!cat) return null;
+        {path.topCategories.map(({ cat, count }) => {
           const Icon = cat.icon;
           return (
-            <Badge key={id} variant="secondary" className={cn("gap-1 text-xs", cat.color)}>
+            <Badge key={cat.id} variant="secondary" className={cn("gap-1 text-xs", cat.color)}>
               <Icon className="h-2.5 w-2.5" />
               {cat.label}: {count}
             </Badge>
           );
         })}
       </div>
+      {/* Category shift */}
+      {path.categoryShift.length > 0 && (
+        <div className="flex flex-wrap gap-2 pt-1 border-t">
+          <span className="text-xs text-muted-foreground self-center">Development focus shifted:</span>
+          {path.categoryShift.map(({ cat, shift }) => {
+            const Icon = cat.icon;
+            const up = shift > 0;
+            return (
+              <span key={cat.id} className={cn("flex items-center gap-1 text-xs font-medium", up ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400")}>
+                <Icon className="h-3 w-3" />
+                {cat.label}
+                {up ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                {Math.abs(shift * 100).toFixed(0)}%
+              </span>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -136,40 +258,46 @@ export default function CompareVersionsDialog({ versions }: CompareVersionsDialo
   const [isOpen, setIsOpen] = useState(false);
   const [fromId, setFromId] = useState<string>("");
   const [toId, setToId] = useState<string>("");
-  const [viewMode, setViewMode] = useState<"by-version" | "by-category">("by-version");
+  const [viewMode, setViewMode] = useState<"by-version" | "by-category" | "chains">("by-version");
 
   const upgradePath = useMemo(() => {
     if (!fromId || !toId || fromId === toId) return null;
     return computeUpgradePath(versions, fromId, toId);
   }, [versions, fromId, toId]);
 
-  const swap = () => {
-    const tmp = fromId;
-    setFromId(toId);
-    setToId(tmp);
-  };
+  const swap = () => { const t = fromId; setFromId(toId); setToId(t); };
 
   const exportMarkdown = () => {
     if (!upgradePath) return;
     const p = upgradePath;
     let md = `# ICM InfoWorks Upgrade Path: v${p.from.version} → v${p.to.version}\n\n`;
     md += `**${p.totalFeatures} new features** across ${p.versionsCount} versions (${p.majorReleasesCount} major releases)\n\n`;
+    if (p.categoryShift.length > 0) {
+      md += `## Development Focus Shift\n\n`;
+      p.categoryShift.forEach(({ cat, shift }) => {
+        md += `- **${cat.label}**: ${shift > 0 ? "↑" : "↓"}${Math.abs(shift * 100).toFixed(0)}%\n`;
+      });
+      md += "\n";
+    }
     md += `## Top Categories\n\n`;
-    p.topCategories.forEach(({ id, count }) => {
-      const cat = FEATURE_CATEGORIES.find(c => c.id === id);
-      if (cat) md += `- **${cat.label}**: ${count} features\n`;
-    });
+    p.topCategories.forEach(({ cat, count }) => { md += `- **${cat.label}**: ${count} features\n`; });
     md += `\n## Features by Version\n\n`;
     p.byVersion.forEach(({ version: v, features }) => {
-      if (features.length === 0) return;
+      if (!features.length) return;
       md += `### Version ${v.version}`;
       if (MAJOR_VERSIONS.has(v.version)) md += " ★ Major Release";
       md += ` (${format(new Date(v.releaseDate), "MMM yyyy")})\n\n`;
-      features.forEach(f => {
-        md += `- **${f.title}** — ${f.description.slice(0, 120)}...\n`;
-      });
+      features.forEach(f => { md += `- **${f.title}** — ${f.description.slice(0, 120)}...\n`; });
       md += "\n";
     });
+    if (p.chains.length > 0) {
+      md += `## Evolution Chains in This Range\n\n`;
+      p.chains.forEach(chain => {
+        md += `**${chain.title}** (${chain.features.length} iterations)\n`;
+        chain.features.forEach(f => { md += `  - v${f.version}: ${f.title}\n`; });
+        md += "\n";
+      });
+    }
     navigator.clipboard.writeText(md).then(() => {
       toast({ title: "Copied to clipboard", description: "Upgrade report copied as Markdown" });
     });
@@ -247,32 +375,38 @@ export default function CompareVersionsDialog({ versions }: CompareVersionsDialo
           </div>
         </div>
 
-        {!upgradePath && (
+        {!upgradePath ? (
           <div className="flex-1 flex items-center justify-center text-muted-foreground p-12">
             <div className="text-center">
               <GitCompare className="h-12 w-12 mx-auto mb-3 opacity-20" />
               <p>Select two different versions to see the upgrade path between them</p>
             </div>
           </div>
-        )}
-
-        {upgradePath && (
+        ) : (
           <div className="flex-1 overflow-hidden flex flex-col">
             <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as typeof viewMode)} className="flex-1 flex flex-col overflow-hidden">
               <div className="px-6 pt-3 pb-0 flex-shrink-0">
                 <SummaryBanner path={upgradePath} />
                 <TabsList className="w-full">
-                  <TabsTrigger value="by-version" className="flex-1 gap-2" data-testid="tab-compare-by-version">
+                  <TabsTrigger value="by-version" className="flex-1 gap-1.5" data-testid="tab-compare-by-version">
                     <AlignJustify className="h-3.5 w-3.5" />
                     By Version
                   </TabsTrigger>
-                  <TabsTrigger value="by-category" className="flex-1 gap-2" data-testid="tab-compare-by-category">
+                  <TabsTrigger value="by-category" className="flex-1 gap-1.5" data-testid="tab-compare-by-category">
                     <Layers className="h-3.5 w-3.5" />
                     By Category
+                  </TabsTrigger>
+                  <TabsTrigger value="chains" className="flex-1 gap-1.5" data-testid="tab-compare-chains">
+                    <GitMerge className="h-3.5 w-3.5" />
+                    Chains
+                    {upgradePath.chains.length > 0 && (
+                      <Badge variant="secondary" className="text-xs ml-1 h-4 px-1">{upgradePath.chains.length}</Badge>
+                    )}
                   </TabsTrigger>
                 </TabsList>
               </div>
 
+              {/* By Version tab */}
               <TabsContent value="by-version" className="flex-1 overflow-hidden m-0 p-0">
                 <ScrollArea className="h-full px-6 pb-6">
                   <div className="space-y-4 pt-4">
@@ -286,9 +420,7 @@ export default function CompareVersionsDialog({ versions }: CompareVersionsDialo
                             {MAJOR_VERSIONS.has(v.version) && <Star className="h-3.5 w-3.5 text-yellow-500" />}
                             <span className="font-semibold">v{v.version}</span>
                             {MAJOR_VERSIONS.has(v.version) && (
-                              <Badge variant="outline" className="text-xs border-yellow-500/50 text-yellow-600 dark:text-yellow-400">
-                                Major Release
-                              </Badge>
+                              <Badge variant="outline" className="text-xs border-yellow-500/50 text-yellow-600 dark:text-yellow-400">Major</Badge>
                             )}
                           </div>
                           <div className="flex items-center gap-3 flex-shrink-0">
@@ -313,6 +445,7 @@ export default function CompareVersionsDialog({ versions }: CompareVersionsDialo
                 </ScrollArea>
               </TabsContent>
 
+              {/* By Category tab */}
               <TabsContent value="by-category" className="flex-1 overflow-hidden m-0 p-0">
                 <ScrollArea className="h-full px-6 pb-6">
                   <div className="space-y-3 pt-4">
@@ -347,6 +480,57 @@ export default function CompareVersionsDialog({ versions }: CompareVersionsDialo
                         </Card>
                       );
                     })}
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              {/* Chains tab */}
+              <TabsContent value="chains" className="flex-1 overflow-hidden m-0 p-0">
+                <ScrollArea className="h-full px-6 pb-6">
+                  <div className="pt-4">
+                    {upgradePath.chains.length === 0 ? (
+                      <div className="text-center py-12 text-muted-foreground">
+                        <GitMerge className="h-10 w-10 mx-auto mb-3 opacity-20" />
+                        <p>No repeated capability threads detected in this version range.</p>
+                        <p className="text-xs mt-1">Try a wider version range for more chain detection.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <p className="text-sm text-muted-foreground mb-4">
+                          {upgradePath.chains.length} capability thread{upgradePath.chains.length !== 1 ? "s" : ""} detected across this upgrade path — features that recur and evolve across multiple releases.
+                        </p>
+                        {upgradePath.chains.map((chain, chainIdx) => {
+                          const cat = chain.catId ? FEATURE_CATEGORIES.find(c => c.id === chain.catId) : null;
+                          const Icon = cat?.icon;
+                          return (
+                            <div key={chainIdx} className="border rounded-lg overflow-hidden">
+                              <div className="px-4 py-2.5 bg-muted/40 border-b flex items-center gap-2">
+                                {Icon && <Icon className={cn("h-4 w-4 flex-shrink-0", cat?.color)} />}
+                                <span className="font-medium text-sm">{chain.title}</span>
+                                <Badge variant="secondary" className="text-xs ml-auto flex-shrink-0">
+                                  {chain.features.length} versions
+                                </Badge>
+                              </div>
+                              <div className="relative pl-6 py-3 border-l-2 border-primary/20 ml-4 space-y-2">
+                                {chain.features.map((f, i) => (
+                                  <div key={f.id} className="relative">
+                                    {i > 0 && (
+                                      <div className="text-xs text-muted-foreground italic mb-0.5 -ml-2">→ evolved</div>
+                                    )}
+                                    <div className="flex items-start gap-2">
+                                      <Badge variant="outline" className={cn("text-xs flex-shrink-0", i === 0 ? "border-primary/50 text-primary" : "")}>
+                                        v{f.version}
+                                      </Badge>
+                                      <span className="text-sm">{f.title}</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </ScrollArea>
               </TabsContent>

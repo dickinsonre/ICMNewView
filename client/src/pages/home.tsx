@@ -141,7 +141,21 @@ export default function HomePage() {
           onScrollToFeature={handleCiteClick}
         />
       )}
-      <VersionCharts versions={versions || []} />
+      <VersionCharts
+        versions={versions || []}
+        onHeatmapCellClick={(versionId, _catId) => {
+          // Navigate timeline to that version
+          setMobileView("timeline");
+          setTimeout(() => {
+            const el = versionRefs.current.get(versionId);
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+              el.classList.add("ring-2", "ring-primary", "ring-offset-2");
+              setTimeout(() => el.classList.remove("ring-2", "ring-primary", "ring-offset-2"), 2000);
+            }
+          }, 50);
+        }}
+      />
     </div>
   );
 

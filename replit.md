@@ -51,6 +51,24 @@ The application emphasizes dynamic content delivery, interactive user experience
 **Database Services (Configured but Unused):**
 - **Neon Database**: PostgreSQL serverless database.
 
+## Latest Updates (April 2026 — Heatmap, Chains Tab, Category Shift)
+
+### Heatmap Improvements (VersionCharts.tsx)
+- **11 Extended Categories**: Expanded from 7 to 11 ICM-specific categories (Cloud/SaaS, 2D Modelling, UI/UX, Data Management, 1D Hydraulics, GIS Integration, Rainfall, Water Quality, Scripting/API, SWMM, Analysis/Results) — each with dedicated hex color
+- **Per-Category Colored Cells**: Cell background uses the category's hex color with alpha intensity (not a single primary color)
+- **Row + Column Hover Highlighting**: Hovering a row dims all other rows; hovering a column header dims all other columns — pinpoints intersections
+- **Rich Floating Tooltip**: Hovering a cell shows category name, version, count, and up to 5 feature names, with "Click to navigate" hint
+- **Color Scheme Switcher**: Dropdown to choose Category colors / Blue scale / Heat (yellow→red) / Viridis
+- **Normalize by Row Toggle**: Scales each row's intensity independently so low-volume categories are still visible
+- **Show Values Toggle**: Toggles the numeric count label inside each cell
+- **Cell Click → Timeline Navigation**: Clicking any heatmap cell smoothly scrolls the main timeline to that version and briefly pulses it with a ring highlight
+
+### CompareVersionsDialog Enhancements
+- **Chains Tab (3rd Tab)**: Detects evolution chains (repeated capability threads via Jaccard title similarity ≥ 0.5) within the selected upgrade range, displays them as collapsible flow cards with version arrows
+- **Category Shift Analysis**: Summary banner now shows development focus changes (e.g., "Cloud ↑32%, 1D Hydraulics ↓14%") computed by comparing category proportions near the From vs To version using a sliding window of ±3 versions
+
+---
+
 ## Recent Updates (April 2026 — Three Power Features)
 
 ### Upgrade Path Comparison (CompareVersionsDialog rewrite)
